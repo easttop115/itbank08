@@ -13,4 +13,9 @@ public class home {
     public String header() {
         return "/default/header";
     }
+
+    @RequestMapping("/main")
+    public String main() {
+        return "/default/main";
+    }
 }
