@@ -146,7 +146,4 @@
                     </div>
                 </div>
             </div>
-            <div class="push-content">
-                <h3>Content goes here</h3>
-                <p>Some text..</p>
-            </div>
+           

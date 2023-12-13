@@ -10,6 +10,11 @@
 
     <body>
       <c:import url="/header" />
+      <div class="push-content">
+        <h3>Content goes here</h3>
+        <p>Some text..</p>
+      </div>
+      <c:import url="/main" />
     </body>
-
+      
     </html>
