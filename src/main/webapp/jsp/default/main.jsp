@@ -90,7 +90,9 @@
                     /* 간격 조절 */
                 }
             </style>
-
+            <div>
+                <c:import url="/header" />
+            </div>
 
             <div class="container">
                 <div class="notice-section">
