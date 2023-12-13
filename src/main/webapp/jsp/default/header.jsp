@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-        <!DOCTYPE html>
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var dropdowns = document.querySelectorAll('.dropdown');
@@ -150,7 +150,3 @@
                 <h3>Content goes here</h3>
                 <p>Some text..</p>
             </div>
-
-        </body>
-
-        </html>
