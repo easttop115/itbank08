@@ -30,7 +30,7 @@
 }
 
 
-        .notice-section, .board-section {
+        .notice-section, .exchange-section {
             flex: 1; /* 확장 가능한 공간을 나타내기 위해 flex 속성 추가 */
             padding: 20px;
         }
@@ -39,7 +39,7 @@
             color: #333;
         }
 
-        .notice-list, .board-list {
+        .notice-list, .exchange-list {
             list-style: none;
             padding: 0;
         }
@@ -51,16 +51,21 @@
             border-radius: 8px;
         }
 
-        .board-item {
+        .exchange-item {
             background-color: #d2f4fc;
         }
 
-        .board-section {
+        .exchange-section {
             order: 2; /* Flex 아이템의 순서를 변경하여 오른쪽으로 이동 */
             margin-left: 12px; /* 오른쪽으로 쏠림을 해결 */
             margin-top: 1px; /* 위로 조금 올림 */
         }
         .notice-list {
+        display: flex;
+        margin-top: 10px;
+        flex-wrap: wrap; /* 여러 열에 걸쳐 표시되도록 설정 */
+    }
+        .exchange-list {
         display: flex;
         margin-top: 10px;
         flex-wrap: wrap; /* 여러 열에 걸쳐 표시되도록 설정 */
@@ -72,11 +77,14 @@
         margin-bottom: 10px; /* 간격 조절 */
     }
 
-    .title, .writeDate {
-        margin-right: 10px; /* 간격 조절 */
-    }
+    .title, .writeDate, .product, .shop, .Date {
+            margin-right: 23px; /* 간격 조절 */
+        }
+
+        .shop {
+            flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
    
-  
+        }
     </style>
 
 <div class="container">
@@ -91,9 +99,12 @@
 </div>
 
 <div class="container">
-<div class="board-section">
-    <h2>입출고 요청</h2>
-    <div class="board-list">
+<div class="exchange-section">
+    <h2>상품 교환 요청건</h2>
+    <div class="exchange-list">
+        <div class="product title">상품명</div>
+        <div class="shop">매장</div>
+        <div class="Date">날짜</div>
     
 </div>
 </div>
