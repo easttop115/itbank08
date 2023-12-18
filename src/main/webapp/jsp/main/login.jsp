@@ -13,7 +13,6 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
-            /* 스크롤바 감춤 */
         }
 
         .grid {
@@ -29,7 +28,6 @@
             text-align: center;
             padding: 20px;
             box-sizing: border-box;
-            /* 패딩을 포함한 전체 크기를 유지 */
         }
 
         .left {
@@ -46,32 +44,68 @@
         }
 
         .brand img {
-            width: 40px; /* 필요에 따라 조절 */
-            height: auto; /* 종횡비 유지 */
+            width: 80px;
+            height: auto;
             margin-right: 10px;
         }
 
         .brand p {
             margin: 0;
-            font-size: 16px;
+            font-size: 30px;
             font-weight: bold;
-            color: #333; /* 필요에 따라 조절 */
+            color: #ffffff;
         }
 
         .right {
             background-color: #ffffff;
         }
 
-        /* 미디어 쿼리 추가 */
-        @media (max-width: 600px) {
-            .grid {
-                flex-direction: row;
-                /* 세로로 쌓이는 대신 다시 가로로 배치 */
-            }
+        /* 로그인 폼을 위한 새로운 스타일 */
+        .login-form {
+            text-align: center;
+        }
 
-            .grid div {
-                flex: 1;
-            }
+        .login-input {
+            width: 50%;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            /* 테두리 추가 */
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* 그림자 추가 */
+        }
+
+        .login-button {
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            width: 55%;
+            height: 40px;
+            background: linear-gradient(125deg, #79c1ff, #2895F4, #79c1ff);
+            background-position: left;
+            background-size: 200%;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s;
+            display: inline;
+            border-radius: 6px;
+        }
+
+        .login-button:hover {
+            background-position: right;
+        }
+
+        .dynamic-text {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            color: #fff;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -83,10 +117,31 @@
                 <img src="/image/white.png" alt="브랜드 이미지">
                 <p>Stock City</p>
             </div>
-            <p>추가적인 내용(필요시)</p>
+            <!-- 수정된 동적 텍스트 위치 -->
+            <p id="dynamicText" class="dynamic-text">s</p>
         </div>
-        <div class="right">Login</div>
+        <div class="right">
+            <form class="login-form" action="#">
+                <input class="login-input" type="text" placeholder="아이디">
+                <input class="login-input" type="password" placeholder="패스워드"><br>
+                <input class="login-button" type="submit" value="로그인">
+            </form>
+        </div>
     </div>
+
+    <script>
+        // JavaScript 코드는 그대로 유지
+        const dynamicText = document.getElementById('dynamicText');
+        const texts = ["누구나 손쉽게 승인받고 이용할 수 있는 서비스", "무료로 제공되는 재고 관리 서비스를 경험해보세요", "KG IT BANK 502호에서 만든 재고 서비스 최상!!! 반응형 웹 브라우저까지!"];
+        let index = 0;
+
+        function changeText() {
+            dynamicText.textContent = texts[index];
+            index = (index + 1) % texts.length;
+        }
+
+        setInterval(changeText, 2000);
+    </script>
 </body>
 
 </html>
