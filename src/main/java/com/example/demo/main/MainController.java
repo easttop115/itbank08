@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 @Controller
 public class MainController {
-	@Autowired private MainService service;
-	@Autowired private HttpSession session;
+	@Autowired
+	private MainService service;
+	@Autowired
+	private HttpSession session;
 
 	@RequestMapping("main/mainform")
 	public String mainform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
 		service.mainform(cp, model);
-		
+
 		return "main/mainform";
 	}
 
@@ -26,6 +27,4 @@ public class MainController {
 	public String login() {
 		return "main/login";
 	}
-	
-
 }
