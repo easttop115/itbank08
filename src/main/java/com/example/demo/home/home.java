@@ -18,4 +18,8 @@ public class home {
     public String main() {
         return "/default/main";
     }
+
+    @RequestMapping("/stockManage")
+    public void stockManage() {
+    }
 }
