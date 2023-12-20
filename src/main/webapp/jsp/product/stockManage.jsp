@@ -6,20 +6,13 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
+        /* ----- 공통 style -----  */
         table {
           border-collapse: collapse;
           width: calc(100% - 40px);
           margin: auto;
           border-spacing: 0;
         }
-
-        /* 첫 번째 표 1열, 3열 --- 왜 하늘색 안되는거야...*/
-        table:first-child td:nth-child(1),
-        table:first-child td:nth-child(3) {
-          background-color: #2895F4;
-          color: white;
-        }
-
 
         td {
           border: 1px solid black;
@@ -32,6 +25,7 @@
           height: 30px;
         }
 
+        /* ------ title ------ */
         .inventory-title {
           font-size: 18px;
           font-weight: bold;
@@ -40,28 +34,25 @@
           margin: 20px;
         }
 
+        /* ------  표1 ----- */
         .first-table-subject {
           width: 10%;
           background-color: #2895F4;
           color: white;
+          text-align: center;
         }
 
         .first-table-content {
-          width: 40%
-        }
-
-        .half-width {
-          width: calc(80% - 5px);
+          width: 40%;
           text-align: left;
-          height: 30px;
         }
 
-        .input-width {
+        .first-table-content .input-width {
           width: calc(80% - 5px);
           height: 30px;
         }
 
-        button {
+        .seacrch-button {
           background-color: #2895F4;
           color: white;
           padding: 4px 8px;
@@ -70,34 +61,45 @@
           border-radius: 4px;
         }
 
-        button:hover {
-          background-color: #2895F2;
+        .first-table-content .half-width {
+          width: 40%;
+          height: 30px;
+          text-align: left;
+          margin-right: 8px;
         }
 
-        .search-options select {
-          width: 45%;
-          text-align: left;
+        .first-table-content .input-width {
+          width: 80%;
           height: 30px;
-          margin-right: 20px;
+          text-align: left;
         }
 
         .searchDropdown {
           display: none;
         }
 
-        /* 두번째 표 헤더 */
+        /* .half-width {
+          width: 30%;
+          text-align: left;
+          height: 30px;
+        } */
+
+
+
+        /* ------  표2 ----- */
+        /* 표2 헤더 */
         .second-table-header {
           background-color: #2895F4;
           color: white;
         }
 
-        /* 두번째 표 첫 번째 행 */
+        /* 첫 번째 행 */
         .second-table-content tr:first-child {
           background-color: #2895F4;
           color: white;
         }
 
-        /* 두번째 표 두 번째 행 */
+        /* 두 번째 행 */
         .second-table-content tr:nth-child(2) {
           background-color: white;
           color: black;
@@ -147,7 +149,7 @@
 
 <body>
   <c:import url="/header" />
-  <div class="inventory-title">매장 재고 현황</div>
+  <div class="inventory-title">매장별 재고 현황</div>
   <table>
     <tbody>
       <tr>
@@ -168,7 +170,7 @@
 
       <tr>
         <td class="first-table-subject">상품코드</td>
-        <td colspan="3" style="text-align: left">
+        <td colspan="3" class="first-table-content">
           <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
           <select id="searchDropdown" class="searchDropdown"></select>
         </td>
@@ -177,7 +179,7 @@
 
       <tr>
         <td class="first-table-subject">상세검색</td>
-        <td colspan="3" class="search-options">
+        <td colspan="3" class="first-table-content">
           <select class="half-width">
             <c:forEach var="color" items="${colors}">
               <option value="${color}">${color}</option>
@@ -188,6 +190,7 @@
               <option value="${cate}">${cate}</option>
             </c:forEach>
           </select>
+          <button class="seacrch-button">검색</button>
         </td>
       </tr>
     </tbody>
