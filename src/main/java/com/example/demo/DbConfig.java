@@ -10,6 +10,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -29,6 +32,10 @@ public class DbConfig implements InitializingBean {
 
         // 현재 세션에 저장된 "Company" 속성을 이용하여 동적으로 데이터베이스 연결 정보를 설정합니다.
         String sessionCompany = getSessionCompany();
+        // 데이터베이스가 존재하지 않으면 생성
+        if (!databaseExists(sessionCompany)) {
+            createDatabase(sessionCompany);
+        }
 
         // 기존의 데이터베이스 연결 속성을 이용하여 새로운 데이터베이스 연결 속성을 설정합니다.
         DataSourceProperties properties = new DataSourceProperties();
@@ -39,6 +46,52 @@ public class DbConfig implements InitializingBean {
 
         // 새로운 데이터베이스 연결을 빌드하여 설정합니다.
         this.dataSource = properties.initializeDataSourceBuilder().build();
+    }
+
+    private boolean databaseExists(String sessionCompany) {
+        try {
+            // 데이터베이스가 존재하는지 확인하는 로직 추가
+            String query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+            jdbcTemplate(dataSource).queryForObject(query, String.class, sessionCompany);
+
+            // 예외가 발생하지 않으면 데이터베이스가 존재한다고 간주
+            return true;
+        } catch (Exception e) {
+            // 쿼리 수행 중 오류가 발생하면 데이터베이스가 존재하지 않는 것으로 간주
+            return false;
+        }
+    }
+
+    private void createDatabase(String sessionCompany) {
+        // 새로운 데이터베이스 생성
+        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + sessionCompany;
+        jdbcTemplate(dataSource).execute(createDatabaseQuery);
+
+        // demo 데이터베이스의 테이블 목록 가져오기
+        List<String> tables = getTablesInDatabase("demo");
+
+        // 각 테이블의 구조를 가져와서 새로운 데이터베이스에 적용
+        for (String table : tables) {
+            // 테이블이 이미 존재하는지 확인
+            if (!tableExists(sessionCompany, table)) {
+                String createTableQuery = "SHOW CREATE TABLE demo." + table;
+                String createTableStatement = jdbcTemplate(dataSource).queryForObject(createTableQuery, String.class);
+
+                // 테이블 생성
+                jdbcTemplate(dataSource).execute(
+                        createTableStatement.replace("CREATE TABLE demo.", "CREATE TABLE " + sessionCompany + "."));
+            }
+        }
+    }
+
+    private boolean tableExists(String databaseName, String tableName) {
+        String query = "SHOW TABLES FROM " + databaseName + " LIKE ?";
+        return jdbcTemplate(dataSource).queryForObject(query, Integer.class, tableName) != null;
+    }
+
+    private List<String> getTablesInDatabase(String databaseName) {
+        String query = "SHOW TABLES FROM " + databaseName;
+        return jdbcTemplate(dataSource).queryForList(query, String.class);
     }
 
     @Bean
