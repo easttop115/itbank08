@@ -4,17 +4,21 @@
 <html lang="ko">
 
 <head>
+    <!-- 문서 정보 설정 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
+    <!-- 스타일 설정 -->
     <style>
-        html,
-        body {
+        /* 전체 페이지 설정 */
+        html, body {
             height: 100%;
             margin: 0;
             overflow: hidden;
         }
 
+        /* 그리드 레이아웃 설정 */
         .grid {
             display: flex;
             height: 100vh;
@@ -30,11 +34,13 @@
             box-sizing: border-box;
         }
 
+        /* 왼쪽 영역 설정 */
         .left {
             background-color: #2895F4;
             position: relative;
         }
 
+        /* 브랜드 로고 설정 */
         .brand {
             position: absolute;
             top: 10px;
@@ -50,11 +56,13 @@
             color: #ffffff;
         }
 
+        /* 오른쪽 영역 설정 */
         .right {
             background-color: #ffffff;
             position: relative;
         }
 
+        /* 로그인 폼 설정 */
         .login-form {
             text-align: center;
         }
@@ -70,6 +78,7 @@
         }
 
         .login-button {
+            /* 로그인 버튼 스타일 설정 */
             position: relative;
             margin-top: 20px;
             margin-bottom: 40px;
@@ -88,9 +97,25 @@
         }
 
         .login-button:hover {
+            /* 로그인 버튼 호버 효과 설정 */
             background-position: right;
         }
 
+        .signup-button {
+            /* 회원가입 버튼 스타일 설정 */
+            color: rgb(155, 155, 155);
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.4s;
+        }
+
+        .signup-button:hover {
+            /* 회원가입 버튼 호버 효과 설정 */
+            color: #2895F4;
+        }
+
+        /* 하단 브랜드 로고 설정 */
         .brand-bottom {
             position: absolute;
             bottom: 20px;
@@ -103,6 +128,7 @@
             height: auto;
         }
 
+        /* 동적 텍스트 설정 */
         .dynamic-text {
             position: absolute;
             width: 100%;
@@ -115,6 +141,7 @@
             animation: fadeIn 1s forwards;
         }
 
+        /* 페이드인 애니메이션 설정 */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -128,25 +155,36 @@
 </head>
 
 <body>
+    <!-- 그리드 레이아웃 구성 -->
     <div class="grid">
+        <!-- 왼쪽 영역 -->
         <div class="left">
+            <!-- 브랜드 로고 -->
             <div class="brand">
                 <p>Stock City</p>
             </div>
+            <!-- 동적 텍스트 -->
             <p id="dynamicText" class="dynamic-text">Stock City</p>
         </div>
+
+        <!-- 오른쪽 영역 -->
         <div class="right">
-            <form class="login-form" action="#">
+            <!-- 로그인 폼 -->
+            <form class="login-form" action="#" method="post">
                 <input class="login-input" type="text" placeholder="아이디">
                 <input class="login-input" type="password" placeholder="패스워드"><br>
-                <input class="login-button" type="submit" value="로그인">
+                <input class="login-button" type="submit" value="로그인"><br>
+                <a href="#" class="signup-button">회원가입</a>
             </form>
+
+            <!-- 하단 브랜드 로고 -->
             <div class="brand-bottom">
                 <img src="/image/sc.png" alt="브랜드 로고">
             </div>
         </div>
     </div>
 
+    <!-- 동적 텍스트 변경 스크립트 -->
     <script>
         const dynamicText = document.getElementById('dynamicText');
         const texts = ["누구나 손쉽게 승인받고 이용할 수 있는 서비스", "무료로 제공되는 재고 관리 서비스를 경험해보세요", "KG IT BANK 502호에서 만든 재고 서비스!!! 반응형 웹 브라우저까지!"];
