@@ -7,7 +7,7 @@
     <!-- 문서 정보 설정 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>로그인</title>
 
     <!-- 스타일 설정 -->
     <style>
@@ -174,7 +174,7 @@
                 <input class="login-input" type="text" placeholder="아이디">
                 <input class="login-input" type="password" placeholder="패스워드"><br>
                 <input class="login-button" type="submit" value="로그인"><br>
-                <a href="#" class="signup-button">회원가입</a>
+                <a href="/join/regist" class="signup-button">회원가입</a>
             </form>
 
             <!-- 하단 브랜드 로고 -->

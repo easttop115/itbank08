@@ -27,4 +27,9 @@ public class MainController {
 	public String login() {
 		return "join/login";
 	}
+
+	@RequestMapping("join/regist")
+	public String regist() {
+		return "join/regist";
+	}
 }
