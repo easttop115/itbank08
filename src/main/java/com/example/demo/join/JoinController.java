@@ -1,5 +1,6 @@
 package com.example.demo.join;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 public class JoinController {
@@ -12,5 +13,10 @@ public class JoinController {
     @RequestMapping("join/regist")
     public String regist() {
         return "join/regist";
+    }
+
+    @PostMapping("regiProc")
+    public String regiProc() {
+        return "redirect:index";
     }
 }
