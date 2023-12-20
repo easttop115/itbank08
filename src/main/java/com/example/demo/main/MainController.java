@@ -23,13 +23,4 @@ public class MainController {
 		return "main/mainform";
 	}
 
-	@RequestMapping("join/login")
-	public String login() {
-		return "join/login";
-	}
-
-	@RequestMapping("join/regist")
-	public String regist() {
-		return "join/regist";
-	}
 }
