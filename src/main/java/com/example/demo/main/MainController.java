@@ -23,8 +23,8 @@ public class MainController {
 		return "main/mainform";
 	}
 
-	@RequestMapping("main/login")
+	@RequestMapping("join/login")
 	public String login() {
-		return "main/login";
+		return "join/login";
 	}
 }
