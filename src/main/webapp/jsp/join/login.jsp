@@ -171,7 +171,7 @@
                 <!-- 오른쪽 영역 -->
                 <div class="right">
                     <!-- 로그인 폼 -->
-                    <form class="login-form" action="#" method="post">
+                    <form class="login-form" action="loginProc" method="post">
                         <input class="login-input" type="text" placeholder="아이디">
                         <input class="login-input" type="password" placeholder="패스워드"><br>
                         <input class="login-button" type="submit" value="로그인"><br>
