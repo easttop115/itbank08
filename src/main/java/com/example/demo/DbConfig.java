@@ -1,129 +1,156 @@
-// package com.example.demo;
+package com.example.demo;
 
-// import org.springframework.beans.factory.InitializingBean;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.jdbc.core.JdbcTemplate;
-// import org.springframework.web.context.request.RequestContextHolder;
-// import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-// import jakarta.servlet.http.HttpSession;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpSession;
 
-// import java.util.List;
+import javax.sql.DataSource;
+import java.util.List;
 
-// import javax.sql.DataSource;
+@Configuration
+public class DbConfig implements InitializingBean {
 
-// @Configuration
-// public class DbConfig implements InitializingBean {
+    private final DataSourceProperties dataSourceProperties;
+    private DataSource myDataSource;
 
-// @Autowired
-// private DataSourceProperties dataSourceProperties;
+    public DbConfig(DataSourceProperties dataSourceProperties) {
+        this.dataSourceProperties = dataSourceProperties;
+    }
 
-// @Autowired
-// private HttpSession session;
+    // DataSource Bean을 생성하는 메서드
+    @Bean(name = "myDataSource")
+    public DataSource myDataSource() {
+        String sessionCompany = getSessionCompany();
+        myDataSource = createDataSource(sessionCompany);
+        return myDataSource;
+    }
 
-// private DataSource dataSource;
+    // JdbcTemplate Bean을 생성하는 메서드
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(myDataSource());
+    }
 
-// @Override
-// public void afterPropertiesSet() {
-// // sessionid에 따라 동적으로 DataSource 생성 및 설정
+    // PostConstruct 어노테이션이 붙은 메서드로, 빈이 초기화된 후 초기화 로직을 수행
+    @PostConstruct
+    private void postConstruct() {
+        configureAndInitializeDatabase();
+    }
 
-// // 현재 세션에 저장된 "Company" 속성을 이용하여 동적으로 데이터베이스 연결 정보를 설정합니다.
-// String sessionCompany = getSessionCompany();
-// // 데이터베이스가 존재하지 않으면 생성
-// if (!databaseExists(sessionCompany)) {
-// createDatabase(sessionCompany);
-// }
+    // InitializingBean을 구현한 메서드로, 빈이 초기화된 후 초기화 로직을 수행
+    @Override
+    public void afterPropertiesSet() {
+        configureAndInitializeDatabase();
+    }
 
-// // 기존의 데이터베이스 연결 속성을 이용하여 새로운 데이터베이스 연결 속성을 설정합니다.
-// DataSourceProperties properties = new DataSourceProperties();
-// properties.setDriverClassName(dataSourceProperties.getDriverClassName());
-// properties.setUsername(dataSourceProperties.getUsername());
-// properties.setPassword(dataSourceProperties.getPassword());
-// properties.setUrl(dataSourceProperties.getUrl() + sessionCompany);
+    // 데이터베이스를 구성하고 초기화하는 메서드
+    private void configureAndInitializeDatabase() {
+        String sessionCompany = getSessionCompany();
+        DataSource dataSource = myDataSource();
 
-// // 새로운 데이터베이스 연결을 빌드하여 설정합니다.
-// this.dataSource = properties.initializeDataSourceBuilder().build();
-// }
+        // 데이터베이스가 존재하지 않으면 생성 // 여기서 초기화 로직을 진행
+        if (!databaseExists(sessionCompany, dataSource)) {
+            createDatabase(sessionCompany, dataSource);
+        }
 
-// private boolean databaseExists(String sessionCompany) {
-// try {
-// // 데이터베이스가 존재하는지 확인하는 로직 추가
-// String query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE
-// SCHEMA_NAME = ?";
-// jdbcTemplate(dataSource).queryForObject(query, String.class, sessionCompany);
+        // demo 데이터베이스의 테이블 목록을 가져오기
+        List<String> tables = getTablesInDatabase("demo", dataSource);
 
-// // 예외가 발생하지 않으면 데이터베이스가 존재한다고 간주
-// return true;
-// } catch (Exception e) {
-// // 쿼리 수행 중 오류가 발생하면 데이터베이스가 존재하지 않는 것으로 간주
-// return false;
-// }
-// }
+        // 세션 데이터베이스에 demo 데이터베이스의 테이블이 없으면 생성
+        for (String table : tables) {
+            if (!tableExists(sessionCompany, table, dataSource)) {
+                String createTableQuery = "SHOW CREATE TABLE demo." + table;
+                String createTableStatement = jdbcTemplate().queryForObject(createTableQuery, String.class);
 
-// private void createDatabase(String sessionCompany) {
-// // 새로운 데이터베이스 생성
-// String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " +
-// sessionCompany;
-// jdbcTemplate(dataSource).execute(createDatabaseQuery);
+                // demo 데이터베이스의 테이블 구조를 가져와 세션 데이터베이스에 생성
+                if (createTableStatement != null) {
+                    jdbcTemplate().execute(
+                            createTableStatement.replace("CREATE TABLE demo.", "CREATE TABLE " + sessionCompany + "."));
+                } else {
+                    // createTableStatement가 null인 경우 처리
+                }
+            }
+        }
+    }
 
-// // demo 데이터베이스의 테이블 목록 가져오기
-// List<String> tables = getTablesInDatabase("demo");
+    // 데이터베이스가 존재하는지 확인하는 메서드
+    private boolean databaseExists(String sessionCompany, DataSource dataSource) {
+        try {
+            String query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
+            jdbcTemplate().queryForObject(query, String.class, sessionCompany);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
-// // 각 테이블의 구조를 가져와서 새로운 데이터베이스에 적용
-// for (String table : tables) {
-// // 테이블이 이미 존재하는지 확인
-// if (!tableExists(sessionCompany, table)) {
-// String createTableQuery = "SHOW CREATE TABLE demo." + table;
-// String createTableStatement =
-// jdbcTemplate(dataSource).queryForObject(createTableQuery, String.class);
+    // 데이터베이스를 생성하는 메서드
+    private void createDatabase(String sessionCompany, DataSource dataSource) {
+        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + sessionCompany;
+        jdbcTemplate().execute(createDatabaseQuery);
 
-// // 테이블 생성
-// jdbcTemplate(dataSource).execute(
-// createTableStatement.replace("CREATE TABLE demo.", "CREATE TABLE " +
-// sessionCompany + "."));
-// }
-// }
-// }
+        // demo 데이터베이스의 테이블 목록을 가져오기
+        List<String> tables = getTablesInDatabase("demo", dataSource);
 
-// private boolean tableExists(String databaseName, String tableName) {
-// String query = "SHOW TABLES FROM " + databaseName + " LIKE ?";
-// return jdbcTemplate(dataSource).queryForObject(query, Integer.class,
-// tableName) != null;
-// }
+        // demo 데이터베이스의 테이블이 없으면 생성
+        for (String table : tables) {
+            if (!tableExists(sessionCompany, table, dataSource)) {
+                String createTableQuery = "SHOW CREATE TABLE demo." + table;
+                String createTableStatement = jdbcTemplate().queryForObject(createTableQuery, String.class);
 
-// private List<String> getTablesInDatabase(String databaseName) {
-// String query = "SHOW TABLES FROM " + databaseName;
-// return jdbcTemplate(dataSource).queryForList(query, String.class);
-// }
+                // demo 데이터베이스의 테이블 구조를 가져와 세션 데이터베이스에 생성
+                if (createTableStatement != null) {
+                    jdbcTemplate().execute(
+                            createTableStatement.replace("CREATE TABLE demo.", "CREATE TABLE " + sessionCompany + "."));
+                } else {
+                    // createTableStatement가 null인 경우 처리
+                }
+            }
+        }
+    }
 
-// @Bean
-// public DataSource dataSource() {
-// // 애플리케이션에서 사용할 데이터베이스 연결을 빈으로 등록합니다.
-// return this.dataSource;
-// }
+    // 특정 테이블이 세션 데이터베이스에 존재하는지 확인하는 메서드
+    private boolean tableExists(String databaseName, String tableName, DataSource dataSource) {
+        String query = "SHOW TABLES FROM " + databaseName + " LIKE ?";
+        return jdbcTemplate().queryForObject(query, String.class, tableName) != null;
+    }
 
-// @Bean
-// public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-// // JdbcTemplate을 빈으로 등록하고 이를 통해 SQL 쿼리를 실행할 수 있게 합니다.
-// return new JdbcTemplate(dataSource);
-// }
+    // 특정 데이터베이스의 테이블 목록을 가져오는 메서드
+    private List<String> getTablesInDatabase(String databaseName, DataSource dataSource) {
+        String query = "SHOW TABLES FROM " + databaseName;
+        return jdbcTemplate().queryForList(query, String.class);
+    }
 
-// private String getSessionCompany() {
-// // 현재 요청의 속성을 얻어오기 위해 RequestContextHolder를 사용합니다.
-// ServletRequestAttributes attributes = (ServletRequestAttributes)
-// RequestContextHolder.getRequestAttributes();
-// if (attributes != null) {
-// // 세션에 "id" 속성이 이미 존재하는지 확인합니다.
-// String sessionId = (String) session.getAttribute("id");
-// if (sessionId != null && !sessionId.trim().isEmpty()) {
-// // 로그인 상태인 경우에는 세션에 있는 "id"를 반환합니다.
-// return sessionId;
-// }
-// }
-// // 세션이 없을 경우 기본값 "demo"를 반환합니다.
-// return "demo";
-// }
-// }
+    // 세션 데이터베이스를 구분하기 위한 세션 값 가져오는 메서드
+    private String getSessionCompany() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes != null) {
+            HttpSession session = attributes.getRequest().getSession();
+            if (session != null) {
+                String sessionId = (String) session.getAttribute("id");
+                if (sessionId != null && !sessionId.trim().isEmpty()) {
+                    return sessionId;
+                }
+            }
+        }
+        return "demo";
+    }
+
+    // 세션 데이터베이스를 생성하는 메서드
+    private DataSource createDataSource(String sessionCompany) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+        dataSource.setUsername(dataSourceProperties.getUsername());
+        dataSource.setPassword(dataSourceProperties.getPassword());
+        dataSource.setUrl(dataSourceProperties.getUrl() + sessionCompany);
+        return dataSource;
+    }
+}
