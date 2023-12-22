@@ -1,5 +1,8 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <select id=findJoin>
-        SELECT * FROM user WHERE no=${no}
+        SELECT * FROM user WHERE no=#{no}
     </select>
+    <insert id=regiProc>
+        INSERT INTO user VALUES(IFNULL(max(no), 0)+1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, #{regDate})
+    </insert>
 </mapper>
