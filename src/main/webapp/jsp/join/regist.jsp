@@ -157,7 +157,7 @@
                 <div class="right">
                     <form class="form-container" action="/registProc" method="post">
                         <input type="hidden" name="no" value="">
-                        <input type="hidden" name="regDate" value="<%= java.time.LocalDateTime.now() %>">
+                        <input type="hidden" name="regDate" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}">
 
                         <label class="form-label" for="id">ID</label>
                         <input class="form-input" type="text" id="id" name="id" required>
