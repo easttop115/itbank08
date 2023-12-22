@@ -62,6 +62,16 @@ public class JoinService {
 			return "exist id";
 		}
 
+        JoinDTO checkBusinessNo = mapper.findJoin(joins.getId());
+		if (checkBusinessNo != null) {
+			return "exist businessNo";
+		}
+
+        JoinDTO checkTel = mapper.findJoin(joins.getTel());
+        if (checkTel != null) {
+            return "exist tel";
+        }
+
 		JoinDTO checkEmail = mapper.findJoin(joins.getEmail());
 		if (checkEmail != null) {
 			return "exist email";
