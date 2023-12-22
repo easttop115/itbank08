@@ -5,8 +5,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface JoinMapper {
 
-    JoinDTO findJoin(String id);
-
     int registProc(JoinDTO joins);
+
+    JoinDTO loginProc(JoinDTO joins);
+
+    JoinDTO findJoin(String id);
 
 }

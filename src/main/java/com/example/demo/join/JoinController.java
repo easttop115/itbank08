@@ -16,14 +16,30 @@ public class JoinController {
     @Autowired
     private JoinService service;
 
+    @RequestMapping("/join/regist")
+    public String regist() {
+
+        return "/join/regist";
+    }
+
+    @PostMapping("/registProc")
+	public String registProc(JoinDTO joins) {	
+		String confirm = service.registProc(joins);
+
+		if (confirm.equals("success")) {
+			return "redirect:/login";
+		}
+		return "/join/regist";
+	}
+    
     @RequestMapping("/login")
     public String login() {
         return "/join/login";
     }
 
     @PostMapping("/loginProc")
-    public String loginProc(HttpServletRequest request, String id, String pw) {
-        String confirm = service.loginProc(request, id, pw);
+    public String loginProc(HttpServletRequest request, JoinDTO joins) {
+        String confirm = service.loginProc(request, joins);
 
         if (confirm.equals("success")) {
             return "redirect:/mainForm";
@@ -38,19 +54,4 @@ public class JoinController {
         return "redirect:/login";
     }
 
-    @RequestMapping("/join/regist")
-    public String regist() {
-
-        return "/join/regist";
-    }
-
-    @PostMapping("registProc")
-	public String registProc(JoinDTO joins) {	
-		String confirm = service.registProc(joins);
-
-		if (confirm.equals("success")) {
-			return "redirect:/login";
-		}
-		return "/join/regist";
-	}
 }

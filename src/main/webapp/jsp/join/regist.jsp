@@ -8,7 +8,8 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>회원가입</title>
 
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+            <link rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
             <style>
                 /* 전체 페이지 설정 */
                 html,
@@ -154,7 +155,7 @@
 
                 <!-- 오른쪽 영역 -->
                 <div class="right">
-                    <form class="form-container" action="regiProc" method="post">
+                    <form class="form-container" action="/registProc" method="post">
                         <input type="hidden" name="no" value="">
                         <input type="hidden" name="regDate" value="<%= java.time.LocalDateTime.now() %>">
 

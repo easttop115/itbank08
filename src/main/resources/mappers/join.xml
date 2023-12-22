@@ -1,0 +1,11 @@
+<mapper namespace="com.example.demo.join.JoinMapper">
+    <insert id=registProc>
+        INSERT INTO user VALUES(IFNULL(max(no), 0)+1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, #{regDate})
+    </insert>
+    <select id=loginProc>
+        SELECT * FROM user WHERE no=#{no}
+    </select>
+    <select id=findJoin>
+        SELECT * FROM user WHERE no=#{no}
+    </select>
+</mapper>

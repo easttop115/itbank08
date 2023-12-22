@@ -15,28 +15,6 @@ public class JoinService {
     @Autowired
     private JoinMapper mapper;
 
-    public String loginProc(HttpServletRequest request, String id, String pw) {
-        HttpSession sessionCheck = request.getSession(false);
-        if (sessionCheck != null) {
-            sessionCheck.invalidate();
-        }
-        if (id == null || id.trim().isEmpty()) {
-            return "insert id";
-        }
-        if (pw == null || pw.trim().isEmpty()) {
-            return "insert pw";
-        }
-
-        JoinDTO check = mapper.findJoin(id);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        if (check != null && encoder.matches(pw, check.getPw()) == true) {
-            session.setAttribute(id, check.getId());
-            return "success";
-        }
-        return "login failed";
-    }
-
     public String registProc(JoinDTO joins) {
         if (joins.getId() == null || joins.getId().trim().isEmpty()) {
             return "failed";
@@ -87,6 +65,28 @@ public class JoinService {
             return "insert failed";
 
         return "success";
+    }
+
+    public String loginProc(HttpServletRequest request, JoinDTO joins) {
+        HttpSession sessionCheck = request.getSession(false);
+        if (sessionCheck != null) {
+            sessionCheck.invalidate();
+        }
+        if (joins.getId() == null || joins.getId().trim().isEmpty()) {
+            return "insert id";
+        }
+        if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
+            return "insert pw";
+        }
+
+        JoinDTO check = mapper.loginProc(joins);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if (check != null && encoder.matches(joins.getPw(), check.getPw()) == true) {
+            session.setAttribute(joins.getId(), check.getId());
+            return "success";
+        }
+        return "login failed";
     }
 
 }
