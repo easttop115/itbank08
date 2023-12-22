@@ -1,0 +1,5 @@
+<mapper namespace="com.example.demo.join.JoinMapper">
+    <select id=findJoin>
+        SELECT * FROM user WHERE no=${no}
+    </select>
+</mapper>

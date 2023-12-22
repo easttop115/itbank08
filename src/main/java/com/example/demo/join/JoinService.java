@@ -29,25 +29,13 @@ public class JoinService {
 			return "insert pw";
 		}
 
-		MemberDTO check = mapper.login(id);
+		JoinDTO check = mapper.findJoin(id);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//		encoder.matches(pw, check.getPw()); // 매개변수 순서 중요 - 좌 : 평문, 우 : 암호문
 
 		if (check != null && encoder.matches(pw, check.getPw()) == true) {
-			session.setAttribute("id", check.getId());
-			session.setAttribute("userName", check.getUserName());
-			session.setAttribute("address", check.getAddress());
-			session.setAttribute("mobile", check.getMobile());
-			session.setAttribute("email", check.getEmail());
-
-			// session.setAttribute("member", check);
-			// ${sessionScope.member.id}
-			// ${sessionScope.member.pw}
-			// ${sessionScope.member.userName}
-
-			return "로그인 성공";
+			return "success";
 		}
-        return "success";
+        return "login failed";
     }
 
     public String registProc(JoinDTO joins) {
@@ -86,7 +74,7 @@ public class JoinService {
 		System.out.println(secretPw.length());
 
 		int result = mapper.registProc(joins);
-		if (result < 1)
+		if (result <= 0)
 			return "insert failed";
 
         return "success";
