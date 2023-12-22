@@ -171,9 +171,10 @@
                 <!-- 오른쪽 영역 -->
                 <div class="right">
                     <!-- 로그인 폼 -->
+                    <h3>${msg}</h3>
                     <form class="login-form" action="/loginProc" method="post">
-                        <input class="login-input" type="text" placeholder="아이디">
-                        <input class="login-input" type="password" placeholder="패스워드"><br>
+                        <input class="login-input" name="id" type="text" placeholder="아이디">
+                        <input class="login-input" name="pw" type="password" placeholder="패스워드"><br>
                         <input class="login-button" type="submit" value="로그인"><br>
                         <a href="/join/regist" class="signup-button">회원가입</a>
                     </form>

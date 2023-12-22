@@ -7,8 +7,6 @@ public interface JoinMapper {
 
     int registProc(JoinDTO joins);
 
-    JoinDTO loginProc(JoinDTO joins);
-
     JoinDTO findJoin(String id);
 
 }

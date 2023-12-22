@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "classpath:mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.join.JoinMapper">
+    <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        INSERT INTO user VALUES(IFNULL(max(no), 0)+1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, #{regDate})
+        INSERT INTO user
+        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW()
+        FROM user
     </insert>
-    <select id="loginProc">
-        SELECT * FROM user WHERE no=#{no}
-    </select>
-    <select id="findJoin" parameterType="String" resultType="JoinDTO">
+    <select id="findJoin" resultMap="join">
         SELECT * FROM user WHERE id=#{id}
     </select>
 </mapper>

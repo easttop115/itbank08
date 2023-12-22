@@ -67,23 +67,23 @@ public class JoinService {
         return "success";
     }
 
-    public String loginProc(HttpServletRequest request, JoinDTO joins) {
+    public String loginProc(HttpServletRequest request, String id, String pw) {
         HttpSession sessionCheck = request.getSession(false);
         if (sessionCheck != null) {
             sessionCheck.invalidate();
         }
-        if (joins.getId() == null || joins.getId().trim().isEmpty()) {
+        if (id == null || id.trim().isEmpty()) {
             return "insert id";
         }
-        if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
+        if (pw == null || pw.trim().isEmpty()) {
             return "insert pw";
         }
 
-        JoinDTO check = mapper.loginProc(joins);
+        JoinDTO check = mapper.findJoin(id);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (check != null && encoder.matches(joins.getPw(), check.getPw()) == true) {
-            session.setAttribute(joins.getId(), check.getId());
+        if (check != null && encoder.matches(pw, check.getPw()) == true) {
+            session.setAttribute("id", check.getId());
             return "success";
         }
         return "login failed";
