@@ -1,7 +1,5 @@
 package com.example.demo.join;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,22 +17,23 @@ public class JoinService {
 
     public String loginProc(HttpServletRequest request, String id, String pw) {
         HttpSession sessionCheck = request.getSession(false);
-		if (sessionCheck != null) {
-			sessionCheck.invalidate();
-		}
-		if (id == null || id.trim().isEmpty()) {
-			return "insert id";
-		}
-		if (pw == null || pw.trim().isEmpty()) {
-			return "insert pw";
-		}
+        if (sessionCheck != null) {
+            sessionCheck.invalidate();
+        }
+        if (id == null || id.trim().isEmpty()) {
+            return "insert id";
+        }
+        if (pw == null || pw.trim().isEmpty()) {
+            return "insert pw";
+        }
 
-		JoinDTO check = mapper.findJoin(id);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        JoinDTO check = mapper.findJoin(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		if (check != null && encoder.matches(pw, check.getPw()) == true) {
-			return "success";
-		}
+        if (check != null && encoder.matches(pw, check.getPw()) == true) {
+            session.setAttribute(id, check.getId());
+            return "success";
+        }
         return "login failed";
     }
 
@@ -58,34 +57,34 @@ public class JoinService {
         }
 
         JoinDTO checkId = mapper.findJoin(joins.getId());
-		if (checkId != null) {
-			return "exist id";
-		}
+        if (checkId != null) {
+            return "exist id";
+        }
 
         JoinDTO checkBusinessNo = mapper.findJoin(joins.getId());
-		if (checkBusinessNo != null) {
-			return "exist businessNo";
-		}
+        if (checkBusinessNo != null) {
+            return "exist businessNo";
+        }
 
         JoinDTO checkTel = mapper.findJoin(joins.getTel());
         if (checkTel != null) {
             return "exist tel";
         }
 
-		JoinDTO checkEmail = mapper.findJoin(joins.getEmail());
-		if (checkEmail != null) {
-			return "exist email";
-		}
+        JoinDTO checkEmail = mapper.findJoin(joins.getEmail());
+        if (checkEmail != null) {
+            return "exist email";
+        }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String secretPw = encoder.encode(joins.getPw());
-		joins.setPw(secretPw);
+        String secretPw = encoder.encode(joins.getPw());
+        joins.setPw(secretPw);
 
-		System.out.println(secretPw.length());
+        System.out.println(secretPw.length());
 
-		int result = mapper.registProc(joins);
-		if (result <= 0)
-			return "insert failed";
+        int result = mapper.registProc(joins);
+        if (result <= 0)
+            return "insert failed";
 
         return "success";
     }
