@@ -44,7 +44,7 @@ public class JoinController {
         String confirm = service.loginProc(request, id, pw);
 
         if (confirm.equals("success")) {
-            ra.addFlashAttribute("msg", (String)session.getAttribute("id"));
+            ra.addFlashAttribute("msg", (String) session.getAttribute("id"));
             return "redirect:/join/login";
         }
         model.addAttribute("msg", confirm);

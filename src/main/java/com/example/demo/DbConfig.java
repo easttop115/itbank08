@@ -1,156 +1,128 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.util.List;
+import java.util.Map;
 
-@Configuration
-public class DbConfig implements InitializingBean {
+@Service
+public class DbConfig {
 
-    private final DataSourceProperties dataSourceProperties;
-    private DataSource myDataSource;
+    private final JdbcTemplate jdbcTemplate;
 
-    public DbConfig(DataSourceProperties dataSourceProperties) {
-        this.dataSourceProperties = dataSourceProperties;
+    @Value("${spring.datasource.url}")
+    private String jdbcUrl;
+
+    public DbConfig(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    // DataSource Bean을 생성하는 메서드
-    @Bean(name = "myDataSource")
-    public DataSource myDataSource() {
-        String sessionCompany = getSessionCompany();
-        myDataSource = createDataSource(sessionCompany);
-        return myDataSource;
-    }
+    public void setDynamicDatabase(String newDatabaseName) {
+        try {
+            String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + newDatabaseName;
 
-    // JdbcTemplate Bean을 생성하는 메서드
-    @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(myDataSource());
-    }
+            // 1. 새로운 데이터베이스 생성 또는 기존 데이터베이스 선택
+            createOrUseDatabase(newDatabaseName);
 
-    // PostConstruct 어노테이션이 붙은 메서드로, 빈이 초기화된 후 초기화 로직을 수행
-    @PostConstruct
-    private void postConstruct() {
-        configureAndInitializeDatabase();
-    }
+            // 2. 기존 데이터베이스의 테이블 구조를 복사
+            List<String> tables = getTablesInDatabase("demo");
 
-    // InitializingBean을 구현한 메서드로, 빈이 초기화된 후 초기화 로직을 수행
-    @Override
-    public void afterPropertiesSet() {
-        configureAndInitializeDatabase();
-    }
+            for (String table : tables) {
+                updateTableStatements(newDatabaseName, table);
+            }
 
-    // 데이터베이스를 구성하고 초기화하는 메서드
-    private void configureAndInitializeDatabase() {
-        String sessionCompany = getSessionCompany();
-        DataSource dataSource = myDataSource();
-
-        // 데이터베이스가 존재하지 않으면 생성 // 여기서 초기화 로직을 진행
-        if (!databaseExists(sessionCompany, dataSource)) {
-            createDatabase(sessionCompany, dataSource);
+            // 3. 새로운 데이터베이스로 DataSource 변경
+            DataSource newDataSource = buildDataSource(dynamicUrl);
+            jdbcTemplate.setDataSource(newDataSource);
+        } catch (Exception e) {
+            e.printStackTrace(); // 나중에 로그로 변경하는 것이 좋습니다.
+            // 그 외 필요한 작업 수행
         }
+    }
 
-        // demo 데이터베이스의 테이블 목록을 가져오기
-        List<String> tables = getTablesInDatabase("demo", dataSource);
+    private void createOrUseDatabase(String newDatabaseName) {
+        if (!databaseExists(newDatabaseName)) {
+            // 새로운 데이터베이스 생성
+            createDatabase(newDatabaseName);
+        } else {
+            // 기존 데이터베이스 선택
+            jdbcTemplate.execute("USE " + newDatabaseName);
+        }
+    }
 
-        // 세션 데이터베이스에 demo 데이터베이스의 테이블이 없으면 생성
-        for (String table : tables) {
-            if (!tableExists(sessionCompany, table, dataSource)) {
-                String createTableQuery = "SHOW CREATE TABLE demo." + table;
-                String createTableStatement = jdbcTemplate().queryForObject(createTableQuery, String.class);
+    private void updateTableStatements(String databaseName, String table) {
+        if (!tableExists(databaseName, table)) {
+            String createTableQuery = "SHOW CREATE TABLE `demo`.`" + table + "`";
 
-                // demo 데이터베이스의 테이블 구조를 가져와 세션 데이터베이스에 생성
-                if (createTableStatement != null) {
-                    jdbcTemplate().execute(
-                            createTableStatement.replace("CREATE TABLE demo.", "CREATE TABLE " + sessionCompany + "."));
+            try {
+                // Use query method to get the result list
+                List<Map<String, Object>> createTableResultList = jdbcTemplate.queryForList(createTableQuery);
+
+                if (!createTableResultList.isEmpty()) {
+                    // Extract the create table statement from the first row
+                    String createTableResult = (String) createTableResultList.get(0).get("Create Table");
+
+                    String modifiedCreateTableStatement = createTableResult
+                            .replace("CREATE TABLE demo.", "CREATE TABLE " + databaseName + ".");
+
+                    jdbcTemplate.execute(modifiedCreateTableStatement);
                 } else {
-                    // createTableStatement가 null인 경우 처리
+                    // Handle the case where createTableResultList is empty
                 }
+            } catch (EmptyResultDataAccessException e) {
+                // Handle the case where there is no result
             }
         }
     }
 
-    // 데이터베이스가 존재하는지 확인하는 메서드
-    private boolean databaseExists(String sessionCompany, DataSource dataSource) {
+    private DataSource buildDataSource(String url) {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(url);
+        hikariConfig.setUsername("admin"); // 사용자 이름 설정
+        hikariConfig.setPassword("mariapass"); // 패스워드 설정
+        // 다른 필요한 설정도 추가할 수 있습니다.
+
+        return new HikariDataSource(hikariConfig);
+    }
+
+    private boolean databaseExists(String databaseName) {
         try {
             String query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
-            jdbcTemplate().queryForObject(query, String.class, sessionCompany);
+            jdbcTemplate.queryForObject(query, String.class, databaseName);
             return true;
-        } catch (Exception e) {
+        } catch (EmptyResultDataAccessException e) {
             return false;
         }
     }
 
-    // 데이터베이스를 생성하는 메서드
-    private void createDatabase(String sessionCompany, DataSource dataSource) {
-        String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + sessionCompany;
-        jdbcTemplate().execute(createDatabaseQuery);
+    private void createDatabase(String databaseName) {
+        try {
+            String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + databaseName;
+            jdbcTemplate.execute(createDatabaseQuery);
 
-        // demo 데이터베이스의 테이블 목록을 가져오기
-        List<String> tables = getTablesInDatabase("demo", dataSource);
-
-        // demo 데이터베이스의 테이블이 없으면 생성
-        for (String table : tables) {
-            if (!tableExists(sessionCompany, table, dataSource)) {
-                String createTableQuery = "SHOW CREATE TABLE demo." + table;
-                String createTableStatement = jdbcTemplate().queryForObject(createTableQuery, String.class);
-
-                // demo 데이터베이스의 테이블 구조를 가져와 세션 데이터베이스에 생성
-                if (createTableStatement != null) {
-                    jdbcTemplate().execute(
-                            createTableStatement.replace("CREATE TABLE demo.", "CREATE TABLE " + sessionCompany + "."));
-                } else {
-                    // createTableStatement가 null인 경우 처리
-                }
-            }
+            // 생성된 데이터베이스로 스위치
+            jdbcTemplate.execute("USE " + databaseName);
+        } catch (Exception e) {
+            e.printStackTrace(); // 나중에 로그로 변경하는 것이 좋습니다.
+            // 그 외 필요한 작업 수행
         }
     }
 
-    // 특정 테이블이 세션 데이터베이스에 존재하는지 확인하는 메서드
-    private boolean tableExists(String databaseName, String tableName, DataSource dataSource) {
+    private boolean tableExists(String databaseName, String tableName) {
         String query = "SHOW TABLES FROM " + databaseName + " LIKE ?";
-        return jdbcTemplate().queryForObject(query, String.class, tableName) != null;
+        List<String> result = jdbcTemplate.queryForList(query, String.class, tableName);
+        return !result.isEmpty();
     }
 
-    // 특정 데이터베이스의 테이블 목록을 가져오는 메서드
-    private List<String> getTablesInDatabase(String databaseName, DataSource dataSource) {
+    private List<String> getTablesInDatabase(String databaseName) {
         String query = "SHOW TABLES FROM " + databaseName;
-        return jdbcTemplate().queryForList(query, String.class);
-    }
-
-    // 세션 데이터베이스를 구분하기 위한 세션 값 가져오는 메서드
-    private String getSessionCompany() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes != null) {
-            HttpSession session = attributes.getRequest().getSession();
-            if (session != null) {
-                String sessionId = (String) session.getAttribute("id");
-                if (sessionId != null && !sessionId.trim().isEmpty()) {
-                    return sessionId;
-                }
-            }
-        }
-        return "demo";
-    }
-
-    // 세션 데이터베이스를 생성하는 메서드
-    private DataSource createDataSource(String sessionCompany) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-        dataSource.setUsername(dataSourceProperties.getUsername());
-        dataSource.setPassword(dataSourceProperties.getPassword());
-        dataSource.setUrl(dataSourceProperties.getUrl() + sessionCompany);
-        return dataSource;
+        return jdbcTemplate.queryForList(query, String.class);
     }
 }

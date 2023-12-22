@@ -40,6 +40,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+	// Dbconfig.java 의 bean 새로고침용도
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter
+	implementation 'org.springframework.boot:spring-boot-starter'
+
 }
 
 tasks.named('bootBuildImage') {
