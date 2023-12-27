@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.DbConfig;
+//import com.example.demo.DbConfig;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,8 +17,8 @@ public class JoinService {
     private HttpSession session;
     @Autowired
     private JoinMapper mapper;
-    @Autowired
-    private DbConfig dbConfig;
+    // @Autowired
+    // private DbConfig dbConfig;
 
     public String registProc(JoinDTO joins) {
         if (joins.getId() == null || joins.getId().trim().isEmpty()) {
@@ -90,7 +90,7 @@ public class JoinService {
         if (check != null && encoder.matches(pw, check.getPw()) == true) {
             session.setAttribute("id", check.getId());
             String sessionId = (String) session.getAttribute("id");
-            dbConfig.setDynamicDatabase(sessionId);
+            // dbConfig.setDynamicDatabase(sessionId);
             return "success";
         }
         return "login failed";
