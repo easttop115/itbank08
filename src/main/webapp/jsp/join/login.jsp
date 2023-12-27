@@ -4,12 +4,14 @@
         <html lang="ko">
 
         <head>
-            <!-- 문서 정보 설정 -->
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>로그인</title>
+            <title>Stock City</title>
 
-            <!-- 스타일 설정 -->
+            <!-- google 폰트 추가 -->
+            <link rel="stylesheet"
+                href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+
             <style>
                 /* 전체 페이지 설정 */
                 html,
@@ -17,6 +19,7 @@
                     height: 100%;
                     margin: 0;
                     overflow: hidden;
+                    font-family: 'Noto Sans KR', sans-serif;
                 }
 
                 /* 그리드 레이아웃 설정 */
@@ -66,6 +69,11 @@
                 /* 로그인 폼 설정 */
                 .login-form {
                     text-align: center;
+                }
+
+                .login-form p {
+                    font-weight: bold;
+                    color: red;
                 }
 
                 .login-input {
@@ -171,10 +179,10 @@
                 <!-- 오른쪽 영역 -->
                 <div class="right">
                     <!-- 로그인 폼 -->
-                    <h3>${msg}</h3>
                     <form class="login-form" action="/loginProc" method="post">
+                        <p id="errorMsg">${msg}</p>
                         <input class="login-input" name="id" type="text" placeholder="아이디">
-                        <input class="login-input" name="pw" type="password" placeholder="패스워드"><br>
+                        <input class="login-input" name="pw" type="password" placeholder="비밀번호"><br>
                         <input class="login-button" type="submit" value="로그인"><br>
                         <a href="/join/regist" class="signup-button">회원가입</a>
                     </form>
@@ -188,8 +196,8 @@
 
             <!-- 동적 텍스트 변경 스크립트 -->
             <script>
-                const dynamicText = document.getElementById('dynamicText');
-                const texts = ["누구나 손쉽게 승인받고 이용할 수 있는 서비스", "무료로 제공되는 재고 관리 서비스를 경험해보세요", "KG IT BANK 502호에서 만든 재고 서비스!!! 반응형 웹 브라우저까지!"];
+                var dynamicText = document.getElementById('dynamicText');
+                var texts = ["누구나 손쉽게 승인받고 이용할 수 있는 서비스", "무료로 제공되는 재고 관리 서비스를 경험해보세요", "KG IT BANK 502호에서 만든 재고 서비스!!! 반응형 웹 브라우저까지!"];
                 let index = 0;
 
                 function changeText() {
@@ -201,7 +209,20 @@
                     index = (index + 1) % texts.length;
                 }
 
+                // 일정 간격으로 다이나믹 텍스트 변경 ex) 2500 -> 2.5초
                 setInterval(changeText, 2500);
+
+                // 에러 메시지를 표시하는 요소
+                var errorMsg = document.getElementById('errorMsg');
+                // 아이디와 비밀번호 입력 필드
+                var idInput = document.getElementsByName('id')[0];
+                var pwInput = document.getElementsByName('pw')[0];
+
+                // ${msg}의 값에 따라 스타일을 동적으로 변경
+                if (errorMsg.innerText === '아이디를 입력해주세요.') {
+                    idInput.style.border = '2px solid red';
+                } else if (errorMsg.innerText === '비밀번호를 입력해주세요.')
+                    pwInput.style.border = '2px solid red';
             </script>
         </body>
 

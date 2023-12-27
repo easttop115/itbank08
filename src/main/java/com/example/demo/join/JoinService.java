@@ -22,41 +22,43 @@ public class JoinService {
 
     public String registProc(JoinDTO joins) {
         if (joins.getId() == null || joins.getId().trim().isEmpty()) {
-            return "failed";
+            return "아이디를 입력해주세요.";
         } else if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
-            return "failed";
+            return "비밀번호를 입력해주세요.";
+        } else if (joins.getPw().equals(joins.getConfirm()) == false) {
+            return "두 비밀번호가 다릅니다.";
         } else if (joins.getCompany() == null || joins.getCompany().trim().isEmpty()) {
-            return "failed";
+            return "회사명을 입력해주세요.";
         } else if (joins.getBusinessNo() == null || joins.getBusinessNo().trim().isEmpty()) {
-            return "failed";
+            return "사업자등록번호를 입력해주세요.";
         } else if (joins.getEmail() == null || joins.getEmail().trim().isEmpty()) {
-            return "failed";
+            return "이메일을 입력해주세요.";
         } else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
-            return "failed";
+            return "전화번호를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-zA-Z0-9]{4,20}$")) {
-            return "failed";
+            return "아이디는 영문, 숫자, 4~20자 입력 가능합니다.";
         } else if (!joins.getPw().matches("^[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
-            return "failed";
+            return "비밀번호는 영문, 숫자, !@#$%^&*, 6~20자 입력 가능합니다.";
         }
 
         JoinDTO checkId = mapper.findJoin(joins.getId());
         if (checkId != null) {
-            return "exist id";
+            return "존재하는 아이디입니다.";
         }
 
         JoinDTO checkBusinessNo = mapper.findJoin(joins.getId());
         if (checkBusinessNo != null) {
-            return "exist businessNo";
+            return "존재하는 사업자등록번호입니다.";
         }
 
         JoinDTO checkTel = mapper.findJoin(joins.getTel());
         if (checkTel != null) {
-            return "exist tel";
+            return "존재하는 전화번호입니다.";
         }
 
         JoinDTO checkEmail = mapper.findJoin(joins.getEmail());
         if (checkEmail != null) {
-            return "exist email";
+            return "존재하는 이메일입니다.";
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -67,7 +69,7 @@ public class JoinService {
 
         int result = mapper.registProc(joins);
         if (result <= 0)
-            return "insert failed";
+            return "회원가입 실패. 다시 시도해주세요.";
 
         return "success";
     }
@@ -78,10 +80,10 @@ public class JoinService {
             sessionCheck.invalidate();
         }
         if (id == null || id.trim().isEmpty()) {
-            return "insert id";
+            return "아이디를 입력해주세요.";
         }
         if (pw == null || pw.trim().isEmpty()) {
-            return "insert pw";
+            return "비밀번호를 입력해주세요.";
         }
 
         JoinDTO check = mapper.findJoin(id);
@@ -89,11 +91,11 @@ public class JoinService {
 
         if (check != null && encoder.matches(pw, check.getPw()) == true) {
             session.setAttribute("id", check.getId());
-            String sessionId = (String) session.getAttribute("id");
+            // String sessionId = (String) session.getAttribute("id");
             // dbConfig.setDynamicDatabase(sessionId);
             return "success";
         }
-        return "login failed";
+        return "확인 후 다시 시도해주세요.";
     }
 
 }

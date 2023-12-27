@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,27 +24,27 @@ public class JoinController {
     }
 
     @PostMapping("/registProc")
-    public String registProc(JoinDTO joins) {
+    public String registProc(JoinDTO joins, Model model) {
         String confirm = service.registProc(joins);
 
         if (confirm.equals("success")) {
             return "redirect:/join/login";
         }
+        model.addAttribute("msg", confirm);
         return "/join/regist";
     }
 
-    @RequestMapping("/join/login")
-    public String login() {
-        return "/join/login";
-    }
+    // @RequestMapping("/join/login")
+    // public String login() {
+    //     return "/join/login";
+    // }
 
     @PostMapping("/loginProc")
-    public String loginProc(HttpServletRequest request, String id, String pw, Model model, RedirectAttributes ra) {
+    public String loginProc(HttpServletRequest request, String id, String pw, Model model) {
         String confirm = service.loginProc(request, id, pw);
 
         if (confirm.equals("success")) {
-            ra.addFlashAttribute("msg", (String) session.getAttribute("id"));
-            return "redirect:/join/login";
+            return "redirect:/main/mainform";
         }
         model.addAttribute("msg", confirm);
         return "/join/login";

@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class home {
-    @RequestMapping("/index")
-    public void requestMethodName() {
+    @RequestMapping("/")
+    public String homePage() {
+        return "/join/login";
     }
 
     @RequestMapping("/header")
