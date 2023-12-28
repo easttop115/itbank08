@@ -101,13 +101,6 @@
                 .navbar>li>.subList a:hover {
                     color: black;
                 }
-
-                /* push-content 영역의 높이 및 애니메이션 설정 */
-                .push-content {
-                    transition: height 1s;
-                    overflow: hidden;
-                    height: 80px;
-                }
             </style>
         </head>
 
@@ -170,3 +163,6 @@
                     </ul>
                 </li>
             </ul>
+        </body>
+
+        </html>

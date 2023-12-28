@@ -10,7 +10,7 @@
         </head>
 
         <body>
-            <div class="push-content">
+            <div>
                 <h3>Content goes here</h3>
                 <p>Some text..</p>
             </div>
@@ -18,4 +18,3 @@
         </body>
 
         </html>
-        <c:import url="/footer" />

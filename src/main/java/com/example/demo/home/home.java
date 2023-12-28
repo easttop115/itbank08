@@ -20,11 +20,6 @@ public class home {
         return "/default/header";
     }
 
-    @RequestMapping("/footer")
-    public String footer() {
-        return "/default/footer";
-    }
-
     @RequestMapping("/main")
     public String main() {
         return "/default/main";
