@@ -10,9 +10,19 @@ public class home {
         return "/join/login";
     }
 
+    @RequestMapping("/index")
+    public String index() {
+        return "/test/index";
+    }
+
     @RequestMapping("/header")
     public String header() {
         return "/default/header";
+    }
+
+    @RequestMapping("/footer")
+    public String footer() {
+        return "/default/footer";
     }
 
     @RequestMapping("/main")
