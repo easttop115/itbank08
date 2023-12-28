@@ -166,28 +166,28 @@
                     <p id="errorMsg">${msg}</p>
                     <form class="form-container" action="/registProc" method="post">
                         <label class="form-label" for="id">아이디</label>
-                        <input class="form-input" type="text" name="id">
+                        <input class="form-input" type="text" name="id" value="${param.id}">
 
                         <label class="form-label" for="pw">비밀번호</label>
-                        <input class="form-input" type="password" name="pw">
+                        <input class="form-input" type="password" name="pw" value="${param.pw}">
 
                         <label class="form-label" for="confirm">비밀번호 확인</label>
-                        <input class="form-input" type="password" name="confirm">
+                        <input class="form-input" type="password" name="confirm" value="${param.confirm}">
 
                         <label class="form-label" for="company">회사명</label>
-                        <input class="form-input" type="text" name="company">
+                        <input class="form-input" type="text" name="company" value="${param.company}">
 
                         <label class="form-label" for="businessNo">사업자등록번호</label>
-                        <input class="form-input" type="text" name="businessNo">
+                        <input class="form-input" type="text" name="businessNo" value="${param.businessNo}">
 
                         <label class="form-label" for="email">이메일</label>
-                        <input class="form-input" type="email" name="email">
+                        <input class="form-input" type="email" name="email" value="${param.email}">
 
                         <label class="form-label" for="tel">전화번호</label>
-                        <input class="form-input" type="tel" name="tel">
+                        <input class="form-input" type="tel" name="tel" value="${param.tel}">
 
                         <input class="form-submit" type="submit" value="가입">
-                        <button class="form-cancel" type="button" onclick="history.back()">취소</button>
+                        <button class="form-cancel" type="button" onclick="window.location.href='/'">취소</button>
                     </form>
                     <!-- 하단 브랜드 로고 -->
                     <div class="brand-bottom">
@@ -198,7 +198,6 @@
             <script>
                 // 에러 메시지를 표시하는 요소
                 var errorMsg = document.getElementById('errorMsg');
-                // 아이디와 비밀번호 입력 필드
                 var idInput = document.getElementsByName('id')[0];
                 var pwInput = document.getElementsByName('pw')[0];
                 var confirmInput = document.getElementsByName('confirm')[0];

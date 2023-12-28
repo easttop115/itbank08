@@ -36,7 +36,7 @@ public class JoinController {
 
     // @RequestMapping("/join/login")
     // public String login() {
-    //     return "/join/login";
+    // return "/join/login";
     // }
 
     @PostMapping("/loginProc")
