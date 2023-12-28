@@ -1,149 +1,152 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var navbars = document.querySelectorAll('.navbar > li');
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var dropdowns = document.querySelectorAll('.dropdown');
+        navbars.forEach(function (navbar) {
+            var subList = navbar.querySelector('.subList');
 
-                dropdowns.forEach(function (dropdown) {
-                    var dropdownContent = dropdown.querySelector('.dropdown-content');
-
-                    dropdown.addEventListener('mouseover', function () {
-                        var height = dropdownContent.scrollHeight;
-                        dropdownContent.style.height = height + 'px';
-                    });
-
-                    dropdown.addEventListener('mouseout', function () {
-                        dropdownContent.style.height = '0';
-                    });
-                });
+            navbar.addEventListener('mouseover', function () {
+                var height = subList.scrollHeight;
+                subList.style.height = height + 'px';
             });
-        </script>
 
-        <style>
-            /* 스타일링 */
-            .navbar {
-                overflow: hidden;
-                background-color: #333;
-                margin: 0;
-                padding: 0;
-            }
+            navbar.addEventListener('mouseout', function () {
+                subList.style.height = '0';
+            });
+        });
+    });
+</script>
 
-            .navbar .dropdown:hover {
-                height: 102px;
-                /* Adjust based on how much you want to push the navbar */
-            }
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
 
-            .navbar a {
-                float: left;
-                font-size: 16px;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-                margin-right: -6px;
-                transition: background-color 0.5s;
-            }
+    li {
+        list-style: none;
+    }
 
-            .dropdown {
-                float: left;
-                overflow: hidden;
-            }
+    a {
+        text-decoration: none;
+        font-size: 14px;
+    }
 
-            .navbar .dropdown {
-                height: 50px;
-                /* 기본 높이, 필요에 따라 조절 */
-                transition: height 0.5s;
-                /* 높이 전환을 위한 애니메이션 속성 추가 */
-            }
+    .navbar {
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+        background-color: #2895F4;
+        top: 0;
+        z-index: 1000;
+    }
 
-            .dropdown .dropbtn {
-                font-size: 16px;
-                border: none;
-                outline: none;
-                color: white;
-                padding: 14px 30px;
-                background-color: inherit;
-                font-family: inherit;
-                margin-left: 7px;
-            }
+    .navbar > li {
+        width: 20%;
+        float: left;
+        text-align: center;
+        line-height: 40px;
+        background-color: #2895F4;
+        position: relative;
+    }
 
-            .navbar a,
-            .dropdown:hover .dropbtn {
-                background-color: orangered;
+    .navbar a {
+        color: #fff;
+    }
 
-            }
+    .navbar > li:hover {
+        background-color: #79c1ff;
+        transition-duration: 0.5s;
+    }
 
-            .dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 160px;
-                box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-                z-index: 1;
-                overflow: hidden;
-                height: 0;
-                /* 초기 높이를 0으로 설정 */
-                transition: height 0.5s, left 0.5s;
-                left: 15px;
-                /* 초기 위치를 0으로 설정 */
-            }
+    .subList > li {
+        line-height: 50px;
+        background-color: #79c1ff;
+    }
 
-            .dropdown-content a {
-                float: none;
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;
-                text-align: left;
-                display: inline-block;
-            }
+    .subList {
+        height: 0;
+        overflow: hidden;
+    }
 
-            .dropdown-content a:hover {
-                background-color: #ddd;
-            }
+    .navbar > li:hover .subList {
+        height: 250px;
+        transition-duration: 1s;
+    }
 
-            .dropdown:hover .dropdown-content {
-                display: block;
-                opacity: 1;
-                /* 호버 시 투명도를 1로 설정하여 서서히 나타나게 함 */
-            }
-        </style>
-        </head>
+    .navbar > li > .subList a:hover {
+        color: black;
+    }
 
-        <body>
+    .push-content {
+        transition: height 1s;
+        overflow: hidden;
+        height: 80px;
+    }
+</style>
+</head>
 
-            <div class="navbar">
-                <div class="dropdown">
-                    <button class="dropbtn">Home
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">News
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Dropdown
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="#">Link 1</a>
-                        <a href="#">Link 2</a>
-                        <a href="#">Link 3</a>
-                    </div>
-                </div>
-            </div>
-           
+<body>
+    <ul class="navbar">
+        <li>
+            <a href="#">HOME</a>
+            <ul class="subList">
+                <li><a href="#">sub01</a></li>
+                <li><a href="#">sub02</a></li>
+                <li><a href="#">sub03</a></li>
+                <li><a href="#">sub04</a></li>
+                <li><a href="#">sub05</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">NEWS</a>
+            <ul class="subList">
+                <li><a href="#">sub01</a></li>
+                <li><a href="#">sub02</a></li>
+                <li><a href="#">sub03</a></li>
+                <li><a href="#">sub04</a></li>
+                <li><a href="#">sub05</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">DROPDOWN</a>
+            <ul class="subList">
+                <li><a href="#">sub01</a></li>
+                <li><a href="#">sub02</a></li>
+                <li><a href="#">sub03</a></li>
+                <li><a href="#">sub04</a></li>
+                <li><a href="#">sub05</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">NAVBAR</a>
+            <ul class="subList">
+                <li><a href="#">sub01</a></li>
+                <li><a href="#">sub02</a></li>
+                <li><a href="#">sub03</a></li>
+                <li><a href="#">sub04</a></li>
+                <li><a href="#">sub05</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">SC</a>
+            <ul class="subList">
+                <li><a href="#">sub01</a></li>
+                <li><a href="#">sub02</a></li>
+                <li><a href="#">sub03</a></li>
+                <li><a href="#">sub04</a></li>
+                <li><a href="#">sub05</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="push-content">
+        <h3>Content goes here</h3>
+        <p>Some text..</p>
+    </div>
+</body>
+
+</html>
