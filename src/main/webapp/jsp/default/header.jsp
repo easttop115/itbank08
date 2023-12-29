@@ -8,23 +8,27 @@
                 document.addEventListener("DOMContentLoaded", function () {
                     // navbar의 li 요소들을 모두 선택
                     var navbars = document.querySelectorAll('.navbar > li');
+                    // 모든 subList 요소를 선택
+                    var allSubLists = document.querySelectorAll('.subList');
 
                     // 각 navbar에 대해 이벤트 리스너 추가
                     navbars.forEach(function (navbar) {
-                        // 현재 navbar의 subList를 선택
-                        var subList = navbar.querySelector('.subList');
-
                         // 마우스 오버 이벤트에 대한 처리
                         navbar.addEventListener('mouseover', function () {
-                            // subList의 높이를 가져와서 적용
-                            var height = subList.scrollHeight;
-                            subList.style.height = height + 'px';
+                            allSubLists.forEach(function (subList) {
+                                // subList의 높이를 가져와서 적용
+                                var height = subList.scrollHeight;
+                                subList.style.height = height + 'px';
+                            });
                         });
 
                         // 마우스 아웃 이벤트에 대한 처리
                         navbar.addEventListener('mouseout', function () {
-                            // subList의 높이를 0으로 설정하여 감춤
-                            subList.style.height = '0';
+                            // 모든 subList를 감추도록 설정
+                            allSubLists.forEach(function (subList) {
+                                // subList의 높이를 0으로 설정하여 감춤
+                                subList.style.height = '0';
+                            });
                         });
                     });
                 });
@@ -43,7 +47,12 @@
                 }
 
                 /* 링크 스타일 설정 */
-                a {
+                .navbar a {
+                    text-decoration: none;
+                    font-size: 20px;
+                }
+
+                .subList a {
                     text-decoration: none;
                     font-size: 14px;
                 }
@@ -74,15 +83,16 @@
                 }
 
                 /* navbar hover 시 배경색 변경 */
-                .navbar>li:hover {
-                    background-color: #79c1ff;
+                .navbar>li:hover,
+                .navbar>li:hover li {
+                    background-color: #0059ff;
                     transition-duration: 0.5s;
                 }
 
                 /* subList 내부 각 요소의 스타일 */
                 .subList>li {
                     line-height: 50px;
-                    background-color: #79c1ff;
+                    background-color: #2895F4;
                 }
 
                 /* subList 초기 상태 설정 */
@@ -91,15 +101,14 @@
                     overflow: hidden;
                 }
 
-                /* navbar hover 시 subList 펼치기 애니메이션 설정 */
-                .navbar>li:hover .subList {
+                .navbar:hover .subList {
                     height: 250px;
                     transition-duration: 1s;
                 }
 
-                /* subList 내부 링크 hover 시 색상 변경 */
-                .navbar>li>.subList a:hover {
-                    color: black;
+                /* subList 박스 색 변경 */
+                .navbar>li>.subList li:hover {
+                    background-color: #2895F4;
                 }
             </style>
         </head>
@@ -108,10 +117,9 @@
             <!-- 네비게이션 바 및 하위 메뉴 구조 -->
             <ul class="navbar">
                 <li>
-                    <a href="#">HOME</a>
-                    <!-- HOME 하위 메뉴 -->
+                    <a href="#">상품관리</a>
                     <ul class="subList">
-                        <li><a href="#">sub01</a></li>
+                        <li><a href="#">등록상품관리</a></li>
                         <li><a href="#">sub02</a></li>
                         <li><a href="#">sub03</a></li>
                         <li><a href="#">sub04</a></li>
@@ -119,32 +127,29 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">NEWS</a>
-                    <!-- NEWS 하위 메뉴 -->
+                    <a href="#">입출고등록</a>
                     <ul class="subList">
-                        <li><a href="#">sub01</a></li>
-                        <li><a href="#">sub02</a></li>
+                        <li><a href="#">입출고개별등록</a></li>
+                        <li><a href="#">입출고내역조회</a></li>
                         <li><a href="#">sub03</a></li>
                         <li><a href="#">sub04</a></li>
                         <li><a href="#">sub05</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">DROPDOWN</a>
-                    <!-- DROPDOWN 하위 메뉴 -->
+                    <a href="#">판매통계</a>
                     <ul class="subList">
-                        <li><a href="#">sub01</a></li>
-                        <li><a href="#">sub02</a></li>
-                        <li><a href="#">sub03</a></li>
+                        <li><a href="#">판매통계</a></li>
+                        <li><a href="#">일일통계</a></li>
+                        <li><a href="#">월별통계</a></li>
                         <li><a href="#">sub04</a></li>
                         <li><a href="#">sub05</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">NAVBAR</a>
-                    <!-- NAVBAR 하위 메뉴 -->
+                    <a href="#">블라블라</a>
                     <ul class="subList">
-                        <li><a href="#">sub01</a></li>
+                        <li><a href="#">블라블라</a></li>
                         <li><a href="#">sub02</a></li>
                         <li><a href="#">sub03</a></li>
                         <li><a href="#">sub04</a></li>
@@ -153,13 +158,12 @@
                 </li>
                 <li>
                     <a href="#">SC</a>
-                    <!-- SC 하위 메뉴 -->
                     <ul class="subList">
-                        <li><a href="#">sub01</a></li>
-                        <li><a href="#">sub02</a></li>
-                        <li><a href="#">sub03</a></li>
-                        <li><a href="#">sub04</a></li>
-                        <li><a href="#">sub05</a></li>
+                        <li><a href="#">수아</a></li>
+                        <li><a href="#">연지</a></li>
+                        <li><a href="#">동현</a></li>
+                        <li><a href="#">동운</a></li>
+                        <li><a href="#">상원</a></li>
                     </ul>
                 </li>
             </ul>
