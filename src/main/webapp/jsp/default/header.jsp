@@ -3,6 +3,8 @@
         <html>
 
         <head>
+            <link rel="icon" href="/image/sc.png">
+            <title>Stock City</title>
             <script>
                 // DOMContentLoaded 이벤트가 발생하면 실행되는 함수
                 document.addEventListener("DOMContentLoaded", function () {
