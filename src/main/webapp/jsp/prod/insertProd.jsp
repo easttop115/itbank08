@@ -7,7 +7,7 @@
       <meta charset="UTF-8">
       <title>상품 개별 등록</title>
 
-      <style>
+      <!-- <style>
         table {
           border-collapse: separate;
           border-spacing: 0;
@@ -86,8 +86,84 @@
         td:first-child {
           text-align: center;
         }
-      </style>
 
+        select {
+          text-align: left;
+          margin: 0 10px;
+        }
+      </style> -->
+      <style>
+        table {
+          border-collapse: separate;
+          border-spacing: 0;
+          width: 96%;
+          margin: auto;
+          overflow: hidden;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+        }
+
+        th,
+        td {
+          border: 1px solid rgb(168, 168, 168);
+          padding: 6px;
+          text-align: center;
+          border-radius: 0;
+        }
+
+        th {
+          background-color: #cadae7;
+          color: black;
+        }
+
+        /* ------ title ------ */
+        .inventory-title {
+          font-size: 18px;
+          font-weight: bold;
+          color: #2e363d;
+          text-align: left;
+          margin: 20px;
+        }
+
+        .white-bg {
+          background-color: white;
+          border-radius: 4px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+          width: calc(100% - 16px);
+          padding: 6px;
+          margin: 8px 0;
+          border: 1px solid rgb(168, 168, 168);
+          border-radius: 4px;
+          box-sizing: border-box;
+          margin: 0 10px;
+          /* 통일된 margin 값 추가 */
+        }
+
+        input[type="submit"] {
+          background-color: #cadae7;
+          color: black;
+          padding: 10px;
+          padding-left: 30px;
+          padding-right: 30px;
+          border: 2px rgb(168, 168, 168);
+          border-radius: 4px;
+          cursor: pointer;
+          margin: 10px 10px 10px 1360px;
+        }
+
+        input[type="submit"]:hover {
+          background-color: #2895F4;
+        }
+
+        td:first-child {
+          text-align: center;
+        }
+      </style>
 
 
     </head>
@@ -102,9 +178,91 @@
             <td><input type="text" name="prodName" required></td>
           </tr>
           <tr>
-            <th>상품코드</th>
-            <td><input type="text" name="prodNo" required></td>
+            <th>브랜드 코드</th>
+            <td><select id="brandCode" required>
+                <c:choose>
+                  <c:when test="${empty brandCodes}">
+                    <option value="nobrandCode">등록된 브랜드코드가 없습니다</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="brandCode" items="${brandCodes}">
+                      <option value="${brandCode}">${brandCode}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </select>
+            </td>
           </tr>
+          <tr>
+            <th>카테고리</th>
+            <td>
+              <select id="cateGroup" required>
+                <c:choose>
+                  <c:when test="${empty cateGroups}">
+                    <option value="nocateGroup">등록된 카테고리 그룹이 없습니다</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="cateGroup" items="${cateGroups}">
+                      <option value="${cateGroup}">${cateGroup}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </select>
+              <select id="cateCode" required>
+                <c:choose>
+                  <c:when test="${empty cateCodes}">
+                    <option value="nocateCode">등록된 카테고리 코드가 없습니다</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="cateCode" items="${cateCodes}">
+                      <option value="${cateCode}">${cateCode}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>색상</th>
+            <td><select id="color" required>
+                <c:choose>
+                  <c:when test="${empty colors}">
+                    <option value="nocolor">등록된 색상코드가 없습니다</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="color" items="${colors}">
+                      <option value="${color}">${color}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>사이즈</th>
+            <td><select id="size" required>
+                <option value="sizeS">S</option>
+                <option value="sizeM">M</option>
+                <option value="sizeL">L</option>
+                <option value="sizeXL">XL</option>
+            </td>
+          </tr>
+
+
+
+          <!-- <td colspan="3" class="first-table-content">
+            <select class="half-width">
+              <c:choose>
+                <c:when test="${empty colors}">
+                  <option value="noColor">등록된 색상이 없습니다</option>
+                </c:when>
+                <c:otherwise>
+                  <c:forEach var="color" items="${colors}">
+                    <option value="${color}">${color}</option>
+                  </c:forEach>
+                </c:otherwise>
+              </c:choose>
+            </select> -->
           <!-- <tr>
             <th>매장 지정</th>
             <td>
@@ -131,7 +289,7 @@
           </tr>
           <tr>
             <th>상세설명</th>
-            <td><textarea name="productDescription" rows="10" cols="100" required></textarea></td>
+            <td><textarea name="prodCon" rows="10" cols="100" required></textarea></td>
           </tr>
         </table>
         <input type="submit" value="등록">

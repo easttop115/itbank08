@@ -56,14 +56,14 @@
         .seacrch-button {
           background-color: #cadae7;
           color: black;
-          padding: 4px 8px;
+          padding: 4px 16px;
           border: 1px solid #e7e7e7;
           cursor: pointer;
           border-radius: 4px;
         }
 
         .first-table-content .half-width {
-          width: 24%;
+          width: 28%;
           height: 30px;
           text-align: left;
           margin-right: 8px;
@@ -105,6 +105,10 @@ height: 30px;
           background-color: white;
           color: black;
           width: 400px;
+        }
+
+        .no-data-row {
+          height: 400px;
         }
       </style>
 
@@ -178,14 +182,6 @@ height: 30px;
           </tr>
 
           <tr>
-            <td class="first-table-subject">상품코드</td>
-            <td colspan="3" class="first-table-content">
-              <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
-              <select id="searchDropdown" class="searchDropdown"></select>
-            </td>
-          </tr>
-
-          <tr>
             <td class="first-table-subject">상세검색</td>
             <td colspan="3" class="first-table-content">
               <select class="half-width">
@@ -224,6 +220,13 @@ height: 30px;
                   </c:otherwise>
                 </c:choose>
               </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="first-table-subject">상품코드</td>
+            <td colspan="3" class="first-table-content">
+              <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
+              <select id="searchDropdown" class="searchDropdown"></select>
               <button class="seacrch-button">검색</button>
             </td>
           </tr>
@@ -247,7 +250,7 @@ height: 30px;
           <!-- 데이터 유무 확인 -->
           <c:choose>
             <c:when test="${empty DataList}">
-              <tr class="second-table-content">
+              <tr class="no-data-row">
                 <td colspan="8">조회된 정보가 없습니다.</td>
               </tr>
             </c:when>

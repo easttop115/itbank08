@@ -121,11 +121,10 @@
                 <li>
                     <a href="#">상품관리</a>
                     <ul class="subList">
-                        <li><a href="#">등록상품관리</a></li>
-                        <li><a href="#">sub02</a></li>
-                        <li><a href="#">sub03</a></li>
-                        <li><a href="#">sub04</a></li>
-                        <li><a href="#">sub05</a></li>
+                        <li><a href="/insertProd">상품등록</a></li>
+                        <li><a href="/prodManage">등록상품관리</a></li>
+                        <li><a href="/stockStatus">매장별 재고 현황</a></li>
+
                     </ul>
                 </li>
                 <li>

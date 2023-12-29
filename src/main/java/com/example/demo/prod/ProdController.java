@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ProdController {
 
-    @RequestMapping("stockManage")
+    @RequestMapping("stockStatus")
     public String stockManage() {
-        return "prod/stockManage";
+        return "prod/stockStatus";
     }
 
     @RequestMapping("prodManage")

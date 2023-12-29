@@ -40,7 +40,7 @@
           font-size: 18px;
           font-weight: bold;
           color: #2e363d;
-          text-align: left;
+          text-align: center;
           margin: 20px auto;
         }
 
@@ -51,7 +51,7 @@
           justify-content: center;
           align-items: center;
           margin-bottom: 20px;
-          border: 2px solid rgb(168, 168, 168);
+          border: 2px solid #2895F4;
           border-radius: 8px;
           padding: 20px;
           /* 상하좌우 내부 여백 동일하게 조정 */
@@ -73,9 +73,16 @@
           width: 500px;
         }
 
+        .search-button {
+          padding: 0 10px;
+          border: #626161;
+          border-radius: 4px;
+        }
+
         /* 등록된 상품 조회 리스트 */
         div.left .prodList-table {
           border: 1px solid rgb(168, 168, 168);
+          border-radius: 20px;
           border-collapse: collapse;
           width: 96%;
           margin: 10px auto;
@@ -89,8 +96,16 @@
           height: 10px;
         }
 
+        div.left .prodList-table tr:first-child {
+          background-color: #cadae7;
+          border: 1px solid #626161;
+          border-radius: 4px;
+        }
+
         div.left .prodList-table .second-table-content {
           height: 400px;
+          overflow: auto;
+          /* 스크롤바 추가 */
         }
 
         .prodNo {
@@ -115,22 +130,35 @@
 
 
         div.right .container {
-          margin: auto;
-          border: 2px solid rgb(168, 168, 168);
-          border-radius: 8px;
+          margin: 12% auto;
+          width: 90%;
+          border: 2px solid #2895F4;
+          border-radius: 20px;
+          background-color: white;
         }
 
         /* 새로운 테이블 스타일 */
         div.right .container .newTable {
           width: 90%;
-          margin: 10px 16px auto 4px;
+          margin: 4px auto 20px auto;
+          height: 60%;
         }
 
         div.right .container .newTable td {
           border: 1px solid black;
-          padding: 4px;
           text-align: center;
-          height: 10px;
+        }
+
+        div.right .container .newTable td:first-child {
+          background-color: #cadae7;
+        }
+
+        div.right .container .newTable td:second-child {
+          background-color: white;
+        }
+
+        div.right .container .newTable td:second-child .prodContent {
+          width: 96%;
         }
 
         /* 미디어 쿼리 추가 */
@@ -184,7 +212,7 @@
                   <tr>
                     <td>
                       <input type="text" id="txtProductName" placeholder="상품 검색어 입력" class="txtProductName">
-                      <button onclick="searchProducts()">검색</button>
+                      <button class="search-button" onclick="searchProducts()">검색</button>
                     </td>
                   </tr>
                 </tbody>
@@ -192,79 +220,71 @@
             </div>
           </div>
           <div>
-            <table class="prodList-table">
-              <tr>
-                <td class="prodNo">No</td>
-                <td class="prodCode">상품코드</td>
-                <td class="prodName">상품명</td>
-                <td class="totalQuan">재고량</td>
-                <td class="prodManage">상품관리</td>
-              </tr>
-              <c:choose>
-                <c:when test="${empty DataList}">
-                  <tr class="second-table-content">
-                    <td colspan="5">조회된 정보가 없습니다.</td>
-                  </tr>
-                </c:when>
-                <c:otherwise>
-                  <c:forEach var="item" items="${DataList}">
-                    <tr>
-                      <td class="prodNo">No</td>
-                      <td class="prodCode">상품코드</td>
-                      <td class="prodName">상품명</td>
-                      <td class="totalQuan">재고량</td>
-                      <td class="prodManage">상품관리</td>
+            <form action="" method="">
+              <table class="prodList-table">
+                <tr>
+                  <td class="prodNo">No</td>
+                  <td class="prodCode">상품코드</td>
+                  <td class="prodName">상품명</td>
+                  <td class="totalQuan">재고량</td>
+                  <td class="prodManage">상품관리</td>
+                </tr>
+                <c:choose>
+                  <c:when test="${empty DataList}">
+                    <tr class="second-table-content">
+                      <td colspan="5">조회된 정보가 없습니다.</td>
                     </tr>
-                  </c:forEach>
-                </c:otherwise>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="item" items="${DataList}">
+                      <tr>
+                        <td class="prodNo">No</td>
+                        <td class="prodCode">상품코드</td>
+                        <td class="prodName">상품명</td>
+                        <td class="totalQuan">재고량</td>
+                        <td class="prodManage">상품관리</td>
+                      </tr>
+                    </c:forEach>
+                  </c:otherwise>
 
-              </c:choose>
-              </tr>
-            </table>
+                </c:choose>
+                </tr>
+              </table>
           </div>
         </div>
 
         <div class="right">
+
           <div class="container">
             <h2 class="inventory-title2">{상품코드}</h2>
             <table class="newTable">
               <tr>
-                <td class="prodName">상품명</td>
-                <td class="prodName">{상품명}</td>
+                <td>상품명</td>
+                <td>{상품명}</td>
               </tr>
               <tr>
-                <td class="prod">incomePrice</td>
-                <td class="prodName">{입고가격}</td>
+                <td>카테고리</td>
+                <td>{cateGroup}/{cateCode}</td>
               </tr>
               <tr>
-                <td class="prod">sellPrice</td>
-                <td class="prodName">{판매가격}</td>
+                <td>입고가격</td>
+                <td>{입고가격}</td>
               </tr>
               <tr>
-                <td class="prod">prod</td>
-                <td class="prodName">{판매가격}</td>
+                <td>판매가격</td>
+                <td>{판매가격}</td>
               </tr>
-              <c:choose>
-                <c:when test="{empty DataList}">
-                  <tr class="second-table-content">
-                    <td colspan="5">조회된 정보가 없습니다.</td>
-                  </tr>
-                </c:when>
-                <c:otherwise>
-                  <c:forEach var="item" items="{DataList}">
-                    <tr>
-                      <td class="prodNo">No</td>
-                      <td class="prodCode">상품코드</td>
-                      <td class="prodName">상품명</td>
-                      <td class="totalQuan">재고량</td>
-                      <td class="prodManage">상품관리</td>
-                    </tr>
-                  </c:forEach>
-                </c:otherwise>
-
-              </c:choose>
+              <tr>
+                <td>prod</td>
+                <td>{판매가격}</td>
+              </tr>
+              <tr>
+                <td>비고</td>
+                <td><textarea name="prodContent" class="prodContent" rows="15"></textarea></td>
               </tr>
             </table>
+            <input type="submit" value="등록">
+            <input type="submit" value="상품 삭제">
           </div>
         </div>
       </div>
