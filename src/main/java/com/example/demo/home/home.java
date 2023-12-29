@@ -25,7 +25,4 @@ public class home {
         return "/default/main";
     }
 
-    @RequestMapping("/stockManage")
-    public void stockManage() {
-    }
 }

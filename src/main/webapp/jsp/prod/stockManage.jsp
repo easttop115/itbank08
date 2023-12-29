@@ -16,7 +16,7 @@
         }
 
         td {
-          border: 1px solid black;
+          border: 1px solid rgb(168, 168, 168);
           padding: 4px;
           text-align: center;
         }
@@ -30,7 +30,7 @@
         .inventory-title {
           font-size: 18px;
           font-weight: bold;
-          color: #2895F4;
+          color: #2e363d;
           text-align: left;
           margin: 20px;
         }
@@ -38,8 +38,8 @@
         /* ------  표1 ----- */
         .first-table-subject {
           width: 10%;
-          background-color: #2895F4;
-          color: white;
+          background-color: #cadae7;
+          color: blac;
           text-align: center;
         }
 
@@ -54,16 +54,16 @@
         }
 
         .seacrch-button {
-          background-color: #2895F4;
-          color: white;
+          background-color: #cadae7;
+          color: black;
           padding: 4px 8px;
-          border: 1px solid #D3D3D3;
+          border: 1px solid #e7e7e7;
           cursor: pointer;
           border-radius: 4px;
         }
 
         .first-table-content .half-width {
-          width: 40%;
+          width: 24%;
           height: 30px;
           text-align: left;
           margin-right: 8px;
@@ -90,20 +90,21 @@ height: 30px;
         /* ------  표2 ----- */
         /* 표2 헤더 */
         .second-table-header {
-          background-color: #2895F4;
-          color: white;
+          background-color: #cadae7;
+          color: black;
         }
 
         /* 첫 번째 행 */
         .second-table-content tr:first-child {
-          background-color: #2895F4;
-          color: white;
+          background-color: #cadae7;
+          color: black;
         }
 
         /* 두 번째 행 */
         .second-table-content tr:nth-child(2) {
           background-color: white;
           color: black;
+          width: 400px;
         }
       </style>
 
@@ -158,15 +159,22 @@ height: 30px;
             <td class="first-table-subject">매장</td>
             <td class="first-table-content">
               <select>
-                <c:forEach var="storeName" items="${storeNames}">
-                  <option value="${storeName}">${storeName}</option>
-                </c:forEach>
+                <c:choose>
+                  <c:when test="${empty storeNames}">
+                    <option value="noStoreName">등록된 매장이 없습니다.</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="storeName" items="${storeNames}">
+                      <option value="${storeName}">${storeName}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
               </select>
             </td>
-            <td class="first-table-subject">등록일</td>
+            <!-- <td class="first-table-subject">등록일</td>
             <td class="first-table-content">
               <select id="dateSelect"></select>
-            </td>
+            </td> -->
           </tr>
 
           <tr>
@@ -175,21 +183,46 @@ height: 30px;
               <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
               <select id="searchDropdown" class="searchDropdown"></select>
             </td>
-            </td>
           </tr>
 
           <tr>
             <td class="first-table-subject">상세검색</td>
             <td colspan="3" class="first-table-content">
               <select class="half-width">
-                <c:forEach var="color" items="${colors}">
-                  <option value="${color}">${color}</option>
-                </c:forEach>
+                <c:choose>
+                  <c:when test="${empty colors}">
+                    <option value="noColor">등록된 색상이 없습니다</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="color" items="${colors}">
+                      <option value="${color}">${color}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
               </select>
               <select class="half-width">
-                <c:forEach var="cate" items="${cates}">
-                  <option value="${cate}">${cate}</option>
-                </c:forEach>
+                <c:choose>
+                  <c:when test="${empty cateGroups}">
+                    <option value="noCate">등록된 카테고리 그룹이 없습니다.</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="cateGroup" items="${cateGroups}">
+                      <option value="${cateGroups}">${cateGroup}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
+              </select>
+              <select class="half-width">
+                <c:choose>
+                  <c:when test="${empty cateCodes}">
+                    <option value="noCate">등록된 카테고리 코드가 없습니다.</option>
+                  </c:when>
+                  <c:otherwise>
+                    <c:forEach var="cateCode" items="${cateCodes}">
+                      <option value="${cateCode}">${catecode}</option>
+                    </c:forEach>
+                  </c:otherwise>
+                </c:choose>
               </select>
               <button class="seacrch-button">검색</button>
             </td>
@@ -214,12 +247,10 @@ height: 30px;
           <!-- 데이터 유무 확인 -->
           <c:choose>
             <c:when test="${empty DataList}">
-              <!-- 데이터 없을 때 -->
               <tr class="second-table-content">
                 <td colspan="8">조회된 정보가 없습니다.</td>
               </tr>
             </c:when>
-            <!-- 데이터 있을 때 -->
             <c:otherwise>
               <c:forEach var="item" items="${DataList}">
                 <tr class="second-table-content">
@@ -235,9 +266,9 @@ height: 30px;
               </c:forEach>
             </c:otherwise>
           </c:choose>
+
         </tbody>
       </table>
-
     </body>
 
     </html>

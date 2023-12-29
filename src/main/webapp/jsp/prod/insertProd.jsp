@@ -6,50 +6,7 @@
     <head>
       <meta charset="UTF-8">
       <title>상품 개별 등록</title>
-      <!-- <style>
-        table {
-          border-collapse: collapse;
-          width: calc(100% - 40px);
-          margin: auto;
-          border-spacing: 0;
-        }
 
-        th,
-        td {
-          border: 1px solid black;
-          padding: 8px;
-          text-align: left;
-        }
-
-        th {
-          background-color: #D3D3D3;
-          color: white;
-        }
-
-        /* ------ title ------ */
-        .inventory-title {
-          font-size: 18px;
-          font-weight: bold;
-          color: #2895F4;
-          text-align: left;
-          margin: 20px;
-        }
-
-        .blue-bg {
-          background-color: #D3D3D3;
-          color: white;
-          text-align: left;
-          padding: 10px;
-        }
-
-        .white-bg {
-          background-color: white;
-        }
-
-        .align-left {
-          text-align: left;
-        }
-      </style> -->
       <style>
         table {
           border-collapse: separate;
@@ -68,25 +25,25 @@
 
         th,
         td {
-          border: 1px solid #000;
+          border: 1px solid rgb(168, 168, 168);
           /* 내부 셀 테두리 색상 검은색으로 변경 */
           padding: 6px;
           /* 패딩 줄임 */
-          text-align: left;
+          text-align: center;
           border-radius: 0;
           /* 내부 셀의 모서리는 직각으로 유지 */
         }
 
         th {
-          background-color: #D3D3D3;
-          color: white;
+          background-color: #cadae7;
+          color: black;
         }
 
         /* ------ title ------ */
         .inventory-title {
           font-size: 18px;
           font-weight: bold;
-          color: #2895F4;
+          color: #2e363d;
           text-align: left;
           margin: 20px;
         }
@@ -104,22 +61,25 @@
           padding: 6px;
           /* 패딩 줄임 */
           margin: 8px 0;
-          border: 1px solid black;
+          border: 1px solid rgb(168, 168, 168);
           border-radius: 4px;
           box-sizing: border-box;
         }
 
         input[type="submit"] {
-          background-color: #1769AA;
-          color: white;
+          background-color: #cadae7;
+          color: black;
           padding: 10px;
-          border: none;
+          padding-left: 30px;
+          padding-right: 30px;
+          border: 2px rgb(168, 168, 168);
           border-radius: 4px;
           cursor: pointer;
+          margin: 10px 10px 10px 1360px;
         }
 
         input[type="submit"]:hover {
-          background-color: #1769AA;
+          background-color: #2895F4;
         }
 
         /* Center align text in the first column */
