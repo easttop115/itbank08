@@ -5,7 +5,7 @@ FROM openjdk:17-alpine AS builder
 
 # Install required dependencies and perform build steps
 RUN mkdir -p /opt && \
-    apk --no-cache add openjdk${JAVA_VERSION} unzip bash curl && \
+    apk --no-cache add openjdk17 unzip bash curl && \
     curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip && \
     unzip -d /opt /tmp/gradle.zip && \
     rm /tmp/gradle.zip && \
