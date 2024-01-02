@@ -1,9 +1,3 @@
-# 기반 이미지 설정
-FROM alpine:3.15
-
-# 도커 설치
-RUN apk --no-cache add docker
-
 # 환경 변수 설정
 ENV GRADLE_VERSION=8.5 \
     JAVA_VERSION=17
@@ -29,8 +23,8 @@ ENV PATH=${GRADLE_HOME}/bin:$PATH
 WORKDIR /app
 
 # 이미지 빌드 스크립트
-COPY . /app
-RUN docker build -t 477159410287.dkr.ecr.ap-northeast-2.amazonaws.com/itbank08 .
+# COPY . /app
+# RUN docker build -t 477159410287.dkr.ecr.ap-northeast-2.amazonaws.com/itbank08 .
 
 # 사용자 권한 변경
 USER root
