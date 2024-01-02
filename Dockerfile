@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile
 
 # Stage 1: Build
-FROM some-base-image AS builder
+FROM openjdk:17-alpine AS builder
 
 # Install required dependencies
 RUN mkdir -p /opt && \
