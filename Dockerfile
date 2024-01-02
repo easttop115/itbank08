@@ -7,7 +7,7 @@ ENV GRADLE_VERSION=8.5 \
 
 # 필수 도구 설치
 RUN apk --no-cache add \
-        openjdk${JAVA_VERSION} \
+        openjdk$JAVA_VERSION \
         unzip \
         bash \
         curl
@@ -25,13 +25,3 @@ ENV PATH=${GRADLE_HOME}/bin:$PATH
 # 작업 디렉토리 생성
 RUN mkdir -p /app
 WORKDIR /app
-
-# 이미지 빌드 명령어
-docker build -t gl.itbank08.link:8001/das/itbank08 .
-
-# 사용자 권한 변경
-USER root
-
-# 필요한 작업 수행 (Runner 등록 및 실행 등)
-
-# 최종적으로 서버에 이미 설치된 GitLab Runner를 활용하여 작업을 진행합니다.
