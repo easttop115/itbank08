@@ -14,9 +14,11 @@ RUN apk --no-cache add \
 
 # Gradle 설치
 RUN mkdir -p /opt && \
-    curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip && \
+    curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip || \
+    (echo "Failed to download Gradle." && exit 1) && \
     unzip -d /opt /tmp/gradle.zip && \
     rm /tmp/gradle.zip
+
 
 # Gradle 실행 환경 변수 설정
 ENV GRADLE_HOME=/opt/gradle-${GRADLE_VERSION}
