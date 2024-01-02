@@ -1,6 +1,9 @@
 # 기반 이미지 설정
 FROM alpine:3.15
 
+# 도커 설치
+RUN apk --no-cache add docker
+
 # 환경 변수 설정
 ENV GRADLE_VERSION=8.5 \
     JAVA_VERSION=17
