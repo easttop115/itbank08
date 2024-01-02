@@ -113,9 +113,9 @@
                     display: flex;
                     justify-content: space-between;
                     padding: 10px;
-                    /* 버튼과 테두리 간의 간격 조절 */
-                    margin-right: 10px;
-                    margin-left: 1484px;
+                    margin-left: 93%;
+                    margin-right: 0%;
+                    /* 수정된 부분: %로 변경 */
                 }
 
                 .button-box button {
@@ -134,10 +134,10 @@
 
                 }
 
-                /* 추가된 스타일 */
                 .table-container {
-                    overflow-x: auto;
+
                     margin-top: 20px;
+
                 }
 
                 .instruction-list {
@@ -147,6 +147,8 @@
                     display: flex;
                     flex-direction: column;
                     width: 100%;
+                    white-space: nowrap;
+                    /* 텍스트 줄 바꿈 방지 */
                 }
 
                 .instruction-item header {
@@ -155,6 +157,7 @@
                     justify-content: space-between;
                     padding: 8px;
                     font-weight: bold;
+
                 }
 
                 .instruction-item {
@@ -167,6 +170,8 @@
                     /* 배경 색상 변경 */
                     border: 1px solid #D3D3D3;
                     /* 테두리 추가 */
+                    white-space: nowrap;
+                    /* 텍스트 줄 바꿈 방지 */
                 }
 
                 /* 추가된 스타일 */
@@ -179,6 +184,7 @@
                     /* 왼쪽 오른쪽으로 8px 간격 추가 */
                     box-sizing: border-box;
                     /* 패딩을 포함한 전체 크기 유지 */
+
                 }
 
                 .instruction-item div:last-child {
@@ -189,18 +195,24 @@
                 .instruction-title {
                     flex: 1;
                     font-weight: bold;
+                    text-align: center;
+                    /* 텍스트를 가운데 정렬 */
+                    color: #fff;
+                    /* 흰색으로 변경 */
                 }
 
                 .vi {
                     flex: 1;
                     text-align: center;
+                    margin-top: 10px;
+                    /* 아래에 간격 추가 */
                 }
             </style>
         </head>
 
         <body>
 
-            <h1>R/T지시 등록 페이지</h1>
+            <h1>R/T지시등록</h1>
             <div class="button-box">
                 <button>조회</button>
                 <button>저장</button>
@@ -240,10 +252,16 @@
 
                 <div class="section-three">
                     <label class="shop">매장</label>
-                    <!-- 매장 관련 코드를 추가하세요 -->
+                    <div class="table-row">
+                        <div class="table-cell">
+                            <select name="shop" id="shopSelect">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
-
 
             <div class="table-container">
                 <ul class="instruction-list">
@@ -264,8 +282,8 @@
                     </li>
                     <c:choose>
                         <c:when test="${empty instructions}">
-                            <li class="instruction-item">
-                                <div class="instruction-title" colspan="13">조회된 정보가 없습니다.</div>
+                            <li class="instruction-item" style="background-color: #fff;">
+                                <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div>
                             </li>
                         </c:when>
                         <c:otherwise>
@@ -342,6 +360,15 @@
 
                     return wrapper;
                 }
+                document.addEventListener('DOMContentLoaded', function () {   //매장 스크롤바ㅊ
+                    const shopSelect = document.getElementById('shopSelect');
+
+                    shopSelect.addEventListener('change', function () {
+                        const selectedShop = shopSelect.value;
+                        console.log('Selected Shop:', selectedShop);
+                        // 여기서 선택된 매장 값을 서버로 전송하도록 구현할 수 있습니다.
+                    });
+                });
             </script>
 
         </body>
