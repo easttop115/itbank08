@@ -2,7 +2,7 @@
 FROM alpine:3.15
 
 # 환경 변수 설정
-ENV GRADLE_VERSION=8.5 \
+ENV GRADLE_VERSION=7.3.3 \
     JAVA_VERSION=17
 
 # 필수 도구 설치
@@ -15,7 +15,7 @@ RUN apk --no-cache add \
 # Gradle 설치
 RUN mkdir -p /opt && \
     curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip && \
-    unzip /tmp/gradle.zip -d /opt && \
+    unzip -d /opt /tmp/gradle.zip && \
     rm /tmp/gradle.zip
 
 # Gradle 실행 환경 변수 설정
