@@ -5,9 +5,9 @@ FROM openjdk:17-alpine AS builder
 
 # Install required dependencies
 RUN mkdir -p /opt && \
-    apk --no-cache add openjdk${JAVA_VERSION} unzip bash curl
+    apk --no-cache add openjdk$JAVA_VERSION unzip bash curl
 
-# Install Gradle
+# Gradle 설치
 RUN mkdir -p /opt && \
     curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip || \
         (echo "Gradle 배포물을 다운로드하는 데 실패했습니다"; exit 1) && \
