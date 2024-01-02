@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class RtController {
     @Autowired
     private RtService service;
-    @Autowired
-    private HttpSession session;
+    // @Autowired
+    // private HttpSession session;
 
     @RequestMapping("rt/instructionform")
     public String instructionform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
