@@ -27,7 +27,7 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # 이미지 빌드 명령어
-docker build -t gl.itbank08.link:8001/das/itbank08 .
+docker build -t 477159410287.dkr.ecr.ap-northeast-2.amazonaws.com/itbank08 -f Dockerfile .
 
 # 사용자 권한 변경
 USER root
