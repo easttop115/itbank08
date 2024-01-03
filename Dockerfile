@@ -1,5 +1,5 @@
 # 기반이 되는 경량화된 이미지 선택 (Alpine Linux에 OpenJDK 17 버전)
-FROM alpine3.15
+FROM alpine:latest
 
 # 작업 디렉토리 설정
 WORKDIR /app
