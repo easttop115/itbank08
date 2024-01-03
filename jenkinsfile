@@ -1,19 +1,19 @@
 pipeline {
-    agent any
-
-    environment {
+   agent any
+   
+   environment {
         PATH = "$PATH:/usr/bin" // Docker 및 AWS CLI가 설치된 경로에 따라 수정
         ECR_REPO_URI = '477159410287.dkr.ecr.ap-northeast-2.amazonaws.com/itbank08'
-        // AWS_ACCESS_ID = credentials('aws-access-key-id')
-        // AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        //AWS_ACCESS_ID = credentials('aws-access-key-id')
+        //AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key') 
     }
-
+   
     stages {
         stage('Git Clone') {
             steps {
                 script {
                     try {
-                        git url: "https://github.com/easttop115/itbank08.git", branch: "main", credentialsId: 'github_access_token', gitTool: 'Default'
+                        git url: "https://github.com/easttop115/itbank08.git", branch: "main", credentialsId: 'github_access_token'
                         env.cloneResult=true
                     } catch (error) {
                         print(error)
@@ -82,3 +82,4 @@ pipeline {
         }
     }
 }
+
