@@ -8,9 +8,8 @@ WORKDIR /app
 COPY . /app
 
 # 필요한 패키지 설치 (Git 및 기타 도구)
-RUN apk-get update && \
-    apk add --no-cache git && \
-    rm -rf /var/cache/apk/* 
+RUN apt-get update && apt-get install -y git && rm -rf /var/cache/apt/*
+
 
 # Gradle 설치
 RUN apk add --no-cache curl && \
