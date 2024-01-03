@@ -1,4 +1,4 @@
-# 기반이 되는 경량화된 이미지 선택 (Alpine Linux에 OpenJDK 17 버전)
+# 기반이 되는 경량화된 이미지 선택 
 FROM ubuntu:latest
 
 # 작업 디렉토리 설정
@@ -14,10 +14,8 @@ RUN apt-get update && \
 
 # SDKMAN 설치
 RUN curl -s "https://get.sdkman.io" | bash && \
-    . "/root/.sdkman/bin/sdkman-init.sh"
-
-# Gradle 설치
-RUN sdk install gradle
+    . "/root/.sdkman/bin/sdkman-init.sh"  && \
+    sdk install gradle
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
 RUN gradle --version
