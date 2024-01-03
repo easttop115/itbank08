@@ -1,5 +1,5 @@
 # 기반이 되는 경량화된 이미지 선택 (Alpine Linux에 OpenJDK 17 버전)
-FROM adoptopenjdk:17-jdk-hotspot-alpine3.15
+FROM alpine3.15
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -10,11 +10,7 @@ COPY . /app
 # 필요한 패키지 설치 (Git 및 기타 도구)
 RUN apk update && \
     apk add --no-cache git && \
-    rm -rf /var/cache/apk/*
-
-# Git 설정 (옵션: 이 설정은 Git 사용 시 필요한 경우에만 추가)
-RUN git config --global user.email "you@example.com" && \
-    git config --global user.name "Your Name"
+    rm -rf /var/cache/apk/* 
 
 # Gradle 설치
 RUN apk add --no-cache curl && \
