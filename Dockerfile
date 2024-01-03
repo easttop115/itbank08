@@ -16,7 +16,7 @@ RUN apt-get update && \
 # RUN curl -s "https://get.sdkman.io" | /bin/sh && \
 #     . "/root/.sdkman/bin/sdkman-init.sh" && \
 #     sdk install gradle
-docker build -t  itbank08.
+RUN docker build -t itbank08 .
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
 RUN gradle --version
