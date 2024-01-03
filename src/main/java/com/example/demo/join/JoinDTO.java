@@ -13,7 +13,9 @@ CREATE TABLE user (
     businessNo VARCHAR(20),
     email VARCHAR(40),
     tel VARCHAR(20),
-    regDate VARCHAR(20)
+    regDate VARCHAR(20),
+    registStatus VARCHAR(20),
+    adAccount VARCHAR(20)
 );
 */
 @Getter
@@ -29,5 +31,6 @@ public class JoinDTO {
     private String email;
     private String tel;
     private String regDate;
-
+    private String registStatus;
+    private String adAccount;
 }

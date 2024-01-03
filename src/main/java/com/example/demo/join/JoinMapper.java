@@ -9,4 +9,10 @@ public interface JoinMapper {
 
     JoinDTO findJoin(String id);
 
+    JoinDTO findBN(String businessNo);
+
+    JoinDTO findEmail(String email);
+
+    JoinDTO findTel(String tel);
+
 }

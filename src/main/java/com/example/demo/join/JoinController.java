@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo.mail.MailContents;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +19,8 @@ public class JoinController {
     private HttpSession session;
     @Autowired
     private JoinService service;
+    @Autowired
+    private MailContents mailContents;
 
     @RequestMapping("/join/regist")
     public String regist() {
@@ -24,11 +29,12 @@ public class JoinController {
     }
 
     @PostMapping("/registProc")
-    public String registProc(JoinDTO joins, Model model) {
+    public String registProc(@RequestParam(name = "email") String email, JoinDTO joins, Model model) throws Exception {
         String confirm = service.registProc(joins);
 
         if (confirm.equals("success")) {
-            return "redirect:/join/login";
+            mailContents.sendSimpleMessage(email, joins); // 입력받은 email 값을 매개 변수로 메일 전송
+            return "redirect:/";
         }
         model.addAttribute("msg", confirm);
         return "/join/regist";

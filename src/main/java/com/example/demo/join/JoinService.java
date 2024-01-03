@@ -35,6 +35,8 @@ public class JoinService {
             return "이메일을 입력해주세요.";
         } else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
             return "전화번호를 입력해주세요.";
+        } else if (joins.getAdAccount() == null || joins.getAdAccount().trim().isEmpty()) {
+            return "예상 지점 수를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-zA-Z0-9]{4,20}$")) {
             return "아이디는 영문, 숫자, 4~20자 입력 가능합니다.";
         } else if (!joins.getPw().matches("^[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
@@ -46,19 +48,19 @@ public class JoinService {
             return "존재하는 아이디입니다.";
         }
 
-        JoinDTO checkBusinessNo = mapper.findJoin(joins.getId());
+        JoinDTO checkBusinessNo = mapper.findBN(joins.getBusinessNo());
         if (checkBusinessNo != null) {
             return "존재하는 사업자등록번호입니다.";
         }
 
-        JoinDTO checkTel = mapper.findJoin(joins.getTel());
-        if (checkTel != null) {
-            return "존재하는 전화번호입니다.";
-        }
-
-        JoinDTO checkEmail = mapper.findJoin(joins.getEmail());
+        JoinDTO checkEmail = mapper.findEmail(joins.getEmail());
         if (checkEmail != null) {
             return "존재하는 이메일입니다.";
+        }
+
+        JoinDTO checkTel = mapper.findTel(joins.getTel());
+        if (checkTel != null) {
+            return "존재하는 전화번호입니다.";
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

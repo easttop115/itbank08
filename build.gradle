@@ -43,6 +43,9 @@ dependencies {
 	// Dbconfig.java 의 bean 새로고침용도
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter
 	implementation 'org.springframework.boot:spring-boot-starter'
+	// 이메일 의존성
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.2.1'
 
 }
 
