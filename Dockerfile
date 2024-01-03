@@ -8,14 +8,16 @@ WORKDIR /app
 COPY . /app
 
 # 필요한 패키지 설치 (Git 및 기타 도구)
-RUN apt-get update && apt-get install -y git && rm -rf /var/cache/apt/*
+RUN apt-get update && \
+    apt-get install -y git unzip zip curl sed && \
+    rm -rf /var/cache/apt/*
 
+# SDKMAN 설치
+RUN curl -s "https://get.sdkman.io" | bash && \
+    . "/root/.sdkman/bin/sdkman-init.sh"
 
 # Gradle 설치
-RUN apt-get update && apt-get install -y curl unzip zip && \
-    curl -s "https://get.sdkman.io" | bash && \
-    source "/root/.sdkman/bin/sdkman-init.sh" && \
-    sdk install gradle
+RUN sdk install gradle
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
 RUN gradle --version
