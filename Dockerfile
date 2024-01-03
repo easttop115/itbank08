@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/cache/apt/*
 
 
 # Gradle 설치
-RUN apk add --no-cache curl && \
+RUN apt-get update && apt-get install -y curl && \
     curl -s "https://get.sdkman.io" | bash && \
     source "/root/.sdkman/bin/sdkman-init.sh" && \
     sdk install gradle
