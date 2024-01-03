@@ -13,8 +13,8 @@ RUN apt-get update && \
     rm -rf /var/cache/apt/*
 
 # SDKMAN 설치
-RUN curl -s "https://get.sdkman.io" | bash && \
-    . "/root/.sdkman/bin/sdkman-init.sh"  && \
+RUN curl -s "https://get.sdkman.io" | /bin/sh && \
+    . "/root/.sdkman/bin/sdkman-init.sh" && \
     sdk install gradle
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
