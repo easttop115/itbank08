@@ -1,5 +1,5 @@
 # 기반이 되는 경량화된 이미지 선택 (Alpine Linux에 OpenJDK 17 버전)
-FROM alpine:latest
+FROM ubuntu:latest
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # 필요한 패키지 설치 (Git 및 기타 도구)
-RUN apk update && \
+RUN apk-get update && \
     apk add --no-cache git && \
     rm -rf /var/cache/apk/* 
 
