@@ -67,8 +67,6 @@ public class JoinService {
         String secretPw = encoder.encode(joins.getPw());
         joins.setPw(secretPw);
 
-        System.out.println(secretPw.length());
-
         int result = mapper.registProc(joins);
         if (result <= 0)
             return "회원가입 실패. 다시 시도해주세요.";

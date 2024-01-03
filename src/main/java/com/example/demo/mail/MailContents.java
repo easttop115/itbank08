@@ -5,9 +5,11 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.join.JoinDTO;
+import com.example.demo.join.JoinMapper;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -19,12 +21,15 @@ public class MailContents implements IMailService {
 
 	@Autowired
 	JavaMailSender emailSender;
+	@Autowired
+	JoinMapper mapper;
 
 	// 메일 내용 작성
 	@Override
 	public MimeMessage creatMessage(String to, JoinDTO joins) throws MessagingException, UnsupportedEncodingException {
 
 		int count = Integer.parseInt(joins.getAdAccount());
+		String mainId = joins.getId();
 
 		// 각각의 서브 계정에 대한 논리 추가
 		for (int i = 1; i <= count; i++) {
@@ -57,9 +62,16 @@ public class MailContents implements IMailService {
 
 			System.out.println("생성된 subAccountId: " + subAccountId);
 
-			// send 메서드 호출 전에 메시지를 생성하는 것이 중요합니다.
-			sendSingleMessage(to, message);
+			sendSingleMessage(to, message); // send 메서드 호출 전에 메시지를 생성하는 것이 중요
 
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			String secretPw = encoder.encode(ePw);
+			joins.setId(subAccountId);
+			joins.setPw(secretPw);
+
+			mapper.registProc(joins);
+
+			joins.setId(mainId); // 초기화 작업 : 초기화 안하면 id_01_02 이렇게 숫자가 뒤로 붙음
 		}
 		return null;
 	}
