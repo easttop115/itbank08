@@ -211,6 +211,7 @@
         </head>
 
         <body>
+            <c:import url="/header" />
 
             <h1>R/T지시등록</h1>
             <div class="button-box">

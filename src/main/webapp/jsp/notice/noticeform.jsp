@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
     <!DOCTYPE html>
     <html lang="ko">
 
@@ -14,119 +15,288 @@
           padding: 0;
         }
 
+        section.notice {
+          padding: 80px 0;
+        }
 
-        .notice-item {
-          display: flex;
-          align-items: center;
+        .page-title {
+          margin-bottom: 60px;
+        }
+
+        .page-title h1 {
+          font-size: 28px;
+          color: #333333;
+          font-weight: 400;
+          text-align: center;
+        }
+
+        #notice-search .search-window {
+          padding: 15px 0;
+          background-color: #f9f7f9;
+        }
+
+        #notice-search .search-window .search-wrap {
+          position: relative;
+          /* padding-right: 124px; */
+          margin: 0 auto;
+          width: 80%;
+          max-width: 564px;
+        }
+
+        #notice-search .search-window .search-wrap input {
           height: 40px;
-          border-bottom: 1px solid #ddd;
-
+          width: 100%;
+          font-size: 14px;
+          padding: 7px 14px;
+          border: 1px solid #ccc;
         }
 
-        .notice-item.header>div {
+        #notice-search .search-window .search-wrap input:focus {
+          border-color: #333;
+          outline: 0;
+          border-width: 1px;
+        }
+
+        #notice-search .search-window .search-wrap .btn {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 108px;
+          padding: 0;
+          font-size: 16px;
+          background-color: #2895F4;
+        }
+
+        .notice-table {
+          font-size: 13px;
+          width: 100%;
+          border-top: 1px solid #ccc;
+          border-bottom: 1px solid #ccc;
+        }
+
+        .notice-table a {
+          color: #333;
+          display: inline-block;
+          line-height: 1.4;
+          word-break: break-all;
+          vertical-align: middle;
+        }
+
+        .notice-table a:hover {
+          text-decoration: underline;
+        }
+
+        .notice-table .no,
+        .notice-table .writeDate {
+          width: 100px;
           text-align: center;
         }
 
-        .notice-item .no {
-          width: 30px;
-        }
-
-        .notice-item .id {
-          width: 80px;
-          text-align: center;
-        }
-
-        .notice-item .writeDate {
-          width: 80px;
-        }
-
-        .notice-item .views {
-          width: 70px;
-          text-align: center;
-
-        }
-
-        .notice-item .title {
-
+        .notice-table .title {
           flex: 1;
           text-align: center;
         }
 
-        .header-section {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 60px;
-          margin-bottom: 20px;
-          padding: 10px;
+        .notice-table th,
+        .notice-table td {
+          padding: 14px 0;
         }
 
-        .site-name {
-          font-size: 36px;
-          font-weight: 900;
-          color: #00CAFC;
-          margin-right: 10px;
+        .notice-table .notice-item td {
+          border-top: 1px solid #e7e7e7;
+          text-align: center;
         }
 
-        .page-name {
-          font-size: 36px;
-          font-weight: 900;
-
+        .notice-table .notice-item th {
+          padding-left: 28px;
+          padding-right: 14px;
+          border-top: 1px solid #e7e7e7;
+          text-align: left;
         }
 
-        .page-name-box {
-          display: flex;
+        .notice-table .notice-item th p {
+          display: none;
+        }
+
+        .btn {
+          display: inline-block;
+          padding: 0 30px;
+          font-size: 15px;
+          font-weight: 400;
+          background: transparent;
+          text-align: center;
+          white-space: nowrap;
+          vertical-align: middle;
+          -ms-touch-action: manipulation;
+          touch-action: manipulation;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          border: 1px solid transparent;
+          text-transform: uppercase;
+          -webkit-border-radius: 0;
+          -moz-border-radius: 0;
+          border-radius: 0;
+          -webkit-transition: all 0.3s;
+          -moz-transition: all 0.3s;
+          -ms-transition: all 0.3s;
+          -o-transition: all 0.3s;
+          transition: all 0.3s;
+        }
+
+        .btn-dark {
+          background: #555;
+          color: #fff;
+        }
+
+        .btn-dark:hover,
+        .btn-dark:focus {
+          background: #373737;
+          border-color: #373737;
+          color: #fff;
+        }
+
+        /* reset */
+
+        * {
+          list-style: none;
+          text-decoration: none;
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+        }
+
+        .clearfix:after {
+          content: '';
+          display: block;
+          clear: both;
+        }
+
+        .container {
+          width: 1100px;
+          margin: 0 auto;
+        }
+
+        .blind {
+          position: absolute;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+          margin: -1px;
+          width: 1px;
+          height: 1px;
         }
 
         .button-box button {
-          background-color: #2895F4;
-          /* 원하는 색상으로 변경 */
-          border: 1px solid #2895F4;
-          /* 테두리 색상과 일치시키기 */
-          border-radius: 5px;
-          /* 테두리를 둥글게 만들기 */
+          background-color: #fff;
+          border: 1px solid black;
           padding: 8px 12px;
-          color: #fff;
-          /* 버튼 텍스트 색상을 밝게 설정 */
-          cursor: pointer;
-          /* 포인터로 커서 변경 */
         }
 
-        .vi {
-          display: flex;
-          justify-content: center;
+        .writeDate {
+          margin-left: 88%;
+          margin-bottom: 10px;
+          margin-top: -19px;
+        }
 
+        .no {
+          margin-bottom: -17px;
+          margin-top: 11px;
         }
       </style>
     </head>
 
     <body>
-      <div class="header-section">
-        <div class="page-name-box">
-          <div class="site-name"> demo | </div>
-          <div class="page-name">공지사항</div>
-        </div>
+      <c:import url="/header" />
 
+      <section class="notice">
+        <div class="page-title">
+          <div class="container">
+            <h1>공지사항</h1>
+          </div>
+        </div>
         <div class="button-box">
           <c:choose>
-            <c:when test="${sessionScope.id == 'admin'}"> <!-- admin으로 로그인 했을때만 글쓰기 버튼 생성 -->
-              <button type="button" onclick="location.href='NoticeWrite'">글쓰기</button>
+            <c:when test="${sessionScope.id == 'admin'}">
+              <!-- admin으로 로그인 했을때만 글쓰기 버튼 생성 -->
+              <button type="button" onclick="location.href='noticeWrite'">글쓰기</button>
             </c:when>
           </c:choose>
         </div>
 
-      </div>
-      <div class="table-section">
-        <ul class="notice-list">
-          <li class="notice-item header">
-            <div class="no">No</div>
-            <div class="id">ID</div>
-            <div class="title">제목</div>
-            <div class="writeDate">작성시간</div>
-            <div class="views">조회수</div>
-          </li>
-        </ul>
-      </div>
+        </div>
+
+        <!-- 공지사항 검색창 -->
+        <div id="notice-search">
+          <div class="container">
+            <div class="search-window">
+              <form action="">
+                <div class="search-wrap">
+                  <label for="search" class="blind">공지사항 내용 검색</label>
+                  <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                  <button type="submit" class="btn btn-dark">검색</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 공지사항 항목 -->
+        <div id="notice-list">
+          <div class="container">
+            <div class="notice-table">
+              <div class="notice-item">
+                <div class="tr">
+                  <div class="no">NO</div>
+                  <div class="title">제목</div>
+                  <div class="writeDate">등록일</div>
+                </div>
+              </div>
+
+              <div class="notice-item">
+                <div id="notice-list">
+                  <div class="container">
+                    <div class="notice-table">
+                      <c:choose>
+                        <c:when test="${empty Notices}">
+                          <div class="notice-item">
+                            <div class="tr">
+                              <div class="td" colspan="3">등록된 데이터가 존재하지 않습니다.</div>
+                            </div>
+                          </div>
+                        </c:when>
+                        <c:otherwise>
+                          <c:forEach var="Notice" items="${Notices}">
+                            <div class="notice-item">
+                              <div class="tr">
+                                <div class="td">${Notice.no}</div>
+                                <div class="th" onclick="location.href='noticeContent?no=${Notice.title}'">
+                                  <a href="#!">${Notice.title}</a>
+                                  <p>${Notice.description}</p>
+                                </div>
+                                <div class="writeDate">${Notice.writeDate}</div>
+                              </div>
+                            </div>
+                          </c:forEach>
+                          <div class="notice-item">
+                            <div class="tr">
+                              <div class="td" colspan="3">${result}</div>
+                            </div>
+                          </div>
+                        </c:otherwise>
+                      </c:choose>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
     </body>
 
     </html>

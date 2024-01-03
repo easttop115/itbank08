@@ -11,224 +11,226 @@
 
         </head>
 
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                /* 세로 배치 */
+            }
+
+            .main {
+                display: flex;
+                width: 1600px;
+                justify-content: space-between;
+            }
+
+            .container {
+                width: 40%;
+                border-radius: 10px;
+                margin-top: 20px;
+                margin-right: 20px;
+                margin-left: 20px;
+
+            }
+
+            .notice-section,
+            .exchange-section,
+            .entry-section {
+                width: 100%;
+                border: 1px solid #fff;
+                border-collapse: collapse;
+                border-radius: 5px;
+                background-color: #D7E1EC;
+                /* 표의 백그라운드 색상 */
+            }
+
+            .instruction {
+                padding: 12px;
+                position: relative;
+
+            }
+
+            .instruction .instruction-label {
+                display: flex;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+
+            .instruction .instruction-list .instruction-item {
+                display: flex;
+            }
+
+            .instruction .instruction-list .instruction-item>div {
+                background-color: #fff;
+                color: black;
+                font-weight: 400;
+            }
+
+            .export {
+                padding: 12px;
+                position: relative;
+            }
+
+            .export .export-label {
+                display: flex;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+
+            .export .export-list .export-item {
+                display: flex;
+            }
+
+            .export .export-list .export-item>div {
+                background-color: #fff;
+                color: black;
+                font-weight: 400;
+            }
+
+            .entry {
+                padding: 12px;
+
+            }
+
+            .entry .entry-label {
+                display: flex;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+
+
+            .entry .entry-list .entry-item {
+                display: flex;
+            }
+
+            .entry .entry-list .entry-item>div {
+                background-color: #fff;
+                color: black;
+                font-weight: 400;
+            }
+
+            h2 {
+                color: #333;
+                margin-left: 10px;
+                font-size: 18px;
+                margin-bottom: 0;
+
+            }
+
+            .Date,
+            .outDate,
+            .writeDate,
+            .inDate {
+                margin-left: 1;
+            }
+
+
+            .Unprocessed {
+                margin-right: 20px;
+                margin-left: auto;
+            }
+
+            .file {
+                margin-right: 20px;
+                margin-left: auto;
+            }
+
+            .shop.title {
+                flex: 1;
+                /* 남은 공간을 모두 차지하도록 설정 */
+
+            }
+
+            .notice {
+                padding: 12px;
+
+            }
+
+            .notice .notice-label {
+                display: flex;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+
+
+            .notice .notice-list .notice-item {
+                display: flex;
+            }
+
+            .notice .notice-list .notice-item>div {
+                background-color: #fff;
+                color: black;
+                font-weight: 400;
+            }
+
+
+
+            .Date,
+            .shop,
+            .Unprocessed,
+            .outDate,
+            .inDate,
+            .writeDate,
+            .title {
+
+                flex: 1;
+                border: 1px solid #ddd;
+                padding: 8px;
+                background-color: #2895F4;
+                color: #ffffff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                font-weight: bold;
+                font-size: 14px;
+                /* 글씨 두껍게 설정 */
+            }
+
+            .check,
+            .file {
+                flex: 0.5;
+                /* 각 열의 너비를 조정하여 더 작게 만듭니다. */
+                border: 1px solid #ddd;
+                padding: 8px;
+                background-color: #2895F4;
+                color: #ffffff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                font-weight: bold;
+                font-size: 14px;
+            }
+
+
+
+            .more-button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 290px;
+                margin-bottom: -20px;
+            }
+
+            .more-button button {
+                background-color: #D7E1EC;
+                color: #2895F4;
+                border: none;
+                padding: 0px 5px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
+
         <body>
-
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    background-color: #f4f4f4;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                .main {
-                    display: flex;
-                    width: 1200px;
-                    flex-wrap: wrap;
-                    justify-content: space-between;
-                }
-
-                .container {
-                    width: 30%;
-                    /* background-color: #fff; */
-                    border-radius: 10px;
-                    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-                    /* margin: 20px; */
-                    margin-top: 20px;
-                }
-
-                .notice-section,
-                .exchange-section,
-                .entry-section {
-                    width: 100%;
-                    border: 1px solid #fff;
-                    border-collapse: collapse;
-                    border-radius: 5px;
-                    background-color: #D7E1EC;
-                    /* 표의 백그라운드 색상 */
-                }
-
-                .instruction {
-                    padding: 12px;
-                    position: relative;
-
-                }
-
-                .instruction .instruction-label {
-                    display: flex;
-                    margin-top: 10px;
-                    flex-wrap: wrap;
-                }
-
-                .instruction .instruction-list .instruction-item {
-                    display: flex;
-                }
-
-                .instruction .instruction-list .instruction-item>div {
-                    background-color: #fff;
-                    color: black;
-                    font-weight: 400;
-                }
-
-                .export {
-                    padding: 12px;
-                    position: relative;
-                }
-
-                .export .export-label {
-                    display: flex;
-                    margin-top: 10px;
-                    flex-wrap: wrap;
-                }
-
-                .export .export-list .export-item {
-                    display: flex;
-                }
-
-                .export .export-list .export-item>div {
-                    background-color: #fff;
-                    color: black;
-                    font-weight: 400;
-                }
-
-                .entry {
-                    padding: 12px;
-
-                }
-
-                .entry .entry-label {
-                    display: flex;
-                    margin-top: 10px;
-                    flex-wrap: wrap;
-                }
-
-
-                .entry .entry-list .entry-item {
-                    display: flex;
-                }
-
-                .entry .entry-list .entry-item>div {
-                    background-color: #fff;
-                    color: black;
-                    font-weight: 400;
-                }
-
-                h2 {
-                    color: #333;
-                    margin-left: 10px;
-                    font-size: 18px;
-                    margin-bottom: 0;
-
-                }
-
-                .Date,
-                .outDate,
-                .writeDate,
-                .inDate {
-                    margin-left: 1;
-                }
-
-
-                .Unprocessed {
-                    margin-right: 20px;
-                    margin-left: auto;
-                }
-
-                .file {
-                    margin-right: 20px;
-                    margin-left: auto;
-                }
-
-                .shop.title {
-                    flex: 1;
-                    /* 남은 공간을 모두 차지하도록 설정 */
-
-                }
-
-                .notice {
-                    padding: 12px;
-
-                }
-
-                .notice .notice-label {
-                    display: flex;
-                    margin-top: 10px;
-                    flex-wrap: wrap;
-                }
-
-
-                .notice .notice-list .notice-item {
-                    display: flex;
-                }
-
-                .notice .notice-list .notice-item>div {
-                    background-color: #fff;
-                    color: black;
-                    font-weight: 400;
-                }
-
-
-
-                .Date,
-                .shop,
-                .Unprocessed,
-                .outDate,
-                .inDate,
-                .writeDate,
-                .title {
-
-                    flex: 1;
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                    background-color: #2895F4;
-                    color: #ffffff;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 0 auto;
-                    font-weight: bold;
-                    font-size: 14px;
-                    /* 글씨 두껍게 설정 */
-                }
-
-                .check,
-                .file {
-                    flex: 0.5;
-                    /* 각 열의 너비를 조정하여 더 작게 만듭니다. */
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                    background-color: #2895F4;
-                    color: #ffffff;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 0 auto;
-                    font-weight: bold;
-                    font-size: 14px;
-                }
-
-
-
-                .more-button {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    margin-left: 290px;
-                    margin-bottom: -20px;
-                }
-
-                .more-button button {
-                    background-color: #D7E1EC;
-                    color: #2895F4;
-                    border: none;
-                    padding: 0px 5px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                }
-            </style>
+            <c:import url="/header" />
 
 
             <div class="main">
@@ -267,7 +269,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -360,7 +361,7 @@
                     <div class="notice-section">
                         <h2>Notice</h2>
                         <div class="more-button">
-                            <button type="button" onclick="location.href='noticeContent'">more</button>
+                            <button type="button" onclick="location.href='/notice/noticeform'">more</button>
                         </div>
                         <div class="notice">
                             <div class="notice-label">
