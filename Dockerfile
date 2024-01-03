@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/cache/apt/*
 
 
 # Gradle 설치
-RUN apt-get update && apt-get install -y curl unzip && \
+RUN apt-get update && apt-get install -y curl unzip zip && \
     curl -s "https://get.sdkman.io" | bash && \
     source "/root/.sdkman/bin/sdkman-init.sh" && \
     sdk install gradle
@@ -22,5 +22,3 @@ RUN gradle --version
 
 # 컨테이너 실행 명령 (옵션: 실제 애플리케이션 실행 명령어를 사용하십시오)
 CMD ["echo", "Docker image built successfully!"]
-
-# ######
