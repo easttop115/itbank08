@@ -1,4 +1,4 @@
-package com.example.demo.main.rt;
+package com.example.demo.main.Rt;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;

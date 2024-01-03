@@ -1,4 +1,4 @@
-package com.example.demo.main.rt;
+package com.example.demo.main.Rt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
