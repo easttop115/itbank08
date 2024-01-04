@@ -18,9 +18,6 @@ RUN apk update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# 직접 다운로드한 Corretto 17.0.9 파일 사용
-COPY amazon-corretto-17.0.9.12.1-linux-x64.tar.gz /opt/java/
-
 # Corretto 17.0.9 설치
 RUN mkdir /opt/java && \
     tar -xzf /opt/java/amazon-corretto-17.0.9.12.1-linux-x64.tar.gz -C /opt/java && \
