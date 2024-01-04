@@ -14,11 +14,14 @@ ENV JAVA_VERSION=17
 
 # 필요한 패키지 설치 (Git, java17 및 기타 도구)
 RUN apk update && \
-    apk add --no-cache git unzip zip curl sed bash && \
+    apk add --no-cache git unzip zip curl sed bash openjdk17-corretto && \
     rm -rf /var/cache/apk/*
 
 # Downloading SDKMAN! and installing Java and Gradle
-RUN /bin/bash -c "curl -s \"https://get.sdkman.io\" | bash -s && source $HOME/.sdkman/bin/sdkman-init.sh && sdk selfupdate && sdk install java 17 && sdk install gradle $GRADLE_VERSION && sdk flush archives && sdk flush temp"
+RUN apk --no-cache add bash && \
+    curl -s "https://get.sdkman.io" | bash -s && \
+    /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk selfupdate && sdk install gradle $GRADLE_VERSION && sdk flush archives && sdk flush temp"
+
 
 # SDKMAN이 설정한 환경 변수를 사용
 ENV SDKMAN_CANDIDATES_DIR=/opt/sdkman/candidates
