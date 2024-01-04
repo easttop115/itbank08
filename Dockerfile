@@ -14,15 +14,14 @@ RUN apk update && \
 
 # 환경 변수 설정
 ENV GRADLE_HOME=/opt/gradle
-ENV GRADLE_VERSION=6.9
+ENV GRADLE_VERSION=7.3
 
 
 # Downloading SDKMAN! and installing Java and Gradle
-RUN curl -s "https://get.sdkman.io" | ash && \
-    ash "$HOME/.sdkman/bin/sdkman-init.sh" && \
-    apk add --no-cache bash && \
-    /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && \
-    yes | sdk install java $JAVA_VERSION && \
+RUN apk --no-cache add bash && \
+    curl -s "https://get.sdkman.io" | bash -s && \
+    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    bash -c "yes | sdk install java $JAVA_VERSION && \
     yes | sdk install gradle $GRADLE_VERSION && \
     rm -rf $HOME/.sdkman/archives/* && \
     rm -rf $HOME/.sdkman/tmp/*"
