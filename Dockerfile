@@ -17,6 +17,7 @@ RUN apk update && \
 
 # OpenJDK 17 다운로드 및 설치
 RUN wget -qO- https://corretto.aws/downloads/latest/amazon-corretto-17-x64-linux-jdk.tar.gz | tar xz -C /opt && \
+    ls -l /opt && \
     mv /opt/jdk-17 /opt/java && \
     rm /opt/java/lib/src.zip
 
