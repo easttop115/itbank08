@@ -20,12 +20,12 @@ RUN apk update && \
 # Downloading SDKMAN! and installing Java and Gradle
 RUN apk --no-cache add bash && \
     curl -s "https://get.sdkman.io" | bash -s && \
-    source "$HOME/.sdkman/bin/sdkman-init.sh && \
+    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
     sdk selfupdate && \
     sdk install java 17 && \
     sdk install gradle $GRADLE_VERSION && \
     sdk flush archives && \
-    sdk flush temp"
+    sdk flush temp
 
 # SDKMAN이 설정한 환경 변수를 사용
 ENV SDKMAN_CANDIDATES_DIR=/opt/sdkman/candidates
