@@ -15,6 +15,7 @@ RUN apk update && \
 # 환경 변수 설정
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_VERSION=7.3
+ENV JAVA_VERSION=17
 
 
 # Downloading SDKMAN! and installing Java and Gradle
