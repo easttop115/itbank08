@@ -15,43 +15,26 @@ ENV JAVA_VERSION=17
 # 필요한 패키지 설치 (Git, java17 및 기타 도구)
 RUN apk update && \
     apk add --no-cache git unzip zip curl sed openjdk17 && \
-    rm -rf /var/cache/apk/*; \
-    apk --no-cache add openjdk${JAVA_VERSION}
+    rm -rf /var/cache/apk/*
 
 # Downloading SDKMAN! and installing Java and Gradle
 RUN apk --no-cache add bash && \
     curl -s "https://get.sdkman.io" | bash -s && \
-    bash -c "source \"$HOME/.sdkman/bin/sdkman-init.sh\" && \
+    /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && \
     sdk selfupdate && \
     sdk install java 17 && \
     sdk install gradle $GRADLE_VERSION && \
     sdk flush archives && \
     sdk flush temp"
-# rm -rf $HOME/.sdkman/archives/* && \
-# rm -rf $HOME/.sdkman/tmp/*"
 
 # SDKMAN이 설정한 환경 변수를 사용
 ENV SDKMAN_CANDIDATES_DIR=/opt/sdkman/candidates
 ENV PATH="$SDKMAN_CANDIDATES_DIR/java/current/bin:$SDKMAN_CANDIDATES_DIR/gradle/current/bin:$PATH"
-# #java 환경변수 설정
-# ENV JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk
-# ENV PATH=$JAVA_HOME/bin:$PATH
-
-# # Downloading SDKMAN! and installing Java and Gradle
-# RUN apk --no-cache add bash && \
-#     curl -s "https://get.sdkman.io" | bash -s && \
-#     source "$HOME/.sdkman/bin/sdkman-init.sh" && \
-#     bash -c "yes | sdk install java $JAVA_VERSION && \
-#     yes | sdk install gradle $GRADLE_VERSION && \
-#     rm -rf $HOME/.sdkman/archives/* && \
-#     rm -rf $HOME/.sdkman/tmp/*"
-
-# # Gradle 설치
-# RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle --version"
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
-RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use gradle $GRADLE_VERSION && gradle --version"
-
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && \
+    sdk use gradle $GRADLE_VERSION && \
+    gradle --version"
 
 # 컨테이너 실행 명령 (옵션: 실제 애플리케이션 실행 명령어를 사용하십시오)
 CMD ["echo", "Docker image built successfully!"]
