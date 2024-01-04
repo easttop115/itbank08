@@ -1,5 +1,7 @@
 package com.example.demo.join;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -14,5 +16,9 @@ public interface JoinMapper {
     JoinDTO findEmail(String email);
 
     JoinDTO findTel(String tel);
+
+    List<JoinDTO> subJoins(JoinDTO joins);
+
+    int verifyProc(JoinDTO joins);
 
 }

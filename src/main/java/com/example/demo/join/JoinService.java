@@ -1,9 +1,11 @@
 package com.example.demo.join;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 //import com.example.demo.DbConfig;
 
@@ -20,7 +22,7 @@ public class JoinService {
     // @Autowired
     // private DbConfig dbConfig;
 
-    public String registProc(JoinDTO joins) {
+    public String registProc(JoinDTO joins, Model model) {
         if (joins.getId() == null || joins.getId().trim().isEmpty()) {
             return "아이디를 입력해주세요.";
         } else if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
@@ -41,6 +43,8 @@ public class JoinService {
             return "아이디는 영문, 숫자, 4~20자 입력 가능합니다.";
         } else if (!joins.getPw().matches("^[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 영문, 숫자, !@#$%^&*, 6~20자 입력 가능합니다.";
+        } else if (Integer.parseInt(joins.getAdAccount()) > 30) {
+            return "지점 31개 이상 등록은 문의 부탁드립니다.";
         }
 
         JoinDTO checkId = mapper.findJoin(joins.getId());
@@ -71,7 +75,22 @@ public class JoinService {
         if (result <= 0)
             return "회원가입 실패. 다시 시도해주세요.";
 
+        List<JoinDTO> subJoins = mapper.subJoins(joins);
+
+        model.addAttribute("subJoins", subJoins);
+
         return "success";
+    }
+
+    public String verifyProc(String email) {
+        JoinDTO joins = new JoinDTO();
+        joins.setEmail(email);
+        joins.setRegistStatus("승인");
+        int result = mapper.verifyProc(joins);
+        if (result > 0)
+            return "success";
+
+        return "fail";
     }
 
     public String loginProc(HttpServletRequest request, String id, String pw) {

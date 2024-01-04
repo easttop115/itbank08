@@ -3,9 +3,6 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        <!-- INSERT INTO user
-        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW()
-        FROM user -->
         INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adAccount)
         SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), "미승인", #{adAccount}
         FROM user;
@@ -22,4 +19,10 @@
     <select id="findTel" resultMap="join">
         SELECT * FROM user WHERE tel=#{tel}
     </select>
+    <select id="subJoins" resultMap="join">
+        SELECT id, pw FROM user WHERE email=#{email}
+    </select>
+    <update id="verifyProc">
+        UPDATE user SET registStatus="승인" WHERE email=#{email}
+    </update>
 </mapper>

@@ -227,7 +227,7 @@
                     emailInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '전화번호를 입력해주세요.' || errorMsg.innerText === '존재하는 전화번호입니다.') {
                     telInput.style.border = '2px solid red';
-                } else if (errorMsg.innerText === '예상 지점 수를 입력해주세요.') {
+                } else if (errorMsg.innerText === '예상 지점 수를 입력해주세요.' || errorMsg.innerText === '지점 31개 이상 등록은 문의 부탁드립니다.') {
                     adAccountInput.style.border = '2px solid red';
                 }
             </script>
