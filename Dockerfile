@@ -19,7 +19,9 @@ RUN apk update && \
 
 # Corretto 17.0.9 설치
 RUN mkdir /opt/java && \
-    curl -L https://corretto.aws/downloads/resources/17.0.9.12.1/amazon-corretto-17.0.9.12.1-linux-x64.tar.gz | tar -xzf - -C /opt/java
+    curl -L -o /opt/java/corretto.tar.gz https://corretto.aws/downloads/resources/17.0.9.12.1/amazon-corretto-17.0.9.12.1-linux-x64.tar.gz && \
+    tar -xzf /opt/java/corretto.tar.gz -C /opt/java && \
+    rm /opt/java/corretto.tar.gz
 
 # 환경 변수 설정
 ENV PATH="/opt/java/amazon-corretto-17.0.9.12.1-linux-x64/bin:$PATH"
@@ -29,5 +31,3 @@ RUN bash -c "java -version && javac -version && curl -s https://get.sdkman.io | 
 
 # 컨테이너 실행 명령 (옵션: 실제 애플리케이션 실행 명령어를 사용하십시오)
 CMD ["echo", "Docker image built successfully!"]
-
-# 
