@@ -26,7 +26,7 @@ RUN set -o errexit -o nounset && \
 
 # SDKMAN 설치
 RUN set -o errexit -o nounset && \
-    curl -s "https://get.sdkman.io" | bash && \
+    curl -s "https://get.sdkman.io" | /bin/sh && \
     source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
