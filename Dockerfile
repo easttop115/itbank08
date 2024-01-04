@@ -10,7 +10,7 @@ COPY . /app
 # 필요한 패키지 설치 (Git, java17 및 기타 도구)
 RUN apk update && \
     apk add --no-cache git unzip zip curl sed openjdk17-jdk && \
-    rm -rf /var/cache/apk/* \
+    rm -rf /var/cache/apk/*; \
     apk --no-cache add openjdk${JAVA_VERSION}
 
 # 환경 변수 설정
@@ -21,7 +21,8 @@ ENV JAVA_VERSION=17
 # Downloading SDKMAN! and installing Java and Gradle
 RUN apk --no-cache add bash && \
     curl -s "https://get.sdkman.io" | bash -s && \
-    bash -c "source \"$HOME/.sdkman/bin/sdkman-init.sh\" && sdk selfupdate && \
+    bash -c "source \"$HOME/.sdkman/bin/sdkman-init.sh\" && \
+    sdk selfupdate && \
     sdk install java $JAVA_VERSION && \
     sdk install gradle $GRADLE_VERSION && \
     rm -rf $HOME/.sdkman/archives/* && \
