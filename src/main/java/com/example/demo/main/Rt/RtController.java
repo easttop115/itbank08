@@ -7,15 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-// #dksld
 @Controller
 public class RtController {
     @Autowired
     private RtService service;
-    @Autowired
-    private HttpSession session;
 
     @RequestMapping("rt/instructionform")
     public String instructionform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {

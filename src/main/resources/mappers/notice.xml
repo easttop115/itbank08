@@ -21,7 +21,7 @@
 		<selectKey order="BEFORE" keyProperty="no" resultType="int">
 			SELECT NVL(max(no), 0)+1 FROM notice_demo
 		</selectKey>
-		INSERT INTO Notice_bowfun
+		INSERT INTO notice_demo
 		VALUES(notice_demo_seq.nextval, #{title}, #{content}, #{id}, sysdate, 0, #{fileName})
 	</insert>
 	

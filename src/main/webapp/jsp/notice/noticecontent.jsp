@@ -123,7 +123,6 @@
                 <ul class="notice-list">
                     <li class="notice-item header">
                         <div class="no">No</div>
-                        <div class="id">ID</div>
                         <div class="title">제목</div>
                         <div class="writeDate">작성시간</div>
                         <div class="views">조회수</div>
@@ -138,7 +137,6 @@
                             <c:forEach var="notice" items="${notices}">
                                 <li class="notice-item">
                                     <div class="no">${notice.no}</div>
-                                    <div class="id">${notice.id}</div>
                                     <div class="title" onclick="location.href='noticeContent?no=${notice.no }'">
                                         ${notice.title}</div>
                                     <div class="writeDate">${notice.writeDate}</div>

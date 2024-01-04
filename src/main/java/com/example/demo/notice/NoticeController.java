@@ -25,12 +25,30 @@ public class NoticeController {
         return "/notice/noticeform";
     }
 
+    // @RequestMapping("/notice/noticewrite")
+    // public String noticewrite() {
+    // String sessionId = (String) session.getAttribute("id");
+    // if (sessionId == null)
+    // return "redirect:login";
+    // // sessionId = "admin";
+    // return "/notice/noticeform";
+    // }
+
+    // @PostMapping("/notice/noticewriteProc")
+    // public String noticewriteProc(MultipartHttpServletRequest multi) {
+    // String sessionId = (String) session.getAttribute("id");
+    // if (sessionId == null)
+    // sessionId = "admin";
+    // // return "redirect:login";
+    // String path = service.noticewriteProc(multi);
+    // return path;
+    // }
+
     @RequestMapping("/notice/noticewrite")
     public String noticewrite() {
         String sessionId = (String) session.getAttribute("id");
         if (sessionId == null)
-            // return "redirect:login";
-            sessionId = "admin";
+            return "redirect:/";
         return "/notice/noticewrite";
     }
 
@@ -38,10 +56,10 @@ public class NoticeController {
     public String noticewriteProc(MultipartHttpServletRequest multi) {
         String sessionId = (String) session.getAttribute("id");
         if (sessionId == null)
-            sessionId = "admin";
-        // return "redirect:login";
+            return "redirect:/";
+
         String path = service.noticewriteProc(multi);
-        return path;
+        return "/notice/noticewrite";
     }
 
     @RequestMapping("/notice/noticecontent")

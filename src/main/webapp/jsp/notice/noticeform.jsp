@@ -218,18 +218,20 @@
           </div>
         </div>
         <div class="button-box">
-          <c:choose>
+          <!-- <c:choose>
             <c:when test="${sessionScope.id == 'admin'}">
-              <!-- admin으로 로그인 했을때만 글쓰기 버튼 생성 -->
-              <button type="button" onclick="location.href='noticeWrite'">글쓰기</button>
+               admin으로 로그인 했을때만 글쓰기 버튼 생성 -->
+          <!-- <button type="button" onclick="location.href='noticeWrite'">글쓰기</button>
             </c:when>
-          </c:choose>
+          </c:choose> -->
+          <button type="button" onclick="location.href='/notice/noticewrite'">글쓰기</button>
         </div>
 
         </div>
 
         <!-- 공지사항 검색창 -->
         <div id="notice-search">
+
           <div class="container">
             <div class="search-window">
               <form action="">
@@ -273,9 +275,9 @@
                             <div class="notice-item">
                               <div class="tr">
                                 <div class="td">${Notice.no}</div>
-                                <div class="th" onclick="location.href='noticeContent?no=${Notice.title}'">
+                                <div class="th" onclick="location.href='noticecontent?no=${Notice.title}'">
                                   <a href="#!">${Notice.title}</a>
-                                  <p>${Notice.description}</p>
+                                  <!-- <p>${Notice.description}</p> -->
                                 </div>
                                 <div class="writeDate">${Notice.writeDate}</div>
                               </div>
@@ -283,7 +285,7 @@
                           </c:forEach>
                           <div class="notice-item">
                             <div class="tr">
-                              <div class="td" colspan="3">${result}</div>
+                              <div class="td" colspan="5">${result}</div>
                             </div>
                           </div>
                         </c:otherwise>

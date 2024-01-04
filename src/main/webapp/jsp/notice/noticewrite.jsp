@@ -190,6 +190,16 @@
                 </div>
             </article>
             <script>
+                $(document).on('click', '#btnSave', function (e) {
+                    e.preventDefault();
+                    $("#form").attr('action', "${pageContext.request.contextPath}/noticewriteProc");
+                    $("#form").submit();
+                });
+
+                $(document).on('click', '#btnList', function (e) {
+                    e.preventDefault();
+                    location.href = "${pageContext.request.contextPath}/noticeform";
+                });
                 $(document).ready(function () {
                     $('.style-options label').mouseover(function () {
                         var labelText = $(this).text();
