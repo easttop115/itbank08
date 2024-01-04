@@ -35,7 +35,7 @@ RUN apk --no-cache add bash && \
 #     rm -rf $HOME/.sdkman/tmp/*"
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
-RUN /bin/sh -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle --version"
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle --version"
 
 # 컨테이너 실행 명령 (옵션: 실제 애플리케이션 실행 명령어를 사용하십시오)
 CMD ["echo", "Docker image built successfully!"]
