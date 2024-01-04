@@ -16,18 +16,29 @@ RUN apk update && \
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_VERSION=6.9
 
-# Download and install Gradle
-RUN set -o errexit -o nounset && \
-    echo "Downloading Gradle" && \
-    curl -L https://services.gradle.org/distributions/gradle-6.9-bin.zip -o gradle-bin.zip && \
-    unzip gradle-bin.zip -d /opt && \
-    rm gradle-bin.zip && \
-    ln -s /opt/gradle-6.9/bin/gradle /usr/bin/gradle
 
-# SDKMAN 설치
-RUN set -o errexit -o nounset && \
-    curl -s "https://get.sdkman.io" | /bin/sh && \
-    /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh"
+# Downloading SDKMAN! 
+RUN curl -s "https://get.sdkman.io" | bash
+
+# Installing Java and Gradle, removing some unnecessary SDKMAN files 
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && \
+    yes | sdk install java $JAVA_VERSION && \
+    yes | sdk install gradle $GRADLE_VERSION && \
+    rm -rf $HOME/.sdkman/archives/* && \
+    rm -rf $HOME/.sdkman/tmp/*"
+
+# # Download and install Gradle
+# RUN set -o errexit -o nounset && \
+#     echo "Downloading Gradle" && \
+#     curl -L https://services.gradle.org/distributions/gradle-6.9-bin.zip -o gradle-bin.zip && \
+#     unzip gradle-bin.zip -d /opt && \
+#     rm gradle-bin.zip && \
+#     ln -s /opt/gradle-6.9/bin/gradle /usr/bin/gradle
+
+# # SDKMAN 설치
+# RUN set -o errexit -o nounset && \
+#     curl -s "https://get.sdkman.io" | /bin/sh && \
+#     /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh"
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
 RUN /bin/sh -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle --version"
