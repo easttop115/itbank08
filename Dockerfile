@@ -10,7 +10,6 @@ COPY . /app
 # 환경 변수 설정
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_VERSION=7.3
-ENV CORRETTO_VERSION=17.0.9
 
 # 필요한 패키지 설치 (Git, java 및 기타 도구)
 RUN apk update && \
@@ -26,7 +25,8 @@ RUN mkdir /opt/java && \
     rm /opt/java/amazon-corretto-17.0.9.12.1-linux-x64.tar.gz
 
 # 환경 변수 설정
-ENV PATH="/opt/java/amazon-corretto-17.0.9.12.1-linux-x64/bin:$PATH"
+ENV JAVA_HOME="/opt/java/amazon-corretto-17.0.9.12.1-linux-x64"
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
 RUN bash -c "java -version && javac -version && curl -s https://get.sdkman.io | bash && source $HOME/.sdkman/bin/sdkman-init.sh && sdk install gradle $GRADLE_VERSION && sdk flush archives && sdk flush temp"
