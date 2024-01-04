@@ -15,6 +15,8 @@ RUN apk update && \
 # 환경 변수 설정
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_VERSION=7.3
+ENV JAVA_HOME=$SDKMAN_CANDIDATES/java/current
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Downloading SDKMAN! and installing Java and Gradle
 RUN apk --no-cache add bash && \
@@ -34,8 +36,11 @@ RUN apk --no-cache add bash && \
 #     rm -rf $HOME/.sdkman/archives/* && \
 #     rm -rf $HOME/.sdkman/tmp/*"
 
+# # Gradle 설치
+# RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle --version"
+
 # Gradle 빌드 (옵션: 실제 프로젝트 빌드를 수행하려면 Gradle 빌드 명령어를 사용하십시오)
-RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle --version"
+RUN bash -c "gradle --version"
 
 # 컨테이너 실행 명령 (옵션: 실제 애플리케이션 실행 명령어를 사용하십시오)
 CMD ["echo", "Docker image built successfully!"]
