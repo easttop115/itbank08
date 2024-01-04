@@ -11,10 +11,12 @@ COPY . /app
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_VERSION=7.3
 
-# 필요한 패키지 설치 (Git, java 및 기타 도구)
+# 필요한 패키지 설치 (Git, java 및 기타 도구) / 패키지 캐시 삭제
 RUN apk update && \
     apk add --no-cache git unzip zip curl sed bash && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # 직접 다운로드한 Corretto 17.0.9 파일 사용
 COPY amazon-corretto-17.0.9.12.1-linux-x64.tar.gz /opt/java/
