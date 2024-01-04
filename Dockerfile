@@ -14,9 +14,7 @@ ENV GRADLE_VERSION=7.3
 # 필요한 패키지 설치 (Git, java 및 기타 도구) / 패키지 캐시 삭제
 RUN apk update && \
     apk add --no-cache git unzip zip curl sed bash && \
-    rm -rf /var/cache/apk/* && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/cache/apk/* 
 
 # Corretto 17.0.9 설치
 RUN mkdir /opt/java && \
