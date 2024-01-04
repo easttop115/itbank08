@@ -32,3 +32,5 @@ RUN /bin/bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk use gradle $GRA
 
 # 컨테이너 실행 명령 (옵션: 실제 애플리케이션 실행 명령어를 사용하십시오)
 CMD ["echo", "Docker image built successfully!"]
+
+# 
