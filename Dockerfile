@@ -19,11 +19,10 @@ ENV GRADLE_VERSION=6.9
 # Download and install Gradle
 RUN set -o errexit -o nounset && \
     echo "Downloading Gradle" && \
-    curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o gradle-bin.zip && \
-    unzip gradle-bin.zip && \
+    curl -L https://services.gradle.org/distributions/gradle-6.9-bin.zip -o gradle-bin.zip && \
+    unzip gradle-bin.zip -d /opt && \
     rm gradle-bin.zip && \
-    mv gradle-${GRADLE_VERSION} ${GRADLE_HOME} && \
-    ln -s ${GRADLE_HOME}/bin/gradle /usr/bin/gradle
+    ln -s /opt/gradle-6.9/bin/gradle /usr/bin/gradle
 
 # SDKMAN 설치
 RUN curl -s "https://get.sdkman.io" | /bin/sh && \
