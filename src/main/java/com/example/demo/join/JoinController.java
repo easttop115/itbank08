@@ -44,8 +44,8 @@ public class JoinController {
     // 관리자 이메일 승인 로직
     @GetMapping("/verifyProc")
     public String verifyProc(@RequestParam(name = "email") String email) throws Exception {
-        String confirm = service.verifyProc(email);
         JoinDTO checkAccount = service.checkAccount(email);
+        String confirm = service.verifyProc(checkAccount);
 
         if (confirm.equals("success")) {
             mailContents.sendSimpleMessage(email, checkAccount);

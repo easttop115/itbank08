@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-//import com.example.demo.DbConfig;
+import com.example.demo.DbConfig;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,8 +19,8 @@ public class JoinService {
     private HttpSession session;
     @Autowired
     private JoinMapper mapper;
-    // @Autowired
-    // private DbConfig dbConfig;
+    @Autowired
+    private DbConfig dbConfig;
 
     public String registProc(JoinDTO joins, Model model) {
         if (joins.getId() == null || joins.getId().trim().isEmpty()) {
@@ -78,14 +78,15 @@ public class JoinService {
         return "success";
     }
 
-    public String verifyProc(String email) {
-        JoinDTO joins = new JoinDTO();
-        joins.setEmail(email);
-        joins.setRegistStatus("approve");
-        int result = mapper.verifyProc(joins);
-        if (result > 0)
-            return "success";
+    public String verifyProc(JoinDTO checkAccount) {
 
+        checkAccount.setRegistStatus("approve");
+        int result = mapper.verifyProc(checkAccount);
+        if (result > 0) {
+            String userName = checkAccount.getId();
+            dbConfig.createSetDatabase(userName);
+            return "success";
+        }
         return "fail";
     }
 
@@ -110,8 +111,8 @@ public class JoinService {
 
         if (checkId != null && encoder.matches(pw, checkId.getPw()) == true) {
             session.setAttribute("id", checkId.getId());
-            // String sessionId = (String) session.getAttribute("id");
-            // dbConfig.setDynamicDatabase(sessionId);
+            String sessionId = (String) session.getAttribute("id");
+            dbConfig.setDynamicDatabase(sessionId);
             return "success";
         }
         return "확인 후 다시 시도해주세요.";
