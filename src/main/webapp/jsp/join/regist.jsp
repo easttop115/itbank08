@@ -188,7 +188,7 @@
                         <input class="form-input" type="tel" name="tel" value="${param.tel}">
 
                         <label class="form-label" for="tel">예상 지점 수</label>
-                        <input class="form-input" type="text" name="adAccount" value="${param.adAccount}">
+                        <input class="form-input" type="text" name="adCount" value="${param.adCount}">
 
                         <input class="form-submit" type="submit" value="가입">
                         <button class="form-cancel" type="button" onclick="window.location.href='/'">취소</button>
@@ -209,7 +209,7 @@
                 var businessNoInput = document.getElementsByName('businessNo')[0];
                 var emailInput = document.getElementsByName('email')[0];
                 var telInput = document.getElementsByName('tel')[0];
-                var adAccountInput = document.getElementsByName('adAccount')[0];
+                var adCountInput = document.getElementsByName('adCount')[0];
 
                 // ${msg}의 값에 따라 스타일을 동적으로 변경
                 if (errorMsg.innerText === '아이디를 입력해주세요.' || errorMsg.innerText === '아이디는 영문, 숫자, 4~20자 입력 가능합니다.' || errorMsg.innerText === '존재하는 아이디입니다.') {
@@ -228,7 +228,7 @@
                 } else if (errorMsg.innerText === '전화번호를 입력해주세요.' || errorMsg.innerText === '존재하는 전화번호입니다.') {
                     telInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '예상 지점 수를 입력해주세요.' || errorMsg.innerText === '지점 31개 이상 등록은 문의 부탁드립니다.') {
-                    adAccountInput.style.border = '2px solid red';
+                    adCountInput.style.border = '2px solid red';
                 }
             </script>
         </body>

@@ -3,9 +3,9 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adAccount) 
+        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adCount) 
         SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), 
-        CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adAccount} 
+        CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adCount} 
         FROM user;
     </insert>
     <select id="findJoin" resultMap="join">

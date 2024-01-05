@@ -31,5 +31,6 @@ public class JoinDTO {
     private String tel;
     private String regDate;
     private String registStatus;
-    private String adAccount;
+    private String adCount;
+    private String accountId;
 }

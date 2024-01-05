@@ -37,13 +37,13 @@ public class JoinService {
             return "이메일을 입력해주세요.";
         } else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
             return "전화번호를 입력해주세요.";
-        } else if (joins.getAdAccount() == null || joins.getAdAccount().trim().isEmpty()) {
+        } else if (joins.getAdCount() == null || joins.getAdCount().trim().isEmpty()) {
             return "예상 지점 수를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-zA-Z0-9]{4,20}$")) {
             return "아이디는 영문, 숫자, 4~20자 입력 가능합니다.";
         } else if (!joins.getPw().matches("^[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 영문, 숫자, !@#$%^&*, 6~20자 입력 가능합니다.";
-        } else if (Integer.parseInt(joins.getAdAccount()) > 30) {
+        } else if (Integer.parseInt(joins.getAdCount()) > 30) {
             return "지점 31개 이상 등록은 문의 부탁드립니다.";
         }
 

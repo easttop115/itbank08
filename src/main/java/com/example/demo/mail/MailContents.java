@@ -30,7 +30,7 @@ public class MailContents implements IMailService {
 	@Override
 	public MimeMessage creatMessage(String to, JoinDTO joins) throws MessagingException, UnsupportedEncodingException {
 		String rootEmail = "qorthgml2002@naver.com";
-		int count = Integer.parseInt(joins.getAdAccount());
+		int count = Integer.parseInt(joins.getAdCount());
 		String mainId = joins.getId();
 
 		MimeMessage message;
@@ -72,7 +72,11 @@ public class MailContents implements IMailService {
 				String secretPw = encoder.encode(ePw);
 				joins.setId(subAccountId);
 				joins.setPw(secretPw);
+				joins.setBusinessNo("");
+				joins.setEmail("");
+				joins.setTel("");
 				joins.setRegistStatus("approve");
+				joins.setAccountId("store");
 
 				mapper.registProc(joins);
 
