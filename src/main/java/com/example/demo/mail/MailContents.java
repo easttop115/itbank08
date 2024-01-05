@@ -72,11 +72,11 @@ public class MailContents implements IMailService {
 				String secretPw = encoder.encode(ePw);
 				joins.setId(subAccountId);
 				joins.setPw(secretPw);
-				joins.setBusinessNo("");
-				joins.setEmail("");
-				joins.setTel("");
+				joins.setBusinessNo(null);
+				joins.setEmail(null);
+				joins.setTel(null);
 				joins.setRegistStatus("approve");
-				joins.setAccountId("store");
+				joins.setAccountId(null);
 
 				mapper.registProc(joins);
 
