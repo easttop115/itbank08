@@ -43,12 +43,14 @@ public class JoinController {
 
     // 관리자 이메일 승인 로직
     @GetMapping("/verifyProc")
-    public String verifyProc(@RequestParam(name = "email") String email, JoinDTO joins) {
-        joins.setEmail(email);
+    public String verifyProc(@RequestParam(name = "email") String email) throws Exception {
         String confirm = service.verifyProc(email);
+        JoinDTO checkAccount = service.checkAccount(email);
 
-        if (confirm.equals("success"))
+        if (confirm.equals("success")) {
+            mailContents.sendSimpleMessage(email, checkAccount);
             return "redirect:/";
+        }
 
         return "";
     }
@@ -61,10 +63,10 @@ public class JoinController {
     @PostMapping("/loginProc")
     public String loginProc(HttpServletRequest request, String id, String pw, Model model) {
         String confirm = service.loginProc(request, id, pw);
+        JoinDTO checkStatus = service.checkStatus(id);
 
         if (confirm.equals("success")) {
-            JoinDTO checkStatus = service.checkStatus(id);
-            if ("승인".equals(checkStatus.getRegistStatus()))
+            if ("approve".equals(checkStatus.getRegistStatus()))
                 return "redirect:/main/mainform";
 
             model.addAttribute("msg", "가입 미승인 회원입니다.");

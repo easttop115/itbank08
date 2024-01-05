@@ -31,29 +31,33 @@ public class MailContents implements IMailService {
 		int count = Integer.parseInt(joins.getAdAccount());
 		String mainId = joins.getId();
 
+		MimeMessage message;
+		String msgg;
+		System.out.println(joins.getRegistStatus());
 		// 관리자 전송 메일
-		MimeMessage message = emailSender.createMimeMessage();
+		if (!"approve".equals(joins.getRegistStatus())) {
+			message = emailSender.createMimeMessage();
 
-		message.addRecipients(RecipientType.TO, rootEmail); // 메일 받을 사용자
-		message.setSubject("[Stock City] 서비스 이용 승인 요청"); // 이메일 제목
+			message.addRecipients(RecipientType.TO, rootEmail); // 메일 받을 사용자
+			message.setSubject("[Stock City] 서비스 이용 승인 요청"); // 이메일 제목
 
-		String msgg = "";
+			msgg = "";
 
-		msgg += "<h1>계정 승인 요청이 있습니다.</h1>";
-		msgg += "<br>";
-		msgg += "<div align='center' style='border:3px solid #2895F4'>";
-		msgg += "<div style='font-size:130%'><br>";
-		msgg += "<strong>" + to + "</strong></div><br>";
-		msgg += "<a href='http://localhost/verifyProc?email=" + to + "'>승인</a><br>";
-		msgg += "</div>";
+			msgg += "<h1>계정 승인 요청이 있습니다.</h1>";
+			msgg += "<br>";
+			msgg += "<div align='center' style='border:3px solid #2895F4'>";
+			msgg += "<div style='font-size:130%'><br>";
+			msgg += "<strong>" + to + "</strong></div><br>";
+			msgg += "<a href='http://localhost/verifyProc?email=" + to + "'>승인</a><br>";
+			msgg += "</div>";
 
-		message.setText(msgg, "utf-8", "html");
-		message.setFrom(new InternetAddress("qorthgml2002@naver.com", "Stock City"));
+			message.setText(msgg, "utf-8", "html");
+			message.setFrom(new InternetAddress("qorthgml2002@naver.com", "Stock City"));
 
-		sendSingleMessage(rootEmail, message);
-
+			sendSingleMessage(rootEmail, message);
+		}
 		// 사용자 전송 메일
-		if ("승인".equals(joins.getRegistStatus())) { // "승인"이면 메일 발신 및 DB 데이터 생성
+		if ("approve".equals(joins.getRegistStatus())) { // "approve"이면 메일 발신 및 DB 데이터 생성
 			// 서브 계정 생성
 			for (int i = 1; i <= count; i++) {
 				String subAccountId = joins.getId() + "_" + String.format("%02d", i);
@@ -63,7 +67,7 @@ public class MailContents implements IMailService {
 				String secretPw = encoder.encode(ePw);
 				joins.setId(subAccountId);
 				joins.setPw(secretPw);
-				joins.setRegistStatus("승인");
+				joins.setRegistStatus("approve");
 
 				mapper.registProc(joins);
 
@@ -90,17 +94,20 @@ public class MailContents implements IMailService {
 			msgg += "<th style='font-weight: bold; background-color: #2895F4;'>아이디</th>";
 			msgg += "<th style='font-weight: bold; background-color: #2895F4;'>비밀번호</th>";
 			msgg += "</tr></thead>";
-			msgg += "<tbody><c:forEach var=\"join\" items=\"${subJoins}\"><tr>";
-			msgg += "<td sytle='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>${join.subAccountId}</td>";
-			msgg += "<td sytle='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>${join.ePw}</td>";
-			msgg += "</tr></c:forEach></tbody></table></c:when></c:choose></div>";
+			msgg += "<tbody>";
+			// for(String join : joins){
+			// msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + join.subAccountId + "</td>";
+			// msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + join.ePw + "</td></tr>";
+			// }
+			msgg += "</tbody></table></c:when></c:choose></div>";
 
 			message.setText(msgg, "utf-8", "html");
 			message.setFrom(new InternetAddress("qorthgml2002@naver.com", "Stock City"));
 
 			sendSingleMessage(to, message); // send 메서드 호출 전에 메시지를 생성하는 것이 중요
 		}
-		return message;
+		
+		return null;
 	}
 
 	private void sendSingleMessage(String to, MimeMessage message) {

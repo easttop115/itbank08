@@ -3,12 +3,16 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adAccount)
-        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), "미승인", #{adAccount}
+        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adAccount) 
+        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), 
+        CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adAccount} 
         FROM user;
     </insert>
     <select id="findJoin" resultMap="join">
         SELECT * FROM user WHERE id=#{id}
+    </select>
+    <select id="checkStatus" resultMap="join">
+        SELECT registStatus FROM user WHERE id=#{id}
     </select>
     <select id="findBN" resultMap="join">
         SELECT * FROM user WHERE businessNo=#{businessNo}
@@ -23,9 +27,9 @@
         SELECT id, pw FROM user WHERE email=#{email}
     </select>
     <update id="verifyProc">
-        UPDATE user SET registStatus="승인" WHERE email=#{email}
+        UPDATE user SET registStatus="approve" WHERE email=#{email}
     </update>
-    <select id="checkStatus" resultMap="join">
-        SELECT registStatus FROM user WHERE id=#{id}
+    <select id="checkAccount" resultMap="join">
+        SELECT * FROM user WHERE email=#{email}
     </select>
 </mapper>

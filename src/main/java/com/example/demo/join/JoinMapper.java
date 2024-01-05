@@ -11,6 +11,8 @@ public interface JoinMapper {
 
     JoinDTO findJoin(String id);
 
+    JoinDTO checkStatus(String id);
+
     JoinDTO findBN(String businessNo);
 
     JoinDTO findEmail(String email);
@@ -21,6 +23,6 @@ public interface JoinMapper {
 
     int verifyProc(JoinDTO joins);
 
-    JoinDTO checkStatus(String id);
+    JoinDTO checkAccount(String email);
 
 }

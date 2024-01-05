@@ -75,22 +75,22 @@ public class JoinService {
         if (result <= 0)
             return "회원가입 실패. 다시 시도해주세요.";
 
-        List<JoinDTO> subJoins = mapper.subJoins(joins);
-
-        model.addAttribute("subJoins", subJoins);
-
         return "success";
     }
 
     public String verifyProc(String email) {
         JoinDTO joins = new JoinDTO();
         joins.setEmail(email);
-        joins.setRegistStatus("승인");
+        joins.setRegistStatus("approve");
         int result = mapper.verifyProc(joins);
         if (result > 0)
             return "success";
 
         return "fail";
+    }
+
+    public JoinDTO checkAccount(String email) {
+        return mapper.checkAccount(email);
     }
 
     public String loginProc(HttpServletRequest request, String id, String pw) {
