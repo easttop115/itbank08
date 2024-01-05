@@ -70,6 +70,7 @@ public class JoinService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secretPw = encoder.encode(joins.getPw());
         joins.setPw(secretPw);
+        joins.setAccountId("root");
 
         int result = mapper.registProc(joins);
         if (result <= 0)
