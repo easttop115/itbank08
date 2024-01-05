@@ -25,4 +25,7 @@
     <update id="verifyProc">
         UPDATE user SET registStatus="승인" WHERE email=#{email}
     </update>
+    <select id="checkStatus" resultMap="join">
+        SELECT registStatus FROM user WHERE id=#{id}
+    </select>
 </mapper>

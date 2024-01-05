@@ -105,16 +105,20 @@ public class JoinService {
             return "비밀번호를 입력해주세요.";
         }
 
-        JoinDTO check = mapper.findJoin(id);
+        JoinDTO checkId = mapper.findJoin(id);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if (check != null && encoder.matches(pw, check.getPw()) == true) {
-            session.setAttribute("id", check.getId());
+        if (checkId != null && encoder.matches(pw, checkId.getPw()) == true) {
+            session.setAttribute("id", checkId.getId());
             // String sessionId = (String) session.getAttribute("id");
             // dbConfig.setDynamicDatabase(sessionId);
             return "success";
         }
         return "확인 후 다시 시도해주세요.";
+    }
+
+    public JoinDTO checkStatus(String id) {
+        return mapper.checkStatus(id);
     }
 
 }

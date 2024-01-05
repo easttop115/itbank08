@@ -21,4 +21,6 @@ public interface JoinMapper {
 
     int verifyProc(JoinDTO joins);
 
+    JoinDTO checkStatus(String id);
+
 }

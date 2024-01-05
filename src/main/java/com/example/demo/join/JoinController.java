@@ -59,15 +59,17 @@ public class JoinController {
     }
 
     @PostMapping("/loginProc")
-    public String loginProc(HttpServletRequest request, String id, String pw, JoinDTO join, Model model) {
+    public String loginProc(HttpServletRequest request, String id, String pw, Model model) {
         String confirm = service.loginProc(request, id, pw);
 
         if (confirm.equals("success")) {
-            // if ("승인".equals(join.getRegistStatus()))
+            JoinDTO checkStatus = service.checkStatus(id);
+            if ("승인".equals(checkStatus.getRegistStatus()))
                 return "redirect:/main/mainform";
 
-            // model.addAttribute("msg", "가입 미승인 회원입니다.");
-            // return "/join/login";
+            model.addAttribute("msg", "가입 미승인 회원입니다.");
+            session.invalidate();
+            return "/join/login";
         }
         model.addAttribute("msg", confirm);
         return "/join/login";
