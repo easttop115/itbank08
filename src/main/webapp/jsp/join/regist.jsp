@@ -167,10 +167,10 @@
                     <p id="errorMsg">${msg}</p>
                     <form class="form-container" action="/registProc" method="post">
                         <label class="form-label" for="id">아이디</label>
-                        <input class="form-input" type="text" name="id" value="${param.id}">
+                        <input class="form-input" type="text" name="id" value="${param.id}" placeholder="영문, 숫자, 4~20자">
 
                         <label class="form-label" for="pw">비밀번호</label>
-                        <input class="form-input" type="password" name="pw" value="${param.pw}">
+                        <input class="form-input" type="password" name="pw" value="${param.pw}" placeholder="영문, 숫자, !@#$%^&*, 6~20자">
 
                         <label class="form-label" for="confirm">비밀번호 확인</label>
                         <input class="form-input" type="password" name="confirm" value="${param.confirm}">
@@ -188,7 +188,7 @@
                         <input class="form-input" type="tel" name="tel" value="${param.tel}">
 
                         <label class="form-label" for="tel">예상 지점 수</label>
-                        <input class="form-input" type="text" name="adCount" value="${param.adCount}">
+                        <input class="form-input" type="text" name="adCount" value="${param.adCount}" placeholder="30개 초과 시 관리자 문의">
 
                         <input class="form-submit" type="submit" value="가입">
                         <button class="form-cancel" type="button" onclick="window.location.href='/'">취소</button>
