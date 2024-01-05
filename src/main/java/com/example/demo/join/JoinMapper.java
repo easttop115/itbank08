@@ -19,8 +19,6 @@ public interface JoinMapper {
 
     JoinDTO findTel(String tel);
 
-    List<JoinDTO> subJoins(JoinDTO joins);
-
     int verifyProc(JoinDTO joins);
 
     JoinDTO checkAccount(String email);

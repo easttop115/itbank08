@@ -23,9 +23,6 @@
     <select id="findTel" resultMap="join">
         SELECT * FROM user WHERE tel=#{tel}
     </select>
-    <select id="subJoins" resultMap="join">
-        SELECT id, pw FROM user WHERE email=#{email}
-    </select>
     <update id="verifyProc">
         UPDATE user SET registStatus="approve" WHERE email=#{email}
     </update>

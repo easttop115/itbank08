@@ -1,6 +1,8 @@
 package com.example.demo.mail;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,9 @@ public class MailContents implements IMailService {
 		}
 		// 사용자 전송 메일
 		if ("approve".equals(joins.getRegistStatus())) { // "approve"이면 메일 발신 및 DB 데이터 생성
+
+		List<SubAccountDTO> subAccountList = new ArrayList<>(); // 서브 계정 정보를 담을 리스트 생성
+
 			// 서브 계정 생성
 			for (int i = 1; i <= count; i++) {
 				String subAccountId = joins.getId() + "_" + String.format("%02d", i);
@@ -70,6 +75,10 @@ public class MailContents implements IMailService {
 				joins.setRegistStatus("approve");
 
 				mapper.registProc(joins);
+
+				// 서브 계정 정보를 리스트에 담기
+        		SubAccountDTO subAccountInfo = new SubAccountDTO(subAccountId, ePw);
+        		subAccountList.add(subAccountInfo);
 
 				joins.setId(mainId); // 초기화 작업 : 초기화 안하면 id_01_02 이렇게 숫자가 뒤로 붙음
 			}
@@ -95,10 +104,10 @@ public class MailContents implements IMailService {
 			msgg += "<th style='font-weight: bold; background-color: #2895F4;'>비밀번호</th>";
 			msgg += "</tr></thead>";
 			msgg += "<tbody>";
-			// for(String join : joins){
-			// msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + join.subAccountId + "</td>";
-			// msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + join.ePw + "</td></tr>";
-			// }
+			for(SubAccountDTO subAccount : subAccountList){
+			msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + subAccount.getSubAccountId() + "</td>";
+			msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + subAccount.getEPw() + "</td></tr>";
+			}
 			msgg += "</tbody></table></c:when></c:choose></div>";
 
 			message.setText(msgg, "utf-8", "html");
