@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.prod.ProdMapper">
+
+    <resultMap type="com.example.demo.prod.ProdDTO" id="prod"/>
+
+    <insert id="insertProdProc">
+        INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, color, quan, prodCon, regDate)
+        VALUES(#{prodNo}, #{brandCode}, #{cateCode}, #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{color}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
+    </insert>
+
+</mapper>
+
+
