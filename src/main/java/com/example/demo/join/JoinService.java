@@ -1,5 +1,7 @@
 package com.example.demo.join;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,8 @@ public class JoinService {
             return "예상 지점 수를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-z][a-z0-9]{3,20}$")) {
             return "아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.";
-        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+        } else if (!joins.getPw()
+                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (Integer.parseInt(joins.getAdCount()) > 30) {
             return "지점 31개 이상 등록은 문의 부탁드립니다.";
@@ -70,6 +73,12 @@ public class JoinService {
         joins.setPw(secretPw);
         joins.setAccountId("root");
 
+        String dbFirstName = joins.getCompany().substring(0, 3).toUpperCase();
+        int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 난수 생성
+        String dbLastName = String.format("%06d", randomNum); // 난수를 6자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
+
+        joins.setDbName(dbFirstName + dbLastName);
+
         int result = mapper.registProc(joins);
         if (result <= 0)
             return "회원가입 실패. 다시 시도해주세요.";
@@ -78,11 +87,11 @@ public class JoinService {
     }
 
     public String verifyProc(JoinDTO checkAccount) {
-
         checkAccount.setRegistStatus("approve");
+
         int result = mapper.verifyProc(checkAccount);
         if (result > 0) {
-            String userName = checkAccount.getId();
+            String userName = checkAccount.getDbName();
             dbConfig.createSetDatabase(userName);
             return "success";
         }
@@ -110,8 +119,8 @@ public class JoinService {
 
         if (checkId != null && encoder.matches(pw, checkId.getPw()) == true) {
             session.setAttribute("id", checkId.getId());
-            String sessionId = (String) session.getAttribute("id");
-            dbConfig.setDynamicDatabase(sessionId);
+            String dbName = checkId.getDbName();
+            dbConfig.setDynamicDatabase(dbName);
             return "success";
         }
         return "확인 후 다시 시도해주세요.";

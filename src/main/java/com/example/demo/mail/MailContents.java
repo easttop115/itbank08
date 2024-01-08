@@ -50,7 +50,7 @@ public class MailContents implements IMailService {
 			msgg += "<div align='center' style='border:3px solid #2895F4'>";
 			msgg += "<div style='font-size:130%'><br>";
 			msgg += "<strong>" + to + "</strong></div><br>";
-			msgg += "<a href='http://localhost/verifyProc?email=" + to + "'>승인</a><br>";
+			msgg += "<a href='http://localhost/verifyProc?email=" + to + "'>승인</a><br><br>";
 			msgg += "</div>";
 
 			message.setText(msgg, "utf-8", "html");
