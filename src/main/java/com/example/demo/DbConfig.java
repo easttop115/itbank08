@@ -1,11 +1,13 @@
 package com.example.demo;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 
+import com.example.demo.join.JoinDTO;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -22,20 +24,20 @@ public class DbConfig {
 
     private String defaultUserName = "demo";
 
-    public void setDynamicDatabase(String userName) { // 동적으로 DB에 연결하는 메서드
+    public void setDynamicDatabase(String dbName) { // 동적으로 DB에 연결하는 메서드
         try {
-            String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + userName;
-            DataSource newDataSource = buildDataSource(dynamicUrl, userName);
+            String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + dbName;
+            DataSource newDataSource = buildDataSource(dynamicUrl, dbName);
             jdbcTemplate.setDataSource(newDataSource);
         } catch (Exception e) {
             logError("setDynamicDatabase 메소드에서 오류 발생", e);
         }
     }
 
-    public void setLogoutDatabase() {
+    public void setLogoutDatabase() { // 로그아웃시 DB에 연결하는 메서드
         try {
             String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + defaultUserName;
-            DataSource newDataSource = buildDataSource(dynamicUrl, "admin");
+            DataSource newDataSource = buildDataSource(dynamicUrl, "admin"); // 추후 숨겨주길 바람.
             jdbcTemplate.setDataSource(newDataSource);
         } catch (Exception e) {
             logError("setLogoutDatabase 메소드에서 오류 발생", e);
@@ -51,31 +53,32 @@ public class DbConfig {
         return new HikariDataSource(hikariConfig);
     }
 
-    public void createSetDatabase(String userName) { // 회원가입 승인 후 demo 데이터베이스 복제
+    public void createSetDatabase(String dbName) { // 회원가입 승인 후 demo 데이터베이스 복제
         try {
-            if (!databaseExists(userName)) {
-                createDatabase(userName);
-                createUserAndGrantPrivileges(userName);
+            if (!databaseExists(dbName)) {
+                createDatabase(dbName);
+                createUserAndGrantPrivileges(dbName);
                 List<String> tables = getTablesInDatabase();
 
                 for (String table : tables) {
-                    updateTableStatements(userName, table);
+                    updateTableStatements(dbName, table);
                     // 여기에 특정한 테이블 값에 대한 로직 추가
-                    if ("orderStatus".equals(table)) {
+                    if (table.trim().equals("orderstatus") || table.trim().equals("user")) {
+                        // table 값을 소문자로 반환해주기에 소문자로하기
                         // 특정한 테이블에 데이터 추가하는 로직
-                        addDataToTable(table);
+                        addDataToTable(table, dbName);
                     }
                 }
             } else {
-                jdbcTemplate.execute("USE " + userName);
+                jdbcTemplate.execute("USE " + dbName);
 
-                String grantPrivilegesQuery = "GRANT ALL PRIVILEGES ON " + userName + ".* TO ?@'%'";
-                jdbcTemplate.update(grantPrivilegesQuery, userName);
+                String grantPrivilegesQuery = "GRANT ALL PRIVILEGES ON " + dbName + ".* TO ?@'%'";
+                jdbcTemplate.update(grantPrivilegesQuery, dbName);
 
                 List<String> tables = getTablesInDatabase();
                 for (String table : tables) {
-                    String grantReadPermissionQuery = "GRANT SELECT ON " + userName + "." + table + " TO ?@'%'";
-                    jdbcTemplate.update(grantReadPermissionQuery, userName);
+                    String grantReadPermissionQuery = "GRANT SELECT ON " + dbName + "." + table + " TO ?@'%'";
+                    jdbcTemplate.update(grantReadPermissionQuery, dbName);
                 }
 
                 jdbcTemplate.execute("USE " + defaultUserName);
@@ -85,37 +88,38 @@ public class DbConfig {
         }
     }
 
-    protected void createDatabase(String databaseName) { // 1. 데이터 베이스 생성
+    protected void createDatabase(String dbName) { // 1. 데이터 베이스 생성
         try {
-            String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + databaseName;
+            String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + dbName;
             jdbcTemplate.execute(createDatabaseQuery);
-            System.out.println("데이터베이스 생성 완료: " + databaseName);
+            System.out.println("데이터베이스 생성 완료: " + dbName);
         } catch (Exception e) {
             logError("데이터베이스 생성 실패", e);
         }
     }
 
-    protected void createUserAndGrantPrivileges(String userName) { // 1.사용자 계정 생성 및 권한 부여
+    protected void createUserAndGrantPrivileges(String dbName) {
         try {
-            if (!userExists(userName)) {
+            if (!userExists(dbName)) {
                 // CREATE USER 쿼리 수정
-                String createUserQuery = "CREATE USER ?@'%' IDENTIFIED BY 'mariapass'";
-                jdbcTemplate.update(createUserQuery, userName);
+                String createUserQuery = "CREATE USER ?@'%' IDENTIFIED BY 'mariapass'"; // 사용자 계정 생성
+                jdbcTemplate.update(createUserQuery, dbName);
 
-                String grantPrivilegesQuery = "GRANT ALL PRIVILEGES ON '" + userName + "''.* TO ?@'%'";
-                jdbcTemplate.update(grantPrivilegesQuery, userName);
+                String grantPrivilegesQuery = "GRANT ALL PRIVILEGES ON " + dbName + ".* TO ?@'%'";
+                // 생성한 DB의 권한만 부여
+                jdbcTemplate.update(grantPrivilegesQuery, dbName);
 
-                System.out.println("계정 생성 및 권한 부여 완료: " + userName);
+                System.out.println("계정 생성 및 권한 부여 완료: " + dbName);
             } else {
-                System.out.println("사용자 이미 존재함: " + userName);
+                System.out.println("사용자 이미 존재함: " + dbName);
             }
         } catch (Exception e) {
-            logError("사용자계정 생성 및 권한 생성 실패", e);
+            logError("사용자 계정 생성 및 권한 생성 실패", e);
         }
     }
 
-    protected void updateTableStatements(String userName, String table) {
-        if (!tableExists(userName, table)) {
+    protected void updateTableStatements(String dbName, String table) {
+        if (!tableExists(dbName, table)) {
             // 'CREATE TABLE' 쿼리 실행 코드 추가
             String createTableQuery = "SHOW CREATE TABLE `" + defaultUserName + "`.`" + table + "`";
 
@@ -125,10 +129,10 @@ public class DbConfig {
                         (rs, rowNum) -> rs.getString(2));
 
                 // 새로운 사용자의 데이터베이스에 'CREATE TABLE' 쿼리 실행
-                jdbcTemplate.execute("USE " + userName);
+                jdbcTemplate.execute("USE " + dbName);
                 jdbcTemplate.execute(createTableStatement);
 
-                System.out.println("테이블 생성 완료: " + userName + "." + table);
+                System.out.println("테이블 생성 완료: " + dbName + "." + table);
                 jdbcTemplate.execute("USE " + defaultUserName);
             } catch (EmptyResultDataAccessException e) {
                 logError("updateTableStatements 메소드에서 오류 발생", e);
@@ -146,24 +150,49 @@ public class DbConfig {
         }
     }
 
-    protected void addDataToTable(String table) { // 테이블 내부 데이터 복제
+    protected void addDataToTable(String table, String dbName) {
+        System.out.println("Creating data: " + table);
 
-        try {
-            String insertSql = "INSERT INTO " + table + " (no, status) VALUES (?, ?)";
+        if (table.trim().equals("orderstatu")) {
+            String insertSql = "INSERT INTO " + dbName + ".orderStatus (no, status) VALUES (?, ?)";
+            // Query execution
+            jdbcTemplate.execute("USE " + dbName);
+            jdbcTemplate.update(insertSql, 1, "request"); // Requested
+            jdbcTemplate.update(insertSql, 2, "approval"); // Approval confirmed
+            jdbcTemplate.update(insertSql, 3, "reject"); // Request rejected
+            jdbcTemplate.update(insertSql, 4, "deliver"); // Delivering
+            jdbcTemplate.update(insertSql, 5, "receive"); // Received confirmation
 
-            // 쿼리 실행
-            jdbcTemplate.update(insertSql, 1, "request");
-            jdbcTemplate.update(insertSql, 2, "approval");
-            jdbcTemplate.update(insertSql, 3, "reject");
-            jdbcTemplate.update(insertSql, 4, "deliver");
-            jdbcTemplate.update(insertSql, 5, "receive");
+            System.out.println("Data added to " + table + " table successfully");
+        } else if (table.trim().equals("user")) {
+            String selectSql = "SELECT * FROM " + defaultUserName + ".user WHERE dbName = ?";
+            List<JoinDTO> joins = jdbcTemplate.query(selectSql, new BeanPropertyRowMapper<>(JoinDTO.class), dbName);
 
-            System.out.println("데이터 추가 완료");
-        } catch (Exception e) {
-            logError("데이터 추가 중 오류 발생", e);
+            jdbcTemplate.execute("USE " + dbName);
+            for (JoinDTO join : joins) {
+                System.out.println("No: " + join.getNo());
+                System.out.println("Id: " + join.getId());
+                System.out.println("Pw: " + join.getPw());
+                System.out.println("Confirm: " + join.getConfirm());
+                System.out.println("Company: " + join.getCompany());
+                System.out.println("BusinessNo: " + join.getBusinessNo());
+                System.out.println("Email: " + join.getEmail());
+                System.out.println("Tel: " + join.getTel());
+                System.out.println("RegDate: " + join.getRegDate());
+                System.out.println("RegistStatus: " + join.getRegistStatus());
+                System.out.println("AdCount: " + join.getAdCount());
+                System.out.println("AccountId: " + join.getAccountId());
+                System.out.println("DbName: " + join.getDbName());
+
+                String insertSql1 = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+
+                jdbcTemplate.update(insertSql1, join.getNo(), join.getId(), join.getPw(),
+                        join.getCompany(), join.getBusinessNo(), join.getEmail(), join.getTel(), join.getRegDate(),
+                        join.getRegistStatus(), join.getAdCount(), join.getAccountId(), join.getDbName());
+            }
+
+            System.out.println("Data added to " + table + " table successfully");
         }
-
-        // 다른 테이블에 대한 추가 로직을 추가할 수 있습니다.
     }
 
     protected boolean databaseExists(String databaseName) {

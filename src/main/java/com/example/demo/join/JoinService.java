@@ -75,11 +75,11 @@ public class JoinService {
 
         int maxAttempts = 1000000;
         int attemptCount = 0;
-
+        String dbFirstName = joins.getCompany().substring(0, 3).toUpperCase();
         // dbName 컬럼 생성
         while (true) {
-            String dbFirstName = joins.getCompany().substring(0, 3).toUpperCase();
-            int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 난수 생성
+
+            int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 범위로 난수 생성
             String dbLastName = String.format("%06d", randomNum); // 난수를 6자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
 
             String uniqueDbName = dbFirstName + dbLastName;
