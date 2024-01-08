@@ -129,7 +129,7 @@
       <c:import url="/header" />
       <div class="content-container">
         <h2 class="inventory-title">상품 등록</h2>
-        <form action="/insertProdProc" method="post">
+        <form action="/prodInsertProc" method="post">
           <table class="white-bg">
             <tr>
               <th>상품명</th>
@@ -146,7 +146,7 @@
                       </c:when>
                       <c:otherwise>
                         <c:forEach var="brandCode" items="${brandCodes}">
-                          <option value="${brandCode}">${brandCode}</option>
+                          <option value="${brandCode.brandCode}">${brandCode.brandCode}</option>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>
@@ -168,7 +168,7 @@
                       </c:when>
                       <c:otherwise>
                         <c:forEach var="cateGroup" items="${cateGroups}">
-                          <option value="${cateGroup}">${cateGroup}</option>
+                          <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}</option>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>
@@ -185,7 +185,7 @@
                       </c:when>
                       <c:otherwise>
                         <c:forEach var="cateCode" items="${cateCodes}">
-                          <option value="${cateCode}">${cateCode}</option>
+                          <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>
@@ -205,8 +205,8 @@
                         <option value="nocolor">등록된 색상코드가 없습니다</option>
                       </c:when>
                       <c:otherwise>
-                        <c:forEach var="color" items="${colors}">
-                          <option value="${color}">${color}</option>
+                        <c:forEach var="colorCode" items="${colorCodes}">
+                          <option value="${colorCode.colorCode}">${colorCode.colorCode}</option>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>
@@ -218,11 +218,11 @@
             </tr>
             <tr>
               <th>사이즈</th>
-              <td><select id="size" value="${param.size}" required>
-                  <option value="sizeS">S</option>
-                  <option value="sizeM">M</option>
-                  <option value="sizeL">L</option>
-                  <option value="sizeXL">XL</option>
+              <td><select id="size" name="size" required>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
               </td>
             </tr>
             <tr>

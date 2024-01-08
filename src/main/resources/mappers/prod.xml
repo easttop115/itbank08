@@ -5,11 +5,29 @@
 <mapper namespace="com.example.demo.prod.ProdMapper">
 
     <resultMap type="com.example.demo.prod.ProdDTO" id="prod"/>
+    <resultMap id="cates" type="com.example.demo.prod.CateDTO"/>
+    <resultMap id="brands" type="com.example.demo.prod.BrandDTO"/>
+    <resultMap id="colors" type="com.example.demo.prod.ColorDTO"/>
 
-    <insert id="insertProdProc">
+
+
+    <insert id="prodInsertProc">
         INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, color, quan, prodCon, regDate)
-        VALUES(#{prodNo}, #{brandCode}, #{cateCode}, #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{color}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
+        VALUES(#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'), #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{color}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
     </insert>
+
+    <select id="cateGroupList" resultMap="cates">
+        SELECT DISTINCT cateGroup FROM category;
+    </select>
+    <select id="cateCodeList" resultMap="cates">
+        SELECT DISTINCT cateCode FROM category;
+    </select>
+    <select id="brandCodeList" resultMap="brands">
+        SELECT * FROM brand;
+    </select>
+    <select id="colorCodeList" resultMap="colors">
+        SELECT * FROM color;
+    </select>
 
     <select id="prodList" resultMap="prod">
         SELECT prodNo FROM product

@@ -9,7 +9,15 @@ import org.springframework.ui.Model;
 @Mapper
 public interface ProdMapper {
 
-  int prodInsertProc(ProdDTO prods);
+  int prodInsertProc(ProdDTO prods, BrandDTO brands, ColorDTO colors);
+
+  List<CateDTO> cateGroupList();
+
+  List<CateDTO> cateCodeList();
 
   List<ProdDTO> prodList(Map<String, String> paramMap);
+
+  List<BrandDTO> brandCodeList();
+
+  List<ColorDTO> colorCodeList();
 }
