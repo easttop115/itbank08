@@ -3,15 +3,17 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        <!-- INSERT INTO user
-        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW()
-        FROM user -->
-        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adAccount)
-        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), "미승인", #{adAccount}
+        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adCount, accountId) 
+        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), 
+        CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adCount}, 
+        CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END 
         FROM user;
     </insert>
     <select id="findJoin" resultMap="join">
         SELECT * FROM user WHERE id=#{id}
+    </select>
+    <select id="checkStatus" resultMap="join">
+        SELECT registStatus FROM user WHERE id=#{id}
     </select>
     <select id="findBN" resultMap="join">
         SELECT * FROM user WHERE businessNo=#{businessNo}
@@ -21,5 +23,11 @@
     </select>
     <select id="findTel" resultMap="join">
         SELECT * FROM user WHERE tel=#{tel}
+    </select>
+    <update id="verifyProc">
+        UPDATE user SET registStatus="approve" WHERE email=#{email}
+    </update>
+    <select id="checkAccount" resultMap="join">
+        SELECT * FROM user WHERE email=#{email}
     </select>
 </mapper>

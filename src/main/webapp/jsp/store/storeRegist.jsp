@@ -104,6 +104,7 @@
         </head>
 
         <body>
+            <c:import url="/header" />
             <div class="container">
                 <h2 style="text-align: center;">지점 등록</h2>
 

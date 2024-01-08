@@ -21,7 +21,6 @@ CREATE TABLE user (
 @Getter
 @Setter
 public class JoinDTO {
-
     private int no;
     private String id;
     private String pw;
@@ -32,5 +31,6 @@ public class JoinDTO {
     private String tel;
     private String regDate;
     private String registStatus;
-    private String adAccount;
+    private String adCount;
+    private String accountId;
 }
