@@ -7,14 +7,18 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>공지사항 글쓰기</title>
-            <!-- jQuery -->
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
             <!-- Bootstrap CSS -->
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
                 integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
                 crossorigin="anonymous">
+            <!-- Main Quill library -->
+            <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+            <!-- Theme included stylesheets -->
+            <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+            <!-- jQuery -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
             <style>
                 body {
                     padding-top: 0px;
@@ -65,7 +69,7 @@
                     /* 추가 스타일은 JavaScript로 조절합니다. */
                 }
 
-                #pwd {
+                #password {
                     width: 40%;
                 }
 
@@ -112,6 +116,22 @@
                     padding: 5px;
                     border-radius: 5px;
                 }
+
+                #content {
+                    height: 200px;
+                    overflow-y: auto;
+                }
+
+                #editor {
+                    height: 400px;
+                    /* Set the desired height in pixels or any other unit */
+                    overflow-y: auto;
+                    /* Enable vertical scroll if content exceeds the height */
+                }
+
+                .btn-box {
+                    margin-left: 59%;
+                }
             </style>
         </head>
 
@@ -135,125 +155,90 @@
                         <div class="top-line"></div>
 
                         <div class="meddle">
-                            <div class="style-options">
-                                <select id="fontFamily">
-                                    <option value="'Arial', sans-serif">Arial</option>
-                                    <option value="'Times New Roman', serif">Times New Roman</option>
-                                    <!-- 추가할 글꼴 옵션들을 넣으세요 -->
-                                </select>
-                                <input type="number" id="fontSize" min="10" max="30" step="1" value="16">
-                                <input type="color" id="fontColor" value="#000000">
-                                <select id="textAlign">
-                                    <option value="left">왼쪽</option>
-                                    <option value="center">가운데</option>
-                                    <option value="right">오른쪽</option>
-                                </select>
-                                <select id="fontWeight">
-                                    <option value="normal">보통</option>
-                                    <option value="bold">굵게</option>
-                                </select>
-
-                            </div>
-
-                            <div class="meddle">
-                                <label for="isSticky">상단 고정 여부</label>
-                                <input type="checkbox" name="isSticky" id="isSticky" value="true">
-                            </div>
-                            <div id="styleInfo"></div>
-
-                            <!-- 추가된 부분: 상단 선 -->
-                            <div class="bottom-line "></div>
-
-
-                            <div class="meddle">
-                                <label for="content">내용</label>
-                                <textarea class="form-control" rows="15" cols="70" name="content" id="content"
-                                    placeholder="내용을 입력해 주세요"></textarea>
-                            </div>
-
-
-                            <div class="meddle">
-                                <label for="fileName">파일첨부</label>
-                                <input type="file" name="FileName">
-                            </div>
-                            <div class="meddle">
-                                <label for="passwd">비밀번호</label>
-                                <input type="password" name="pwd" size="10" class="form-control" id="pwd"
-                                    placeholder="4자리 입력해주세요">
-                            </div>
+                            <label for="isSticky">상단 고정 여부</label>
+                            <input type="checkbox" name="isSticky" id="isSticky" value="true">
                         </div>
-                        <div>
-                            <input type="submit" class="btn btn-sm btn-primary custom-button" id="btnSave" value="저장">
-                            <input type="button" class="btn btn-sm btn-primary custom-button" id="btnList" value="목록">
+                        <div id="styleInfo"></div>
+
+                        <!-- 추가된 부분: 상단 선 -->
+                        <div class="bottom-line "></div>
+
+                        <div class="meddle">
+                            <label for="content">내용</label>
+                            <div id="editor" name="content"></div>
                         </div>
-                    </form>
+
+                        <div class="meddle">
+                            <label for="fileName">파일첨부</label>
+                            <input type="file" name="FileName">
+                        </div>
+                        <div class="meddle">
+                            <label for="password">비밀번호</label>
+                            <input type="password" name="pwd" size="10" class="form-control" id="password"
+                                placeholder="4자리 입력해주세요">
+                        </div>
+                </div>
+                <div class="btn-box">
+                    <input type="submit" class="btn btn-sm btn-primary custom-button" id="btnSave" value="저장">
+                    <input type="button" class="btn btn-sm btn-primary custom-button" id="btnList" value="목록">
+                </div>
+                </form>
                 </div>
             </article>
+
             <script>
-                $(document).on('click', '#btnSave', function (e) {
+                var $j = jQuery.noConflict();
+
+                $j(document).ready(function () {
+                    var quill = new Quill('#editor', {
+                        theme: 'snow', // or 'bubble'
+                        modules: {
+                            toolbar: [
+                                [{ header: [1, 2, false] }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                ['blockquote', 'code-block'],
+                                [{ 'header': 1 }, { 'header': 2 }],
+                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                [{ 'script': 'sub' }, { 'script': 'super' }],
+                                [{ 'indent': '-1' }, { 'indent': '+1' }],
+                                ['link', 'image', 'video'],
+                                ['clean']
+                            ]
+                        },
+                    });
+
+                    // Quill style updates
+                    $j(document).on('input', '#editor', function () {
+                        // Update Quill editor content when editor content changes
+                        var htmlContent = quill.root.innerHTML;
+                        $j('#editor').val(htmlContent);
+                    });
+
+                    quill.on('text-change', function () {
+                        // Update textarea content when Quill editor content changes
+                        var plainText = quill.getText();
+                        $j('#editor').val(plainText);
+                    });
+                });
+
+                $j(document).on('click', '#btnSave', function (e) {
                     e.preventDefault();
-                    $("#form").attr('action', "${pageContext.request.contextPath}/noticewriteProc");
+                    $("#form").attr('action', "/notice/noticewriteProc");
                     $("#form").submit();
                 });
 
-                $(document).on('click', '#btnList', function (e) {
+                $j(document).on('click', '#btnList', function (e) {
                     e.preventDefault();
-                    location.href = "${pageContext.request.contextPath}/noticeform";
+                    location.href = "/notice/noticeform";
                 });
-                $(document).ready(function () {
-                    $('.style-options label').mouseover(function () {
-                        var labelText = $(this).text();
-                        $('#styleInfo').text(labelText).show();
-                    });
-
-                    $('.style-options label').mouseout(function () {
-                        $('#styleInfo').hide();
-                    });
-
-                    $(document).on('change', '#fontFamily', function () {
-                        var selectedFont = $(this).val();
-                        updateStyle("font-family", selectedFont);
-                    });
-
-                    $(document).on('input', '#fontSize', function () {
-                        var selectedSize = $(this).val() + "px";
-                        updateStyle("font-size", selectedSize);
-                    });
-
-                    $(document).on('change input', '#fontColor', function () {
-                        var selectedColor = $(this).val();
-                        console.log("Selected color:", selectedColor);
-                        updateStyle("color", selectedColor);
-                    });
-
-
-
-                    $(document).on('change', '#textAlign', function () {
-                        var selectedAlign = $(this).val();
-                        updateStyle("text-align", selectedAlign);
-                    });
-
-                    $(document).on('change', '#fontWeight', function () {
-                        var selectedWeight = $(this).val();
-                        updateStyle("font-weight", selectedWeight);
-                    });
-
-                    function updateStyle(property, value) {
-                        // 스타일을 업데이트하는 함수
-                        $("#content").css(property, value);
-                    }
-
-                    $(document).on('input', '#content', function () {
-                        // 내용 박스의 높이를 고정하고 내용이 넘칠 경우 스크롤이 생기도록 스타일을 적용합니다.
-                        $("#content").css({
-                            "height": "200px",  // 적절한 높이로 조절하세요.
-                            "overflow-y": "auto"
-                        });
+                $j(document).on('input', '#content', function () {
+                    // 내용 박스의 높이를 고정하고 내용이 넘칠 경우 스크롤이 생기도록 스타일을 적용합니다.
+                    $("#content").css({
+                        "height": "200px", // 적절한 높이로 조절하세요.
+                        "overflow-y": "auto"
                     });
                 });
             </script>
-
-
 
         </body>
 

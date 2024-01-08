@@ -21,7 +21,7 @@ public class NoticeController {
     @RequestMapping("/notice/noticeform")
     public String noticeForm(Model model,
             @RequestParam(value = "currentPage", required = false) String cp) {
-        service.noticeForm(cp, model);
+        service.noticeform(cp, model);
         return "/notice/noticeform";
     }
 
@@ -59,7 +59,7 @@ public class NoticeController {
             return "redirect:/";
 
         String path = service.noticewriteProc(multi);
-        return "/notice/noticewrite";
+        return "redirect:/notice/noticewrite";
     }
 
     @RequestMapping("/notice/noticecontent")

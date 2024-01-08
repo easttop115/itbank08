@@ -193,6 +193,7 @@
           background-color: #fff;
           border: 1px solid black;
           padding: 8px 12px;
+          margin-left: 75%;
         }
 
         .writeDate {
