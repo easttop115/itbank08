@@ -51,12 +51,12 @@
                 /* 링크 스타일 설정 */
                 .navbar a {
                     text-decoration: none;
-                    font-size: 20px;
+                    font-size: 18px;
                 }
 
                 .subList a {
                     text-decoration: none;
-                    font-size: 14px;
+                    font-size: 12px;
                 }
 
                 /* 네비게이션 바 스타일 */
@@ -67,11 +67,14 @@
                     background-color: #2895F4;
                     top: 0;
                     z-index: 1000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
 
                 /* 각 navbar의 스타일 */
                 .navbar>li {
-                    width: 20%;
+                    width: 15%;
                     float: left;
                     text-align: center;
                     line-height: 40px;
@@ -118,6 +121,10 @@
         <body>
             <!-- 네비게이션 바 및 하위 메뉴 구조 -->
             <ul class="navbar">
+                <div>
+                    <a href="/main/mainform"><img src="/image/white_logo.png"
+                            style="margin-left: -100%; width: 80px; height: auto;"></a>
+                </div>
                 <li>
                     <a href="#">상품관리</a>
                     <ul class="subList">
@@ -167,6 +174,9 @@
                         <li><a href="#">상원</a></li>
                     </ul>
                 </li>
+                <div>
+                    <a href="${context}/logout" style="margin-left: 150%; font-size: 12px;">LOGOUT</a>
+                </div>
             </ul>
         </body>
 

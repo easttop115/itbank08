@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.DbConfig;
 import com.example.demo.mail.MailContents;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ public class JoinController {
     private JoinService service;
     @Autowired
     private MailContents mailContents;
+    @Autowired
+    private DbConfig dbConfig;
 
     @RequestMapping("/join/regist")
     public String regist() {
@@ -80,6 +83,7 @@ public class JoinController {
     @RequestMapping("/logout")
     public String logout() {
         session.invalidate();
+        // dbConfig.setLogoutDatabase();
 
         return "redirect:/";
     }

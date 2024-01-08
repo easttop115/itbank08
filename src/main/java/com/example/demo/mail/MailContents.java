@@ -112,7 +112,7 @@ public class MailContents implements IMailService {
 			msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + subAccount.getSubAccountId() + "</td>";
 			msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + subAccount.getEPw() + "</td></tr>";
 			}
-			msgg += "</tbody></table></c:when></c:choose></div>";
+			msgg += "</tbody></table></c:when></c:choose><br></div>";
 
 			message.setText(msgg, "utf-8", "html");
 			message.setFrom(new InternetAddress("qorthgml2002@naver.com", "Stock City"));
