@@ -14,7 +14,7 @@
           border-collapse: separate;
           border-spacing: 0;
           border-color: #2e363d;
-          width: 70%;
+          width: 90%;
           margin: auto;
           overflow: hidden;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,6 @@
         th,
         td {
           font-weight: normal;
-
           padding: 6px;
           text-align: center;
           border-radius: 0;
@@ -35,13 +34,13 @@
           color: black;
         }
 
-        /* ------ title ------ */
         .inventory-title {
-          font-size: 18px;
+          font-size: 28px;
           font-weight: bold;
           color: #2e363d;
           text-align: left;
-          margin: 20px;
+
+          margin: 32px 88px;
         }
 
         .white-bg {
@@ -60,7 +59,6 @@
           border-radius: 4px;
           box-sizing: border-box;
           margin: 0 10px;
-          /* 통일된 margin 값 추가 */
         }
 
         .button-container {
@@ -109,7 +107,6 @@
           display: flex;
           align-items: center;
           text-align: left;
-          /* 세로 중앙 정렬을 위한 스타일 */
         }
 
         select#brandCode,
@@ -123,6 +120,7 @@
           margin-top: 10px;
         }
       </style>
+
       <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
       <script>
         // 서버로부터 받은 응답을 처리하는 함수
@@ -154,7 +152,7 @@
     </head>
 
     <body>
-      <c:import url="/header" />
+      <c:import url="/sider" />
       <div class="content-container">
         <h2 class="inventory-title">상품 등록</h2>
         <form action="/prodInsertProc" method="post">

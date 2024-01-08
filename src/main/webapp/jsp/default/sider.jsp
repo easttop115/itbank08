@@ -125,7 +125,7 @@
                     /* 사이드바 배경색 */
                     position: fixed;
                     top: 0;
-                    left: 0;
+                    right: 0;
                     z-index: 999;
                     margin-top: 30px;
                     /* 항상 위에 유지 */
@@ -139,7 +139,8 @@
 
                 /* 컨텐츠 컨테이너 스타일 */
                 .content-container {
-                    margin-left: 20%;
+                    margin-right: 20%;
+                    margin-top: 20px;
                     /* 사이드바 너비에 따라 여백 조정 */
                     padding: 20px;
                     /* 내용에 여백 추가 */

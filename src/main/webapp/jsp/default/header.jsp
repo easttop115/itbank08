@@ -129,7 +129,7 @@
                 <li>
                     <a href="#">상품관리</a>
                     <ul class="subList">
-                        <li><a href="/prodInser">상품등록</a></li>
+                        <li><a href="/prodInsert">상품등록</a></li>
                         <li><a href="/prodManage">등록상품관리</a></li>
                         <li><a href="/stockStatus">매장별 재고 현황</a></li>
 
@@ -156,9 +156,9 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">블라블라</a>
+                    <a href="#">게시판</a>
                     <ul class="subList">
-                        <li><a href="#">블라블라</a></li>
+                        <li><a href="/notice/noticecontent">공지사항</a></li>
                         <li><a href="#">sub02</a></li>
                         <li><a href="#">sub03</a></li>
                         <li><a href="#">sub04</a></li>
