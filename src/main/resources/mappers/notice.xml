@@ -21,21 +21,24 @@
     SELECT count(no) FROM notice
 	</select>
 	
-
+<!-- 
 	<insert id="noticewriteProc">
 		<selectKey order="BEFORE" keyProperty="no" resultType="int">
 			SELECT NVL(max(no), 0)+1 FROM notice
-		</selectKey> 
-
-		<!-- INSERT INTO notice
-		VALUES(no, #{title}, #{content}, now(),  #{fileName},#{password}, 0, 
-       #{isSticky},#{fontWeight}, #{textAlign}, #{fontSize}, #{fontColor},#{fontFamily})  -->
-	
+		</selectKey> 	
 	   INSERT INTO notice
-    VALUES(#{no}, #{title}, #{content}, now(), #{fileName}, #{password}, 0, #{isSticky})
-	</insert>
+    VALUES(no, #{title}, #{content}, now(), #{fileName}, #{password}, 0, #{isSticky})
+	</insert> -->
+	<insert id="noticewriteProc">
+    <selectKey order="BEFORE" keyProperty="no" resultType="int">
+        SELECT NVL(max(no), 0) + 1 FROM notice
+    </selectKey> 	
+    INSERT INTO notice (no, title, content, writeDate, fileName, password, views, isSticky)
+    VALUES(#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{password}, #{views}, #{isSticky})
+</insert>
+
 	
-	<select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
+<select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
 		SELECT * FROM notice WHERE no=#{n}
 	</select>
 	
@@ -44,7 +47,7 @@
 	</update>
 	
 	<select id="noticeDownload">
-		SELECT file_name FROM notice WHERE no=#{n}
+		SELECT fileName FROM notice WHERE no=#{n}
 	</select>
 	
 	<update id="noticeModifyProc">

@@ -145,7 +145,7 @@
                             <div class="page-name">글쓰기</div>
                         </div>
                     </div>
-                    <form name="form" id="form" role="form" method="post" enctype="multipart/form-data">
+                    <form name="form" id="form" method="post" enctype="multipart/form-data">
                         <div class="meddle">
                             <label for="title">제목</label>
                             <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
@@ -170,11 +170,11 @@
 
                         <div class="meddle">
                             <label for="fileName">파일첨부</label>
-                            <input type="file" name="FileName">
+                            <input type="file" name="fileName">
                         </div>
                         <div class="meddle">
                             <label for="password">비밀번호</label>
-                            <input type="password" name="pwd" size="10" class="form-control" id="password"
+                            <input type="password" name="password" size="10" class="form-control" id="password"
                                 placeholder="4자리 입력해주세요">
                         </div>
                 </div>
@@ -187,11 +187,9 @@
             </article>
 
             <script>
-                var $j = jQuery.noConflict();
-
-                $j(document).ready(function () {
+                $(document).ready(function () {
                     var quill = new Quill('#editor', {
-                        theme: 'snow', // or 'bubble'
+                        theme: 'snow',
                         modules: {
                             toolbar: [
                                 [{ header: [1, 2, false] }],
@@ -207,37 +205,27 @@
                         },
                     });
 
-                    // Quill style updates
-                    $j(document).on('input', '#editor', function () {
-                        // Update Quill editor content when editor content changes
-                        var htmlContent = quill.root.innerHTML;
-                        $j('#editor').val(htmlContent);
-                    });
-
+                    // Quill 스타일 업데이트
                     quill.on('text-change', function () {
-                        // Update textarea content when Quill editor content changes
                         var plainText = quill.getText();
-                        $j('#editor').val(plainText);
+                        $('#editor').val(plainText);
+                    });
+
+                    $(document).on('click', '#btnSave', function (e) {
+                        e.preventDefault();
+                        var userEnteredPassword = $("#password").val();
+                        userEnteredPassword = userEnteredPassword.substring(0, 4);
+                        $("#form").attr('action', "/notice/noticewriteProc");
+                        $("#form input[name='password']").val(userEnteredPassword);
+                        $("#form").submit();
+                    });
+
+                    $(document).on('click', '#btnList', function (e) {
+                        e.preventDefault();
+                        location.href = "/notice/noticeform";
                     });
                 });
 
-                $j(document).on('click', '#btnSave', function (e) {
-                    e.preventDefault();
-                    $("#form").attr('action', "/notice/noticewriteProc");
-                    $("#form").submit();
-                });
-
-                $j(document).on('click', '#btnList', function (e) {
-                    e.preventDefault();
-                    location.href = "/notice/noticeform";
-                });
-                $j(document).on('input', '#content', function () {
-                    // 내용 박스의 높이를 고정하고 내용이 넘칠 경우 스크롤이 생기도록 스타일을 적용합니다.
-                    $("#content").css({
-                        "height": "200px", // 적절한 높이로 조절하세요.
-                        "overflow-y": "auto"
-                    });
-                });
             </script>
 
         </body>

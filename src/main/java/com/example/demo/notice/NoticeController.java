@@ -59,7 +59,7 @@ public class NoticeController {
             return "redirect:/";
 
         String path = service.noticewriteProc(multi);
-        return "redirect:/notice/noticewrite";
+        return path;
     }
 
     @RequestMapping("/notice/noticecontent")

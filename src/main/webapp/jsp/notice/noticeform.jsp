@@ -106,6 +106,13 @@
         .notice-table .notice-item td {
           border-top: 1px solid #e7e7e7;
           text-align: center;
+
+        }
+
+        .notice-table .notice-item tr td a {
+          border-top: 1px solid #e7e7e7;
+          text-align: center;
+          align: center;
         }
 
         .notice-table .notice-item th {
@@ -159,7 +166,7 @@
           color: #fff;
         }
 
-        /* reset */
+
 
         * {
           list-style: none;
@@ -206,6 +213,10 @@
           margin-bottom: -17px;
           margin-top: 11px;
         }
+
+        .tr {
+          border-bottom: 1px solid #ccc;
+        }
       </style>
     </head>
 
@@ -246,7 +257,6 @@
           </div>
         </div>
 
-
         <!-- 공지사항 항목 -->
         <div id="notice-list">
           <div class="container">
@@ -259,46 +269,36 @@
                 </div>
               </div>
 
-              <div class="notice-item">
-                <div id="notice-list">
-                  <div class="container">
-                    <div class="notice-table">
-                      <c:choose>
-                        <c:when test="${empty Notices}">
-                          <div class="notice-item">
-                            <div class="tr">
-                              <div class="td" colspan="3">등록된 데이터가 존재하지 않습니다.</div>
-                            </div>
-                          </div>
-                        </c:when>
-                        <c:otherwise>
-                          <c:forEach var="Notice" items="${Notices}">
-                            <div class="notice-item">
-                              <div class="tr">
-                                <div class="td">${Notice.no}</div>
-                                <div class="th" onclick="location.href='noticecontent?no=${Notice.title}'">
-                                  <a href="#!">${Notice.title}</a>
-                                  <!-- <p>${Notice.description}</p> -->
-                                </div>
-                                <div class="writeDate">${Notice.writeDate}</div>
-                              </div>
-                            </div>
-                          </c:forEach>
-                          <div class="notice-item">
-                            <div class="tr">
-                              <div class="td" colspan="5">${result}</div>
-                            </div>
-                          </div>
-                        </c:otherwise>
-                      </c:choose>
+              <c:choose>
+                <c:when test="${empty Notices}">
+                  <div class="notice-item">
+                    <div class="tr">
+                      <div class="td" colspan="10">등록된 데이터가 존재하지 않습니다.</div>
                     </div>
                   </div>
-                </div>
-              </div>
-
+                </c:when>
+                <c:otherwise>
+                  <c:forEach var="Notice" items="${Notices}">
+                    <div class="notice-item">
+                      <div class="tr">
+                        <div class="no">${Notice.no}</div>
+                        <div class="title" onclick="location.href='NoticeContent?no=${Notice.no}'">
+                          ${Notice.title}</div>
+                        <div class="writeDate">${Notice.writeDate}</div>
+                      </div>
+                    </div>
+                  </c:forEach>
+                  <div class="notice-item">
+                    <div class="tr">
+                      <div class="td" colspan="7">${result}</div>
+                    </div>
+                  </div>
+                </c:otherwise>
+              </c:choose>
             </div>
           </div>
         </div>
+
 
     </body>
 
