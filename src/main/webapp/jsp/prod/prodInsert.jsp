@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
     <!DOCTYPE html>
     <html>
 
     <head>
       <meta charset="UTF-8">
+
       <title>상품 개별 등록</title>
 
       <style>
@@ -121,6 +123,32 @@
           margin-top: 10px;
         }
       </style>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      <script>
+        // 서버로부터 받은 응답을 처리하는 함수
+        function handleResponse(response) {
+          alert(response.msg); // 서버로부터 받은 메시지를 알림창으로 표시
+          window.location.href = response.redirectUrl; // 리다이렉트 수행
+        }
+
+        // 페이지 로드가 완료된 후에 실행되는 함수
+        $(document).ready(function () {
+          // 등록 버튼이 클릭되었을 때 AJAX 요청을 보내도록 설정
+          $('form').submit(function (event) {
+            // 기본 폼 제출 동작을 막음
+            event.preventDefault();
+
+            // AJAX를 통한 서버 요청
+            $.ajax({
+              url: '/prodInsertProc',
+              type: 'POST',
+              dataType: 'json',
+              data: $('form').serialize(), // 폼 데이터를 직렬화하여 전송
+              success: handleResponse
+            });
+          });
+        });
+      </script>
 
 
     </head>
@@ -139,7 +167,7 @@
               <th>브랜드 코드</th>
               <td class="baranCode">
                 <div class="container">
-                  <select id="brandCode" required>
+                  <select name="brandCode" id="brandCode" required>
                     <c:choose>
                       <c:when test="${empty brandCodes}">
                         <option value="nobrandCode">등록된 브랜드코드가 없습니다</option>
@@ -161,7 +189,7 @@
               <th>카테고리</th>
               <td>
                 <div class="container">
-                  <select id="cateGroup" required>
+                  <select name="cateGroup" id="cateGroup" required>
                     <c:choose>
                       <c:when test="${empty cateGroups}">
                         <option value="nocateGroup">등록된 카테고리 그룹이 없습니다</option>
@@ -178,7 +206,7 @@
                 </div>
 
                 <div class="container">
-                  <select id="cateCode" required>
+                  <select name="cateCode" id="cateCode" required>
                     <c:choose>
                       <c:when test="${empty cateCodes}">
                         <option value="nocateCode">등록된 카테고리 코드가 없습니다</option>
@@ -199,9 +227,9 @@
               <th>색상</th>
               <td class="colorCode" colspan="2">
                 <div class="container">
-                  <select id="color" required>
+                  <select name="colorCode" id="colorCode" required>
                     <c:choose>
-                      <c:when test="${empty colors}">
+                      <c:when test="${empty colorCodes}">
                         <option value="nocolor">등록된 색상코드가 없습니다</option>
                       </c:when>
                       <c:otherwise>

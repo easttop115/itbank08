@@ -202,12 +202,13 @@
             margin: 8px;
           }
         }
+
+        textarea {
+          width: 100%;
+          box-sizing: border-box;
+        }
       </style>
 
-      <!-- ------------------------------------------------------------------------ -->
-
-
-      <!-- ------------------------------------------------------------------------ -->
     </head>
 
 
@@ -219,56 +220,59 @@
           <h2 class="inventory-title">상품 조회</h2>
           <div class="center">
             <div class="search-container">
-              <form id="searchForm" action="" method="post">
+              <form id="searchForm" action="/prodManageProc" method="post">
                 <table class="search-table">
                   <tbody>
                     <tr>
                       <td>
-                        <select id="searchOption-cateGroup" class="searchOption">
+                        <select name="cateGroup" id="cateGroup" class="searchOption">
                           <c:choose>
                             <c:when test="${empty cateGroups}">
                               <option value="noCateGroup">카테고리 그룹</option>
                             </c:when>
                             <c:otherwise>
                               <c:forEach var="cateGroup" items="${cateGroups}">
-                                <option value="${cateGroup}">${cateGroup}</option>
+                                <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}</option>
                               </c:forEach>
                             </c:otherwise>
                           </c:choose>
                         </select>
-                        <select id="searchOption-cateCode" class="searchOption">
+                        <select name="cateCode" id="cateCode" class="searchOption">
                           <c:choose>
                             <c:when test="${empty cateCodes}">
                               <option value="noCateCode">카테고리 코드</option>
                             </c:when>
                             <c:otherwise>
                               <c:forEach var="cateCode" items="${cateCodes}">
-                                <option value="${cateCode}">${cateCode}</option>
+                                <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
                               </c:forEach>
                             </c:otherwise>
                           </c:choose>
                         </select>
-                        <select id="searchOption-color" class="searchOption">
+                        <select name="color" id="color" class="searchOption">
                           <c:choose>
-                            <c:when test="${empty colors}">
+                            <c:when test="${empty colorCodes}">
                               <option value="noColor">색상코드</option>
                             </c:when>
                             <c:otherwise>
-                              <c:forEach var="color" items="${colors}">
-                                <option value="${color}">${color}</option>
+                              <c:forEach var="colorCode" items="${colorCodes}">
+                                <option value="${colorCode.colorCode}">${colorCode.colorCode}</option>
                               </c:forEach>
                             </c:otherwise>
                           </c:choose>
                         </select>
-                        <select id="searchOption-size" class="searchOption">
-                          <option value="size">사이즈</option>
+                        <select id="size" name="size" required>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="L">L</option>
+                          <option value="XL">XL</option>
                         </select>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <input type="text" id="txtProductName" placeholder="상품 검색어 입력" class="txtProductName">
-                        <button class="search-button" onclick="searchProducts()">검색</button>
+                        <input type="button" class="search-button" value="검색" onclick="searchProducts()">
                       </td>
                     </tr>
                   </tbody>
@@ -341,7 +345,8 @@
 
               <tr>
                 <td>비고</td>
-                <td><textarea name="prodContent" class="prodContent" rows="10"></textarea></td>
+                <td><textarea name="prodCon" value="${param.prodCon}" rows="10" cols="50" required></textarea>
+                </td>
               </tr>
             </table>
             <input type="submit" value="등록">
@@ -354,41 +359,46 @@
 
     <script>
       function searchProducts() {
-        // Get the data manually
-        var cGroup = document.getElementById("searchOption-cateGroup").value;
-        var cCode = document.getElementById("searchOption-cateCode").value;
-        var c = document.getElementById("searchOption-color").value;
-        var s = document.getElementById("searchOption-size").value;
-        var txtP = document.getElementById("txtProductName").value;
-
-        // Construct the data payload
-        var data = {
-          cateGroup: cGroup,
-          cateCode: cCode,
-          color: c,
-          size: s,
-          txtProductName: txtP
-        }
-
-        // Make an AJAX request to fetch search results
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/prodManageProc", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState == 4 && xhr.status == 200) {
-            // Update the prodListTable with the new data
-            document.getElementById("prodListTable").innerHTML = xhr.responseText;
-          }
-        };
-        xhr.send(JSON.stringify(data));
+        // JavaScript 코드는 필요에 따라 추가
+        // 서버로 폼을 제출하도록 변경
+        document.getElementById("searchForm").submit();
       }
-      document.getElementById("searchForm").addEventListener("submit", searchProducts);
+      // function searchProducts() {
+      //   // Get the data manually
+      //   var cGroup = document.getElementById("searchOption-cateGroup").value;
+      //   var cCode = document.getElementById("searchOption-cateCode").value;
+      //   var c = document.getElementById("searchOption-color").value;
+      //   var s = document.getElementById("searchOption-size").value;
+      //   var txtP = document.getElementById("txtProductName").value;
 
-      // function manageProduct(prodNo, prodName) {
-      //   // 상품 관리 동작 정의
-      //   console.log('상품 관리:', prodNo, prodName);
-      //   // 추가적인 로직을 여기에 구현
+      //   // Construct the data payload
+      //   var data = {
+      //     cateGroup: cGroup,
+      //     cateCode: cCode,
+      //     color: c,
+      //     size: s,
+      //     txtProductName: txtP
+      //   }
+
+      //   // Make an AJAX request to fetch search results
+      //   var xhr = new XMLHttpRequest();
+      //   xhr.open("POST", "/prodManageProc", true);
+      //   xhr.setRequestHeader("Content-Type", "application/json");
+      //   xhr.onreadystatechange = function () {
+      //     if (xhr.readyState == 4 && xhr.status == 200) {
+      //       // Update the prodListTable with the new data
+      //       document.getElementById("prodListTable").innerHTML = xhr.responseText;
+      //     }
+      //   };
+      //   xhr.send(JSON.stringify(data));
       // }
+      // document.getElementById("searchForm").addEventListener("submit", searchProducts);
+
+      // // function manageProduct(prodNo, prodName) {
+      // //   // 상품 관리 동작 정의
+      // //   console.log('상품 관리:', prodNo, prodName);
+      // //   // 추가적인 로직을 여기에 구현
+      // // }
     </script>
 
     </html>

@@ -17,12 +17,18 @@ public class ProdDTO {
   int incomePrice; // 입고가격
   int sellPrice; // 판매가격
   String size;
-  String color;
+  String colorCode;
   int quan;
   String prodCon;
   String regDate; // mapper -> Now()
 
-  public void setProdNo(String brandCode, String cateGroup, String cateCode, String size) {
+  public ProdDTO(String brandCode, String cateGroup, String cateCode, String size) {
+    // 생성자에서 직접 getProdNo 메서드 호출
+    getProdNo(brandCode, cateGroup, cateCode, size);
+  }
+
+  // prodNo를 자동으로 생성하는 메서드
+  private void getProdNo(String brandCode, String cateGroup, String cateCode, String size) {
     this.brandCode = brandCode;
     this.cateGroup = cateGroup;
     this.cateCode = cateCode;
