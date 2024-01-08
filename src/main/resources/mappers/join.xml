@@ -12,9 +12,6 @@
     <select id="findJoin" resultMap="join">
         SELECT * FROM user WHERE id=#{id}
     </select>
-    <select id="checkStatus" resultMap="join">
-        SELECT registStatus FROM user WHERE id=#{id}
-    </select>
     <select id="findBN" resultMap="join">
         SELECT * FROM user WHERE businessNo=#{businessNo}
     </select>
@@ -24,10 +21,16 @@
     <select id="findTel" resultMap="join">
         SELECT * FROM user WHERE tel=#{tel}
     </select>
+    <select id="findDbName" resultMap="join">
+        SELECT * FROM user WHERE dbName=#{dbName}
+    </select>
     <update id="verifyProc">
         UPDATE user SET registStatus="approve" WHERE email=#{email}
     </update>
     <select id="checkAccount" resultMap="join">
         SELECT * FROM user WHERE email=#{email}
+    </select>
+    <select id="checkStatus" resultMap="join">
+        SELECT registStatus FROM user WHERE id=#{id}
     </select>
 </mapper>

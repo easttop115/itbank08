@@ -73,12 +73,30 @@ public class JoinService {
         joins.setPw(secretPw);
         joins.setAccountId("root");
 
-        String dbFirstName = joins.getCompany().substring(0, 3).toUpperCase();
-        int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 난수 생성
-        String dbLastName = String.format("%06d", randomNum); // 난수를 6자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
+        int maxAttempts = 1000000;
+        int attemptCount = 0;
 
-        joins.setDbName(dbFirstName + dbLastName);
+        // dbName 컬럼 생성
+        while (true) {
+            String dbFirstName = joins.getCompany().substring(0, 3).toUpperCase();
+            int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 난수 생성
+            String dbLastName = String.format("%06d", randomNum); // 난수를 6자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
 
+            String uniqueDbName = dbFirstName + dbLastName;
+
+            JoinDTO checkDbName = mapper.findDbName(uniqueDbName);
+            if (checkDbName == null) {
+                // 중복이 없으면 dbName으로 설정하고 반복문 종료
+                joins.setDbName(uniqueDbName);
+                break;
+            }
+
+            attemptCount++;
+            if (attemptCount >= maxAttempts) {
+                // 만약 최대 시도 횟수를 초과하면 강제로 종료
+                return "오류가 발생했습니다. 해결을 위해 연락 부탁드립니다.";
+            }
+        }
         int result = mapper.registProc(joins);
         if (result <= 0)
             return "회원가입 실패. 다시 시도해주세요.";

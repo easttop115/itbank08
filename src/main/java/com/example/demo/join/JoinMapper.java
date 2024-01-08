@@ -11,16 +11,17 @@ public interface JoinMapper {
 
     JoinDTO findJoin(String id);
 
-    JoinDTO checkStatus(String id);
-
     JoinDTO findBN(String businessNo);
 
     JoinDTO findEmail(String email);
 
     JoinDTO findTel(String tel);
 
+    JoinDTO findDbName(String uniqueDbName);
+
     int verifyProc(JoinDTO joins);
 
     JoinDTO checkAccount(String email);
 
+    JoinDTO checkStatus(String id);
 }
