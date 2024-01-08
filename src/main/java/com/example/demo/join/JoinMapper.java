@@ -1,7 +1,5 @@
 package com.example.demo.join;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

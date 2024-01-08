@@ -104,8 +104,8 @@ public class MailContents implements IMailService {
 			msgg += "<c:choose><c:when test=\"${subJoins}\">";
 			msgg += "<table style='border: 2px solid rgb(255, 255, 255); border-collapse: collapse; width: 80%; margin: 0 auto;'>";
 			msgg += "<thead><tr>";
-			msgg += "<th style='font-weight: bold; background-color: #2895F4;'>아이디</th>";
-			msgg += "<th style='font-weight: bold; background-color: #2895F4;'>비밀번호</th>";
+			msgg += "<th style='font-weight: bold; color: white; background-color: #2895F4;'>아이디</th>";
+			msgg += "<th style='font-weight: bold; color: white; background-color: #2895F4;'>비밀번호</th>";
 			msgg += "</tr></thead>";
 			msgg += "<tbody>";
 			for(SubAccountDTO subAccount : subAccountList){

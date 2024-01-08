@@ -38,12 +38,15 @@ public class JoinService {
         } else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
             return "전화번호를 입력해주세요.";
         } else if (joins.getAdCount() == null || joins.getAdCount().trim().isEmpty()) {
-            return "예상 지점 수를 입력해주세요.";
-        } else if (!joins.getId().matches("^[a-z][a-z0-9]{3,20}$")) {
-            return "아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.";
-        } else if (!joins.getPw()
-                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+            return "운영 매장 개수를 입력해주세요.";
+        } else if (!joins.getId().matches("^[a-z0-9]{4,20}$")) {
+            return "아이디는 4~20자 영문, 숫자 입력 가능합니다.";
+        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기는 9 뒤에 공백
+            return "회사명은 영어로 시작 부탁드립니다.";
+        } else if (Integer.parseInt(joins.getAdCount()) < 1) {
+            return "1개 이상 등록해주세요.";
         } else if (Integer.parseInt(joins.getAdCount()) > 30) {
             return "지점 31개 이상 등록은 문의 부탁드립니다.";
         }
@@ -52,17 +55,14 @@ public class JoinService {
         if (checkId != null) {
             return "존재하는 아이디입니다.";
         }
-
         JoinDTO checkBusinessNo = mapper.findBN(joins.getBusinessNo());
         if (checkBusinessNo != null) {
             return "존재하는 사업자등록번호입니다.";
         }
-
         JoinDTO checkEmail = mapper.findEmail(joins.getEmail());
         if (checkEmail != null) {
             return "존재하는 이메일입니다.";
         }
-
         JoinDTO checkTel = mapper.findTel(joins.getTel());
         if (checkTel != null) {
             return "존재하는 전화번호입니다.";

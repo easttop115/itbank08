@@ -16,8 +16,8 @@ CREATE TABLE user (
     regDate VARCHAR(20),
     registStatus VARCHAR(20),
     adCount VARCHAR(20),
-    adccountId VARCHAR(20),
-    dbName VARCHAR(50)
+    accountId VARCHAR(20),
+    dbName VARCHAR(20)
 );
 */
 @Getter
