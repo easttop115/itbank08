@@ -20,9 +20,9 @@ public class home {
         return "/default/header";
     }
 
-    @RequestMapping("/main")
-    public String main() {
-        return "/default/main";
+    @RequestMapping("/sider")
+    public String sider() {
+        return "/default/sider";
     }
 
 }

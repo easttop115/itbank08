@@ -155,123 +155,125 @@ height: 30px;
 
     <body>
       <c:import url="/header" />
-      <div class="inventory-title">매장별 재고 현황</div>
-      <table>
-        <tbody>
-          <tr>
-            <!-- 스타일 따로 빼-->
-            <td class="first-table-subject">매장</td>
-            <td class="first-table-content">
-              <select>
-                <c:choose>
-                  <c:when test="${empty storeNames}">
-                    <option value="noStoreName">등록된 매장이 없습니다.</option>
-                  </c:when>
-                  <c:otherwise>
-                    <c:forEach var="storeName" items="${storeNames}">
-                      <option value="${storeName}">${storeName}</option>
-                    </c:forEach>
-                  </c:otherwise>
-                </c:choose>
-              </select>
-            </td>
-            <!-- <td class="first-table-subject">등록일</td>
+      <div class="content-container">
+        <div class="inventory-title">매장별 재고 현황</div>
+        <table>
+          <tbody>
+            <tr>
+              <!-- 스타일 따로 빼-->
+              <td class="first-table-subject">매장</td>
+              <td class="first-table-content">
+                <select>
+                  <c:choose>
+                    <c:when test="${empty storeNames}">
+                      <option value="noStoreName">등록된 매장이 없습니다.</option>
+                    </c:when>
+                    <c:otherwise>
+                      <c:forEach var="storeName" items="${storeNames}">
+                        <option value="${storeName}">${storeName}</option>
+                      </c:forEach>
+                    </c:otherwise>
+                  </c:choose>
+                </select>
+              </td>
+              <!-- <td class="first-table-subject">등록일</td>
             <td class="first-table-content">
               <select id="dateSelect"></select>
             </td> -->
-          </tr>
+            </tr>
 
-          <tr>
-            <td class="first-table-subject">상세검색</td>
-            <td colspan="3" class="first-table-content">
-              <select class="half-width">
-                <c:choose>
-                  <c:when test="${empty colors}">
-                    <option value="noColor">등록된 색상이 없습니다</option>
-                  </c:when>
-                  <c:otherwise>
-                    <c:forEach var="color" items="${colors}">
-                      <option value="${color}">${color}</option>
-                    </c:forEach>
-                  </c:otherwise>
-                </c:choose>
-              </select>
-              <select class="half-width">
-                <c:choose>
-                  <c:when test="${empty cateGroups}">
-                    <option value="noCate">등록된 카테고리 그룹이 없습니다.</option>
-                  </c:when>
-                  <c:otherwise>
-                    <c:forEach var="cateGroup" items="${cateGroups}">
-                      <option value="${cateGroups}">${cateGroup}</option>
-                    </c:forEach>
-                  </c:otherwise>
-                </c:choose>
-              </select>
-              <select class="half-width">
-                <c:choose>
-                  <c:when test="${empty cateCodes}">
-                    <option value="noCate">등록된 카테고리 코드가 없습니다.</option>
-                  </c:when>
-                  <c:otherwise>
-                    <c:forEach var="cateCode" items="${cateCodes}">
-                      <option value="${cateCode}">${catecode}</option>
-                    </c:forEach>
-                  </c:otherwise>
-                </c:choose>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td class="first-table-subject">상품코드</td>
-            <td colspan="3" class="first-table-content">
-              <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
-              <select id="searchDropdown" class="searchDropdown"></select>
-              <button class="seacrch-button">검색</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <br>
+            <tr>
+              <td class="first-table-subject">상세검색</td>
+              <td colspan="3" class="first-table-content">
+                <select class="half-width">
+                  <c:choose>
+                    <c:when test="${empty colors}">
+                      <option value="noColor">등록된 색상이 없습니다</option>
+                    </c:when>
+                    <c:otherwise>
+                      <c:forEach var="color" items="${colors}">
+                        <option value="${color}">${color}</option>
+                      </c:forEach>
+                    </c:otherwise>
+                  </c:choose>
+                </select>
+                <select class="half-width">
+                  <c:choose>
+                    <c:when test="${empty cateGroups}">
+                      <option value="noCate">등록된 카테고리 그룹이 없습니다.</option>
+                    </c:when>
+                    <c:otherwise>
+                      <c:forEach var="cateGroup" items="${cateGroups}">
+                        <option value="${cateGroups}">${cateGroup}</option>
+                      </c:forEach>
+                    </c:otherwise>
+                  </c:choose>
+                </select>
+                <select class="half-width">
+                  <c:choose>
+                    <c:when test="${empty cateCodes}">
+                      <option value="noCate">등록된 카테고리 코드가 없습니다.</option>
+                    </c:when>
+                    <c:otherwise>
+                      <c:forEach var="cateCode" items="${cateCodes}">
+                        <option value="${cateCode}">${catecode}</option>
+                      </c:forEach>
+                    </c:otherwise>
+                  </c:choose>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="first-table-subject">상품코드</td>
+              <td colspan="3" class="first-table-content">
+                <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
+                <select id="searchDropdown" class="searchDropdown"></select>
+                <button class="seacrch-button">검색</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
 
-      <table>
-        <tbody>
-          <tr class="second-table-header">
-            <td>상품코드</td>
-            <td>품목명</td>
-            <td>색상</td>
-            <td>판매가</td>
-            <td>S</td>
-            <td>M</td>
-            <td>L</td>
-            <td>XL</td>
-          </tr>
+        <table>
+          <tbody>
+            <tr class="second-table-header">
+              <td>상품코드</td>
+              <td>품목명</td>
+              <td>색상</td>
+              <td>판매가</td>
+              <td>S</td>
+              <td>M</td>
+              <td>L</td>
+              <td>XL</td>
+            </tr>
 
-          <!-- 데이터 유무 확인 -->
-          <c:choose>
-            <c:when test="${empty DataList}">
-              <tr class="no-data-row">
-                <td colspan="8">조회된 정보가 없습니다.</td>
-              </tr>
-            </c:when>
-            <c:otherwise>
-              <c:forEach var="item" items="${DataList}">
-                <tr class="second-table-content">
-                  <td>${item.prodCode}</td>
-                  <td>${item.prodName}</td>
-                  <td>${item.color}</td>
-                  <td>${item.price}</td>
-                  <td>${item.sizeS}</td>
-                  <td>${item.sizeM}</td>
-                  <td>${item.sizeL}</td>
-                  <td>${item.sizeXL}</td>
+            <!-- 데이터 유무 확인 -->
+            <c:choose>
+              <c:when test="${empty DataList}">
+                <tr class="no-data-row">
+                  <td colspan="8">조회된 정보가 없습니다.</td>
                 </tr>
-              </c:forEach>
-            </c:otherwise>
-          </c:choose>
+              </c:when>
+              <c:otherwise>
+                <c:forEach var="item" items="${DataList}">
+                  <tr class="second-table-content">
+                    <td>${item.prodCode}</td>
+                    <td>${item.prodName}</td>
+                    <td>${item.color}</td>
+                    <td>${item.price}</td>
+                    <td>${item.sizeS}</td>
+                    <td>${item.sizeM}</td>
+                    <td>${item.sizeL}</td>
+                    <td>${item.sizeXL}</td>
+                  </tr>
+                </c:forEach>
+              </c:otherwise>
+            </c:choose>
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </body>
 
     </html>

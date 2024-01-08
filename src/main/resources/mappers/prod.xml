@@ -11,6 +11,14 @@
         VALUES(#{prodNo}, #{brandCode}, #{cateCode}, #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{color}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
     </insert>
 
+    <select id="prodList" resultMap="prod">
+        SELECT prodNo FROM product
+        WHERE cateCode = #{categoryCode}
+            OR brandCode = #{brandCode}
+            OR color = #{color}
+            OR size = #{size}
+    </select>
+
 </mapper>
 
 
