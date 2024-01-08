@@ -83,7 +83,7 @@ public class JoinController {
     @RequestMapping("/logout")
     public String logout() {
         session.invalidate();
-        // dbConfig.setLogoutDatabase();
+        dbConfig.setLogoutDatabase();
 
         return "redirect:/";
     }

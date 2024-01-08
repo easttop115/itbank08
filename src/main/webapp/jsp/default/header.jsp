@@ -104,6 +104,7 @@
                 .subList {
                     height: 0;
                     overflow: hidden;
+                    transition: height 1s;
                 }
 
                 .navbar:hover .subList {

@@ -37,10 +37,10 @@ public class JoinService {
             return "전화번호를 입력해주세요.";
         } else if (joins.getAdCount() == null || joins.getAdCount().trim().isEmpty()) {
             return "예상 지점 수를 입력해주세요.";
-        } else if (!joins.getId().matches("^[a-zA-Z0-9]{4,20}$")) {
-            return "아이디는 영문, 숫자, 4~20자 입력 가능합니다.";
-        } else if (!joins.getPw().matches("^[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
-            return "비밀번호는 영문, 숫자, !@#$%^&*, 6~20자 입력 가능합니다.";
+        } else if (!joins.getId().matches("^[a-z][a-z0-9]{3,20}$")) {
+            return "아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.";
+        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (Integer.parseInt(joins.getAdCount()) > 30) {
             return "지점 31개 이상 등록은 문의 부탁드립니다.";
         }

@@ -104,10 +104,9 @@
                     padding: 8px;
                     margin-bottom: 8px;
                     box-sizing: border-box;
-                    border-radius: 10px;
-                    /* 둥글게 */
-                    border: 1px solid #ccc;
-                    /* 테두리 추가 */
+                    border-radius: 10px; /* 둥글게 */
+                    border: 1px solid #ccc; /* 테두리 추가 */
+                    width: 220px;
                 }
 
                 .form-submit {
@@ -122,8 +121,8 @@
 
                 .form-cancel {
                     padding: 10px;
-                    width: 50%;
-                    margin-left: 50%;
+                    width: 40%;
+                    margin-left: 60%;
                     cursor: pointer;
                     border: none;
                     border-radius: 20px;
@@ -167,10 +166,10 @@
                     <p id="errorMsg">${msg}</p>
                     <form class="form-container" action="/registProc" method="post">
                         <label class="form-label" for="id">아이디</label>
-                        <input class="form-input" type="text" name="id" value="${param.id}" placeholder="영문, 숫자, 4~20자">
+                        <input class="form-input" type="text" name="id" value="${param.id}" placeholder="영문 시작 4~20자 영문, 숫자">
 
                         <label class="form-label" for="pw">비밀번호</label>
-                        <input class="form-input" type="password" name="pw" value="${param.pw}" placeholder="영문, 숫자, !@#$%^&*, 6~20자">
+                        <input class="form-input" type="password" name="pw" value="${param.pw}" placeholder="6~20자 대소문자, 숫자, 특수문자">
 
                         <label class="form-label" for="confirm">비밀번호 확인</label>
                         <input class="form-input" type="password" name="confirm" value="${param.confirm}">
@@ -187,11 +186,11 @@
                         <label class="form-label" for="tel">전화번호</label>
                         <input class="form-input" type="tel" name="tel" value="${param.tel}">
 
-                        <label class="form-label" for="tel">예상 지점 수</label>
+                        <label class="form-label" for="tel">운영 매장 개수</label>
                         <input class="form-input" type="text" name="adCount" value="${param.adCount}" placeholder="30개 초과 시 관리자 문의">
 
                         <input class="form-submit" type="submit" value="가입">
-                        <button class="form-cancel" type="button" onclick="window.location.href='/'">취소</button>
+                        <input class="form-cancel" type="button" onclick="window.location.href='/'" value="취소">
                     </form>
                     <!-- 하단 브랜드 로고 -->
                     <div class="brand-bottom">
@@ -212,11 +211,11 @@
                 var adCountInput = document.getElementsByName('adCount')[0];
 
                 // ${msg}의 값에 따라 스타일을 동적으로 변경
-                if (errorMsg.innerText === '아이디를 입력해주세요.' || errorMsg.innerText === '아이디는 영문, 숫자, 4~20자 입력 가능합니다.' || errorMsg.innerText === '존재하는 아이디입니다.') {
+                if (errorMsg.innerText === '아이디를 입력해주세요.' || errorMsg.innerText === '아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.' || errorMsg.innerText === '존재하는 아이디입니다.') {
                     idInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '비밀번호를 입력해주세요.') {
                     pwInput.style.border = '2px solid red';
-                } else if (errorMsg.innerText === '두 비밀번호가 다릅니다.' || errorMsg.innerText === '비밀번호는 영문, 숫자, !@#$%^&*, 6~20자 입력 가능합니다.') {
+                } else if (errorMsg.innerText === '두 비밀번호가 다릅니다.' || errorMsg.innerText === '비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.') {
                     pwInput.style.border = '2px solid red';
                     confirmInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '회사명을 입력해주세요.') {
