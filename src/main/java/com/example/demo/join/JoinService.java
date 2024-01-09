@@ -41,7 +41,8 @@ public class JoinService {
             return "운영 매장 개수를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-z0-9]{4,20}$")) {
             return "아이디는 4~20자 영문, 숫자 입력 가능합니다.";
-        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+        } else if (!joins.getPw()
+                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기는 9 뒤에 공백
             return "회사명은 영어로 시작 부탁드립니다.";
@@ -109,8 +110,8 @@ public class JoinService {
 
         int result = mapper.verifyProc(checkAccount);
         if (result > 0) {
-            String userName = checkAccount.getDbName();
-            dbConfig.createSetDatabase(userName);
+            // String userName = checkAccount.getDbName();
+            // dbConfig.createSetDatabase(userName);
             return "success";
         }
         return "fail";

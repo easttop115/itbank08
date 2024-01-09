@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DbConfig;
 import com.example.demo.join.JoinDTO;
 import com.example.demo.join.JoinMapper;
 
@@ -25,6 +26,8 @@ public class MailContents implements IMailService {
 	JavaMailSender emailSender;
 	@Autowired
 	JoinMapper mapper;
+	@Autowired
+	DbConfig dbConfig;
 
 	// 메일 내용 작성
 	@Override
@@ -61,7 +64,7 @@ public class MailContents implements IMailService {
 		// 사용자 전송 메일
 		if ("approve".equals(joins.getRegistStatus())) { // "approve"이면 메일 발신 및 DB 데이터 생성
 
-		List<SubAccountDTO> subAccountList = new ArrayList<>(); // 서브 계정 정보를 담을 리스트 생성
+			List<SubAccountDTO> subAccountList = new ArrayList<>(); // 서브 계정 정보를 담을 리스트 생성
 
 			// 서브 계정 생성
 			for (int i = 1; i <= count; i++) {
@@ -81,11 +84,12 @@ public class MailContents implements IMailService {
 				mapper.registProc(joins);
 
 				// 서브 계정 정보를 리스트에 담기
-        		SubAccountDTO subAccountInfo = new SubAccountDTO(subAccountId, ePw);
-        		subAccountList.add(subAccountInfo);
+				SubAccountDTO subAccountInfo = new SubAccountDTO(subAccountId, ePw);
+				subAccountList.add(subAccountInfo);
 
 				joins.setId(mainId); // 초기화 작업 : 초기화 안하면 id_01_02 이렇게 숫자가 뒤로 붙음
 			}
+			dbConfig.createSetDatabase(joins.getDbName());
 			message = emailSender.createMimeMessage();
 
 			message.addRecipients(RecipientType.TO, to); // 메일 받을 사용자
@@ -108,9 +112,11 @@ public class MailContents implements IMailService {
 			msgg += "<th style='font-weight: bold; color: white; background-color: #2895F4;'>비밀번호</th>";
 			msgg += "</tr></thead>";
 			msgg += "<tbody>";
-			for(SubAccountDTO subAccount : subAccountList){
-			msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + subAccount.getSubAccountId() + "</td>";
-			msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>" + subAccount.getEPw() + "</td></tr>";
+			for (SubAccountDTO subAccount : subAccountList) {
+				msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>"
+						+ subAccount.getSubAccountId() + "</td>";
+				msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>"
+						+ subAccount.getEPw() + "</td></tr>";
 			}
 			msgg += "</tbody></table></c:when></c:choose><br></div>";
 
@@ -119,7 +125,7 @@ public class MailContents implements IMailService {
 
 			sendSingleMessage(to, message); // send 메서드 호출 전에 메시지를 생성하는 것이 중요
 		}
-		
+
 		return null;
 	}
 
