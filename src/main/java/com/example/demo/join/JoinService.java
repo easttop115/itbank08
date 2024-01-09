@@ -137,6 +137,7 @@ public class JoinService {
 
         if (checkId != null && encoder.matches(pw, checkId.getPw()) == true) {
             session.setAttribute("id", checkId.getId());
+            session.setAttribute("accountId", checkId.getAccountId());
             String dbName = checkId.getDbName();
             dbConfig.setDynamicDatabase(dbName);
             return "success";

@@ -5,6 +5,7 @@
         <head>
             <link rel="icon" href="/image/sc.png">
             <title>Stock City</title>
+            <link rel="stylesheet" href="/css/header.css">
             <script>
                 // DOMContentLoaded 이벤트가 발생하면 실행되는 함수
                 document.addEventListener("DOMContentLoaded", function () {
@@ -35,88 +36,6 @@
                     });
                 });
             </script>
-
-            <style>
-                /* 전체 초기화 스타일 */
-                * {
-                    padding: 0;
-                    margin: 0;
-                }
-
-                /* 리스트 스타일 제거 */
-                li {
-                    list-style: none;
-                }
-
-                /* 링크 스타일 설정 */
-                .navbar a {
-                    text-decoration: none;
-                    font-size: 18px;
-                }
-
-                .subList a {
-                    text-decoration: none;
-                    font-size: 12px;
-                }
-
-                /* 네비게이션 바 스타일 */
-                .navbar {
-                    width: 100%;
-                    overflow: hidden;
-                    margin: 0;
-                    background-color: #2895F4;
-                    top: 0;
-                    z-index: 1000;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                /* 각 navbar의 스타일 */
-                .navbar>li {
-                    width: 15%;
-                    float: left;
-                    text-align: center;
-                    line-height: 40px;
-                    background-color: #2895F4;
-                    position: relative;
-                }
-
-                /* navbar 내부 링크의 색상 설정 */
-                .navbar a {
-                    color: #fff;
-                }
-
-                /* navbar hover 시 배경색 변경 */
-                .navbar>li:hover,
-                .navbar>li:hover li {
-                    background-color: #0059ff;
-                    transition-duration: 0.5s;
-                }
-
-                /* subList 내부 각 요소의 스타일 */
-                .subList>li {
-                    line-height: 50px;
-                    background-color: #2895F4;
-                }
-
-                /* subList 초기 상태 설정 */
-                .subList {
-                    height: 0;
-                    overflow: hidden;
-                    transition: height 1s;
-                }
-
-                .navbar:hover .subList {
-                    height: 250px;
-                    transition-duration: 1s;
-                }
-
-                /* subList 박스 색 변경 */
-                .navbar>li>.subList li:hover {
-                    background-color: #2895F4;
-                }
-            </style>
         </head>
 
         <body>
@@ -175,6 +94,9 @@
                         <li><a href="#">상원</a></li>
                     </ul>
                 </li>
+                <div>
+                    <a href="${context}/userInfo" style="margin-left: 110%; font-size: 12px;">MYPAGE</a>
+                </div>
                 <div>
                     <a href="${context}/logout" style="margin-left: 150%; font-size: 12px;">LOGOUT</a>
                 </div>
