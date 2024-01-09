@@ -54,6 +54,10 @@
                     align-items: center;
                 }
 
+                .brand a {
+                    text-decoration: none; /* 링크 밑줄 제거 */
+                }
+
                 .brand p {
                     margin: 0;
                     font-size: 30px;
@@ -171,7 +175,7 @@
                 <div class="left">
                     <!-- 브랜드 로고 -->
                     <div class="brand">
-                        <p>Stock City</p>
+                        <a href="/"><p>Stock City</p></a>
                     </div>
                     <!-- 동적 텍스트 -->
                     <p id="dynamicText" class="dynamic-text">Stock City</p>
