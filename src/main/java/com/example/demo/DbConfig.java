@@ -153,7 +153,7 @@ public class DbConfig {
     protected void addDataToTable(String table, String dbName) {
         System.out.println("Creating data: " + table);
 
-        if (table.trim().equals("orderstatu")) {
+        if (table.trim().equals("orderstatus")) {
             String insertSql = "INSERT INTO " + dbName + ".orderStatus (no, status) VALUES (?, ?)";
             // Query execution
             jdbcTemplate.execute("USE " + dbName);
