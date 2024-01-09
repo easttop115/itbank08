@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:import url="/header" />
-<link rel="stylesheet" href="/css/infostyle.css">
+<link rel="stylesheet" href="/css/userInfo.css">
 
 <body>
 	<div class="center">
@@ -19,7 +19,7 @@
 							<input class="input-field" type="email" name="email" value="${sessionScope.email}"><br>
 							<input class="input-field" type="text" name="tel" value="${sessionScope.tel}"><br>
 							<input class="updateBtn" type="submit" value="수정">
-							<input class="cancel-updateBtn" type="button" onclick="window.location.href='/'" value="취소"><br>
+							<input class="cancel-updateBtn" type="button" onclick="window.location.href='/userInfo?id=${sessionScope.id}'" value="취소"><br>
 						</form>
 					</td>
 				</tr>
