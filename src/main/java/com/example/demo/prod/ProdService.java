@@ -19,16 +19,12 @@ public class ProdService {
   private ProdMapper mapper;
 
   public String prodInsertProc(ProdDTO prods) {
-    prods.setProdNo(generateProdNo(prods.getBrandCode(), prods.getCateGroup(), prods.getCateCode(), prods.getSize()));
+
     int result = mapper.prodInsertProc(prods);
     if (result <= 0) {
       return "상품등록 실패. 다시 시도해주세요";
     }
     return "상품등록 성공";
-  }
-
-  private String generateProdNo(String brandCode, String cateGroup, String cateCode, String size) {
-    return brandCode + cateGroup + cateCode + size + UUID.randomUUID().toString();
   }
 
   public List<CateDTO> cateGroupList() {
@@ -51,16 +47,11 @@ public class ProdService {
     return colors;
   }
 
-  public List<ProdDTO> prodList(String cateCode, String brandCode, String color, String size) {
-    Map<String, String> paramMap = new HashMap<>();
-    paramMap.put("cateCode", cateCode);
-    paramMap.put("brandCode", brandCode);
-    paramMap.put("color", color);
-    paramMap.put("size", size);
-
-    List<ProdDTO> list = mapper.prodList(paramMap);
-
-    return list;
+  public List<ProdDTO> prodList(String prodNo) {
+    if (prodNo == null || prodNo.isEmpty()) {
+      return mapper.selectSearch();
+    }
+    return mapper.selectProdNo(prodNo);
   }
 
 }

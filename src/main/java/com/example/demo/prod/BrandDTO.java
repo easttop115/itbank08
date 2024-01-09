@@ -11,3 +11,8 @@ public class BrandDTO {
   String brandCode;
 
 }
+
+// CREATE TABLE brand(
+// no INT AUTO_INCREAMENT PRIMARY KEY,
+// brandCode VARCHAR(10)
+// )

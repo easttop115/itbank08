@@ -139,8 +139,8 @@
 
                 /* 컨텐츠 컨테이너 스타일 */
                 .content-container {
-                    margin-right: 20%;
-                    margin-top: 20px;
+                    margin: 20px auto 20% 0;
+                    width: 78%;
                     /* 사이드바 너비에 따라 여백 조정 */
                     padding: 20px;
                     /* 내용에 여백 추가 */

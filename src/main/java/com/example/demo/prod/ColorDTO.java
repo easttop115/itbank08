@@ -11,3 +11,8 @@ public class ColorDTO {
   String colorCode;
 
 }
+
+// CREATE TABLE color(
+// no INT AUTO_INCREAMENT PRIMARY KEY,
+// colorCode VARCHAR(10)
+// )

@@ -16,16 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
 public class ProdController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProdController.class);
 
     @Autowired
     ProdService service;
@@ -48,20 +43,12 @@ public class ProdController {
     }
 
     @PostMapping("/prodInsertProc")
-    public ResponseEntity<Map<String, String>> prodInsertProc(ProdDTO prods, Model model, RedirectAttributes ra) {
+    public String prodInsertProc(ProdDTO prods, RedirectAttributes ra) {
 
-        // logger.info("Before calling prodInsertProc method. prodNo: {}",
-        // prods.getProdNo());
-        // String result = service.prodInsertProc(prods);
-        // logger.info("After calling prodInsertProc method. Result: {}", result);
-
-        Map<String, String> response = new HashMap<>();
         String msg = service.prodInsertProc(prods);
-        response.put("msg", msg);
-        response.put("redirectURI", "/"); // 리다이렉트할 URL
+        ra.addFlashAttribute("msg", msg);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-        // ResponseEntity<Map<String, String>>를 사용하는 경우에는 JSON 형태의 응답을 전달 - 클이 리다이렉트 수행
+        return "redirect:/prodManage";
     }
 
     @RequestMapping("/prodManage")
@@ -76,23 +63,23 @@ public class ProdController {
         model.addAttribute("cateCodes", cateCodes);
         model.addAttribute("brandCodes", brandCodes);
         model.addAttribute("colorCodes", colorCodes);
-        System.out.println("test: " + brandCodes);
         return "prod/prodManage";
     }
 
     @ResponseBody
-    @PostMapping(value = "/prodManageProc", produces = "application/json")
-    public ResponseEntity<List<ProdDTO>> prodManageProc(@RequestParam Map<String, String> data) {
-
-        String cateCode = data.get("cateCode");
-        String brandCode = data.get("brandCode");
-        String colorCode = data.get("colorCode");
-        String size = data.get("size");
-
+    @PostMapping(value = "/prodList", produces = "text/plain; charset=UTF-8")
+    public String prodList(@RequestBody String prodNo, Model model) {
+        System.out.println(prodNo);
         // 서비스에서 처리 후의 결과를 반환
-        List<ProdDTO> list = service.prodList(cateCode, brandCode, colorCode, size);
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        String msg = "";
+        List<ProdDTO> list = service.prodList(prodNo);
+        if (list == null) {
+            msg = "조회된 정보가 없습니다.";
+            return msg;
+        }
+        model.addAttribute("DataList", list);
+        msg = "조회완료";
+        return msg;
 
     }
 

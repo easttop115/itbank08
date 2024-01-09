@@ -36,4 +36,19 @@ public class ProdDTO {
     this.prodNo = brandCode + cateGroup + cateCode + size + UUID.randomUUID().toString();
   }
 
+  // CREATE TABLE product(
+  // no INT AUTO_INCREAMENT PRIMARY KEY,
+  // prodNo VARCHAR(200) DEFAULT CONCAT('cateCode', UUID()),
+  // brandCode VARCHAR(25),
+  // cateCode VARCHAR(25),
+  // prodName VARCHAR(50),
+  // incomePrice INT,
+  // sellPrice INT,
+  // size VARCHAR(6)
+  // colorCode VARCHAR(10),
+  // quan INT,
+  // regDat VARCHAR(50),
+  // prodCon VARCHAR(300)
+  // )
+
 }

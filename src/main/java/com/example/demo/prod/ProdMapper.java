@@ -19,5 +19,7 @@ public interface ProdMapper {
 
   List<ColorDTO> colorCodeList();
 
-  List<ProdDTO> prodList(Map<String, String> paramMap);
+  List<ProdDTO> selectSearch();
+
+  List<ProdDTO> selectProdNo(String prodNo);
 }

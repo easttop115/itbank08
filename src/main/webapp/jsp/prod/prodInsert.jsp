@@ -19,6 +19,8 @@
           overflow: hidden;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           border-radius: 10px;
+          height: 76vh;
+          /* 테이블의 높이를 뷰포트 높이의 100%로 설정합니다. */
         }
 
         th,
@@ -122,32 +124,6 @@
       </style>
 
       <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-      <script>
-        // 서버로부터 받은 응답을 처리하는 함수
-        function handleResponse(response) {
-          alert(response.msg); // 서버로부터 받은 메시지를 알림창으로 표시
-          window.location.href = response.redirectUrl; // 리다이렉트 수행
-        }
-
-        // 페이지 로드가 완료된 후에 실행되는 함수
-        $(document).ready(function () {
-          // 등록 버튼이 클릭되었을 때 AJAX 요청을 보내도록 설정
-          $('form').submit(function (event) {
-            // 기본 폼 제출 동작을 막음
-            event.preventDefault();
-
-            // AJAX를 통한 서버 요청
-            $.ajax({
-              url: '/prodInsertProc',
-              type: 'POST',
-              dataType: 'json',
-              data: $('form').serialize(), // 폼 데이터를 직렬화하여 전송
-              success: handleResponse
-            });
-          });
-        });
-      </script>
-
 
     </head>
 
@@ -216,7 +192,7 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="window.location.href='/cateCode-insert'">코드
+                  <button class="insert-button" type="submit" onclick="window.location.href='/cateCode-insert'">코드
                     등록</button>
                 </div>
               </td>

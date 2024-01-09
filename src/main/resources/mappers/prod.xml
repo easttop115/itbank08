@@ -27,23 +27,13 @@
         SELECT * FROM color;
     </select>
 
-    <select id="prodList" resultMap="prod">
+    <select id = "selectSearch">
         SELECT * FROM product
-        WHERE 
-        <if test="cateCode != null and cateCode != ''">
-            cateCode = #{cateCode}
-        </if>
-        <if test="brandCode != null and brandCode != ''">
-            AND brandCode = #{brandCode}
-        </if>
-        <if test="color != null and color != ''">
-            AND colorCode = #{color}
-        </if>
-        <if test="size != null and size != ''">
-            AND size = #{size}
-        </if>
     </select>
 
+    <select id = "selectProdNo">
+        SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%');
+    </select>
 </mapper>
 
 
