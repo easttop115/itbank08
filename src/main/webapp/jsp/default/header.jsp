@@ -43,7 +43,7 @@
             <ul class="navbar">
                 <div>
                     <a href="/main/mainform"><img src="/image/white_logo.png"
-                            style="margin-left: -100%; width: 80px; height: auto;"></a>
+                            style="margin-right: 250px; width: 80px; height: auto;"></a>
                 </div>
                 <li>
                     <a href="#">상품관리</a>
@@ -95,10 +95,8 @@
                     </ul>
                 </li>
                 <div>
-                    <a href="${context}/userInfo" style="margin-left: 110%; font-size: 12px;">MYPAGE</a>
-                </div>
-                <div>
-                    <a href="${context}/logout" style="margin-left: 150%; font-size: 12px;">LOGOUT</a>
+                    <a href="/userInfo?id=${sessionScope.id}" style="margin-left: 250px; font-size: 12px;">MYPAGE</a>
+                    <a href="${context}/logout" style="margin-left: 10px; font-size: 12px;">LOGOUT</a>
                 </div>
             </ul>
         </body>

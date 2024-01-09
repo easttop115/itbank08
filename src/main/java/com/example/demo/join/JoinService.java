@@ -41,8 +41,7 @@ public class JoinService {
             return "운영 매장 개수를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-z0-9]{4,20}$")) {
             return "아이디는 4~20자 영문, 숫자 입력 가능합니다.";
-        } else if (!joins.getPw()
-                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기는 9 뒤에 공백
             return "회사명은 영어로 시작 부탁드립니다.";
@@ -138,6 +137,10 @@ public class JoinService {
 
         if (checkId != null && encoder.matches(pw, checkId.getPw()) == true) {
             session.setAttribute("id", checkId.getId());
+            session.setAttribute("email", checkId.getEmail());
+            session.setAttribute("company", checkId.getCompany());
+            session.setAttribute("businessNo", checkId.getBusinessNo());
+            session.setAttribute("tel", checkId.getTel());
             session.setAttribute("accountId", checkId.getAccountId());
             String dbName = checkId.getDbName();
             dbConfig.setDynamicDatabase(dbName);
@@ -148,6 +151,30 @@ public class JoinService {
 
     public JoinDTO checkStatus(String id) {
         return mapper.checkStatus(id);
+    }
+
+    public String updateProc(JoinDTO joins) {
+        if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
+			return "비밀번호를 입력해주세요.";
+		} else if (joins.getPw().equals(joins.getConfirm()) == false) {
+			return "두 비밀번호가 다릅니다.";
+		} else if (joins.getEmail() == null || joins.getEmail().trim().isEmpty()) {
+			return "이메일을 입력해주세요.";
+		} else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
+            return "전화번호를 입력해주세요.";
+        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+	        return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+	    }
+		// 암호화 과정
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String secretPass = encoder.encode(joins.getPw());
+		joins.setPw(secretPass);
+
+		int result = mapper.updateProc(joins);
+		if (result > 0)
+			return "success";
+
+		return "failed";
     }
 
 }

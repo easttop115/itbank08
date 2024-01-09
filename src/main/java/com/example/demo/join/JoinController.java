@@ -14,6 +14,7 @@ import com.example.demo.mail.MailContents;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+
 @Controller
 public class JoinController {
 
@@ -87,5 +88,39 @@ public class JoinController {
 
         return "redirect:/";
     }
+
+    @RequestMapping("/userInfo")
+    public String userInfo() {
+        String sessionId = (String)session.getAttribute("id");
+
+        if (sessionId != null)
+            return "/join/userInfo";
+
+        return "/join/login";
+    }
+
+    @RequestMapping("/update")
+	public String update() {
+		String sessionId = (String) session.getAttribute("id");
+		if (sessionId == null)
+			return "redirect:/";
+		
+		return "/join/update";
+	}
+	
+	@PostMapping("/updateProc")
+	public String updateProc(JoinDTO joins, Model model) {
+		String sessionId = (String) session.getAttribute("id");
+		
+		joins.setId(sessionId);
+		String confirm = service.updateProc(joins);
+		if (confirm.equals("success")) {
+			session.invalidate();
+			return "redirect:/";
+		}
+		
+		model.addAttribute("msg", confirm);
+		return "/join/update";
+	}
 
 }

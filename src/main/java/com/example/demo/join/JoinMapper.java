@@ -22,4 +22,6 @@ public interface JoinMapper {
     JoinDTO checkAccount(String email);
 
     JoinDTO checkStatus(String id);
+
+    int updateProc(JoinDTO joins);
 }

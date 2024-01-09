@@ -35,7 +35,7 @@ li {
 
 /* 각 navbar의 스타일 */
 .navbar>li {
-    width: 15%;
+    width: 10%;
     float: left;
     text-align: center;
     line-height: 40px;

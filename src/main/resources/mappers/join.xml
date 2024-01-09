@@ -33,4 +33,7 @@
     <select id="checkStatus" resultMap="join">
         SELECT registStatus FROM user WHERE id=#{id}
     </select>
+    <update id="updateProc">
+        UPDATE user SET pw=#{pw}, email=#{email}, tel=#{tel} WHERE id=#{id}
+    </update>
 </mapper>

@@ -1,0 +1,164 @@
+.editBtn {
+	padding: 5px;
+	width: 50px;
+	cursor: pointer;
+	border: none;
+	border-radius: 20px;
+	color: #000000;
+}
+
+.editBtn:hover {
+	background-color: #2895F4;
+	color: #ffffff;
+}
+
+/*userInfo*/
+.center {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.container {
+	text-align: center;
+	width: 300px;
+	padding: 40px;
+	display: inline-block;
+	border-radius: 20px;
+	background-color: #f9f9f9;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+	font-size: 24px;
+	color: #2895F4;
+	margin-bottom: 20px;
+	font-weight: bold;
+}
+
+.error-msg {
+	text-align: center;
+	font-size: 16px;
+	color: rgb(255, 0, 0);
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.input-field {
+	width: 300px;
+	margin: 5px 0;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+}
+
+.info {
+	margin-top: 20px;
+	margin-left: 20px;
+	text-align: left;
+}
+
+.info-item {
+	margin-bottom: 10px;
+}
+
+.button-group {
+	margin-top: 20px;
+}
+
+.button {
+	padding: 5px 10px;
+	margin: 0 10px;
+	cursor: pointer;
+	background-color: #FDC300;
+	border-radius: 6px;
+}
+
+.searchBtn {
+	position: relative;
+	left: 10%;
+	transform: translateX(-50%);
+	width: 70px;
+	height: 20px;
+	background: linear-gradient(125deg, #FFE798, #FDC300, #FFE798);
+	background-position: left;
+	background-size: 200%;
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	display: inline;
+	border-radius: 6px;
+
+}
+
+.searchBtn:hover {
+	background-position: right;
+}
+
+.cancel-searchBtn {
+	position: relative;
+	left: 10%;
+	transform: translateX(-10%);
+	width: 70px;
+	height: 20px;
+	background: linear-gradient(125deg, #FFE798, #FDC300, #FFE798);
+	background-position: left;
+	background-size: 200%;
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	display: inline;
+	border-radius: 6px;
+
+}
+
+.cancel-searchBtn:hover {
+	background-position: right;
+}
+
+.updateBtn {
+	position: relative;
+	left: 5%;
+	transform: translateX(-70%);
+	width: 70px;
+	height: 20px;
+	background: linear-gradient(125deg, #FFE798, #FDC300, #FFE798);
+	background-position: left;
+	background-size: 200%;
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	display: inline;
+	border-radius: 6px;
+}
+
+.updateBtn:hover {
+	background-position: right;
+}
+
+.cancel-updateBtn {
+	position: relative;
+	left: 10%;
+	transform: translateX(-10%);
+	width: 70px;
+	height: 20px;
+	background: linear-gradient(125deg, #FFE798, #FDC300, #FFE798);
+	background-position: left;
+	background-size: 200%;
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	transition: 0.4s;
+	display: inline;
+	border-radius: 6px;
+}
+
+.cancel-updateBtn:hover {
+	background-position: right;
+}
