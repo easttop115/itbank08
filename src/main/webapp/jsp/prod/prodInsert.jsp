@@ -120,6 +120,65 @@
           width: 40%;
           margin-top: 10px;
         }
+
+        /* 모달생성 */
+        .modal {
+          display: none;
+          border-radius: 8px;
+          position: fixed;
+          z-index: 1;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          max-width: 600px;
+          /* 최대 너비 지정 */
+          height: auto;
+          overflow: auto;
+          padding: 20px;
+          background-color: #e6f4ff;
+          border: none;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content {
+          width: 100%
+        }
+
+        .form-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .button-container {
+          display: flex;
+          justify-content: space-around;
+          width: 100%;
+        }
+
+        .form-container button {
+          margin-top: 10px;
+          /* Add some top margin for spacing */
+          padding: 10px 10px;
+          border: 2px rgb(168, 168, 168);
+          border-radius: 4px;
+          cursor: pointer;
+          display: inline-block;
+        }
+
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
       </style>
 
       <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -154,8 +213,33 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="window.location.href='/brandCode-insert'">브랜드코드
+                  <button class="insert-button" type="button" onclick="openBrandModal()">브랜드코드
                     등록</button>
+
+                  <!-- 브랜드코드  모달 창 -->
+                  <div id="brandModal" class="modal">
+                    <div class="modal-content">
+                      <span class="close" onclick="closeBrandModal()">&times;</span>
+                      <!-- Left Form: Category Registration -->
+                      <div class="form-container">
+                        <h2 style="text-align: center;">브랜드코드 등록</h2><br>
+                        <form id="brandForm" action="/brandCodeInsert" method="post">
+                          <!-- 브랜드 코드 입력 -->
+                          <label for="brandCode"></label>
+                          <input type="text" id="brandCode" name="brandCode" placeholder="브랜드코드명을 입력하세요.">
+                          <!-- 브랜드 설명 입력 -->
+                          <label for="brandDescription"></label>
+                          <textarea id="brandDescription" name="categoryDescription" rows="4"
+                            placeholder="브랜드에 대한 설명을 입력하세요"></textarea>
+                          <!-- 등록 버튼 -->
+                          <div class="button-container">
+                            <button class="form-container button" onclick="addBrand()">등록</button>
+                            <button class="form-container button" onclick="closeBrandModal()">취소</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -256,6 +340,58 @@
           </div>
         </form>
       </div>
+
+      <script>
+        function addBrand() {
+          var brand = document.getElementById('brandCode').value;
+          var brandDes = document.getElementById('brandDescription').value;
+
+          fetch('/brandInsert', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'appication/json',
+            },
+            body: JSON.stringify({
+              brandCode: brand,
+              brandDescription: brandDes,
+            }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              // 등록이 성공하면 부모 창에 값 적용
+              document.getElementById('brandCodeFieldInParent').value = brandCode;
+
+              // 모달 닫기
+              console.log('새로운 브랜드코드 추가:', brandCode);
+              closeBrandModal();
+            })
+            .catch(error => {
+              console.error('등록 실패:', error);
+              // 실패 시 처리 (예: 메시지 표시)
+            });
+        }
+
+
+        // 모달 열기
+        function openBrandModal() {
+          document.getElementById('brandModal').style.display = 'block';
+        }
+
+        // 모달 닫기
+        function closeBrandModal() {
+          document.getElementById('brandModal').style.display = 'none';
+        }
+
+        -
+
+          // 부모 창의 필드에 값을 적용
+          document.getElementById('brandCodeFieldInParent').value = brandCode;
+        document.getElementById('brandDescriptionFieldInParent').value = brandDescription;
+
+
+
+
+      </script>
 
     </body>
 

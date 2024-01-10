@@ -155,6 +155,7 @@ height: 30px;
 
     <body>
       <c:import url="/header" />
+      <c:import url="/sider" />
       <div class="content-container">
         <div class="inventory-title">매장별 재고 현황</div>
         <table>

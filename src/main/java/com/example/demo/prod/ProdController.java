@@ -28,6 +28,13 @@ public class ProdController {
     @Autowired
     ProdService service;
 
+    @PostMapping("/brandInsert")
+    public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
+        // TODO: process POST request
+
+        return entity;
+    }
+
     @RequestMapping("/prodInsert")
     public String prodInsert(Model model) {
 

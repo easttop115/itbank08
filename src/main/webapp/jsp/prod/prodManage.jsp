@@ -230,11 +230,25 @@
     </body>
 
     <script>
+      function searchProducts() {
+        var prodNo = document.getElementById('prodNo').value.trim();
+        console.log(prodNo);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/prodList');
+        xhr.setRequestHeader('Content-Type', 'text/plain');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var resData = JSON.parse(xhr.responseText);
+            console.log(resData);
+            updateTable(resData);
+          }
+        };
+        xhr.send(prodNo); // Send the data as a JSON string
+      }
 
       function updateTable(data) {
         var table = document.getElementById('prodListTable');
         var secondTableContentRow = table.querySelector('.second-table-content');
-        var noDataMessageCell = secondTableContentRow.querySelector('td');
 
         // Clear existing rows in the table body
         noDataMessageCell.innerHTML = "";
