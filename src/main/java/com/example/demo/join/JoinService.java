@@ -183,7 +183,8 @@ public class JoinService {
     public void manageInfo(Model model, JoinDTO join) {
         ArrayList<JoinDTO> joins = mapper.manageInfo(join);
 
-        for (JoinDTO dto : joins) { // dto와 joins 둘 다 JoinDTO의 값을 참조하기 때문에 dto.set~~~의 값을 따로 joins에 저장하지 않아도 JoinDTO에 적용됨
+        // dto와 joins 둘 다 JoinDTO의 값을 참조하기 때문에 dto.set~~~의 값을 따로 joins에 저장하지 않아도 JoinDTO에 적용됨
+        for (JoinDTO dto : joins) {
             String regDate = dto.getRegDate();
 
             dto.setRegDate(regDate.substring(0, 10));
@@ -192,12 +193,16 @@ public class JoinService {
         model.addAttribute("joins", joins);
     }
 
-    public String storeDeleteProc(JoinDTO join) {
-        // 관리자는 자신의 계정은 삭제할 수 없도록 검사
-        if ("root".equals(join.getAccountId())) {
-            return "관리자 계정은 삭제할 수 없습니다";
+    public String statusModify(JoinDTO join) {
+        int result = mapper.statusModify(join);
+        if (result > 0) {
+            return "success";
         }
-        System.out.println(join.getAccountId());
+
+        return "승인 변경에 실패했습니다. 다시 시도하세요.";
+    }
+
+    public String storeDeleteProc(JoinDTO join) {
         int result = mapper.storeDeleteProc(join);
         if (result > 0) {
             return "success";
