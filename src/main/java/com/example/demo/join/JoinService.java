@@ -144,6 +144,7 @@ public class JoinService {
             session.setAttribute("businessNo", checkId.getBusinessNo());
             session.setAttribute("tel", checkId.getTel());
             session.setAttribute("accountId", checkId.getAccountId());
+            session.setAttribute("dbName", checkId.getDbName());
             String dbName = checkId.getDbName();
             dbConfig.setDynamicDatabase(dbName);
             return "success";
@@ -183,13 +184,17 @@ public class JoinService {
     public void manageInfo(Model model, JoinDTO join) {
         ArrayList<JoinDTO> joins = mapper.manageInfo(join);
 
-        // dto와 joins 둘 다 JoinDTO의 값을 참조하기 때문에 dto.set~~~의 값을 따로 joins에 저장하지 않아도 JoinDTO에 적용됨
+        // dto와 joins 둘 다 JoinDTO의 값을 참조하기 때문에
+        // dto.set~~~의 값을 따로 joins에 저장하지 않아도 JoinDTO에 적용됨
         for (JoinDTO dto : joins) {
             String regDate = dto.getRegDate();
 
-            dto.setRegDate(regDate.substring(0, 10));
+            if (!"X".equals(regDate))
+                dto.setRegDate(regDate.substring(0, 10));
+            else
+                dto.setRegDate(regDate);
         }
-    
+
         model.addAttribute("joins", joins);
     }
 
