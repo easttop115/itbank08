@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import org.mariadb.jdbc.Connection;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.sql.Connection;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +20,6 @@ public class DbConfig {
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource; // Add this line
 
-    @Autowired
     public DbConfig(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
