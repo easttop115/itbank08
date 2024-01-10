@@ -29,6 +29,7 @@ public class DbConfig {
             String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + dbName;
             DataSource newDataSource = buildDataSource(dynamicUrl, dbName);
             jdbcTemplate.setDataSource(newDataSource);
+            jdbcTemplate.execute("USE " + dbName);
         } catch (Exception e) {
             logError("setDynamicDatabase 메소드에서 오류 발생", e);
         }
@@ -39,6 +40,7 @@ public class DbConfig {
             String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + defaultUserName;
             DataSource newDataSource = buildDataSource(dynamicUrl, "admin"); // 추후 숨겨주길 바람.
             jdbcTemplate.setDataSource(newDataSource);
+            jdbcTemplate.execute("USE " + defaultUserName);
         } catch (Exception e) {
             logError("setLogoutDatabase 메소드에서 오류 발생", e);
         }
@@ -98,7 +100,7 @@ public class DbConfig {
         }
     }
 
-    protected void createUserAndGrantPrivileges(String dbName) {
+    protected void createUserAndGrantPrivileges(String dbName) { // 사용자 생성 및 권한 부여
         try {
             if (!userExists(dbName)) {
                 // CREATE USER 쿼리 수정
@@ -118,6 +120,7 @@ public class DbConfig {
         }
     }
 
+    // 테이블 생성(desc)
     protected void updateTableStatements(String dbName, String table) {
         if (!tableExists(dbName, table)) {
             // 'CREATE TABLE' 쿼리 실행 코드 추가
@@ -140,6 +143,7 @@ public class DbConfig {
         }
     }
 
+    // 데이터베이스 내의 테이블 목록 가져오기
     protected List<String> getTablesInDatabase() {
         try {
             String query = "SHOW TABLES FROM " + defaultUserName;
@@ -150,6 +154,7 @@ public class DbConfig {
         }
     }
 
+    // 특정 테이블에 데이터 추가
     protected void addDataToTable(String table, String dbName) {
         System.out.println("Creating data: " + table);
 
@@ -206,6 +211,7 @@ public class DbConfig {
         }
     }
 
+    // 데이터베이스 존재 여부 확인
     protected boolean tableExists(String databaseName, String tableName) {
         try {
             String query = "SHOW TABLES FROM " + databaseName + " LIKE ?";
@@ -217,6 +223,7 @@ public class DbConfig {
         }
     }
 
+    // 사용자 존재 여부 확인
     protected boolean userExists(String userName) {
         try {
             String query = "SELECT user FROM mysql.user WHERE user = ?";
@@ -227,6 +234,7 @@ public class DbConfig {
         }
     }
 
+    // 에러 로깅 메소드
     private void logError(String message, Exception e) {
         System.err.println(message);
         e.printStackTrace();
