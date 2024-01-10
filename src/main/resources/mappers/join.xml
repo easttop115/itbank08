@@ -39,7 +39,7 @@
     <select id="manageInfo" resultMap="join">
         SELECT * FROM user
     </select>
-    <delete id="adminDeleteProc">
+    <delete id="storeDeleteProc">
         DELETE FROM user WHERE id=#{id}
     </delete>
 </mapper>
