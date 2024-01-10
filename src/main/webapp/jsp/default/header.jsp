@@ -48,10 +48,17 @@
                 <li class="liStyle">
                     <a href="#">상품관리</a>
                     <ul class="subList">
-                        <li class="liStyle"><a href="/prodInsert">상품등록</a></li>
-                        <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
-                        <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
-
+                        <c:choose>
+                            <c:when test="${sessionScope.accountId eq 'root' }">
+                                <li class="liStyle"><a href="/prodInsert">상품등록</a></li>
+                                <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
+                                <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
+                                <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </li>
                 <li class="liStyle">
@@ -97,12 +104,15 @@
                 <div>
                     <c:choose>
                         <c:when test="${sessionScope.accountId == 'root'}">
-                            <a href="${context}/manageInfo" style="margin-left: 180px; margin-right: 10px; font-size: 12px;">MANAGE</a>
-                            <a href="/userInfo?id=${sessionScope.id}" style="margin-right: 10px; font-size: 12px;">MYPAGE</a>
+                            <a href="${context}/manageInfo"
+                                style="margin-left: 180px; margin-right: 10px; font-size: 12px;">MANAGE</a>
+                            <a href="/userInfo?id=${sessionScope.id}"
+                                style="margin-right: 10px; font-size: 12px;">MYPAGE</a>
                             <a href="${context}/logout" style="font-size: 12px;">LOGOUT</a>
                         </c:when>
                         <c:otherwise>
-                            <a href="/userInfo?id=${sessionScope.id}" style="margin-left: 240px; margin-right: 10px; font-size: 12px;">MYPAGE</a>
+                            <a href="/userInfo?id=${sessionScope.id}"
+                                style="margin-left: 240px; margin-right: 10px; font-size: 12px;">MYPAGE</a>
                             <a href="${context}/logout" style="font-size: 12px;">LOGOUT</a>
                         </c:otherwise>
                     </c:choose>

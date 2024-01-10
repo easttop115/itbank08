@@ -29,5 +29,7 @@ public interface JoinMapper {
 
     ArrayList<JoinDTO> manageInfo(JoinDTO join);
 
+    int statusModify(JoinDTO join);
+
     int storeDeleteProc(JoinDTO join);
 }

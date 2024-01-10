@@ -47,9 +47,9 @@ public class ProdService {
     return colors;
   }
 
-  public List<ProdDTO> prodList(ProdDTO prod) {
+  public List<ProdDTO> prodList(String prod) {
 
-    return mapper.selectProdNo(prod.getProdNo());
+    return mapper.selectProdNo(prod);
   }
 
   private boolean isSelectEmpty(ProdDTO prod) {

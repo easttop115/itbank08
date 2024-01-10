@@ -135,26 +135,38 @@ public class JoinController {
 		return "/join/manageInfo";
 	}
 
+    @RequestMapping("statusModify")
+	public String statusModify(@RequestParam("id") String selectId, JoinDTO join, Model model) {
+		join.setId(selectId); // 선택한 사용자의 ID의 registStatus를 변경
+        String confirm = service.statusModify(join);
+        if (confirm.equals("success")) {
+            return "redirect:/manageInfo";
+        }
+
+        model.addAttribute("msg", confirm);
+        return "/join/manageInfo";
+    }
+
 	@RequestMapping("storeDelete")
 	public String storeDelete(@RequestParam("id") String selectId, JoinDTO join) {
 		String accountId = (String) session.getAttribute("accountId");
 		if (!"root".equals(accountId))
 			return "redirect:/";
 		
-        join.setId(selectId); // 선택한 사용자의 ID를 설정
+        join.setId(selectId); // 선택한 사용자의 ID를 Proc으로
         
-		return "join/storeDelete";
+		return "/join/storeDelete";
 	}
 
 	@PostMapping("storeDeleteProc")
     public String storeDeleteProc(@RequestParam("id") String selectId, JoinDTO join, Model model) {
-        join.setId(selectId); // 선택한 사용자의 ID를 설정
+        join.setId(selectId); // 선택한 사용자의 ID를 삭제
         String confirm = service.storeDeleteProc(join);
         if (confirm.equals("success")) {
-            return "redirect:/join/manageInfo";
+            return "redirect:/manageInfo";
         }
 
         model.addAttribute("msg", confirm);
-        return "join/storeDelete";
+        return "/join/storeDelete";
     }
 }
