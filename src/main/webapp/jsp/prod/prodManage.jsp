@@ -138,6 +138,7 @@
 
 
     <body>
+      <c:import url="/header" />
       <c:import url="/sider" />
       <div class="content-container class">
 
@@ -145,8 +146,7 @@
         <h2 class="inventory-title">상품 조회</h2>
         <div class="center class">
           <div class="search-container class">
-            <form id="searchForm" action="/prodManageProc" method="post"
-              onsubmit="event.preventDefault(); searchProducts();">
+            <form id="searchForm" action="/prodList" method="post" onsubmit="event.preventDefault(); searchProducts();">
               <!--엔터 눌러도 form제출 x, searchProduct() 호출-->
               <table class="search-table">
                 <tr>
@@ -212,30 +212,17 @@
         <div class="class">
           <!-- <form action="/prodList" method="post"> -->
           <table id="prodListTable" class="prodList-table">
-            <thead>
-              <tr>
-                <!-- <td class="No">No</td> -->
-                <td class="prodNo">상품코드</td>
-                <td class="prodName">상품명</td>
-                <td class="size">사이즈</td>
-                <td class="colorCode">색상코드</td>
-                <td class="Quan">총수량</td>
-              </tr>
-            </thead>
-            <tbody id="tbody">
-              <c:choose>
-                <c:when test="${empty DataList}">
-                  <tr class="second-table-content">
-                    <td colspan="5">조회된 정보가 없습니다.</td>
-                  </tr>
-                </c:when>
-                <c:otherwise>
-                  <c:forEach var="item" items="${DataList}">
-
-                  </c:forEach>
-                </c:otherwise>
-              </c:choose>
-            </tbody>
+            <tr>
+              <!-- <td class="No">No</td> -->
+              <td class="prodNo">상품코드</td>
+              <td class="prodName">상품명</td>
+              <td class="size">사이즈</td>
+              <td class="colorCode">색상코드</td>
+              <td class="Quan">총수량</td>
+            </tr>
+            <tr class="second-table-content">
+              <td colspan="5">조회된 정보가 없습니다.</td>
+            </tr>
           </table>
         </div>
       </div>
@@ -243,59 +230,41 @@
     </body>
 
     <script>
-      function searchProducts() {
-        var cGroup = document.getElementById('cateGroup').value;
-        var cCode = document.getElementById('cateCode').value;
-        var col = document.getElementById('color').value;
-        var si = document.getElementById('size').value;
-        var pN = document.getElementById('prodNo').value.trim(); // prodNo 값 가져오기 + 검색어 공백제거
 
-        var requestData = {
-          cateGroup: cGroup,
-          cateCode: cCode,
-          color: col,
-          size: si,
-          prodNo: pN
-        };
+      function updateTable(data) {
+        var table = document.getElementById('prodListTable');
+        var secondTableContentRow = table.querySelector('.second-table-content');
+        var noDataMessageCell = secondTableContentRow.querySelector('td');
 
-        xhr = new XMLHttpRequest();
-        xhr.open('post', '/prodList')
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        console.log(requestData)
-        xhr.send(JSON.stringify(requestData));
-        xhr.onreadystatechange = resProc;
-      }
-      function resProc() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          var resData = JSON.parse(xhr.responseText);
-          console.log(resData)
-          var printData = "";
-          for (i = 0; i < resData.length; i++) {
-            printData += "<tr>";
-            printData += "<td class='dataProdNo'><a href='javascript:void(0);' onclick='prodManage(\"" + resData[i].prodNo + "\")'>" + resData[i].prodNo + "</a></td>";
-            printData += "<td>" + resData[i].prodName + "</td>";
-            printData += "<td>" + resData[i].size + "</td>";
-            printData += "<td>" + resData[i].colorCode + "</td>";
-            printData += "<td>" + resData[i].quan + "</td>";
-            printData += "</tr>";
+        // Clear existing rows in the table body
+        noDataMessageCell.innerHTML = "";
+
+        if (data.length > 0) {
+          secondTableContentRow.style.display = 'none';
+
+          for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var row = table.insertRow();
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+
+            cell1.innerHTML = '<a href="javascript:void(0);" onclick="prodManage(\'' + item.prodNo + '\')">' + item.prodNo + '</a>';
+            cell2.textContent = item.prodName;
+            cell3.textContent = item.size;
+            cell4.textContent = item.colorCode;
+            cell5.textContent = item.quan;
           }
-          document.getElementById('tbody').innerHTML = printData;
+        } else {
+          // If no data is available, display the "No data" message
+          secondTableContentRow.style.display = 'table-row';
+          noDataMessageCell.colSpan = 5;
+          noDataMessageCell.textContent = '조회된 정보가 없습니다.';
         }
       }
-
-      function prodManage(prodNo) {
-        // 상품 관리 페이지로 이동하는 URL을 설정
-        var prodManageURL = "/prodManage?prodNo=" + prodNo;
-
-        // 실제로는 아래의 window.location.href 대신에 페이지 이동 로직을 사용하세요.
-        // window.location.href = manageProductURL;
-
-        // 예제로 경고창을 띄워보겠습니다.
-        alert("상품 관리 페이지로 이동합니다. (URL: " + prodManageURL + ")");
-      }
-
-      // 나머지 JavaScript 코드는 이전과 동일하게 유지됩니다.
-
     </script>
 
     </html>

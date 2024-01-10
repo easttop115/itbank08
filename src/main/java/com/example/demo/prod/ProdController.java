@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,14 +70,32 @@ public class ProdController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/prodList", produces = "application/json; charset=utf-8")
-    public List<ProdDTO> prodList(@RequestBody(required = false) ProdDTO prod) {
-
+    @PostMapping(value = "/prodList", produces = "application/json; charset=UTF-8")
+    public String prodList(@RequestBody String prodNo) {
+        System.out.println(prodNo);
         // 서비스에서 처리 후의 결과를 반환
-        List<ProdDTO> list = service.prodList(prod);
-        System.out.println("list :" + list);
-        return list;
+        String msg = "";
+        List<ProdDTO> list = service.prodList(prodNo);
 
+        for (ProdDTO dto : list) {
+            System.out.println(dto.getProdName());
+            System.out.println(dto.getProdNo());
+        }
+
+        if (list == null) {
+            msg = "조회된 정보가 없습니다.";
+            return msg;
+        }
+
+        // 리스트를 JSON 형식의 문자열로 변환하여 반환
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String jsonList = objectMapper.writeValueAsString(list);
+            return jsonList;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "Error during JSON conversion";
+        }
     }
 
     @RequestMapping("stockStatus")

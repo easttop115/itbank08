@@ -14,7 +14,7 @@
           border-collapse: separate;
           border-spacing: 0;
           border-color: #2e363d;
-          width: 90%;
+          width: 96%;
           margin: auto;
           overflow: hidden;
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -37,12 +37,11 @@
         }
 
         .inventory-title {
-          font-size: 28px;
+          font-size: 18px;
           font-weight: bold;
           color: #2e363d;
           text-align: left;
-
-          margin: 32px 88px;
+          margin: 20px 20px;
         }
 
         .white-bg {
@@ -128,6 +127,7 @@
     </head>
 
     <body>
+      <c:import url="/header" />
       <c:import url="/sider" />
       <div class="content-container">
         <h2 class="inventory-title">상품 등록</h2>
@@ -142,6 +142,7 @@
               <td class="baranCode">
                 <div class="container">
                   <select name="brandCode" id="brandCode" required>
+                    <option value="null"></option> <!-- 초기값으로 null 추가 -->
                     <c:choose>
                       <c:when test="${empty brandCodes}">
                         <option value="nobrandCode">등록된 브랜드코드가 없습니다</option>
@@ -164,6 +165,7 @@
               <td>
                 <div class="container">
                   <select name="cateGroup" id="cateGroup" required>
+                    <option value="null"></option> <!-- 초기값으로 null 추가 -->
                     <c:choose>
                       <c:when test="${empty cateGroups}">
                         <option value="nocateGroup">등록된 카테고리 그룹이 없습니다</option>
@@ -181,6 +183,7 @@
 
                 <div class="container">
                   <select name="cateCode" id="cateCode" required>
+                    <option value="null"></option> <!-- 초기값으로 null 추가 -->
                     <c:choose>
                       <c:when test="${empty cateCodes}">
                         <option value="nocateCode">등록된 카테고리 코드가 없습니다</option>
@@ -202,6 +205,7 @@
               <td class="colorCode" colspan="2">
                 <div class="container">
                   <select name="colorCode" id="colorCode" required>
+                    <option value="null"></option> <!-- 초기값으로 null 추가 -->
                     <c:choose>
                       <c:when test="${empty colorCodes}">
                         <option value="nocolor">등록된 색상코드가 없습니다</option>
@@ -221,6 +225,7 @@
             <tr>
               <th>사이즈</th>
               <td><select id="size" name="size" required>
+                  <option value="null"></option> <!-- 초기값으로 null 추가 -->
                   <option value="S">S</option>
                   <option value="M">M</option>
                   <option value="L">L</option>
