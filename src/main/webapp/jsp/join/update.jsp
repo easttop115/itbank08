@@ -16,8 +16,8 @@
 							<input class="input-field" type="password" name="pw" placeholder="비밀번호"><br>
 							<input class="input-field" type="password" name="confirm" placeholder="비밀번호 확인"><br>
 							<input class="input-field" type="text" name="company" value="${sessionScope.company}"readonly="readonly"><br>
-							<input class="input-field" type="email" name="email" value="${sessionScope.email}"><br>
-							<input class="input-field" type="text" name="tel" value="${sessionScope.tel}"><br>
+							<input class="input-field" type="email" name="email" value="${sessionScope.email}" placeholder="이메일"><br>
+							<input class="input-field" type="text" name="tel" value="${sessionScope.tel}" placeholder="전화번호"><br>
 							<input class="updateBtn" type="submit" value="수정">
 							<input class="cancel-updateBtn" type="button" onclick="window.location.href='/userInfo?id=${sessionScope.id}'" value="취소"><br>
 						</form>

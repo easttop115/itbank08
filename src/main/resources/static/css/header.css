@@ -5,7 +5,7 @@
 }
 
 /* 리스트 스타일 제거 */
-li {
+.liStyle {
     list-style: none;
 }
 

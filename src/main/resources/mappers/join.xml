@@ -36,4 +36,7 @@
     <update id="updateProc">
         UPDATE user SET pw=#{pw}, email=#{email}, tel=#{tel} WHERE id=#{id}
     </update>
+    <select id="manageInfo" resultMap="join">
+        SELECT * FROM user
+    </select>
 </mapper>

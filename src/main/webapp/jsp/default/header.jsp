@@ -45,58 +45,68 @@
                     <a href="/main/mainform"><img src="/image/white_logo.png"
                             style="margin-right: 250px; width: 80px; height: auto;"></a>
                 </div>
-                <li>
+                <li class="liStyle">
                     <a href="#">상품관리</a>
                     <ul class="subList">
-                        <li><a href="/prodInsert">상품등록</a></li>
-                        <li><a href="/prodManage">등록상품관리</a></li>
-                        <li><a href="/stockStatus">매장별 재고 현황</a></li>
+                        <li class="liStyle"><a href="/prodInsert">상품등록</a></li>
+                        <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
+                        <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
 
                     </ul>
                 </li>
-                <li>
+                <li class="liStyle">
                     <a href="#">입출고등록</a>
                     <ul class="subList">
-                        <li><a href="#">입출고개별등록</a></li>
-                        <li><a href="#">입출고내역조회</a></li>
-                        <li><a href="#">sub03</a></li>
-                        <li><a href="#">sub04</a></li>
-                        <li><a href="#">sub05</a></li>
+                        <li class="liStyle"><a href="#">입출고개별등록</a></li>
+                        <li class="liStyle"><a href="#">입출고내역조회</a></li>
+                        <li class="liStyle"><a href="#">sub03</a></li>
+                        <li class="liStyle"><a href="#">sub04</a></li>
+                        <li class="liStyle"><a href="#">sub05</a></li>
                     </ul>
                 </li>
-                <li>
+                <li class="liStyle">
                     <a href="#">판매통계</a>
                     <ul class="subList">
-                        <li><a href="#">판매통계</a></li>
-                        <li><a href="#">일일통계</a></li>
-                        <li><a href="#">월별통계</a></li>
-                        <li><a href="#">sub04</a></li>
-                        <li><a href="#">sub05</a></li>
+                        <li class="liStyle"><a href="#">판매통계</a></li>
+                        <li class="liStyle"><a href="#">일일통계</a></li>
+                        <li class="liStyle"><a href="#">월별통계</a></li>
+                        <li class="liStyle"><a href="#">sub04</a></li>
+                        <li class="liStyle"><a href="#">sub05</a></li>
                     </ul>
                 </li>
-                <li>
+                <li class="liStyle">
                     <a href="#">게시판</a>
                     <ul class="subList">
-                        <li><a href="/notice/noticecontent">공지사항</a></li>
-                        <li><a href="#">sub02</a></li>
-                        <li><a href="#">sub03</a></li>
-                        <li><a href="#">sub04</a></li>
-                        <li><a href="#">sub05</a></li>
+                        <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
+                        <li class="liStyle"><a href="#">sub02</a></li>
+                        <li class="liStyle"><a href="#">sub03</a></li>
+                        <li class="liStyle"><a href="#">sub04</a></li>
+                        <li class="liStyle"><a href="#">sub05</a></li>
                     </ul>
                 </li>
-                <li>
+                <li class="liStyle">
                     <a href="#">SC</a>
                     <ul class="subList">
-                        <li><a href="#">수아</a></li>
-                        <li><a href="#">연지</a></li>
-                        <li><a href="#">동현</a></li>
-                        <li><a href="#">동운</a></li>
-                        <li><a href="#">상원</a></li>
+                        <li class="liStyle"><a href="#">수아</a></li>
+                        <li class="liStyle"><a href="#">연지</a></li>
+                        <li class="liStyle"><a href="#">동현</a></li>
+                        <li class="liStyle"><a href="#">동운</a></li>
+                        <li class="liStyle"><a href="#">상원</a></li>
                     </ul>
                 </li>
                 <div>
-                    <a href="/userInfo?id=${sessionScope.id}" style="margin-left: 250px; font-size: 12px;">MYPAGE</a>
-                    <a href="${context}/logout" style="margin-left: 10px; font-size: 12px;">LOGOUT</a>
+                    <c:choose>
+                        <c:when test="${sessionScope.accountId == 'root'}">
+                            <a href="${context}/manageInfo" style="margin-left: 180px; margin-right: 10px; font-size: 12px;">MANAGE</a>
+                            <a href="/userInfo?id=${sessionScope.id}" style="margin-right: 10px; font-size: 12px;">MYPAGE</a>
+                            <a href="${context}/logout" style="font-size: 12px;">LOGOUT</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="/userInfo?id=${sessionScope.id}" style="margin-left: 240px; margin-right: 10px; font-size: 12px;">MYPAGE</a>
+                            <a href="${context}/logout" style="font-size: 12px;">LOGOUT</a>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </ul>
         </body>

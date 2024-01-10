@@ -1,5 +1,6 @@
 package com.example.demo.join;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ public class JoinService {
             return "운영 매장 개수를 입력해주세요.";
         } else if (!joins.getId().matches("^[a-z0-9]{4,20}$")) {
             return "아이디는 4~20자 영문, 숫자 입력 가능합니다.";
-        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+        } else if (!joins.getPw()
+                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
             return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기는 9 뒤에 공백
             return "회사명은 영어로 시작 부탁드립니다.";
@@ -155,26 +157,53 @@ public class JoinService {
 
     public String updateProc(JoinDTO joins) {
         if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
-			return "비밀번호를 입력해주세요.";
-		} else if (joins.getPw().equals(joins.getConfirm()) == false) {
-			return "두 비밀번호가 다릅니다.";
-		} else if (joins.getEmail() == null || joins.getEmail().trim().isEmpty()) {
-			return "이메일을 입력해주세요.";
-		} else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
+            return "비밀번호를 입력해주세요.";
+        } else if (joins.getPw().equals(joins.getConfirm()) == false) {
+            return "두 비밀번호가 다릅니다.";
+        } else if (joins.getEmail() == null || joins.getEmail().trim().isEmpty()) {
+            return "이메일을 입력해주세요.";
+        } else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
             return "전화번호를 입력해주세요.";
-        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
-	        return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
-	    }
-		// 암호화 과정
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String secretPass = encoder.encode(joins.getPw());
-		joins.setPw(secretPass);
+        } else if (!joins.getPw()
+                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        }
+        // 암호화 과정
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String secretPass = encoder.encode(joins.getPw());
+        joins.setPw(secretPass);
 
-		int result = mapper.updateProc(joins);
-		if (result > 0)
-			return "success";
+        int result = mapper.updateProc(joins);
+        if (result > 0)
+            return "success";
 
-		return "failed";
+        return "failed";
+    }
+
+    public void manageInfo(Model model, JoinDTO join) {
+        ArrayList<JoinDTO> joins = mapper.manageInfo(join);
+
+        for (JoinDTO dto : joins) { // dto와 joins 둘 다 JoinDTO의 값을 참조하기 때문에 dto.set~~~의 값을 따로 joins에 저장하지 않아도 JoinDTO에 적용됨
+            String regDate = dto.getRegDate();
+
+            dto.setRegDate(regDate.substring(0, 10));
+        }
+    
+        model.addAttribute("joins", joins);
+    }
+
+    public String storeDeleteProc(JoinDTO join) {
+        // 관리자는 자신의 계정은 삭제할 수 없도록 검사
+        if ("root".equals(join.getAccountId())) {
+            return "관리자 계정은 삭제할 수 없습니다";
+        }
+        System.out.println(join.getAccountId());
+        int result = mapper.storeDeleteProc(join);
+        if (result > 0) {
+            return "success";
+        }
+
+        return "삭제에 실패했습니다. 다시 시도하세요.";
     }
 
 }

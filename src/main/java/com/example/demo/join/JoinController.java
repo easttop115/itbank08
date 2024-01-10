@@ -89,6 +89,7 @@ public class JoinController {
         return "redirect:/";
     }
 
+    // 매장 정보
     @RequestMapping("/userInfo")
     public String userInfo() {
         String sessionId = (String)session.getAttribute("id");
@@ -123,4 +124,37 @@ public class JoinController {
 		return "/join/update";
 	}
 
+    // 본사의 매장 관리(userInfo와 다름)
+	@RequestMapping("manageInfo")
+	public String manageInfo(Model model, JoinDTO join) {
+		String accountId = (String) session.getAttribute("accountId");
+		if (!"root".equals(accountId))
+			return "redirect:/";
+		
+		service.manageInfo(model, join);
+		return "/join/manageInfo";
+	}
+
+	@RequestMapping("storeDelete")
+	public String storeDelete(@RequestParam("id") String selectId, JoinDTO join) {
+		String accountId = (String) session.getAttribute("accountId");
+		if (!"root".equals(accountId))
+			return "redirect:/";
+		
+        join.setId(selectId); // 선택한 사용자의 ID를 설정
+        
+		return "join/storeDelete";
+	}
+
+	@PostMapping("storeDeleteProc")
+    public String storeDeleteProc(@RequestParam("id") String selectId, JoinDTO join, Model model) {
+        join.setId(selectId); // 선택한 사용자의 ID를 설정
+        String confirm = service.storeDeleteProc(join);
+        if (confirm.equals("success")) {
+            return "redirect:/join/manageInfo";
+        }
+
+        model.addAttribute("msg", confirm);
+        return "join/storeDelete";
+    }
 }

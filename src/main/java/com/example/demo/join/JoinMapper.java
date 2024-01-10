@@ -1,5 +1,7 @@
 package com.example.demo.join;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -24,4 +26,8 @@ public interface JoinMapper {
     JoinDTO checkStatus(String id);
 
     int updateProc(JoinDTO joins);
+
+    ArrayList<JoinDTO> manageInfo(JoinDTO join);
+
+    int storeDeleteProc(JoinDTO join);
 }
