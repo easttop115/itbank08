@@ -28,12 +28,13 @@
     </select>
 
     <select id = "selectSearch">
-        SELECT * FROM product
+        SELECT * FROM product 
     </select>
 
     <select id = "selectProdNo">
-        SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%');
-    </select>
+        SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')
+    </select> 
+
 </mapper>
 
 

@@ -67,19 +67,13 @@ public class ProdController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/prodList", produces = "text/plain; charset=UTF-8")
-    public String prodList(@RequestBody String prodNo, Model model) {
-        System.out.println(prodNo);
+    @PostMapping(value = "/prodList", produces = "application/json; charset=utf-8")
+    public List<ProdDTO> prodList(@RequestBody(required = false) ProdDTO prod) {
+
         // 서비스에서 처리 후의 결과를 반환
-        String msg = "";
-        List<ProdDTO> list = service.prodList(prodNo);
-        if (list == null) {
-            msg = "조회된 정보가 없습니다.";
-            return msg;
-        }
-        model.addAttribute("DataList", list);
-        msg = "조회완료";
-        return msg;
+        List<ProdDTO> list = service.prodList(prod);
+        System.out.println("list :" + list);
+        return list;
 
     }
 

@@ -29,10 +29,6 @@ public class ProdDTO {
 
   // prodNo를 자동으로 생성하는 메서드
   private void getProdNo(String brandCode, String cateGroup, String cateCode, String size) {
-    this.brandCode = brandCode;
-    this.cateGroup = cateGroup;
-    this.cateCode = cateCode;
-    this.size = size;
     this.prodNo = brandCode + cateGroup + cateCode + size + UUID.randomUUID().toString();
   }
 

@@ -5,7 +5,11 @@
         <head>
             <link rel="icon" href="/image/sc.png">
             <title>Stock City</title>
+            <link rel="stylesheet" href="/css/header.css">
+            <link rel="stylesheet" href="css/sider.css">
             <script>
+
+                var sidebar;
                 // DOMContentLoaded 이벤트가 발생하면 실행되는 함수
                 document.addEventListener("DOMContentLoaded", function () {
                     // navbar의 li 요소들을 모두 선택
@@ -34,125 +38,56 @@
                         });
                     });
                 });
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    var navbars = document.querySelectorAll('.navbar > li');
+                    var allSubLists = document.querySelectorAll('.subList');
+                    var sidebar = document.querySelector('.sidebar');
+
+                    // 이전 스크롤 위치를 저장할 변수
+                    var prevScrollPos = window.scrollY;
+
+                    // 스크롤 이벤트 리스너
+                    window.addEventListener('scroll', function () {
+                        var currentScrollPos = window.scrollY;
+
+                        if (currentScrollPos > prevScrollPos) {
+                            // 스크롤이 내려갈 때
+                            sidebar.classList.add('hidden');
+                        } else {
+                            // 스크롤이 올라갈 때
+                            sidebar.classList.remove('hidden');
+                        }
+
+                        prevScrollPos = currentScrollPos;
+                    });
+
+                    navbars.forEach(function (navbar) {
+                        navbar.addEventListener('mouseover', function () {
+                            allSubLists.forEach(function (subList) {
+                                var height = subList.scrollHeight;
+                                subList.style.height = height + 'px';
+                            });
+                        });
+
+                        navbar.addEventListener('mouseout', function () {
+                            allSubLists.forEach(function (subList) {
+                                subList.style.height = '0';
+                                sidebar.classList.add('hidden');
+                            });
+                        });
+                    });
+                });
             </script>
-
-            <style>
-                /* 전체 초기화 스타일 */
-                * {
-                    padding: 0;
-                    margin: 0;
-                }
-
-                /* 리스트 스타일 제거 */
-                li {
-                    list-style: none;
-                }
-
-                /* 링크 스타일 설정 */
-                .navbar a {
-                    text-decoration: none;
-                    font-size: 20px;
-                }
-
-                .subList a {
-                    text-decoration: none;
-                    font-size: 14px;
-                }
-
-                /* 네비게이션 바 스타일 */
-                .navbar {
-                    width: 100%;
-                    overflow: hidden;
-                    margin: 0;
-                    background-color: #2895F4;
-                    top: 0;
-                    z-index: 1000;
-                    position: fixed;
-                    /* 헤더를 고정 */
-                }
-
-                /* 각 navbar의 스타일 */
-                .navbar>li {
-                    width: 20%;
-                    float: left;
-                    text-align: center;
-                    line-height: 40px;
-                    background-color: #2895F4;
-                    position: relative;
-                }
-
-                /* navbar 내부 링크의 색상 설정 */
-                .navbar a {
-                    color: #fff;
-                }
-
-                /* navbar hover 시 배경색 변경 */
-                .navbar>li:hover,
-                .navbar>li:hover li {
-                    background-color: #0059ff;
-                    transition-duration: 0.5s;
-                }
-
-                /* subList 내부 각 요소의 스타일 */
-                .subList>li {
-                    line-height: 50px;
-                    background-color: #2895F4;
-                }
-
-                /* subList 초기 상태 설정 */
-                .subList {
-                    height: 0;
-                    overflow: hidden;
-                }
-
-                .navbar:hover .subList {
-                    height: 250px;
-                    transition-duration: 1s;
-                }
-
-                /* subList 박스 색 변경 */
-                .navbar>li>.subList li:hover {
-                    background-color: #2895F4;
-                }
-
-                /* 사이드바 스타일 */
-                .sidebar {
-                    width: 20%;
-                    /* 필요에 따라 너비 조정 */
-                    height: 100vh;
-                    /* 뷰포트 높이에 맞춤 */
-                    background-color: #cadae7;
-                    /* 사이드바 배경색 */
-                    position: fixed;
-                    top: 0;
-                    right: 0;
-                    z-index: 999;
-                    margin-top: 30px;
-                    /* 항상 위에 유지 */
-                }
-
-                /* 사이드바 내용 스타일 */
-                .sidebar-content {
-                    padding: 20px;
-                    color: #2895F4;
-                }
-
-                /* 컨텐츠 컨테이너 스타일 */
-                .content-container {
-                    margin: 20px auto 20% 0;
-                    width: 78%;
-                    /* 사이드바 너비에 따라 여백 조정 */
-                    padding: 20px;
-                    /* 내용에 여백 추가 */
-                    transition: margin-left 0.5s;
-                    /* 전환 효과 추가 */
-                }
-            </style>
         </head>
 
         <body>
             <!-- 네비게이션 바 및 하위 메뉴 구조 -->
             <ul class="navbar">
+                <div>
+                    <a href="/main/mainform"><img src="/image/white_logo.png"
+                            style="margin-left: -100%; width: 80px; height: auto;"></a>
+                </div>
                 <li>
                     <a href="#">상품관리</a>
                     <ul class="subList">
@@ -183,9 +118,9 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">블라블라</a>
+                    <a href="#">게시판</a>
                     <ul class="subList">
-                        <li><a href="#">블라블라</a></li>
+                        <li><a href="/notice/noticecontent">공지사항</a></li>
                         <li><a href="#">sub02</a></li>
                         <li><a href="#">sub03</a></li>
                         <li><a href="#">sub04</a></li>
@@ -202,6 +137,12 @@
                         <li><a href="#">상원</a></li>
                     </ul>
                 </li>
+                <div>
+                    <a href="${context}/userInfo" style="margin-left: 110%; font-size: 12px;">MYPAGE</a>
+                </div>
+                <div>
+                    <a href="${context}/logout" style="margin-left: 150%; font-size: 12px;">LOGOUT</a>
+                </div>
             </ul>
 
             <!-- 사이드바 -->

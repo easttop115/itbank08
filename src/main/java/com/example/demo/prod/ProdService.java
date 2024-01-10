@@ -47,11 +47,16 @@ public class ProdService {
     return colors;
   }
 
-  public List<ProdDTO> prodList(String prodNo) {
-    if (prodNo == null || prodNo.isEmpty()) {
-      return mapper.selectSearch();
-    }
-    return mapper.selectProdNo(prodNo);
+  public List<ProdDTO> prodList(ProdDTO prod) {
+
+    return mapper.selectProdNo(prod.getProdNo());
   }
 
+  private boolean isSelectEmpty(ProdDTO prod) {
+    return prod == null || (prod.getProdNo() == null || prod.getProdNo().isEmpty())
+        && (prod.getCateGroup() == null || prod.getCateGroup().isEmpty())
+        && (prod.getCateCode() == null || prod.getCateCode().isEmpty())
+        && (prod.getColorCode() == null || prod.getColorCode().isEmpty())
+        && (prod.getSize() == null || prod.getSize().isEmpty());
+  }
 }

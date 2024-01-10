@@ -10,7 +10,7 @@
       <!-- ------------------------------------------------------------------------ -->
 
       <style>
-        div {
+        .class {
           width: 100%;
         }
 
@@ -20,22 +20,6 @@
           flex-wrap: wrap;
           /* 화면 크기에 따라 나란히 놓이도록 설정 */
         }
-
-        /* div.left {
-          width: 60%;
-          float: left;
-          box-sizing: border-box;
-          text-align: center;
-        }
-
-        div.right {
-          width: 40%;
-          float: right;
-          box-sizing: border-box;
-          text-align: center;
-          /* div.left 내부의 요소를 가운데 정렬 */
-
-        /*} */
 
         /* ------ title ------ */
         .inventory-title {
@@ -88,9 +72,12 @@
         }
 
         .search-button {
-          padding: 0 10px;
-          border: #626161;
+          padding: 4px 10px;
+          border: none;
+          background-color: #2895F4;
+          color: white;
           border-radius: 4px;
+          cursor: pointer;
         }
 
         /* 등록된 상품 조회 리스트 */
@@ -111,7 +98,7 @@
         }
 
         .prodList-table tr:first-child {
-          background-color: edf6ff;
+          background-color: #edf6ff;
           border: 1px solid #626161;
           border-radius: 4px;
         }
@@ -119,12 +106,8 @@
         .prodList-table .second-table-content {
           height: 60vh;
           overflow: auto;
-          /* 스크롤바 추가 */
+          background-color: white !important;
         }
-
-        /* .No {
-          width: 10%;
-        } */
 
         .prodNo {
           width: 48%;
@@ -149,72 +132,6 @@
         .totalQuan {
           width: 8%;
         }
-
-
-
-        /* div.right .container {
-          margin: 12% auto;
-          width: 90%;
-          border: 2px solid #2895F4;
-          border-radius: 20px;
-          background-color: white;
-        }
-
-        /* 새로운 테이블 스타일 */
-        /*div.right .container .newTable {
-          width: 90%;
-          margin: 4px auto 20px auto;
-          height: 60%;
-        }
-
-        div.right .container .newTable td {
-          border: 1px solid black;
-          text-align: center;
-        }
-
-        div.right .container .newTable td:first-child {
-          background-color: #cadae7;
-        }
-
-        div.right .container .newTable td:second-child {
-          background-color: white;
-        }
-
-        div.right .container .newTable td:second-child .prodContent {
-          width: 100%;
-          /* 원하는 너비로 조절할 수 있습니다. */
-        /* resize: vertical;*/
-        /* 세로 리사이즈 활성화 (선택사항) */
-        /* }
-
-        .button {
-          padding: 10px;
-          border: none;
-          background-color: #cadae7;
-          border-radius: 4px;
-          margin: 0 auto 16px 0;
-        }
-
-        @media (max-width: 768px) {
-
-          div.left,
-          div.right {
-            width: 100%;
-            float: none;
-          }
-
-          .search-container,
-          .prodList-table,
-          .newTable {
-            width: 100%;
-            margin: 8px;
-          }
-        }
-
-        textarea {
-          width: 100%;
-          box-sizing: border-box;
-        } */
       </style>
 
     </head>
@@ -222,13 +139,15 @@
 
     <body>
       <c:import url="/sider" />
-      <div class="content-container">
+      <div class="content-container class">
 
         <!-- <div class="left"> -->
         <h2 class="inventory-title">상품 조회</h2>
-        <div class="center">
-          <div class="search-container">
-            <form id="searchForm" action="/prodManageProc" method="post">
+        <div class="center class">
+          <div class="search-container class">
+            <form id="searchForm" action="/prodManageProc" method="post"
+              onsubmit="event.preventDefault(); searchProducts();">
+              <!--엔터 눌러도 form제출 x, searchProduct() 호출-->
               <table class="search-table">
                 <tr>
                   <td>
@@ -282,16 +201,15 @@
                 </tr>
                 <tr>
                   <td>
-                    <input type="text" id="prodNo" placeholder="상품코드 입력를 입력하세요" class="txtProductNO"
-                      onchange="searchProducts()">
-                    <!-- <input type="button" class="search-button" value="검색"> -->
+                    <input type="text" id="prodNo" placeholder="상품코드 입력를 입력하세요" class="txtProductNO">
+                    <input type="button" class="search-button" value="검색" onclick="searchProducts()">
                   </td>
                 </tr>
               </table>
             </form>
           </div>
         </div>
-        <div>
+        <div class="class">
           <!-- <form action="/prodList" method="post"> -->
           <table id="prodListTable" class="prodList-table">
             <thead>
@@ -313,14 +231,7 @@
                 </c:when>
                 <c:otherwise>
                   <c:forEach var="item" items="${DataList}">
-                    <tr>
-                      <td class='dataProdNo'><a href='javascript:void(0);'
-                          onclick='prodManage("${item.prodNo}")'>${item.prodNo}</a></td>
-                      <td>${item.prodName}</td>
-                      <td>${item.size}</td>
-                      <td>${item.colorCode}</td>
-                      <td>${item.quan}</td>
-                    </tr>
+
                   </c:forEach>
                 </c:otherwise>
               </c:choose>
@@ -331,23 +242,33 @@
 
     </body>
 
-    <!-- <script>
+    <script>
       function searchProducts() {
+        var cGroup = document.getElementById('cateGroup').value;
+        var cCode = document.getElementById('cateCode').value;
+        var col = document.getElementById('color').value;
+        var si = document.getElementById('size').value;
         var pN = document.getElementById('prodNo').value.trim(); // prodNo 값 가져오기 + 검색어 공백제거
-        if (prodNo !== "") {
-          xhr = new XMLHttpRequest();
-          xhr.open('post', '/prodList')
-          xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-          xhr.send(JSON.stringify({ prodNo: pN }));
-          xhr.onreadystatechange = resProc;
-        } else {
-          // 검색어가 비어있을 경우의 처리
-          document.getElementById('tbody').innerHTML = "<tr class='second-table-content'><td colspan='5'>조회된 정보가 없습니다.</td></tr>";
-        }
+
+        var requestData = {
+          cateGroup: cGroup,
+          cateCode: cCode,
+          color: col,
+          size: si,
+          prodNo: pN
+        };
+
+        xhr = new XMLHttpRequest();
+        xhr.open('post', '/prodList')
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        console.log(requestData)
+        xhr.send(JSON.stringify(requestData));
+        xhr.onreadystatechange = resProc;
       }
       function resProc() {
         if (xhr.readyState == 4 && xhr.status == 200) {
           var resData = JSON.parse(xhr.responseText);
+          console.log(resData)
           var printData = "";
           for (i = 0; i < resData.length; i++) {
             printData += "<tr>";
@@ -362,41 +283,6 @@
         }
       }
 
-      function prodManage(prodNo) {
-        // 상품 관리 페이지로 이동하는 URL을 설정
-        var prodManageURL = "/prodManage?prodNo=" + prodNo;
-
-        // 실제로는 아래의 window.location.href 대신에 페이지 이동 로직을 사용하세요.
-        // window.location.href = manageProductURL;
-
-        // 예제로 경고창을 띄워보겠습니다.
-        alert("상품 관리 페이지로 이동합니다. (URL: " + prodManageURL + ")");
-      }
-
-      // 나머지 JavaScript 코드는 이전과 동일하게 유지됩니다.
-
-    </script> -->
-    <script>
-      function searchProducts() {
-        var prodNo = document.getElementById('prodNo').value.trim();
-        console.log(prodNo);
-        // if (prodNo !== "") {
-        xhr = new XMLHttpRequest();
-        xhr.open('post', '/prodList');
-        xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-        xhr.send(document.getElementById('prodNo').value.trim());
-        xhr.onreadystatechange = resProc;
-        // } else {
-
-        // }
-      }
-      function resProc() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          var resDataString = xhr.responseText;
-          console.log(resDataString); // 문자열 데이터를 로그에 출력
-        }
-        console.log(resDataString);
-      }
       function prodManage(prodNo) {
         // 상품 관리 페이지로 이동하는 URL을 설정
         var prodManageURL = "/prodManage?prodNo=" + prodNo;
