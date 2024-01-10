@@ -1,12 +1,14 @@
 package com.example.demo;
 
+import org.mariadb.jdbc.Connection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-
+import java.sql.SQLException;
 import com.example.demo.join.JoinDTO;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -17,30 +19,40 @@ import java.util.List;
 public class DbConfig {
 
     private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource; // Add this line
 
-    public DbConfig(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public DbConfig(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
     }
 
     private String defaultUserName = "demo";
 
     public void setDynamicDatabase(String dbName) { // 동적으로 DB에 연결하는 메서드
         try {
+            closeCurrentConnection();
             String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + dbName;
             DataSource newDataSource = buildDataSource(dynamicUrl, dbName);
             jdbcTemplate.setDataSource(newDataSource);
-            jdbcTemplate.execute("USE " + dbName);
         } catch (Exception e) {
             logError("setDynamicDatabase 메소드에서 오류 발생", e);
         }
     }
 
+    private void closeCurrentConnection() throws SQLException {
+        Connection connection = (Connection) dataSource.getConnection();
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
     public void setLogoutDatabase() { // 로그아웃시 DB에 연결하는 메서드
         try {
+            closeCurrentConnection();
             String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + defaultUserName;
             DataSource newDataSource = buildDataSource(dynamicUrl, "admin"); // 추후 숨겨주길 바람.
             jdbcTemplate.setDataSource(newDataSource);
-            jdbcTemplate.execute("USE " + defaultUserName);
         } catch (Exception e) {
             logError("setLogoutDatabase 메소드에서 오류 발생", e);
         }
