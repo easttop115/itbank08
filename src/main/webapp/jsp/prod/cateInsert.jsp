@@ -85,24 +85,23 @@
                     <!-- Left Form: Category Registration -->
                     <div class="form-container">
                         <h2 style="text-align: center;">카테고리 등록</h2>
-                        <form id="categoryForm" action="/category/registerProc" method="post"
-                            onsubmit="return validateCategoryForm()">
+                        <form id="categoryForm" action="/cateInsert" method="post">
                             <!-- 카테고리 그룹 입력 -->
-                            <label for="cateGroup">카테고리 그룹</label>
-                            <input type="text" id="cateGroup" name="cateGroup">
+                            <label for="addCateGroup">카테고리 그룹</label>
+                            <input type="text" id="addCateGroup" name="cateGroup" value="${cateGroup}">
 
                             <!-- 카테고리 코드 입력 -->
-                            <label for="cateCode">카테고리 코드</label>
-                            <input type="text" id="cateCode" name="cateCode">
+                            <label for="addCateCode">카테고리 코드</label>
+                            <input type="text" id="addCateCode" name="cateCode" value="${cateCode}">
 
                             <!-- 카테고리 이름 입력 -->
                             <label for="cateName">카테고리 이름</label>
-                            <input type="text" id="cateName" name="cateName">
+                            <input type="text" id="cateName" name="cateName" value="${cateName}">
 
                             <!-- 카테고리 설명 입력 -->
                             <label for="categoryDescription">카테고리 설명</label>
-                            <textarea id="categoryDescription" name="categoryDescription" rows="4"
-                                placeholder="카테고리에 대한 설명을 입력하세요"></textarea>
+                            <textarea id="categoryDescription" name="categoryDescription" value="${categoryDescription}"
+                                rows="4" placeholder="카테고리에 대한 설명을 입력하세요"></textarea>
 
                             <!-- 등록 버튼 -->
                             <button type="submit">등록</button>
@@ -111,21 +110,16 @@
 
                     <!-- Right Form: Size Registration -->
                     <div class="form-container">
-                        <h2 style="text-align: center;">사이즈 등록</h2>
-                        <form id="sizeForm" action="/size/registerProc" method="post"
-                            onsubmit="return validateSizeForm()">
-                            <!-- 사이즈 코드 입력 -->
-                            <label for="sizeCode">사이즈 코드</label>
-                            <input type="text" id="sizeCode" name="sizeCode">
+                        <h2 style="text-align: center;">브랜드 등록</h2>
+                        <form id="brandForm" action="/brandInsert" method="post">
+                            <!-- 브랜드 코드 입력 -->
+                            <label for="addBrandCode">브랜드 코드</label>
+                            <input type="text" id="brandCode" name="brandCode">
 
-                            <!-- 사이즈 이름 입력 -->
-                            <label for="sizeName">사이즈 이름</label>
-                            <input type="text" id="sizeName" name="sizeName">
-
-                            <!-- 사이즈 설명 입력 -->
-                            <label for="sizeDescription">사이즈 설명</label>
-                            <textarea id="sizeDescription" name="sizeDescription" rows="4"
-                                placeholder="사이즈에 대한 설명을 입력하세요"></textarea>
+                            <!-- 브랜드 설명 입력 -->
+                            <label for="brandDescription">브랜드 설명</label>
+                            <textarea id="brandDescription" name="brandDescription" rows="4"
+                                placeholder="브랜드에 대한 설명을 입력하세요"></textarea>
 
                             <!-- 등록 버튼 -->
                             <button type="submit">등록</button>
@@ -135,11 +129,10 @@
                     <!-- Right Form: Color Registration -->
                     <div class="form-container">
                         <h2 style="text-align: center;">색상 코드 등록</h2>
-                        <form id="colorForm" action="/color/registerProc" method="post"
-                            onsubmit="return validateColorForm()">
+                        <form id="colorForm" action="/colorInsert" method="post">
                             <!-- 색상 코드 입력 -->
-                            <label for="colorCode">색상 코드</label>
-                            <input type="text" id="colorCode" name="colorCode">
+                            <label for="addColorCode">색상 코드</label>
+                            <input type="text" id="addColorCode" name="ColorCode">
 
                             <!-- 색상 이름 입력 -->
                             <label for="colorName">색상 이름</label>

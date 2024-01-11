@@ -28,5 +28,5 @@ public interface ProdMapper {
 
   int addCategory(String cateGroup, String cateCode, String cateName);
 
-  int addColor(String colorCode);
+  int addColor(String colorCode, String colorName);
 }

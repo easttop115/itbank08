@@ -55,7 +55,7 @@ public class ProdController {
     public String addColor(ColorDTO color, RedirectAttributes ra) {
 
         if (color.getColorCode() != null || !color.getColorCode().trim().isEmpty()) {
-            service.addColor(color.getColorCode());
+            service.addColor(color.getColorCode(), color.getColorName());
             System.out.println("ColorCode:" + color.getColorCode());
             ra.addFlashAttribute("msg", "ColorCode 추가 성공");
 

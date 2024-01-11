@@ -13,7 +13,8 @@
         INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan, prodCon, regDate)
         VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'), #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
     </insert>
-
+    
+    <!--셀렉트 옵션-->
     <select id="cateGroupList" resultMap="cate">
         SELECT DISTINCT cateGroup FROM category;
     </select>
@@ -35,6 +36,7 @@
         SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')
     </select>
 
+    <!-- 카테고리 추가 -->
     <insert id="addBrand" parameterType="com.example.demo.prod.BrandDTO">
         INSERT INTO brand (brandCode, brandDescription) 
         VALUES (#{brandCode}, #{brandDescription})
@@ -42,11 +44,11 @@
 
     <insert id="addCategory" parameterType="com.example.demo.prod.CateDTO">
         INSERT INTO category (cateGroup, cateCode, cateName) 
-        VALUES (#{cateGroup}, #{cateCode}, ${cateName})
+        VALUES (#{cateGroup}, #{cateCode}, #{cateName})
     </insert>
     
     <insert id="addColor" parameterType="com.example.demo.prod.ColorDTO">
-        INSERT INTO color (colorCode) VALUES (#{colorCode})
+        INSERT INTO color (colorCode, colorName) VALUES (#{colorCode}, #{colorName})
     </insert>
 
 

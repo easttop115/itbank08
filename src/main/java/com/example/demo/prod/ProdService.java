@@ -1,16 +1,11 @@
 package com.example.demo.prod;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 @Transactional
@@ -35,8 +30,8 @@ public class ProdService {
     return "success";
   }
 
-  public String addColor(String colorCode) {
-    int result = mapper.addColor(colorCode);
+  public String addColor(String colorCode, String colorName) {
+    int result = mapper.addColor(colorCode, colorName);
     if (result <= 0) {
       return "fail";
     }

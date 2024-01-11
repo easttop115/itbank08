@@ -194,7 +194,8 @@
           <table class="white-bg">
             <tr>
               <th>상품명</th>
-              <td colspan="2"><input type="text" name="prodName" value="${prodName}" required></td>
+              <td colspan="2"><input type="text" name="prodName" value="${prodName}" placeholder="공백 제외 한글, 영문"
+                  required></td>
             </tr>
             <tr>
               <th>브랜드 코드</th>
@@ -220,7 +221,7 @@
               <td>
                 <div class="container">
                   <select name="cateGroup" id="cateGroup" required>
-                    <option value="null"></option> <!-- 초기값으로 null 추가 -->
+                    <option value="null">카테고리 그룹</option> <!-- 초기값으로 null 추가 -->
                     <c:choose>
                       <c:when test="${empty cateGroups}">
                         <option value="nocateGroup">등록된 카테고리 그룹이 없습니다</option>
@@ -238,7 +239,7 @@
 
                 <div class="container">
                   <select name="cateCode" id="cateCode" required>
-                    <option value="null"></option> <!-- 초기값으로 null 추가 -->
+                    <option value="null">카테고리 코드</option> <!-- 초기값으로 null 추가 -->
                     <c:choose>
                       <c:when test="${empty cateCodes}">
                         <option value="nocateCode">등록된 카테고리 코드가 없습니다</option>
@@ -250,8 +251,6 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <!-- <button class="insert-button" type="submit" onclick="window.location.href='/cateCode-insert'">코드
-                    등록</button> -->
                 </div>
               </td>
             </tr>
@@ -289,15 +288,15 @@
             </tr>
             <tr>
               <th>입고가격</th>
-              <td><input type="number" name="incomePrice" value="${incomePrice}" required></td>
+              <td><input type="number" name="incomePrice" value="${incomePrice}" placeholder="숫자만 입력" required></td>
             </tr>
             <tr>
               <th>판매가격</th>
-              <td><input type="number" name="sellPrice" value="${sellPrice}" required></td>
+              <td><input type="number" name="sellPrice" value="${sellPrice}" placeholder="숫자만 입력" required></td>
             </tr>
             <tr>
               <th>입고수량</th>
-              <td><input type="number" name="quan" value="${quan}" required></td>
+              <td><input type="number" name="quan" value="${quan}" placeholder="숫자만 입력" required></td>
             </tr>
             <tr>
               <th>상세설명</th>
@@ -379,7 +378,10 @@
             <form id="modalForm" action="/colorInsert" method="post">
               <!-- 컬러 코드 입력 -->
               <label for="addColorCode"></label>
-              <input type="text" id="addColorCode" name="ColorCode" value="${colorCode}" placeholder="컬러코드명을 입력하세요."
+              <input type="text" id="addColorCode" name="ColorCode" value="${colorCode}" placeholder="컬러코드를 입력하세요."
+                required>
+              <label for="addColorName"></label>
+              <input type="text" id="addColorName" name="ColorName" value="${colorName}" placeholder="컬러명을 입력하세요."
                 required>
               <input type="submit" class="form-container button" value="등록"></input>
               <button type="button" class="form-container button" onclick="closeColorModal()">취소</button>
@@ -393,7 +395,7 @@
 
       <script>
 
-        // 부랜드모달 열기
+        // 브랜드모달 열기
         function openBrandModal() {
           document.getElementById('brandModal').style.display = 'block';
         }
