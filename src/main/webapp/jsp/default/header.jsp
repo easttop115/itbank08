@@ -54,10 +54,15 @@
                                 <li class="liStyle"><a href="/prodInsert">상품등록</a></li>
                                 <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
                                 <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
+                                <li class="liStyle"><a href="/cateInsert">카테고리 등록</a></li>
+                                <li class="liStyle"><a href="#">sub05</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
                                 <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
+                                <li class="liStyle"><a href="/cateInsert">카테고리 등록</a></li>
+                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">sub05</a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
@@ -82,14 +87,26 @@
                         <li class="liStyle"><a href="#">sub05</a></li>
                     </ul>
                 </li>
+
                 <li class="liStyle">
                     <a href="#">게시판</a>
                     <ul class="subList">
-                        <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
-                        <li class="liStyle"><a href="#">sub02</a></li>
-                        <li class="liStyle"><a href="#">sub03</a></li>
-                        <li class="liStyle"><a href="#">sub04</a></li>
-                        <li class="liStyle"><a href="#">sub05</a></li>
+                        <c:choose>
+                            <c:when test="${sessionScope.accountId eq 'root' }">
+                                <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
+                                <li class="liStyle"><a href="/notice/noticewrite">게시글 쓰기</a></li>
+                                <li class="liStyle"><a href="#">sub03</a></li>
+                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">sub05</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
+                                <li class="liStyle"><a href="/notice/noticewrite">게시글 쓰기</a></li>
+                                <li class="liStyle"><a href="#">sub03</a></li>
+                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">sub05</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </li>
                 <li class="liStyle">

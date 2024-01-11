@@ -7,132 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>상품 등록 조회</title>
 
-      <!-- ------------------------------------------------------------------------ -->
-
-      <style>
-        .class {
-          width: 100%;
-        }
-
-        .content-container {
-          display: flex;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          /* 화면 크기에 따라 나란히 놓이도록 설정 */
-        }
-
-        /* ------ title ------ */
-        .inventory-title {
-          font-size: 18px;
-          font-weight: bold;
-          color: #2e363d;
-          text-align: left;
-          margin: 20px 20px;
-        }
-
-        .inventory-title2 {
-          font-size: 18px;
-          font-weight: bold;
-          color: #2e363d;
-          text-align: center;
-          margin: 20px auto;
-        }
-
-        /* 검색창 */
-        .search-container {
-          width: 92%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin: 0 auto;
-          /* 가로 중앙 정렬을 위해 margin 추가 */
-          margin-bottom: 20px;
-          border: 2px solid #2895F4;
-          border-radius: 8px;
-          padding: 20px;
-          /* 상하좌우 내부 여백 동일하게 조정 */
-          background-color: #edf6ff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 검색창 내부 입력창 */
-        .txtProductNo {
-          width: 416px;
-          height: 30px;
-          margin-top: 5px;
-        }
-
-        .searchOption {
-          width: 100px;
-          height: 30px;
-        }
-
-        .search-table {
-          width: 500px;
-        }
-
-        .search-button {
-          padding: 4px 10px;
-          border: none;
-          background-color: #2895F4;
-          color: white;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-
-        /* 등록된 상품 조회 리스트 */
-        .prodList-table {
-          border: 1px solid rgb(168, 168, 168);
-          border-radius: 20px;
-          border-collapse: collapse;
-          width: 96%;
-          margin: 10px auto;
-          text-align: center;
-        }
-
-        .prodList-table td {
-          border: 1px solid #626161;
-          padding: 4px;
-          text-align: center;
-          height: 10px;
-        }
-
-        .prodList-table tr:first-child {
-          background-color: #edf6ff;
-          border: 1px solid #626161;
-          border-radius: 4px;
-        }
-
-        .prodList-table .second-table-content {
-          height: 60vh;
-          overflow: auto;
-          background-color: white !important;
-        }
-
-        .prodNo {
-          width: 48%;
-        }
-
-        .dataProdNo {
-          cursor: pointer;
-        }
-
-        .prodName {
-          width: 24%;
-        }
-
-        .size {
-          width: 8%;
-        }
-
-        .colorCode {
-          width: 12%;
-        }
-
-        .totalQuan {
-          width: 8%;
-        }
-      </style>
+      <link rel="stylesheet" href="/css/prodManage.css">
 
     </head>
 
@@ -146,7 +21,7 @@
         <h2 class="inventory-title">상품 조회</h2>
         <div class="center class">
           <div class="search-container class">
-            <form id="searchForm" action="/prodList" method="post" onsubmit="event.preventDefault(); searchProducts();">
+            <form id="searchForm" action="/prodList" method="post">
               <!--엔터 눌러도 form제출 x, searchProduct() 호출-->
               <table class="search-table">
                 <tr>
@@ -177,7 +52,7 @@
                         </c:otherwise>
                       </c:choose>
                     </select>
-                    <select name="color" id="color" class="searchOption">
+                    <select name="colorCode" id="colorCode" class="searchOption">
                       <option value="null">색상코드</option>
                       <c:choose>
                         <c:when test="${empty colorCodes}">
@@ -201,8 +76,11 @@
                 </tr>
                 <tr>
                   <td>
-                    <input type="text" id="prodNo" placeholder="상품코드 입력를 입력하세요" class="txtProductNO">
-                    <input type="button" class="search-button" value="검색" onclick="searchProducts()">
+                    <input type="text" id="prodNo" name="prodNo" placeholder="상품코드 입력를 입력하세요" value="${prodNo}"
+                      class="txtProductNO">
+                    <input type="submit" class="search-button" value="검색">
+
+                    <!-- <input type="button" class="search-button" value="검색" onclick="searchProducts()"> -->
                   </td>
                 </tr>
               </table>
@@ -212,73 +90,62 @@
         <div class="class">
           <!-- <form action="/prodList" method="post"> -->
           <table id="prodListTable" class="prodList-table">
-            <tr>
-              <!-- <td class="No">No</td> -->
-              <td class="prodNo">상품코드</td>
-              <td class="prodName">상품명</td>
-              <td class="size">사이즈</td>
-              <td class="colorCode">색상코드</td>
-              <td class="Quan">총수량</td>
-            </tr>
-            <tr class="second-table-content">
-              <td colspan="5">조회된 정보가 없습니다.</td>
-            </tr>
+            <thead>
+              <tr>
+                <!-- <td class="No">No</td> -->
+                <td class="prodNo">상품코드</td>
+                <td class="prodName">상품명</td>
+                <td class="size">사이즈</td>
+                <td class="colorCode">색상코드</td>
+                <td class="Quan">총수량</td>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
           </table>
         </div>
       </div>
 
-    </body>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("searchForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
 
-    <script>
-      function searchProducts() {
-        var prodNo = document.getElementById('prodNo').value.trim();
-        console.log(prodNo);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/prodList');
-        xhr.setRequestHeader('Content-Type', 'text/plain');
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            var resData = JSON.parse(xhr.responseText);
-            console.log(resData);
-            updateTable(resData);
-          }
-        };
-        xhr.send(prodNo); // Send the data as a JSON string
-      }
+            // 제품을 검색하고 테이블을 업데이트하는 함수 호출
+            searchProducts();
+          });
+        });
 
-      function updateTable(data) {
-        var table = document.getElementById('prodListTable');
-        var secondTableContentRow = table.querySelector('.second-table-content');
+        function searchProducts() {
+          // 폼 데이터 가져오기
+          var formData = new FormData(document.getElementById("searchForm"));
 
-        // Clear existing rows in the table body
-        noDataMessageCell.innerHTML = "";
+          // XMLHttpRequest 객체 생성
+          var xhr = new XMLHttpRequest();
 
-        if (data.length > 0) {
-          secondTableContentRow.style.display = 'none';
+          // 비동기적으로 서버에 요청 보내기
+          xhr.open("POST", "/prodList", true);
 
-          for (var i = 0; i < data.length; i++) {
-            var item = data[i];
-            var row = table.insertRow();
+          // 요청 완료 후 처리할 함수 설정
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              // 받은 데이터로 테이블 업데이트
+              document.getElementById("tbody").innerHTML = xhr.responseText;
+            } else {
+              console.error("데이터를 가져오는 중 에러 발생:", xhr.statusText);
+            }
+          };
 
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
+          // 오류 처리
+          xhr.onerror = function () {
+            console.error("요청 중에 에러 발생");
+          };
 
-            cell1.innerHTML = '<a href="javascript:void(0);" onclick="prodManage(\'' + item.prodNo + '\')">' + item.prodNo + '</a>';
-            cell2.textContent = item.prodName;
-            cell3.textContent = item.size;
-            cell4.textContent = item.colorCode;
-            cell5.textContent = item.quan;
-          }
-        } else {
-          // If no data is available, display the "No data" message
-          secondTableContentRow.style.display = 'table-row';
-          noDataMessageCell.colSpan = 5;
-          noDataMessageCell.textContent = '조회된 정보가 없습니다.';
+          // 요청 보내기
+          xhr.send(formData);
         }
-      }
-    </script>
+      </script>
+    </body>
 
     </html>

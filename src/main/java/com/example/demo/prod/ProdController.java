@@ -1,144 +1,136 @@
-// package com.example.demo.prod;
+package com.example.demo.prod;
 
-// import java.util.List;
-// import java.util.Map;
-// import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-<<<<<<< HEAD
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.ResponseBody;
-// import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-=======
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
->>>>>>> 5615c47ff7fb845dbdf1570fcabcf3364f08dbb2
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-// import com.fasterxml.jackson.core.JsonProcessingException;
-// import com.fasterxml.jackson.databind.ObjectMapper;
+@Controller
+public class ProdController {
 
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
+    @Autowired
+    ProdService service;
 
-// @Controller
-// public class ProdController {
+    @GetMapping("/cateInsert")
+    public String cateInsert() {
+        return "prod/cateInsert";
+    }
 
-// @Autowired
-// ProdService service;
-
-<<<<<<< HEAD
-// @PostMapping("/brandInsert")
-// public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
-// // TODO: process POST request
-
-// return entity;
-// }
-=======
     @PostMapping("/brandInsert")
     public String addBrand(BrandDTO brand, RedirectAttributes ra) {
 
         if (brand.getBrandCode() != null || !brand.getBrandCode().trim().isEmpty()) {
             service.addBrand(brand.getBrandCode(), brand.getBrandDescription());
-            System.out.println("코드 보여줄래:" + brand.getBrandCode());
+            System.out.println("brandCode:" + brand.getBrandCode());
             ra.addFlashAttribute("msg", "brandCode 추가 성공");
 
             return "redirect:prodInsert";
         }
         return "prodInsert";
     }
->>>>>>> 5615c47ff7fb845dbdf1570fcabcf3364f08dbb2
 
-// @RequestMapping("/prodInsert")
-// public String prodInsert(Model model) {
+    @PostMapping("/cateInsert")
+    public String addCategory(CateDTO cate, RedirectAttributes ra) {
 
-// List<CateDTO> cateGroups = service.cateGroupList();
-// List<CateDTO> cateCodes = service.cateCodeList();
-// List<BrandDTO> brandCodes = service.brandCodeList();
-// List<ColorDTO> colorCodes = service.colorCodeList();
+        if (cate.getCateGroup() != null || !cate.getCateGroup().trim().isEmpty()) {
+            service.addCategory(cate.getCateGroup(), cate.getCateCode(), cate.getCateName());
+            System.out.println("cateCode:" + cate.getCateCode());
+            ra.addFlashAttribute("msg", "cateCode 추가 성공");
 
-// model.addAttribute("cateGroups", cateGroups);
-// model.addAttribute("cateCodes", cateCodes);
-// model.addAttribute("brandCodes", brandCodes);
-// model.addAttribute("colorCodes", colorCodes);
-// System.out.println("test: " + brandCodes);
-// return "prod/prodInsert";
+            return "redirect:prodInsert";
+        }
+        return "prodInsert";
+    }
 
-// }
+    @PostMapping("/colorInsert")
+    public String addColor(ColorDTO color, RedirectAttributes ra) {
 
-// @PostMapping("/prodInsertProc")
-// public String prodInsertProc(ProdDTO prods, RedirectAttributes ra) {
+        if (color.getColorCode() != null || !color.getColorCode().trim().isEmpty()) {
+            service.addColor(color.getColorCode());
+            System.out.println("ColorCode:" + color.getColorCode());
+            ra.addFlashAttribute("msg", "ColorCode 추가 성공");
 
-// String msg = service.prodInsertProc(prods);
-// ra.addFlashAttribute("msg", msg);
+            return "redirect:prodInsert";
+        }
+        return "prodInsert";
+    }
 
-// return "redirect:/prodManage";
-// }
+    @RequestMapping("/prodInsert")
+    public String prodInsert(Model model) {
 
-// @RequestMapping("/prodManage")
-// public String prodManage(Model model) {
+        List<CateDTO> cateGroups = service.cateGroupList();
+        List<CateDTO> cateCodes = service.cateCodeList();
+        List<BrandDTO> brandCodes = service.brandCodeList();
+        List<ColorDTO> colorCodes = service.colorCodeList();
 
-// List<CateDTO> cateGroups = service.cateGroupList();
-// List<CateDTO> cateCodes = service.cateCodeList();
-// List<BrandDTO> brandCodes = service.brandCodeList();
-// List<ColorDTO> colorCodes = service.colorCodeList();
+        model.addAttribute("cateGroups", cateGroups);
+        model.addAttribute("cateCodes", cateCodes);
+        model.addAttribute("brandCodes", brandCodes);
+        model.addAttribute("colorCodes", colorCodes);
+        System.out.println("test: " + brandCodes);
+        return "prod/prodInsert";
 
-// model.addAttribute("cateGroups", cateGroups);
-// model.addAttribute("cateCodes", cateCodes);
-// model.addAttribute("brandCodes", brandCodes);
-// model.addAttribute("colorCodes", colorCodes);
-// return "prod/prodManage";
-// }
+    }
 
-// @ResponseBody
-// @PostMapping(value = "/prodList", produces = "application/json;
-// charset=UTF-8")
-// public String prodList(@RequestBody String prodNo) {
-// System.out.println(prodNo);
-// // 서비스에서 처리 후의 결과를 반환
-// String msg = "";
-// List<ProdDTO> list = service.prodList(prodNo);
+    @PostMapping("/prodInsertProc")
+    public String prodInsertProc(ProdDTO prods, RedirectAttributes ra) {
 
-// for (ProdDTO dto : list) {
-// System.out.println(dto.getProdName());
-// System.out.println(dto.getProdNo());
-// }
+        String msg = service.prodInsertProc(prods);
+        ra.addFlashAttribute("msg", msg);
 
-// if (list == null) {
-// msg = "조회된 정보가 없습니다.";
-// return msg;
-// }
+        return "redirect:/prodManage";
+    }
 
-// // 리스트를 JSON 형식의 문자열로 변환하여 반환
-// ObjectMapper objectMapper = new ObjectMapper();
-// try {
-// String jsonList = objectMapper.writeValueAsString(list);
-// return jsonList;
-// } catch (JsonProcessingException e) {
-// e.printStackTrace();
-// return "Error during JSON conversion";
-// }
-// }
+    @RequestMapping("/prodManage")
+    public String prodManage(Model model) {
 
-// @RequestMapping("stockStatus")
-// public String stockManage() {
-// return "prod/stockStatus";
-// }
+        List<CateDTO> cateGroups = service.cateGroupList();
+        List<CateDTO> cateCodes = service.cateCodeList();
+        List<BrandDTO> brandCodes = service.brandCodeList();
+        List<ColorDTO> colorCodes = service.colorCodeList();
 
-// }
+        model.addAttribute("cateGroups", cateGroups);
+        model.addAttribute("cateCodes", cateCodes);
+        model.addAttribute("brandCodes", brandCodes);
+        model.addAttribute("colorCodes", colorCodes);
+        return "prod/prodManage";
+    }
+
+    @ResponseBody
+    @PostMapping("/prodList")
+    public String prodList(Map<String, String> params) {
+
+        List<ProdDTO> prodList = service.prodList(params);
+
+        String productListHtml = "<table>";
+        productListHtml += "<thead><tr><th>상품코드</th><th>상품명</th><th>사이즈</th><th>색상코드</th><th>총수량</th></tr></thead><tbody>";
+
+        for (ProdDTO prod : prodList) {
+            productListHtml += "<tr>";
+            productListHtml += "<td>" + prod.getProdNo() + "</td>";
+            productListHtml += "<td>" + prod.getProdName() + "</td>";
+            productListHtml += "<td>" + prod.getSize() + "</td>";
+            productListHtml += "<td>" + prod.getColorCode() + "</td>";
+            productListHtml += "<td>" + prod.getQuan() + "</td>";
+            productListHtml += "</tr>";
+        }
+
+        productListHtml += "</tbody></table>";
+        return productListHtml;
+    }
+
+    @RequestMapping("stockStatus")
+    public String stockManage() {
+        return "prod/stockStatus";
+    }
+
+}

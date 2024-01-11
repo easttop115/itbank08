@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 @Transactional
@@ -20,7 +21,22 @@ public class ProdService {
 
   public String addBrand(String brandCode, String brandDescription) {
     int result = mapper.addBrand(brandCode, brandDescription);
+    if (result <= 0) {
+      return "fail";
+    }
+    return "success";
+  }
 
+  public String addCategory(String cateGroup, String cateCode, String cateName) {
+    int result = mapper.addCategory(cateGroup, cateCode, cateName);
+    if (result <= 0) {
+      return "fail";
+    }
+    return "success";
+  }
+
+  public String addColor(String colorCode) {
+    int result = mapper.addColor(colorCode);
     if (result <= 0) {
       return "fail";
     }
@@ -56,8 +72,15 @@ public class ProdService {
     return colors;
   }
 
-  public List<ProdDTO> prodList(String prod) {
-    return mapper.selectProdNo(prod);
+  // public List<ProdDTO> prodList(ProdDTO prod, String prodNo, String cateGroup,
+  // String cateCode, String colorCode,
+  // String size) {
+  // return mapper.selectProdNo(prod, prodNo, cateGroup, cateCode, colorCode,
+  // size);
+  // }
+
+  public List<ProdDTO> prodList(Map<String, String> params) {
+    return mapper.prodList(params);
   }
 
 }

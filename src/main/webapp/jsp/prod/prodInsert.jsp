@@ -232,7 +232,7 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="window.location.href='/brandCode-insert'">그룹
+                  <button class="insert-button" type="button" onclick="openCateModal()">카테고리
                     등록</button>
                 </div>
 
@@ -250,8 +250,8 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="submit" onclick="window.location.href='/cateCode-insert'">코드
-                    등록</button>
+                  <!-- <button class="insert-button" type="submit" onclick="window.location.href='/cateCode-insert'">코드
+                    등록</button> -->
                 </div>
               </td>
             </tr>
@@ -272,7 +272,7 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="window.location.href='/colorCode-insert'">색상코드
+                  <button class="insert-button" type="button" onclick="openColorModal()">색상코드
                     등록</button>
                 </div>
               </td>
@@ -339,17 +339,85 @@
         </div>
       </div>
 
+
+      <!-- 카테고리  모달 창 -->
+      <div id="cateModal" class="modal">
+        <div class="modal-content">
+          <div class="form-container">
+            <h2 style="text-align: center;">카테고리 등록</h2><br>
+            <form id="modalForm" action="/cateInsert" method="post">
+              <!-- 카테고리 그룹 입력 -->
+              <label for="addCateGroup"></label>
+              <input type="text" id="addCateGroup" name="cateGroup" value="${cateGroup}" placeholder="카테고리그룹명을 입력하세요."
+                required>
+              <!-- 카테고리 코드 입력 -->
+              <label for="addCateCode"></label>
+              <input type="text" id="addCateCode" name="cateCode" value="${cateCode}" placeholder="카테고리코드명을 입력하세요."
+                required>
+              <!-- 카테고리 네임 입력 -->
+              <label for="addCateName"></label>
+              <input type="text" id="addCateName" name="cateName" value="${cateName}" placeholder="카테고리명을 입력하세요."
+                required>
+              <input type="submit" class="form-container button" value="등록"></input>
+              <button type="button" class="form-container button" onclick="closeCateModal()">취소</button>
+          </div>
+          <!-- 등록 버튼 -->
+          </form>
+
+        </div>
+      </div>
+      </div>
+
+
+      <!-- 컬러코드 모달 창 -->
+      <div id="colorModal" class="modal">
+        <div class="modal-content">
+          <!-- <span class="close" onclick="closeBrandModal()">&times;</span> -->
+          <!-- Left Form: Category Registration -->
+          <div class="form-container">
+            <h2 style="text-align: center;">컬러코드 등록</h2><br>
+            <form id="modalForm" action="/colorInsert" method="post">
+              <!-- 컬러 코드 입력 -->
+              <label for="addColorCode"></label>
+              <input type="text" id="addColorCode" name="ColorCode" value="${colorCode}" placeholder="컬러코드명을 입력하세요."
+                required>
+              <input type="submit" class="form-container button" value="등록"></input>
+              <button type="button" class="form-container button" onclick="closeColorModal()">취소</button>
+          </div>
+          <!-- 등록 버튼 -->
+          </form>
+        </div>
+      </div>
+      </div>
+
+
       <script>
 
-        // 모달 열기
+        // 부랜드모달 열기
         function openBrandModal() {
           document.getElementById('brandModal').style.display = 'block';
         }
-
         // 모달 닫기
         function closeBrandModal() {
           document.getElementById('brandModal').style.display = 'none';
+        }
 
+        // 카테모달 열기
+        function openCateModal() {
+          document.getElementById('cateModal').style.display = 'block';
+        }
+        // 모달 닫기
+        function closeCateModal() {
+          document.getElementById('cateModal').style.display = 'none';
+        }
+        // 컬러모달 열기
+        function openColorModal() {
+          document.getElementById('colorModal').style.display = 'block';
+        }
+
+        // 모달 닫기
+        function closeColorModal() {
+          document.getElementById('colorModal').style.display = 'none';
         }
 
       </script>

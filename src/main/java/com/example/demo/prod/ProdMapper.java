@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 
 @Mapper
@@ -21,7 +22,11 @@ public interface ProdMapper {
 
   List<ProdDTO> selectSearch();
 
-  List<ProdDTO> selectProdNo(String prodNo);
-
   int addBrand(String brandCode, String brandDescription);
+
+  List<ProdDTO> prodList(Map<String, String> params);
+
+  int addCategory(String cateGroup, String cateCode, String cateName);
+
+  int addColor(String colorCode);
 }

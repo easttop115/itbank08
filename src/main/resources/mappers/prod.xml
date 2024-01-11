@@ -33,11 +33,20 @@
 
     <select id = "selectProdNo">
         SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')
-    </select> 
+    </select>
 
     <insert id="addBrand" parameterType="com.example.demo.prod.BrandDTO">
         INSERT INTO brand (brandCode, brandDescription) 
         VALUES (#{brandCode}, #{brandDescription})
+    </insert>
+
+    <insert id="addCategory" parameterType="com.example.demo.prod.CateDTO">
+        INSERT INTO category (cateGroup, cateCode, cateName) 
+        VALUES (#{cateGroup}, #{cateCode}, ${cateName})
+    </insert>
+    
+    <insert id="addColor" parameterType="com.example.demo.prod.ColorDTO">
+        INSERT INTO color (colorCode) VALUES (#{colorCode})
     </insert>
 
 
