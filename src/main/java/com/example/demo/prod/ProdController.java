@@ -1,113 +1,114 @@
-package com.example.demo.prod;
+// package com.example.demo.prod;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+// import java.util.List;
+// import java.util.Map;
+// import java.util.HashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.stereotype.Controller;
+// import org.springframework.ui.Model;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RequestParam;
+// import org.springframework.web.bind.annotation.ResponseBody;
+// import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+// import com.fasterxml.jackson.core.JsonProcessingException;
+// import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 
-@Controller
-public class ProdController {
+// @Controller
+// public class ProdController {
 
-    @Autowired
-    ProdService service;
+// @Autowired
+// ProdService service;
 
-    @PostMapping("/brandInsert")
-    public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
-        // TODO: process POST request
+// @PostMapping("/brandInsert")
+// public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
+// // TODO: process POST request
 
-        return entity;
-    }
+// return entity;
+// }
 
-    @RequestMapping("/prodInsert")
-    public String prodInsert(Model model) {
+// @RequestMapping("/prodInsert")
+// public String prodInsert(Model model) {
 
-        List<CateDTO> cateGroups = service.cateGroupList();
-        List<CateDTO> cateCodes = service.cateCodeList();
-        List<BrandDTO> brandCodes = service.brandCodeList();
-        List<ColorDTO> colorCodes = service.colorCodeList();
+// List<CateDTO> cateGroups = service.cateGroupList();
+// List<CateDTO> cateCodes = service.cateCodeList();
+// List<BrandDTO> brandCodes = service.brandCodeList();
+// List<ColorDTO> colorCodes = service.colorCodeList();
 
-        model.addAttribute("cateGroups", cateGroups);
-        model.addAttribute("cateCodes", cateCodes);
-        model.addAttribute("brandCodes", brandCodes);
-        model.addAttribute("colorCodes", colorCodes);
-        System.out.println("test: " + brandCodes);
-        return "prod/prodInsert";
+// model.addAttribute("cateGroups", cateGroups);
+// model.addAttribute("cateCodes", cateCodes);
+// model.addAttribute("brandCodes", brandCodes);
+// model.addAttribute("colorCodes", colorCodes);
+// System.out.println("test: " + brandCodes);
+// return "prod/prodInsert";
 
-    }
+// }
 
-    @PostMapping("/prodInsertProc")
-    public String prodInsertProc(ProdDTO prods, RedirectAttributes ra) {
+// @PostMapping("/prodInsertProc")
+// public String prodInsertProc(ProdDTO prods, RedirectAttributes ra) {
 
-        String msg = service.prodInsertProc(prods);
-        ra.addFlashAttribute("msg", msg);
+// String msg = service.prodInsertProc(prods);
+// ra.addFlashAttribute("msg", msg);
 
-        return "redirect:/prodManage";
-    }
+// return "redirect:/prodManage";
+// }
 
-    @RequestMapping("/prodManage")
-    public String prodManage(Model model) {
+// @RequestMapping("/prodManage")
+// public String prodManage(Model model) {
 
-        List<CateDTO> cateGroups = service.cateGroupList();
-        List<CateDTO> cateCodes = service.cateCodeList();
-        List<BrandDTO> brandCodes = service.brandCodeList();
-        List<ColorDTO> colorCodes = service.colorCodeList();
+// List<CateDTO> cateGroups = service.cateGroupList();
+// List<CateDTO> cateCodes = service.cateCodeList();
+// List<BrandDTO> brandCodes = service.brandCodeList();
+// List<ColorDTO> colorCodes = service.colorCodeList();
 
-        model.addAttribute("cateGroups", cateGroups);
-        model.addAttribute("cateCodes", cateCodes);
-        model.addAttribute("brandCodes", brandCodes);
-        model.addAttribute("colorCodes", colorCodes);
-        return "prod/prodManage";
-    }
+// model.addAttribute("cateGroups", cateGroups);
+// model.addAttribute("cateCodes", cateCodes);
+// model.addAttribute("brandCodes", brandCodes);
+// model.addAttribute("colorCodes", colorCodes);
+// return "prod/prodManage";
+// }
 
-    @ResponseBody
-    @PostMapping(value = "/prodList", produces = "application/json; charset=UTF-8")
-    public String prodList(@RequestBody String prodNo) {
-        System.out.println(prodNo);
-        // 서비스에서 처리 후의 결과를 반환
-        String msg = "";
-        List<ProdDTO> list = service.prodList(prodNo);
+// @ResponseBody
+// @PostMapping(value = "/prodList", produces = "application/json;
+// charset=UTF-8")
+// public String prodList(@RequestBody String prodNo) {
+// System.out.println(prodNo);
+// // 서비스에서 처리 후의 결과를 반환
+// String msg = "";
+// List<ProdDTO> list = service.prodList(prodNo);
 
-        for (ProdDTO dto : list) {
-            System.out.println(dto.getProdName());
-            System.out.println(dto.getProdNo());
-        }
+// for (ProdDTO dto : list) {
+// System.out.println(dto.getProdName());
+// System.out.println(dto.getProdNo());
+// }
 
-        if (list == null) {
-            msg = "조회된 정보가 없습니다.";
-            return msg;
-        }
+// if (list == null) {
+// msg = "조회된 정보가 없습니다.";
+// return msg;
+// }
 
-        // 리스트를 JSON 형식의 문자열로 변환하여 반환
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            String jsonList = objectMapper.writeValueAsString(list);
-            return jsonList;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "Error during JSON conversion";
-        }
-    }
+// // 리스트를 JSON 형식의 문자열로 변환하여 반환
+// ObjectMapper objectMapper = new ObjectMapper();
+// try {
+// String jsonList = objectMapper.writeValueAsString(list);
+// return jsonList;
+// } catch (JsonProcessingException e) {
+// e.printStackTrace();
+// return "Error during JSON conversion";
+// }
+// }
 
-    @RequestMapping("stockStatus")
-    public String stockManage() {
-        return "prod/stockStatus";
-    }
+// @RequestMapping("stockStatus")
+// public String stockManage() {
+// return "prod/stockStatus";
+// }
 
-}
+// }

@@ -165,18 +165,19 @@
 
                         <div class="meddle">
                             <label for="content">내용</label>
-                            <div id="editor" name="content"></div>
+                            <input type="textarea" id="editor" name="content">
                         </div>
+                </div>
 
-                        <div class="meddle">
-                            <label for="fileName">파일첨부</label>
-                            <input type="file" name="fileName">
-                        </div>
-                        <div class="meddle">
-                            <label for="password">비밀번호</label>
-                            <input type="password" name="password" size="10" class="form-control" id="password"
-                                placeholder="4자리 입력해주세요">
-                        </div>
+                <div class="meddle">
+                    <label for="fileName">파일첨부</label>
+                    <input type="file" name="fileName">
+                </div>
+                <div class="meddle">
+                    <label for="password">비밀번호</label>
+                    <input type="password" name="password" size="10" class="form-control" id="password"
+                        placeholder="4자리 입력해주세요">
+                </div>
                 </div>
                 <div class="btn-box">
                     <input type="submit" class="btn btn-sm btn-primary custom-button" id="btnSave" value="저장">

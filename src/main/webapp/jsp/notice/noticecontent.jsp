@@ -1,152 +1,210 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-        <c:import url="/header" />
-        <!DOCTYPE html>
-        <html lang="ko">
+
+        <html>
 
         <head>
             <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>공지사항 상세정보</title>
+
+            <title>게시글 상세 페이지</title>
+            <style>
+                body {
+                    padding-top: 0px;
+                    padding-bottom: 30px;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                ul,
+                li {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .header-section {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 20px;
+                }
+
+                .page-name-box {
+                    display: flex;
+                    margin-top: 20px;
+                }
+
+                .site-name {
+                    font-size: 32px;
+                    font-weight: 900;
+                    color: #2895F4;
+                    margin-right: 10px;
+                }
+
+                .page-name {
+                    font-size: 32px;
+                    font-weight: 900;
+                }
+
+                .meddle {
+                    margin-bottom: 10px;
+                    margin: 0 10px;
+
+                }
+
+                .custom-button {
+                    background-color: #2895F4;
+                    border: 1px solid #2895F4;
+                    border-radius: 5px;
+                }
+
+                .user-form {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .cobo {
+                    border-top: 1px solid #ccc;
+                    /* 상단에 선 추가 */
+                    padding-top: 10px;
+                    /* 선과 내용 사이의 간격 조절 */
+                    margin-top: 10px;
+                    /* 선과 상단 내용 사이의 간격 조절 */
+                }
+
+                .xans-board-movement li {
+                    overflow: hidden;
+                    padding: 0 20px;
+                    border-bottom: 1px solid #e8e8e8;
+                    font-size: 14px;
+                    line-height: 1.8;
+                    color: #333;
+                    display: flex;
+                    justify-content: flex-start;
+                }
+
+                .xans-board-movement {
+                    border-top: 1px solid #e8e8e8;
+                    border-bottom: 1px solid #e8e8e8;
+                    margin: 20px 0;
+                }
+            </style>
         </head>
-        <style>
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-            }
-
-            .notice-item {
-                display: flex;
-                align-items: center;
-                height: 40px;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .notice-item.header>div {
-                text-align: center;
-                font-size: 12px;
-
-            }
-
-            .notice-item .no {
-                width: 30px;
-                font-size: 12px;
-            }
-
-            .notice-item .id {
-                width: 80px;
-                text-align: center;
-                font-size: 12px;
-            }
-
-            .notice-item .writeDate {
-                width: 80px;
-                font-size: 12px;
-            }
-
-            .notice-item .views {
-                width: 70px;
-                text-align: center;
-                font-size: 12px;
-
-            }
-
-            .notice-item .title {
-                flex: 1;
-                text-align: center;
-                font-size: 12px;
-            }
-
-            .header-section {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 60px;
-                margin-bottom: 20px;
-                padding: 10px;
-
-            }
-
-            .site-name {
-                font-size: 36px;
-                font-weight: 900;
-                color: rgb(253, 195, 0);
-                margin-right: 10px;
-            }
-
-            .page-name {
-                font-size: 36px;
-                font-weight: 900;
-
-            }
-
-            .page-name-box {
-                display: flex;
-                margin-top: 20px;
-            }
-
-            .button-box button {
-                background-color: #fff;
-                border: 1px solid black;
-                padding: 8px 12px;
-            }
-
-            .vi {
-                display: flex;
-                justify-content: center;
-
-            }
-
-            .table-section {
-                border-top: 1px solid #000000;
-                /* 두껍게 설정 */
-            }
-        </style>
-
 
         <body>
             <c:import url="/header" />
+            <article>
+                <div class="container" role="main">
+                    <div class="header-section">
+                        <div class="page-name-box">
+                            <div class="site-name">STOCK CITY |</div>
+                            <div class="page-name">공지사항</div>
+                        </div>
+                    </div>
+                    <form name="form" id="form" role="form" method="post" enctype="multipart/form-data">
 
+                        <div class="meddle">
+                            <div class="user-form">
+                                <label for="title">제목</label>
+                                <div class="form-control" name="title" id="title">${notice.title}</div>
+                            </div>
+                            <div class="meddle">
+                                <label for="id">작성자</label>
+                                <div class="form-control" name="id" id="id">${notice.id}</div>
+                            </div>
+                        </div>
+                        <div class="meddle">
+                            <div class="cobo">
+                                <label for="content">내용</label>
+                                <div class="form-control" rows="5" name="content" id="content">${notice.content}</div>
+                            </div>
+                        </div>
 
-            <div class="header-section">
-                <div class="page-name-box">
-                    <div class="site-name">BOWFUN | </div>
-                    <div class="page-name">게시판</div>
-                </div>
-                <div class="button-box">
-                    <button type="button" onclick="location.href='noticeWrite'">글쓰기</button>
-                </div>
-            </div>
-            <div class="table-section">
-                <ul class="notice-list">
-                    <li class="notice-item header">
-                        <div class="no">No</div>
-                        <div class="title">제목</div>
-                        <div class="writeDate">작성시간</div>
-                        <div class="views">조회수</div>
-                    </li>
-                    <c:choose>
-                        <c:when test="${empty notices}">
-                            <li class="notice-item">
-                                <div class="notice-title" colspan="3">등록된 데이터가 존재하지 않습니다.</div>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach var="notice" items="${notices}">
-                                <li class="notice-item">
-                                    <div class="no">${notice.no}</div>
-                                    <div class="title" onclick="location.href='noticeContent?no=${notice.no }'">
-                                        ${notice.title}</div>
-                                    <div class="writeDate">${notice.writeDate}</div>
-                                    <div class="views">${notice.views}</div>
+                        <div class="meddle">
+                            <c:if test="${not empty notice.fileName}">
+                                <label for="fileName">파일 이름</label>
+                                <div class="form-control" id="FileName">${notice.fileName}</div>
+                                <a href="noticeDownload?no=${notice.no}">파일 다운로드</a>
+                            </c:if>
+                        </div>
+                        <!-- <div
+                            class="xans-element- xans-board xans-board-movement-1002 xans-board-movement xans-board-1002">
+                            <ul>
+                                <li class="prev">
+                                    <strong>이전글</strong>
+                                    <c:choose>
+                                        <c:when test="${prevNext.prevNum == 0}">
+                                            <span style="color: gray;">이전글이 없습니다.</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a
+                                                href="/notice/noticecontent?reviewNum='${prevNext.prevNum}'">${prevNext.prevTitle}</a>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </li>
-                            </c:forEach>
-                            <li>
-                                <div class=vi colspan="5">${result}</div>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
-            </div>
+                                <li class="next">
+                                    <strong>다음글</strong>
+                                    <c:choose>
+                                        <c:when test="${prevNext.nextNum == 0}">
+                                            <span style="color: gray;">다음글이 없습니다.</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a
+                                                href="${contextPath}/notice/noticecontent?reviewNum=${prevNext.nextNum}">${prevNext.nextTitle}</a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </li>
+                            </ul>
+                        </div> -->
+
+                        <div>
+                            <c:choose>
+                                <c:when test="${sessionScope.id == 'admin'}">
+                                    <button type="button" class="btn btn-sm btn-primary custom-button"
+                                        onclick="location.href='NoticeForm'">목록</button>
+                                    <button type="button" class="btn btn-sm btn-primary custom-button"
+                                        onclick="location.href='NoticeModify?no=${Notice.no}'">수정</button>
+                                    <button type="button" class="btn btn-sm btn-primary custom-button" id="btnDelete"
+                                        onclick="deleteCheck()">삭제</button>
+                                </c:when>
+                            </c:choose>
+                        </div>
+                    </form>
+                </div>
+            </article>
+            <script>
+
+                function deleteCheck() {
+                    result = confirm('진짜로 삭제하겠습니까?');
+                    if (result == true) {
+                        location.href = 'NoticeDeleteProc?no=${Notice.no}'
+                    }
+                }
+
+                $(document).on('click', '#btnModify', function (e) {
+                    e.preventDefault();
+                    $("#form").attr('action', "/NoticeModify");
+                    $("#form").submit();
+                });
+                $(document).on('click', '#btnDelete', function (e) {
+                    e.preventDefault();
+                    $("#form").attr('action', "/ NoticeDeleteProc");
+                    // $("#form").submit();
+                });
+
+                $(document).on('click', '#btnList', function (e) {
+                    e.preventDefault();
+                    location.href = "/NoticeForm";
+                });
+
+
+            </script>
+
+
+
+
+        </body>
+
+        </html>

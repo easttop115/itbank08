@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.demo.PageService;
-
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
@@ -22,8 +21,9 @@ public class NoticeService {
     @Autowired
     private NoticeMapper mapper;
     private String filePath = "C:\\itbank08\\upload\\";
+    private NoticeMapper noticeMapper;
 
-    public void noticeform(String cp, Model model) {
+    public void noticeform(String cp, Model model, Object jdbcTemplate) {
         int currentPage = 1;
         try {
             currentPage = Integer.parseInt(cp);
@@ -48,6 +48,25 @@ public class NoticeService {
         model.addAttribute("result", result);
     }
 
+    // List<NoticeDTO> noticeformWithTitleSearch(int begin, int end, String
+    // titleSearch) {
+    // String sql = "SELECT * FROM notice WHERE search_text LIKE ? LIMIT ?, ?";
+    // titleSearch = "%" + titleSearch + "%";
+    // return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(NoticeDTO.class),
+    // titleSearch, begin, end);
+    // }
+
+    // // 검색어에 맞는 공지사항의 총 수 가져오기
+    // int totalCountWithTitleSearch(String titleSearch) {
+    // String sql = "SELECT COUNT(*) FROM notice WHERE search_text LIKE ?";
+    // titleSearch = "%" + titleSearch + "%";
+    // return jdbcTemplate.queryForObject(sql, Integer.class, titleSearch);
+
+    @Autowired
+    public NoticeService(NoticeMapper noticeMapper) {
+        this.noticeMapper = noticeMapper;
+    }
+
     @Autowired
     private HttpSession session;
 
@@ -65,6 +84,7 @@ public class NoticeService {
         }
 
         NoticeDTO noticeDTO = new NoticeDTO();
+        noticeDTO.setId(sessionId);
         noticeDTO.setTitle(title);
         noticeDTO.setContent(multi.getParameter("content"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -115,14 +135,83 @@ public class NoticeService {
         return "redirect:/notice/noticeform";
     }
 
-    public void noticeContent(String cp, Model model) {
+    // public NoticeDTO noticecontent(String no) {
+    // int n = 1;
+    // try {
+    // n = Integer.parseInt(no);
+    // } catch (Exception e) {
+    // return null;
+    // }
+
+    // NoticeDTO notice = mapper.noticecontent(n);
+    // if (notice != null) {
+    // mapper.incrementViews(n);
+    // notice.setViews(notice.getViews() + 1);
+
+    // if (notice.getFileName() != null) {
+    // String[] names = notice.getFileName().split("\\\\");
+    // for (String name : names)
+    // System.out.println("NoticeService-noticecontent name : " + name);
+    // /* C:\\javas\\upload\\user4\\20230925140126-pom.xml */
+
+    // /* 20230925140126-01-pom-v01.xml */
+    // String[] fileNames = names[4].split("-", 2);
+    // for (String fileName : fileNames)
+    // System.out.println("NoticeService-noticecontent fileName : " + fileName);
+
+    // notice.setFileName(fileNames[1]);
+    // }
+    // }
+    // return notice;
+    // }
+    public NoticeDTO noticecontent(String no) {
+        int n = 1;
+        try {
+            n = Integer.parseInt(no);
+        } catch (Exception e) {
+            return null;
+        }
+
+        NoticeDTO notice = mapper.noticecontent(n);
+        if (notice != null && notice.getFileName() != null) {
+            String[] names = notice.getFileName().split("\\\\");
+            System.out.println("글내용" + notice.getContent());
+            System.out.println("글제목" + notice.getTitle());
+            for (String name : names)
+                System.out.println("NoticeService-noticecontent name : " + name);
+
+            // names 배열의 길이가 충분한지 확인
+            if (names.length > 4) {
+                String[] fileNames = names[4].split("-", 2);
+
+                // fileNames 배열의 길이가 충분한지 확인
+                if (fileNames.length > 1) {
+                    for (String fileName : fileNames)
+                        System.out.println("NoticeService-noticecontent fileName : " + fileName);
+
+                    // 유효한 인덱스에만 접근
+                    notice.setFileName(fileNames[1]);
+                } else {
+                    // 적절한 에러 처리 또는 로깅
+                }
+            } else {
+                // 적절한 에러 처리 또는 로깅
+            }
+
+            mapper.incrementViews(n);
+            notice.setViews(notice.getViews() + 1);
+
+        }
+
+        return notice;
     }
 
     public void noticeDownload(String no, HttpServletResponse response) {
     }
 
-    public NoticeDTO noticecontent(String no) {
-        return null;
+    public NoticeDTO searchNotice(String title) {
+        NoticeDTO notices = mapper.searchNotice(title);
+        return notices;
     }
 
 }

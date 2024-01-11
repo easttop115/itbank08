@@ -21,28 +21,20 @@ public class NoticeController {
     @RequestMapping("/notice/noticeform")
     public String noticeForm(Model model,
             @RequestParam(value = "currentPage", required = false) String cp) {
-        service.noticeform(cp, model);
+        service.noticeform(cp, model, cp);
         return "/notice/noticeform";
     }
 
-    // @RequestMapping("/notice/noticewrite")
-    // public String noticewrite() {
-    // String sessionId = (String) session.getAttribute("id");
-    // if (sessionId == null)
-    // return "redirect:login";
-    // // sessionId = "admin";
-    // return "/notice/noticeform";
-    // }
+    @PostMapping("/searchNotice")
+    public String searchNotice(String title, Model model) {
+        if (title.trim().isEmpty() || title == "") {
+            return "/notice/noticeform";
+        }
+        NoticeDTO notices = service.searchNotice(title);
+        model.addAttribute("notices", notices);
 
-    // @PostMapping("/notice/noticewriteProc")
-    // public String noticewriteProc(MultipartHttpServletRequest multi) {
-    // String sessionId = (String) session.getAttribute("id");
-    // if (sessionId == null)
-    // sessionId = "admin";
-    // // return "redirect:login";
-    // String path = service.noticewriteProc(multi);
-    // return path;
-    // }
+        return "/notice/noticeform";
+    }
 
     @RequestMapping("/notice/noticewrite")
     public String noticewrite() {
@@ -64,12 +56,13 @@ public class NoticeController {
 
     @RequestMapping("/notice/noticecontent")
     public String noticecontent(String no, Model model) {
-        NoticeDTO Notice = service.noticecontent(no);
-        if (Notice == null) {
-            return "redirect:noticeform";
+        NoticeDTO notice = service.noticecontent(no);
+
+        if (notice == null) {
+            return "redirect:/notice/noticeform";
         }
 
-        model.addAttribute("Notice", Notice);
+        model.addAttribute("notice", notice);
         return "/notice/noticecontent";
     }
 
@@ -116,6 +109,25 @@ public class NoticeController {
     // return "redirect:NoticeContent?no=" + no;
 
     // return "redirect:NoticeForm";
+    // }
+
+    // @RequestMapping("/notice/noticewrite")
+    // public String noticewrite() {
+    // String sessionId = (String) session.getAttribute("id");
+    // if (sessionId == null)
+    // return "redirect:login";
+    // // sessionId = "admin";
+    // return "/notice/noticeform";
+    // }
+
+    // @PostMapping("/notice/noticewriteProc")
+    // public String noticewriteProc(MultipartHttpServletRequest multi) {
+    // String sessionId = (String) session.getAttribute("id");
+    // if (sessionId == null)
+    // sessionId = "admin";
+    // // return "redirect:login";
+    // String path = service.noticewriteProc(multi);
+    // return path;
     // }
 
 }

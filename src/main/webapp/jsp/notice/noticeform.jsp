@@ -8,6 +8,7 @@
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>공지사항 목록</title>
+
       <style>
         * {
           box-sizing: border-box;
@@ -246,10 +247,10 @@
 
           <div class="container">
             <div class="search-window">
-              <form action="">
+              <form action="/searchNotice" method="post">
                 <div class="search-wrap">
-                  <label for="search" class="blind">공지사항 내용 검색</label>
-                  <input id="search" type="search" name="" placeholder="검색어를 입력해주세요." value="">
+                  <label for="search" class="blind">공지사항 제목 검색</label>
+                  <input id="title" type="text" name="title" placeholder="검색어를 입력해주세요.">
                   <button type="submit" class="btn btn-dark">검색</button>
                 </div>
               </form>
@@ -282,7 +283,7 @@
                     <div class="notice-item">
                       <div class="tr">
                         <div class="no">${Notice.no}</div>
-                        <div class="title" onclick="location.href='NoticeContent?no=${Notice.no}'">
+                        <div class="title" onclick="location.href='noticecontent?no=${Notice.no}'">
                           ${Notice.title}</div>
                         <div class="writeDate">${Notice.writeDate}</div>
                       </div>
@@ -292,12 +293,51 @@
                     <div class="tr">
                       <div class="td" colspan="7">${result}</div>
                     </div>
+
                   </div>
                 </c:otherwise>
               </c:choose>
             </div>
           </div>
         </div>
+
+        <script>
+          function searchFunction() {
+
+            var t = document.getElementById("search_tex").value.trim();
+            console.log(t);
+            var xhr;
+
+            xhr = new XMLHttpRequest();
+            xhr.open('post', '/searchNotice');
+            xhr.send(t);
+            xhr.onreadystatechange = resProc;
+          }
+          function resProc() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              var resData = xhr.responseText;
+              // 입력된 검색어 가져오기
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("search");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("noticeTable"); // 공지사항 테이블의 id를 설정해야 합니다.
+              tr = table.getElementsByTagName("div"); // 테이블 행이 div 요소로 되어 있다고 가정합니다.
+
+              // 각 행을 반복하며 검색어에 맞지 않는 항목을 숨깁니다.
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByClassName("title")[0]; // 제목이라고 가정합니다.
+                if (td) {
+                  txtValue = td.textContent || td.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+          }
+        </script>
 
 
     </body>

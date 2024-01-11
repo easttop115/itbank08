@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "classpath:mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.notice.NoticeMapper">
 
-<!-- 	
-	<select id="noticeform" resultMap="notice">
-		SELECT B.* FROM (SELECT ROWNUM as r, A.* FROM (SELECT notice.* FROM notice ORDER BY no DESC)A )B WHERE B.r BETWEEN #{begin} AND #{end}
-	</select> -->
+
 	<select id="noticeform" resultType="com.example.demo.notice.NoticeDTO">
     SELECT * FROM notice ORDER BY no DESC LIMIT #{begin}, #{end}
 	</select>
@@ -33,13 +27,13 @@
     <selectKey order="BEFORE" keyProperty="no" resultType="int">
         SELECT NVL(max(no), 0) + 1 FROM notice
     </selectKey> 	
-    INSERT INTO notice (no, title, content, writeDate, fileName, password, views, isSticky)
-    VALUES(#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{password}, #{views}, #{isSticky})
+   INSERT INTO notice 
+    VALUES(#{id},#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{password}, #{views}, #{isSticky}, #{search_text})
 </insert>
 
 	
-<select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
-		SELECT * FROM notice WHERE no=#{n}
+ <select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
+		SELECT * FROM notice WHERE no=#{no}
 	</select>
 	
 	<update id="incrementViews">
@@ -50,13 +44,25 @@
 		SELECT fileName FROM notice WHERE no=#{n}
 	</select>
 	
-	<update id="noticeModifyProc">
+	<!-- <update id="noticeModifyProc">
 		UPDATE notice SET title=#{title}, content=#{content} WHERE no=#{no}
 	</update>
 	
-<delete id="noticeDeleteProc">
-    DELETE FROM notice WHERE no=#{n}
-</delete>
+	<delete id="noticeDeleteProc">
+		DELETE FROM notice WHERE no=#{n}
+	</delete>
+	<select id="noticeformWithTitleSearch" resultType="com.example.dto.NoticeDTO">
+		SELECT * FROM notice WHERE search_text LIKE #{titleSearch} LIMIT #{begin}, #{end}
+	</select>
+
+	<select id="totalCountWithTitleSearch" resultType="int">
+		SELECT COUNT(*) FROM notice WHERE search_text LIKE #{titleSearch}
+	</select>  -->
+
+	<select id="searchNotice" resultType="com.example.demo.notice.NoticeDTO">
+		SELECT * FROM notice WHERE title LIKE CONCAT('%',#{title},'%') 
+	</select>
+
 </mapper>
 
 

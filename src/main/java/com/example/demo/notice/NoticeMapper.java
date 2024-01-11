@@ -14,14 +14,21 @@ public interface NoticeMapper {
 
     void noticewriteProc(NoticeDTO notice);
 
-    NoticeDTO NoticeContent(int n);
+    NoticeDTO noticecontent(@Param("no") int n);
 
-    String NoticeDownload(int n);
+    String noticeDownload(int n);
 
-    int NoticeModifyProc(NoticeDTO notice);
+    // int NoticeModifyProc(NoticeDTO notice);
 
-    void NoticeDeleteProc(int n);
+    // void NoticeDeleteProc(int n);
 
     void incrementViews(int n);
+
+    // List<NoticeDTO> noticeformWithTitleSearch(int begin, int end, String
+    // titleSearch);
+
+    // int totalCountWithTitleSearch(String titleSearch);
+
+    NoticeDTO searchNotice(@Param("title") String title);
 
 }
