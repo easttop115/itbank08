@@ -9,10 +9,10 @@
     <resultMap id="brand" type="com.example.demo.prod.BrandDTO"/>
     <resultMap id="color" type="com.example.demo.prod.ColorDTO"/>
 
- <insert id="prodInsertProc" parameterType="com.example.demo.prod.ProdDTO">
-    INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan, prodCon, regDate)
-    VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'), #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
-</insert>
+    <insert id="prodInsertProc" parameterType="com.example.demo.prod.ProdDTO">
+        INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan, prodCon, regDate)
+        VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'), #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon}, CURRENT_TIMESTAMP)
+    </insert>
 
     <select id="cateGroupList" resultMap="cate">
         SELECT DISTINCT cateGroup FROM category;
@@ -34,6 +34,12 @@
     <select id = "selectProdNo">
         SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')
     </select> 
+
+    <insert id="addBrand" parameterType="com.example.demo.prod.BrandDTO">
+        INSERT INTO brand (brandCode, brandDescription) 
+        VALUES (#{brandCode}, #{brandDescription})
+    </insert>
+
 
 </mapper>
 

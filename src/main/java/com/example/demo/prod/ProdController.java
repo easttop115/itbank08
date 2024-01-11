@@ -4,6 +4,7 @@
 // import java.util.Map;
 // import java.util.HashMap;
 
+<<<<<<< HEAD
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.http.HttpStatus;
 // import org.springframework.http.ResponseEntity;
@@ -15,6 +16,20 @@
 // import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.bind.annotation.ResponseBody;
 // import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+>>>>>>> 5615c47ff7fb845dbdf1570fcabcf3364f08dbb2
 
 // import com.fasterxml.jackson.core.JsonProcessingException;
 // import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,12 +43,27 @@
 // @Autowired
 // ProdService service;
 
+<<<<<<< HEAD
 // @PostMapping("/brandInsert")
 // public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
 // // TODO: process POST request
 
 // return entity;
 // }
+=======
+    @PostMapping("/brandInsert")
+    public String addBrand(BrandDTO brand, RedirectAttributes ra) {
+
+        if (brand.getBrandCode() != null || !brand.getBrandCode().trim().isEmpty()) {
+            service.addBrand(brand.getBrandCode(), brand.getBrandDescription());
+            System.out.println("코드 보여줄래:" + brand.getBrandCode());
+            ra.addFlashAttribute("msg", "brandCode 추가 성공");
+
+            return "redirect:prodInsert";
+        }
+        return "prodInsert";
+    }
+>>>>>>> 5615c47ff7fb845dbdf1570fcabcf3364f08dbb2
 
 // @RequestMapping("/prodInsert")
 // public String prodInsert(Model model) {

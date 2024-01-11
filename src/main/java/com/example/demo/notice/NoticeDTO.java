@@ -2,7 +2,7 @@ package com.example.demo.notice;
 
 import lombok.Getter;
 import lombok.Setter;
-
+//p
 // CREATE TABLE notice (
 //     id varchar(20) NOT NULL,
 //     no INT(11) NOT NULL DEFAULT 0,

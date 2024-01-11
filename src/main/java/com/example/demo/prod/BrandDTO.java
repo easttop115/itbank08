@@ -9,6 +9,7 @@ public class BrandDTO {
 
   int no;
   String brandCode;
+  String brandDescription;
 
 }
 
