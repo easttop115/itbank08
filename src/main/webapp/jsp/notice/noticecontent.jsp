@@ -50,7 +50,8 @@
 
                 .meddle {
                     margin-bottom: 10px;
-                    margin: 0 10px;
+                    margin: 100px;
+                    padding: 42px;
 
                 }
 
@@ -70,7 +71,7 @@
                     /* 상단에 선 추가 */
                     padding-top: 10px;
                     /* 선과 내용 사이의 간격 조절 */
-                    margin-top: 10px;
+                    margin-top: -492px;
                     /* 선과 상단 내용 사이의 간격 조절 */
                 }
 
