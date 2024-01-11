@@ -1,16 +1,13 @@
 package com.example.demo;
 
-import java.sql.Connection;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
+
 import com.example.demo.join.JoinDTO;
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 import java.util.List;
 
@@ -19,57 +16,65 @@ public class DbConfig {
 
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource; // Add this line
+    private String defaultUserName = "demo";
 
     public DbConfig(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
     }
 
-    private String defaultUserName = "demo";
-
-    public void setDynamicDatabase(String dbName) { // 동적으로 DB에 연결하는 메서드
+    public void setDynamicDatabase(String dbName) { // 동적으로 DB를 변경하는 메서드
         try {
-            closeCurrentConnection();
-            String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + dbName;
-            DataSource newDataSource = buildDataSource(dynamicUrl, dbName);
-            jdbcTemplate.setDataSource(newDataSource);
+            jdbcTemplate.execute("USE " + dbName);
         } catch (Exception e) {
             logError("setDynamicDatabase 메소드에서 오류 발생", e);
         }
     }
 
-    private void closeCurrentConnection() throws SQLException {
-        Connection connection = (Connection) dataSource.getConnection();
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
+    // private void closeCurrentConnection() throws SQLException {
+    // System.out.println("Closing current connection");
+    // java.sql.Connection connection = dataSource.getConnection();
+    // if (connection != null && !connection.isClosed()) {
+    // connection.close();
+    // System.out.println("Connection closed successfully");
+    // } else {
+    // System.out.println("No active connection to close");
+    // }
+    // }
 
-    public void setLogoutDatabase() { // 로그아웃시 DB에 연결하는 메서드
+    public void setLogoutDatabase() { // 로그아웃시 defaultUserName 데이터베이스로 이동
+        // try {
+        // closeCurrentConnection();
+        // String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" +
+        // defaultUserName;
+        // DataSource newDataSource = buildDataSource(dynamicUrl, "admin"); // 추후 숨겨주길
+        // 바람.
+        // jdbcTemplate.setDataSource(newDataSource);
+        // } catch (Exception e) {
+        // logError("setLogoutDatabase 메소드에서 오류 발생", e);
+        // }
         try {
-            closeCurrentConnection();
-            String dynamicUrl = "jdbc:mariadb://db.itbank08.link:3306/" + defaultUserName;
-            DataSource newDataSource = buildDataSource(dynamicUrl, "admin"); // 추후 숨겨주길 바람.
-            jdbcTemplate.setDataSource(newDataSource);
+            jdbcTemplate.execute("USE " + defaultUserName);
         } catch (Exception e) {
             logError("setLogoutDatabase 메소드에서 오류 발생", e);
         }
     }
 
-    protected DataSource buildDataSource(String url, String id) { // 동적으로 DB연결 주소 pool
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(url);
-        hikariConfig.setUsername(id);
-        hikariConfig.setPassword("mariapass");
+    // protected DataSource buildDataSource(String url, String id) { // 동적으로 DB연결 주소
+    // pool
+    // HikariConfig hikariConfig = new HikariConfig();
+    // hikariConfig.setJdbcUrl(url);
+    // hikariConfig.setUsername(id);
+    // hikariConfig.setPassword("mariapass");
 
-        return new HikariDataSource(hikariConfig);
-    }
+    // return new HikariDataSource(hikariConfig);
+    // }
 
     public void createSetDatabase(String dbName) { // 회원가입 승인 후 demo 데이터베이스 복제
         try {
             if (!databaseExists(dbName)) {
                 createDatabase(dbName);
-                createUserAndGrantPrivileges(dbName);
+                // createUserAndGrantPrivileges(dbName);
                 List<String> tables = getTablesInDatabase();
 
                 for (String table : tables) {
@@ -110,25 +115,28 @@ public class DbConfig {
         }
     }
 
-    protected void createUserAndGrantPrivileges(String dbName) { // 사용자 생성 및 권한 부여
-        try {
-            if (!userExists(dbName)) {
-                // CREATE USER 쿼리 수정
-                String createUserQuery = "CREATE USER ?@'%' IDENTIFIED BY 'mariapass'"; // 사용자 계정 생성
-                jdbcTemplate.update(createUserQuery, dbName);
+    // protected void createUserAndGrantPrivileges(String dbName) {
+    // 사용자 생성 및 권한 부여
+    // try {
+    // if (!userExists(dbName)) {
+    // // CREATE USER 쿼리 수정
+    // String createUserQuery = "CREATE USER ?@'%' IDENTIFIED BY 'mariapass'"; //
+    // 사용자 계정 생성
+    // jdbcTemplate.update(createUserQuery, dbName);
 
-                String grantPrivilegesQuery = "GRANT ALL PRIVILEGES ON " + dbName + ".* TO ?@'%'";
-                // 생성한 DB의 권한만 부여
-                jdbcTemplate.update(grantPrivilegesQuery, dbName);
+    // String grantPrivilegesQuery = "GRANT ALL PRIVILEGES ON " + dbName + ".* TO
+    // ?@'%'";
+    // // 생성한 DB의 권한만 부여
+    // jdbcTemplate.update(grantPrivilegesQuery, dbName);
 
-                System.out.println("계정 생성 및 권한 부여 완료: " + dbName);
-            } else {
-                System.out.println("사용자 이미 존재함: " + dbName);
-            }
-        } catch (Exception e) {
-            logError("사용자 계정 생성 및 권한 생성 실패", e);
-        }
-    }
+    // System.out.println("계정 생성 및 권한 부여 완료: " + dbName);
+    // } else {
+    // System.out.println("사용자 이미 존재함: " + dbName);
+    // }
+    // } catch (Exception e) {
+    // logError("사용자 계정 생성 및 권한 생성 실패", e);
+    // }
+    // }
 
     // 테이블 생성(desc)
     protected void updateTableStatements(String dbName, String table) {
