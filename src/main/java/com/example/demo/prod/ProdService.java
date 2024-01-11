@@ -18,6 +18,15 @@ public class ProdService {
   @Autowired
   private ProdMapper mapper;
 
+  public String addBrand(String brandCode, String brandDescription) {
+    int result = mapper.addBrand(brandCode, brandDescription);
+
+    if (result <= 0) {
+      return "fail";
+    }
+    return "success";
+  }
+
   public String prodInsertProc(ProdDTO prods) {
 
     int result = mapper.prodInsertProc(prods);
@@ -48,15 +57,7 @@ public class ProdService {
   }
 
   public List<ProdDTO> prodList(String prod) {
-
     return mapper.selectProdNo(prod);
   }
 
-  private boolean isSelectEmpty(ProdDTO prod) {
-    return prod == null || (prod.getProdNo() == null || prod.getProdNo().isEmpty())
-        && (prod.getCateGroup() == null || prod.getCateGroup().isEmpty())
-        && (prod.getCateCode() == null || prod.getCateCode().isEmpty())
-        && (prod.getColorCode() == null || prod.getColorCode().isEmpty())
-        && (prod.getSize() == null || prod.getSize().isEmpty());
-  }
 }

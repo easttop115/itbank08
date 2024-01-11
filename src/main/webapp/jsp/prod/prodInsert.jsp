@@ -194,7 +194,7 @@
           <table class="white-bg">
             <tr>
               <th>상품명</th>
-              <td colspan="2"><input type="text" name="prodName" value="${param.prodName}" required></td>
+              <td colspan="2"><input type="text" name="prodName" value="${prodName}" required></td>
             </tr>
             <tr>
               <th>브랜드 코드</th>
@@ -215,35 +215,6 @@
                   </select>
                   <button class="insert-button" type="button" onclick="openBrandModal()">브랜드코드
                     등록</button>
-
-                  <!-- 브랜드코드  모달 창 -->
-                  <div id="brandModal" class="modal">
-                    <div class="modal-content">
-                      <span class="close" onclick="closeBrandModal()">&times;</span>
-                      <!-- Left Form: Category Registration -->
-                      <div class="form-container">
-                        <h2 style="text-align: center;">브랜드코드 등록</h2><br>
-                        <form id="brandForm" action="/brandCodeInsert" method="post">
-                          <!-- 브랜드 코드 입력 -->
-                          <label for="brandCode"></label>
-                          <input type="text" id="brandCode" name="brandCode" placeholder="브랜드코드명을 입력하세요.">
-                          <!-- 브랜드 설명 입력 -->
-                          <label for="brandDescription"></label>
-                          <textarea id="brandDescription" name="categoryDescription" rows="4"
-                            placeholder="브랜드에 대한 설명을 입력하세요"></textarea>
-                          <!-- 등록 버튼 -->
-                          <div class="button-container">
-                            <button class="form-container button" onclick="addBrand()">등록</button>
-                            <button class="form-container button" onclick="closeBrandModal()">취소</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-
             <tr>
               <th>카테고리</th>
               <td>
@@ -318,19 +289,19 @@
             </tr>
             <tr>
               <th>입고가격</th>
-              <td><input type="number" name="incomePrice" value="${param.incomePrice}" required></td>
+              <td><input type="number" name="incomePrice" value="${incomePrice}" required></td>
             </tr>
             <tr>
               <th>판매가격</th>
-              <td><input type="number" name="sellPrice" value="${param.sellPrice}" required></td>
+              <td><input type="number" name="sellPrice" value="${sellPrice}" required></td>
             </tr>
             <tr>
               <th>입고수량</th>
-              <td><input type="number" name="quan" value="${param.quan}" required></td>
+              <td><input type="number" name="quan" value="${quan}" required></td>
             </tr>
             <tr>
               <th>상세설명</th>
-              <td><textarea name="prodCon" value="${param.prodCon}" rows="10" cols="100" required></textarea>
+              <td><textarea name="prodCon" value="${prodCon}" rows="10" cols="100" required></textarea>
               </td>
             </tr>
           </table>
@@ -341,36 +312,34 @@
         </form>
       </div>
 
+      <!-- 브랜드코드  모달 창 -->
+      <div id="brandModal" class="modal">
+        <div class="modal-content">
+          <!-- <span class="close" onclick="closeBrandModal()">&times;</span> -->
+          <!-- Left Form: Category Registration -->
+          <div class="form-container">
+            <h2 style="text-align: center;">브랜드코드 등록</h2><br>
+            <form id="modalForm" action="/brandInsert" method="post">
+              <!-- 브랜드 코드 입력 -->
+              <label for="addBrandCode"></label>
+              <input type="text" id="addBrandCode" name="brandCode" value="${brandCode}" placeholder="브랜드코드명을 입력하세요."
+                required>
+              <!-- 브랜드 설명 입력 -->
+              <label for="brandDescription"></label>
+              <textarea id="brandDescription" name="brandDescription" rows="4" value="${brandDescription}"
+                placeholder="브랜드에 대한 설명을 입력하세요"></textarea>
+              <div class="button-container">
+                <input type="submit" class="form-container button" value="등록"></input>
+                <button type="button" class="form-container button" onclick="closeBrandModal()">취소</button>
+              </div>
+              <!-- 등록 버튼 -->
+            </form>
+
+          </div>
+        </div>
+      </div>
+
       <script>
-        function addBrand() {
-          var brand = document.getElementById('brandCode').value;
-          var brandDes = document.getElementById('brandDescription').value;
-
-          fetch('/brandInsert', {
-            method: 'post',
-            headers: {
-              'Content-Type': 'appication/json',
-            },
-            body: JSON.stringify({
-              brandCode: brand,
-              brandDescription: brandDes,
-            }),
-          })
-            .then(response => response.json())
-            .then(data => {
-              // 등록이 성공하면 부모 창에 값 적용
-              document.getElementById('brandCodeFieldInParent').value = brandCode;
-
-              // 모달 닫기
-              console.log('새로운 브랜드코드 추가:', brandCode);
-              closeBrandModal();
-            })
-            .catch(error => {
-              console.error('등록 실패:', error);
-              // 실패 시 처리 (예: 메시지 표시)
-            });
-        }
-
 
         // 모달 열기
         function openBrandModal() {
@@ -380,16 +349,8 @@
         // 모달 닫기
         function closeBrandModal() {
           document.getElementById('brandModal').style.display = 'none';
+
         }
-
-        -
-
-          // 부모 창의 필드에 값을 적용
-          document.getElementById('brandCodeFieldInParent').value = brandCode;
-        document.getElementById('brandDescriptionFieldInParent').value = brandDescription;
-
-
-
 
       </script>
 

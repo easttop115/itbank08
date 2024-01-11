@@ -22,4 +22,6 @@ public interface ProdMapper {
   List<ProdDTO> selectSearch();
 
   List<ProdDTO> selectProdNo(String prodNo);
+
+  int addBrand(String brandCode, String brandDescription);
 }

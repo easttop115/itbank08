@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,16 @@ public class ProdController {
     ProdService service;
 
     @PostMapping("/brandInsert")
-    public SomeEnityData postMethodName(@RequestBody SomeEnityData entity) {
-        // TODO: process POST request
+    public String addBrand(BrandDTO brand, RedirectAttributes ra) {
 
-        return entity;
+        if (brand.getBrandCode() != null || !brand.getBrandCode().trim().isEmpty()) {
+            service.addBrand(brand.getBrandCode(), brand.getBrandDescription());
+            System.out.println("코드 보여줄래:" + brand.getBrandCode());
+            ra.addFlashAttribute("msg", "brandCode 추가 성공");
+
+            return "redirect:prodInsert";
+        }
+        return "prodInsert";
     }
 
     @RequestMapping("/prodInsert")
