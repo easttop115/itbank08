@@ -52,7 +52,9 @@ public class MailContents implements IMailService {
 			msgg += "<br>";
 			msgg += "<div align='center' style='border:3px solid #2895F4'>";
 			msgg += "<div style='font-size:130%'><br>";
-			msgg += "<strong>" + to + "</strong></div><br>";
+			msgg += "<strong>회사명 : " + joins.getCompany() + "</strong></div><br>";
+			msgg += "<strong>매장수 : " + joins.getAdCount() + "</strong></div><br>";
+			msgg += "<strong>이메일 : " + to + "</strong></div><br>";
 			msgg += "<a style=\"text-decoration: none;\" href='http://localhost/verifyProc?email=" + to + "'>승인</a><br><br>";
 			msgg += "</div>";
 
