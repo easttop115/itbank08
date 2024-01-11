@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -66,50 +67,50 @@ public class NoticeController {
         return "/notice/noticecontent";
     }
 
-    @RequestMapping("noticeDownload")
-    public void noticeDownload(String no, HttpServletResponse response) {
-        service.noticeDownload(no, response);
+    @RequestMapping("noticedownload")
+    public void noticedownload(String no, HttpServletResponse response) {
+        service.noticedownload(no, response);
     }
 
-    // @RequestMapping("/notice/noticemodify")
-    // public String noticemodify(String no, Model model) {
-    // String sessionId = (String) session.getAttribute("id");
-    // if (sessionId == null)
-    // sessionId = "admin";
-    // // return "redirect:login";
-    // String path = service.noticemodify(no, model);
-    // return path;
-    // }
+    @RequestMapping("/notice/noticemodify")
+    public String noticemodify(String no, Model model) {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            // sessionId = "admin";
+            return "redirect:/";
+        String path = service.noticemodify(no, model);
+        return path;
+    }
 
-    // @PostMapping("noticemodifyProc")
-    // public String noticemodifyProc(NoticeDTO notice, RedirectAttributes ra) {
-    // String sessionId = (String) session.getAttribute("id");
-    // if (sessionId == null)
-    // sessionId = "admin";
-    // // return "redirect:login";
-    // String msg = service.noticemodifyProc(Notice);
-    // ra.addFlashAttribute("msg", msg);
+    @PostMapping("noticemodifyProc")
+    public String noticemodifyProc(NoticeDTO notice, RedirectAttributes ra) {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            sessionId = "admin";
+        // return "redirect:login";
+        String msg = service.noticemodifyProc(notice);
+        ra.addFlashAttribute("msg", msg);
 
-    // if (msg.equals("게시글 수정 성공"))
-    // return "redirect:noticecontent?no=" + Notice.getNo();
+        if (msg.equals("게시글 수정 성공"))
+            return "redirect:noticecontent?no=" + notice.getNo();
 
-    // return "redirect:noticemodify?no=" + Notice.getNo();
-    // }
+        return "redirect:noticemodify?no=" + notice.getNo();
+    }
 
-    // @RequestMapping("noticeDeleteProc")
-    // public String noticeDeleteProc(String no) {
-    // String sessionId = (String) session.getAttribute("id");
-    // if (sessionId == null)
-    // sessionId = "admin";
-    // // return "redirect:login";
+    @RequestMapping("noticedeleteProc")
+    public String noticedeleteProc(String no) {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            // sessionId = "admin";
+            return "redirect:/";
 
-    // String msg = service.noticeDeleteProc(no);
+        String msg = service.noticedeleteProc(no);
 
-    // if (msg.equals("작성자만 삭제 할 수 있습니다."))
-    // return "redirect:NoticeContent?no=" + no;
+        if (msg.equals("작성자만 삭제 할 수 있습니다."))
+            return "redirect:NoticeContent?no=" + no;
 
-    // return "redirect:NoticeForm";
-    // }
+        return "redirect:NoticeForm";
+    }
 
     // @RequestMapping("/notice/noticewrite")
     // public String noticewrite() {

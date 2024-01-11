@@ -44,21 +44,14 @@
 		SELECT fileName FROM notice WHERE no=#{n}
 	</select>
 	
-	<!-- <update id="noticeModifyProc">
+	 <update id="noticemodifyProc">
 		UPDATE notice SET title=#{title}, content=#{content} WHERE no=#{no}
 	</update>
 	
-	<delete id="noticeDeleteProc">
+	<delete id="noticedeleteProc">
 		DELETE FROM notice WHERE no=#{n}
 	</delete>
-	<select id="noticeformWithTitleSearch" resultType="com.example.dto.NoticeDTO">
-		SELECT * FROM notice WHERE search_text LIKE #{titleSearch} LIMIT #{begin}, #{end}
-	</select>
-
-	<select id="totalCountWithTitleSearch" resultType="int">
-		SELECT COUNT(*) FROM notice WHERE search_text LIKE #{titleSearch}
-	</select>  -->
-
+	
 	<select id="searchNotice" resultType="com.example.demo.notice.NoticeDTO">
 		SELECT * FROM notice WHERE title LIKE CONCAT('%',#{title},'%') 
 	</select>

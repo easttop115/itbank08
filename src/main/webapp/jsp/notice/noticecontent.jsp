@@ -10,19 +10,10 @@
             <title>게시글 상세 페이지</title>
             <style>
                 body {
-                    padding-top: 0px;
+                    padding-top: 0;
                     padding-bottom: 30px;
-                }
-
-                * {
-                    box-sizing: border-box;
-                }
-
-                ul,
-                li {
-                    list-style: none;
-                    padding: 0;
                     margin: 0;
+                    font-family: Arial, sans-serif;
                 }
 
                 .header-section {
@@ -48,48 +39,64 @@
                     font-weight: 900;
                 }
 
-                .meddle {
-                    margin-bottom: 10px;
+                .container {
                     margin: 100px;
                     padding: 42px;
-
                 }
 
                 .custom-button {
-                    background-color: #2895F4;
+                    /* background-color: #2895F4;
                     border: 1px solid #2895F4;
+                    border-radius: 5px; */
+
+                    color: #999;
+                    font-family: 'Monument', 'Noto Sans KR', sans-serif;
+                    border: solid 1px #ddd;
+                    font-size: 13px;
+                    padding: 4px 12px 5px;
+                    line-height: 1.4;
                     border-radius: 5px;
                 }
 
                 .user-form {
-                    display: flex;
-                    align-items: center;
+                    margin-bottom: -3px;
+                    margin-top: -66px;
+
+                }
+
+                .admin {
+                    margin-bottom: 4px;
+                    padding-top: 10px;
+                    /* Adjust the spacing above 작성자 */
+                }
+
+                .admin label {
+                    margin-bottom: 5px;
+                    font-weight: bold;
+                }
+
+                .form-control {
+                    padding: 10px;
+                    border: none;
+                    /* Remove border */
+                    border-radius: 5px;
                 }
 
                 .cobo {
                     border-top: 1px solid #ccc;
-                    /* 상단에 선 추가 */
+                    /* Add a line between 작성자 and 내용 */
                     padding-top: 10px;
-                    /* 선과 내용 사이의 간격 조절 */
-                    margin-top: -492px;
-                    /* 선과 상단 내용 사이의 간격 조절 */
+                    /* Adjust the spacing above 내용 */
                 }
 
-                .xans-board-movement li {
-                    overflow: hidden;
-                    padding: 0 20px;
-                    border-bottom: 1px solid #e8e8e8;
-                    font-size: 14px;
-                    line-height: 1.8;
-                    color: #333;
-                    display: flex;
-                    justify-content: flex-start;
+                .cobo label {
+                    margin-top: 20px;
+                    display: block;
+                    font-weight: bold;
                 }
 
-                .xans-board-movement {
-                    border-top: 1px solid #e8e8e8;
-                    border-bottom: 1px solid #e8e8e8;
-                    margin: 20px 0;
+                .cobo .form-control {
+                    margin-top: 10px;
                 }
             </style>
         </head>
@@ -97,40 +104,37 @@
         <body>
             <c:import url="/header" />
             <article>
-                <div class="container" role="main">
-                    <div class="header-section">
-                        <div class="page-name-box">
-                            <div class="site-name">STOCK CITY |</div>
-                            <div class="page-name">공지사항</div>
+                <div class="header-section">
+                    <div class="page-name-box">
+                        <div class="site-name">STOCK CITY |</div>
+                        <div class="page-name">공지사항</div>
+                    </div>
+                </div>
+                <form name="form" id="form" role="form" method="post" enctype="multipart/form-data">
+                    <div class="container" role="main">
+                        <div class="user-form">
+                            <label for="title">제목</label>
+                            <div class="form-control" name="title" id="title">${notice.title}</div>
+                        </div>
+
+                        <div class="admin">
+                            <label for="id">작성자</label>
+                            <div class="form-control" name="id" id="id">${notice.id}</div>
+                        </div>
+
+                        <div class="cobo">
+                            <label for="content">내용</label>
+                            <div class="form-control" rows="5" name="content" id="content">${notice.content}</div>
                         </div>
                     </div>
-                    <form name="form" id="form" role="form" method="post" enctype="multipart/form-data">
-
-                        <div class="meddle">
-                            <div class="user-form">
-                                <label for="title">제목</label>
-                                <div class="form-control" name="title" id="title">${notice.title}</div>
-                            </div>
-                            <div class="meddle">
-                                <label for="id">작성자</label>
-                                <div class="form-control" name="id" id="id">${notice.id}</div>
-                            </div>
-                        </div>
-                        <div class="meddle">
-                            <div class="cobo">
-                                <label for="content">내용</label>
-                                <div class="form-control" rows="5" name="content" id="content">${notice.content}</div>
-                            </div>
-                        </div>
-
-                        <div class="meddle">
-                            <c:if test="${not empty notice.fileName}">
-                                <label for="fileName">파일 이름</label>
-                                <div class="form-control" id="FileName">${notice.fileName}</div>
-                                <a href="noticeDownload?no=${notice.no}">파일 다운로드</a>
-                            </c:if>
-                        </div>
-                        <!-- <div
+                    <div class="meddle">
+                        <c:if test="${not empty notice.fileName}">
+                            <label for="fileName">파일 이름</label>
+                            <div class="form-control" id="FileName">${notice.fileName}</div>
+                            <a href="noticeDownload?no=${notice.no}">파일 다운로드</a>
+                        </c:if>
+                    </div>
+                    <!-- <div
                             class="xans-element- xans-board xans-board-movement-1002 xans-board-movement xans-board-1002">
                             <ul>
                                 <li class="prev">
@@ -160,19 +164,26 @@
                             </ul>
                         </div> -->
 
-                        <div>
-                            <c:choose>
-                                <c:when test="${sessionScope.id == 'admin'}">
-                                    <button type="button" class="btn btn-sm btn-primary custom-button"
-                                        onclick="location.href='NoticeForm'">목록</button>
-                                    <button type="button" class="btn btn-sm btn-primary custom-button"
-                                        onclick="location.href='NoticeModify?no=${Notice.no}'">수정</button>
-                                    <button type="button" class="btn btn-sm btn-primary custom-button" id="btnDelete"
-                                        onclick="deleteCheck()">삭제</button>
-                                </c:when>
-                            </c:choose>
-                        </div>
-                    </form>
+                    <div>
+                        <!-- <c:choose>
+                            <c:when test="${sessionScope.id == 'admin'}">
+                                <button type="button" class="btn btn-sm btn-primary custom-button"
+                                    onclick="location.href='/notice/noticeform'">목록</button>
+                                <button type="button" class="btn btn-sm btn-primary custom-button"
+                                    onclick="location.href='noticemodify?no=${notice.no}'">수정</button>
+                                <button type="button" class="btn btn-sm btn-primary custom-button" id="btnDelete"
+                                    onclick="deleteCheck()">삭제</button>
+                            </c:when>
+                        </c:choose> -->
+                        <button type="button" class="btn btn-sm btn-primary custom-button"
+                            onclick="location.href='/notice/noticeform'">목록</button>
+                        <button type="button" class="btn btn-sm btn-primary custom-button"
+                            onclick="location.href='noticemodify?no=${notice.no}'">수정</button>
+                        <button type="button" class="btn btn-sm btn-primary custom-button" id="btnDelete"
+                            onclick="deleteCheck()">삭제</button>
+
+                    </div>
+                </form>
                 </div>
             </article>
             <script>
@@ -186,18 +197,18 @@
 
                 $(document).on('click', '#btnModify', function (e) {
                     e.preventDefault();
-                    $("#form").attr('action', "/NoticeModify");
+                    $("#form").attr('action', "/notice/noticemodify");
                     $("#form").submit();
                 });
                 $(document).on('click', '#btnDelete', function (e) {
                     e.preventDefault();
-                    $("#form").attr('action', "/ NoticeDeleteProc");
+                    $("#form").attr('action', "/ noticedeleteProc");
                     // $("#form").submit();
                 });
 
                 $(document).on('click', '#btnList', function (e) {
                     e.preventDefault();
-                    location.href = "/NoticeForm";
+                    location.href = "/notice/noticeform";
                 });
 
 

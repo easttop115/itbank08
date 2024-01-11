@@ -206,12 +206,89 @@ public class NoticeService {
         return notice;
     }
 
-    public void noticeDownload(String no, HttpServletResponse response) {
+    public void noticedownload(String no, HttpServletResponse response) {
     }
 
     public NoticeDTO searchNotice(String title) {
         NoticeDTO notices = mapper.searchNotice(title);
         return notices;
+    }
+
+    public String noticemodify(String no, Model model) {
+        int n = 0;
+        try {
+            n = Integer.parseInt(no);
+        } catch (Exception e) {
+            return "redirect:noticeform";
+        }
+
+        NoticeDTO Notice = mapper.noticecontent(n);
+
+        if (Notice == null)
+            // sessionId = "admin";
+            return "redirect:noticeform";
+
+        if (Notice.getFileName() != null) {
+            String[] names = Notice.getFileName().split("\\\\");
+            String[] fileNames = names[4].split("-", 2);
+            Notice.setFileName(fileNames[1]);
+        }
+
+        model.addAttribute("noice", Notice);
+        return "/notice/noticemodify";
+    }
+
+    public String noticemodifyProc(NoticeDTO notice) {
+        // System.out.println(Notice.getNo());
+        NoticeDTO check = mapper.noticecontent(notice.getNo());
+        if (check == null)
+            return "게시글 번호에 문제가 발생했습니다. 다시 시도하세요.";
+
+        // 로그인한 아이디와 작성자 아이디가 같은지 확인
+        String sessionId = (String) session.getAttribute("id");
+        /*
+         * if(check.getId().equals(sessionId) == false) return "작성자만 삭제 할 수 있습니다.";
+         */
+
+        if (notice.getTitle() == null || notice.getTitle().trim().isEmpty()) {
+            return "제목을 입력하세요.";
+        }
+
+        int result = mapper.noticemodifyProc(notice);
+        if (result == 0)
+            return "게시글 수정에 실패했습니다. 다시 시도하세요.";
+
+        return "게시글 수정 성공";
+    }
+
+    public String noticedeleteProc(String no) {
+        // 파일이 존재하면 삭제
+        int n = 0;
+        try {
+            n = Integer.parseInt(no);
+        } catch (Exception e) {
+            return "게시글 번호에 문제가 발생했습니다. 다시 시도하세요.";
+        }
+
+        NoticeDTO notice = mapper.noticecontent(n);
+        if (notice == null)
+            return "게시글 번호에 문제가 발생했습니다. 다시 시도하세요.";
+
+        // 로그인한 아이디와 작성자 아이디가 같은지 확인
+        String sessionId = (String) session.getAttribute("id");
+        // if(Notice.getId().equals(sessionId) == false)
+        // return "작성자만 삭제 할 수 있습니다.";
+
+        String fullPath = notice.getFileName();
+        if (fullPath != null) { // 테이블에 파일의 경로와 이름이 있다면
+            File f = new File(fullPath);
+            if (f.exists() == true) // 파일 저장소에 파일이 존재한다면
+                f.delete();
+        }
+
+        // 테이블에서 게시글번호와 일치하는 행(row)삭제
+        mapper.noticedeleteProc(n);
+        return "게시글 삭제 완료";
     }
 
 }
