@@ -19,10 +19,6 @@ public interface JoinMapper {
 
     JoinDTO findDbName(String uniqueDbName);
 
-    int verifyProc(JoinDTO joins);
-
-    JoinDTO checkAccount(String email);
-
     JoinDTO checkStatus(String id);
 
     int updateProc(JoinDTO joins);

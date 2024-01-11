@@ -4,7 +4,7 @@
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
         INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adCount, accountId, dbName) 
-        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, NOW(), 
+        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 
         CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adCount}, 
         CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END , #{dbName} 
         FROM user;
@@ -24,12 +24,6 @@
     <select id="findDbName" resultMap="join">
         SELECT * FROM user WHERE dbName=#{dbName}
     </select>
-    <update id="verifyProc">
-        UPDATE user SET registStatus="approve" WHERE email=#{email}
-    </update>
-    <select id="checkAccount" resultMap="join">
-        SELECT * FROM user WHERE email=#{email}
-    </select>
     <select id="checkStatus" resultMap="join">
         SELECT registStatus FROM user WHERE id=#{id}
     </select>
@@ -48,7 +42,7 @@
         END, 
         regDate=
         CASE 
-            WHEN registStatus = 'approve' THEN NOW()
+            WHEN registStatus = 'approve' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
             WHEN registStatus = 'denied' THEN 'X'
         END
     WHERE id=#{id}

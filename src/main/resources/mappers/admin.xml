@@ -5,4 +5,33 @@
     <select id="findAdmin" resultMap="admin">
         SELECT * FROM admin WHERE aId=#{aId}
     </select>
+    <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
+    <select id="adminInfo" resultMap="join">
+        SELECT * FROM user WHERE accountId='root'
+    </select>
+    <select id="checkAccount" resultMap="join">
+        SELECT * FROM user WHERE email=#{email}
+    </select>
+    <update id="verifyProc">
+        UPDATE user SET registStatus="approve" WHERE email=#{email}
+    </update>
+    <update id="adminStatusModify">
+        UPDATE user SET 
+        registStatus=
+        CASE 
+            WHEN registStatus = 'approve' THEN 'inactive'
+            WHEN registStatus = 'inactive' THEN 'active'
+            WHEN registStatus = 'active' THEN 'inactive'
+        END, 
+        regDate=
+        CASE 
+            WHEN registStatus = 'approve' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
+            WHEN registStatus = 'inactive' THEN 'X'
+            WHEN registStatus = 'active' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
+        END
+    WHERE id=#{id}
+    </update>
+    <delete id="adminRootDeleteProc">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
 </mapper>

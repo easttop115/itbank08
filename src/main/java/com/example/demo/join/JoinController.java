@@ -3,17 +3,14 @@ package com.example.demo.join;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.DbConfig;
-import com.example.demo.mail.MailContents;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
 
 @Controller
 public class JoinController {
@@ -22,8 +19,6 @@ public class JoinController {
     private HttpSession session;
     @Autowired
     private JoinService service;
-    @Autowired
-    private MailContents mailContents;
     @Autowired
     private DbConfig dbConfig;
 
@@ -34,29 +29,14 @@ public class JoinController {
     }
 
     @PostMapping("/registProc")
-    public String registProc(@RequestParam(name = "email") String email, JoinDTO joins, Model model) throws Exception {
+    public String registProc(JoinDTO joins, Model model) {
         String confirm = service.registProc(joins, model);
 
-        if (confirm.equals("success")) {
-            mailContents.sendSimpleMessage(email, joins); // 입력받은 email 값을 매개 변수로 메일 전송
+        if (confirm.equals("success"))
             return "redirect:/";
-        }
+
         model.addAttribute("msg", confirm);
         return "/join/regist";
-    }
-
-    // 관리자 이메일 승인 로직
-    @GetMapping("/verifyProc")
-    public String verifyProc(@RequestParam(name = "email") String email) throws Exception {
-        JoinDTO checkAccount = service.checkAccount(email);
-        String confirm = service.verifyProc(checkAccount);
-
-        if (confirm.equals("success")) {
-            mailContents.sendSimpleMessage(email, checkAccount);
-            return "redirect:/";
-        }
-
-        return "";
     }
 
     @RequestMapping("/join/login")
@@ -70,7 +50,7 @@ public class JoinController {
         JoinDTO checkStatus = service.checkStatus(id);
 
         if (confirm.equals("success")) {
-            if ("approve".equals(checkStatus.getRegistStatus()))
+            if ("approve".equals(checkStatus.getRegistStatus()) || "active".equals(checkStatus.getRegistStatus()))
                 return "redirect:/main/mainform";
 
             model.addAttribute("msg", "가입 미승인 회원입니다.");
@@ -92,7 +72,7 @@ public class JoinController {
     // 매장 정보
     @RequestMapping("/userInfo")
     public String userInfo() {
-        String sessionId = (String)session.getAttribute("id");
+        String sessionId = (String) session.getAttribute("id");
 
         if (sessionId != null)
             return "/join/userInfo";
@@ -101,43 +81,43 @@ public class JoinController {
     }
 
     @RequestMapping("/update")
-	public String update() {
-		String sessionId = (String) session.getAttribute("id");
-		if (sessionId == null)
-			return "redirect:/";
-		
-		return "/join/update";
-	}
-	
-	@PostMapping("/updateProc")
-	public String updateProc(JoinDTO joins, Model model) {
-		String sessionId = (String) session.getAttribute("id");
-		
-		joins.setId(sessionId);
-		String confirm = service.updateProc(joins);
-		if (confirm.equals("success")) {
-			session.invalidate();
-			return "redirect:/";
-		}
-		
-		model.addAttribute("msg", confirm);
-		return "/join/update";
-	}
+    public String update() {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            return "redirect:/";
+
+        return "/join/update";
+    }
+
+    @PostMapping("/updateProc")
+    public String updateProc(JoinDTO joins, Model model) {
+        String sessionId = (String) session.getAttribute("id");
+
+        joins.setId(sessionId);
+        String confirm = service.updateProc(joins);
+        if (confirm.equals("success")) {
+            session.invalidate();
+            return "redirect:/";
+        }
+
+        model.addAttribute("msg", confirm);
+        return "/join/update";
+    }
 
     // 본사의 매장 관리(userInfo와 다름)
-	@RequestMapping("/manageInfo")
-	public String manageInfo(Model model, JoinDTO join) {
-		String accountId = (String) session.getAttribute("accountId");
-		if (!"root".equals(accountId))
-			return "redirect:/";
-		
-		service.manageInfo(model, join);
-		return "/join/manageInfo";
-	}
+    @RequestMapping("/manageInfo")
+    public String manageInfo(Model model, JoinDTO join) {
+        String accountId = (String) session.getAttribute("accountId");
+        if (!"root".equals(accountId))
+            return "redirect:/";
+
+        service.manageInfo(model, join);
+        return "/join/manageInfo";
+    }
 
     @RequestMapping("/statusModify")
-	public String statusModify(@RequestParam("id") String selectId, JoinDTO join, Model model) {
-		join.setId(selectId); // 선택한 사용자의 ID의 registStatus를 변경
+    public String statusModify(@RequestParam("id") String selectId, JoinDTO join, Model model) {
+        join.setId(selectId); // 선택한 사용자의 ID의 registStatus를 변경
         String confirm = service.statusModify(join);
         if (confirm.equals("success")) {
             return "redirect:/manageInfo";
@@ -147,18 +127,18 @@ public class JoinController {
         return "/join/manageInfo";
     }
 
-	@RequestMapping("/storeDelete")
-	public String storeDelete(@RequestParam("id") String selectId, JoinDTO join) {
-		String accountId = (String) session.getAttribute("accountId");
-		if (!"root".equals(accountId))
-			return "redirect:/";
-		
-        join.setId(selectId); // 선택한 사용자의 ID를 Proc으로
-        
-		return "/join/storeDelete";
-	}
+    @RequestMapping("/storeDelete")
+    public String storeDelete(@RequestParam("id") String selectId, JoinDTO join) {
+        String accountId = (String) session.getAttribute("accountId");
+        if (!"root".equals(accountId))
+            return "redirect:/";
 
-	@PostMapping("/storeDeleteProc")
+        join.setId(selectId); // 선택한 사용자의 ID를 Proc으로
+
+        return "/join/storeDelete";
+    }
+
+    @PostMapping("/storeDeleteProc")
     public String storeDeleteProc(@RequestParam("id") String selectId, JoinDTO join, Model model) {
         join.setId(selectId); // 선택한 사용자의 ID를 삭제
         String confirm = service.storeDeleteProc(join);

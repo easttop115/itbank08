@@ -75,6 +75,11 @@
                 .login-form {
                     text-align: center;
                 }
+
+                .login-form p {
+                    font-weight: bold;
+                    color: red;
+                }
  
                 .login-input {
                     width: 50%;
@@ -180,7 +185,7 @@
                 <div class="right">
                     <!-- 로그인 폼 -->
                     <form class="login-form" action="/adminLoginProc" method="post">
-                        <p id="errorMsg">${msg}</p>
+                        <p>${msg}</p>
                         <input class="login-input" name="aId" type="text">
                         <input class="login-input" name="aPw" type="password"><br>
                         <input class="login-button" type="submit" value="LOGIN"><br>
@@ -209,19 +214,7 @@
                 }
 
                 // 일정 간격으로 다이나믹 텍스트 변경 ex) 2500 -> 2.5초
-                setInterval(changeText, 2500);
-
-                // 에러 메시지를 표시하는 요소
-                var errorMsg = document.getElementById('errorMsg');
-                // 아이디와 비밀번호 입력 필드
-                var aidInput = document.getElementsByName('id')[0];
-                var apwInput = document.getElementsByName('pw')[0];
-
-                // ${msg}의 값에 따라 스타일을 동적으로 변경
-                if (errorMsg.innerText === '') {
-                    aIdInput.style.border = '2px solid red';
-                    aPwInput.style.border = '2px solid red';
-                }
+                setInterval(changeText, 3000);
             </script>
         </body>
 

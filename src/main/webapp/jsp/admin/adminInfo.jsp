@@ -33,7 +33,7 @@
 					<div class="header-section">
 						<div class="page-name-box">
 							<div class="site-name">Stock City |</div>
-							<div class="page-name">매장 관리</div>
+							<div class="page-name">고객사 정보</div>
 						</div>
 					</div>
 					<h4 class="error-msg">${msg}</h4>
@@ -47,11 +47,13 @@
 									<tr>
 										<th class="th">아이디</th>
 										<th class="th">회사명</th>
+										<th class="th">사업자등록번호</th>
 										<th class="th">이메일</th>
 										<th class="th">전화번호</th>
 										<th class="th">승인 날짜</th>
-										<th class="th">승인 상태</th>
-										<th class="th">승인 변경</th>
+										<th class="th">계정 상태</th>
+										<th class="th">매장 수</th>
+										<th class="th">상태 변경</th>
 										<th class="th">삭제</th>
 									</tr>
 								</thead>
@@ -60,20 +62,25 @@
 										<tr>
 											<td class="td">${joins.id}</td>
 											<td class="td">${joins.company}</td>
+											<td class="td">${joins.businessNo}</td>
 											<td class="td">${joins.email}</td>
 											<td class="td">${joins.tel}</td>
 											<td class="td">${joins.regDate}</td>
 											<td class="td">${joins.registStatus}</td>
+											<td class="td">${joins.adCount}</td>
 											<c:choose>
-												<c:when test="${joins.registStatus == 'approve'}">
-													<td class="td"><a href="/statusModify?id=${joins.id}">비활성화</a></td>
+												<c:when test="${joins.registStatus == 'denied'}">
+													<td class="td"><a href="/verifyProc?email=${joins.email}">가입 승인</a></td>
+												</c:when>
+												<c:when test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
+													<td class="td"><a href="/adminStatusModify?id=${joins.id}">비활성화</a></td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/statusModify?id=${joins.id}">활성화</a></td>
+													<td class="td"><a href="/adminStatusModify?id=${joins.id}">활성화</a></td>
 												</c:otherwise>
 											</c:choose>
 											<td class="td">
-												<a href="/storeDelete?id=${joins.id}">삭제</a>
+												<a href="/adminRootDelete?id=${joins.id}">삭제</a>
 											</td>
 										</tr>
 									</c:forEach>

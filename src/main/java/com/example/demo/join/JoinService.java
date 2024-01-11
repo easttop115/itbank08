@@ -106,22 +106,6 @@ public class JoinService {
         return "success";
     }
 
-    public String verifyProc(JoinDTO checkAccount) {
-        checkAccount.setRegistStatus("approve");
-
-        int result = mapper.verifyProc(checkAccount);
-        if (result > 0) {
-            // String userName = checkAccount.getDbName();
-            // dbConfig.createSetDatabase(userName);
-            return "success";
-        }
-        return "fail";
-    }
-
-    public JoinDTO checkAccount(String email) {
-        return mapper.checkAccount(email);
-    }
-
     public String loginProc(HttpServletRequest request, String id, String pw) {
         HttpSession sessionCheck = request.getSession(false);
         if (sessionCheck != null) {
