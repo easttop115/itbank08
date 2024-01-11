@@ -42,8 +42,9 @@
             <!-- 네비게이션 바 및 하위 메뉴 구조 -->
             <ul class="navbar">
                 <div>
-                    <a href="/main/mainform"><img src="/image/white_logo.png"
-                            style="margin-right: 250px; width: 80px; height: auto;"></a>
+                    <a href="/main/mainform" style="text-decoration: none; font-size: 0;">
+                        <img src="/image/white_logo.png" style="margin-right: 250px; width: 80px; height: auto;">
+                    </a>
                 </div>
                 <li class="liStyle">
                     <a href="#">상품관리</a>

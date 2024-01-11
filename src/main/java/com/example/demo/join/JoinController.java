@@ -125,7 +125,7 @@ public class JoinController {
 	}
 
     // 본사의 매장 관리(userInfo와 다름)
-	@RequestMapping("manageInfo")
+	@RequestMapping("/manageInfo")
 	public String manageInfo(Model model, JoinDTO join) {
 		String accountId = (String) session.getAttribute("accountId");
 		if (!"root".equals(accountId))
@@ -135,7 +135,7 @@ public class JoinController {
 		return "/join/manageInfo";
 	}
 
-    @RequestMapping("statusModify")
+    @RequestMapping("/statusModify")
 	public String statusModify(@RequestParam("id") String selectId, JoinDTO join, Model model) {
 		join.setId(selectId); // 선택한 사용자의 ID의 registStatus를 변경
         String confirm = service.statusModify(join);
@@ -147,7 +147,7 @@ public class JoinController {
         return "/join/manageInfo";
     }
 
-	@RequestMapping("storeDelete")
+	@RequestMapping("/storeDelete")
 	public String storeDelete(@RequestParam("id") String selectId, JoinDTO join) {
 		String accountId = (String) session.getAttribute("accountId");
 		if (!"root".equals(accountId))
@@ -158,7 +158,7 @@ public class JoinController {
 		return "/join/storeDelete";
 	}
 
-	@PostMapping("storeDeleteProc")
+	@PostMapping("/storeDeleteProc")
     public String storeDeleteProc(@RequestParam("id") String selectId, JoinDTO join, Model model) {
         join.setId(selectId); // 선택한 사용자의 ID를 삭제
         String confirm = service.storeDeleteProc(join);

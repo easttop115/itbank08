@@ -50,6 +50,10 @@
                     align-items: center;
                 }
 
+                .brand a {
+                    text-decoration: none; /* 링크 밑줄 제거 */
+                }
+
                 .brand p {
                     margin: 0;
                     font-size: 30px;
@@ -155,7 +159,7 @@
                 <div class="left">
                     <!-- 브랜드 로고 -->
                     <div class="brand">
-                        <p>Stock City</p>
+                        <a href="/"><p>Stock City</p></a>
                     </div>
                     <h1 class="regist-text">회원가입 유의사항</h1>
                     <p class="regist-text">블라블라블라<br>계약 위반 시, 철회 블라블라블라<br>미리 메리 크리스마스~!</p>
