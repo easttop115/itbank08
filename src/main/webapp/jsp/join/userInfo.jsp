@@ -13,7 +13,6 @@
                             <p class="info-item">아이디 : ${sessionScope.id}</p>
                             <p class="info-item">회사명 : ${sessionScope.company}</p>
                             <p class="info-item">이메일 : ${sessionScope.email}</p>
-                            <p class="info-item">전화번호 : ${sessionScope.tel}</p>
                         </div>
                         <div class="button-group">
                             <button class="editBtn" type="button" onclick="location.href='/update'">수정</button>

@@ -169,14 +169,8 @@
                 <div class="right">
                     <p id="errorMsg">${msg}</p>
                     <form class="form-container" action="/registProc" method="post">
-                        <label class="form-label" for="id">아이디</label>
-                        <input class="form-input" type="text" name="id" value="${param.id}" placeholder="영문 시작 4~20자 영문, 숫자">
-
-                        <label class="form-label" for="pw">비밀번호</label>
-                        <input class="form-input" type="password" name="pw" value="${param.pw}" placeholder="6~20자 대소문자, 숫자, 특수문자">
-
-                        <label class="form-label" for="confirm">비밀번호 확인</label>
-                        <input class="form-input" type="password" name="confirm" value="${param.confirm}">
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="pw" value="">
 
                         <label class="form-label" for="company">회사명</label>
                         <input class="form-input" type="text" name="company" value="${param.company}">
@@ -187,10 +181,7 @@
                         <label class="form-label" for="email">이메일</label>
                         <input class="form-input" type="email" name="email" value="${param.email}">
 
-                        <label class="form-label" for="tel">전화번호</label>
-                        <input class="form-input" type="tel" name="tel" value="${param.tel}">
-
-                        <label class="form-label" for="tel">운영 매장 개수</label>
+                        <label class="form-label" for="adCount">운영 매장 개수</label>
                         <input class="form-input" type="text" name="adCount" value="${param.adCount}" placeholder="30개 초과 시 관리자 문의">
 
                         <input class="form-submit" type="submit" value="가입">
@@ -205,31 +196,18 @@
             <script>
                 // 에러 메시지를 표시하는 요소
                 var errorMsg = document.getElementById('errorMsg');
-                var idInput = document.getElementsByName('id')[0];
-                var pwInput = document.getElementsByName('pw')[0];
-                var confirmInput = document.getElementsByName('confirm')[0];    
                 var companyInput = document.getElementsByName('company')[0];
                 var businessNoInput = document.getElementsByName('businessNo')[0];
                 var emailInput = document.getElementsByName('email')[0];
-                var telInput = document.getElementsByName('tel')[0];
                 var adCountInput = document.getElementsByName('adCount')[0];
 
                 // ${msg}의 값에 따라 스타일을 동적으로 변경
-                if (errorMsg.innerText === '아이디를 입력해주세요.' || errorMsg.innerText === '아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.' || errorMsg.innerText === '존재하는 아이디입니다.') {
-                    idInput.style.border = '2px solid red';
-                } else if (errorMsg.innerText === '비밀번호를 입력해주세요.') {
-                    pwInput.style.border = '2px solid red';
-                } else if (errorMsg.innerText === '두 비밀번호가 다릅니다.' || errorMsg.innerText === '비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.') {
-                    pwInput.style.border = '2px solid red';
-                    confirmInput.style.border = '2px solid red';
-                } else if (errorMsg.innerText === '회사명을 입력해주세요.' || errorMsg.innerText === '회사명은 영어로 시작 부탁드립니다.') {
+                if (errorMsg.innerText === '회사명을 입력해주세요.' || errorMsg.innerText === '회사명은 영어로 시작 부탁드립니다.') {
                     companyInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '사업자등록번호를 입력해주세요.' || errorMsg.innerText === '존재하는 사업자등록번호입니다.') {
                     businessNoInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '이메일을 입력해주세요.' || errorMsg.innerText === '존재하는 이메일입니다.') {
                     emailInput.style.border = '2px solid red';
-                } else if (errorMsg.innerText === '전화번호를 입력해주세요.' || errorMsg.innerText === '존재하는 전화번호입니다.') {
-                    telInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '운영 매장 개수를 입력해주세요.' || errorMsg.innerText === '1개 이상 등록해주세요.' || errorMsg.innerText === '지점 31개 이상 등록은 문의 부탁드립니다.') {
                     adCountInput.style.border = '2px solid red';
                 }

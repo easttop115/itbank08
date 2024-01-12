@@ -200,7 +200,6 @@ public class DbConfig {
                 System.out.println("Company: " + join.getCompany());
                 System.out.println("BusinessNo: " + join.getBusinessNo());
                 System.out.println("Email: " + join.getEmail());
-                System.out.println("Tel: " + join.getTel());
                 System.out.println("RegDate: " + join.getRegDate());
                 System.out.println("RegistStatus: " + join.getRegistStatus());
                 System.out.println("AdCount: " + join.getAdCount());
@@ -210,7 +209,7 @@ public class DbConfig {
                 String insertSql1 = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 jdbcTemplate.update(insertSql1, join.getNo(), join.getId(), join.getPw(),
-                        join.getCompany(), join.getBusinessNo(), join.getEmail(), join.getTel(), join.getRegDate(),
+                        join.getCompany(), join.getBusinessNo(), join.getEmail(), join.getRegDate(),
                         join.getRegistStatus(), join.getAdCount(), join.getAccountId(), join.getDbName());
             }
 

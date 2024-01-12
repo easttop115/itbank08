@@ -32,7 +32,7 @@
 				<div class="info-wrapper">
 					<div class="header-section">
 						<div class="page-name-box">
-							<div class="site-name">Stock City |</div>
+							<div class="site-name">${sessionScope.company} |</div>
 							<div class="page-name">매장 관리</div>
 						</div>
 					</div>
@@ -48,7 +48,6 @@
 										<th class="th">아이디</th>
 										<th class="th">회사명</th>
 										<th class="th">이메일</th>
-										<th class="th">전화번호</th>
 										<th class="th">승인 날짜</th>
 										<th class="th">승인 상태</th>
 										<th class="th">승인 변경</th>
@@ -61,7 +60,6 @@
 											<td class="td">${joins.id}</td>
 											<td class="td">${joins.company}</td>
 											<td class="td">${joins.email}</td>
-											<td class="td">${joins.tel}</td>
 											<td class="td">${joins.regDate}</td>
 											<td class="td">${joins.registStatus}</td>
 											<c:choose>

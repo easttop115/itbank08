@@ -6,15 +6,14 @@ import lombok.Setter;
 /* 
 Maria DB
 CREATE TABLE user (
-    no INT PRIMARY KEY,
-    id VARCHAR(20),
-    pw VARCHAR(100),
-    company VARCHAR(50),
+    no INT AUTO_INCREMENT PRIMARY KEY,
+    id VARCHAR(20) not null,
+    pw VARCHAR(100) not null,
+    company VARCHAR(50) not null,
     businessNo VARCHAR(20),
     email VARCHAR(40),
-    tel VARCHAR(20),
-    regDate VARCHAR(20),
-    registStatus VARCHAR(20),
+    regDate VARCHAR(20) not null,
+    registStatus VARCHAR(20) not null,
     adCount VARCHAR(20),
     accountId VARCHAR(20),
     dbName VARCHAR(20)
@@ -30,11 +29,9 @@ public class JoinDTO {
     private String company;
     private String businessNo;
     private String email;
-    private String tel;
     private String regDate;
     private String registStatus;
     private String adCount;
     private String accountId;
     private String dbName;
-    private String storeNo;
 }

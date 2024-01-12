@@ -50,7 +50,6 @@ public class MailContents implements IMailService {
 			joins.setPw(secretPw);
 			joins.setBusinessNo(null);
 			joins.setEmail(null);
-			joins.setTel(null);
 			joins.setRegistStatus("approve");
 			joins.setAccountId(null);
 

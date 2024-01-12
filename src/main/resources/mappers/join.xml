@@ -3,11 +3,14 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        INSERT INTO user (no, id, pw, company, businessNo, email, tel, regDate, registStatus, adCount, accountId, dbName) 
-        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, #{tel}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 
+        INSERT INTO user (id, pw, company, businessNo, email, regDate, registStatus, adCount, accountId, dbName) 
+        VALUES 
+        (#{id}, #{pw}, #{company}, #{businessNo}, #{email}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 
         CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adCount}, 
-        CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END , #{dbName} 
-        FROM user;
+        CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END , #{dbName})
+    </insert>
+    <insert id="insertStoreNo">
+        INSERT INTO store (storeNo) VALUES (#{storeNo})
     </insert>
     <select id="findJoin" resultMap="join">
         SELECT * FROM user WHERE id=#{id}
@@ -18,20 +21,18 @@
     <select id="findEmail" resultMap="join">
         SELECT * FROM user WHERE email=#{email}
     </select>
-    <select id="findTel" resultMap="join">
-        SELECT * FROM user WHERE tel=#{tel}
-    </select>
     <select id="findDbName" resultMap="join">
         SELECT * FROM user WHERE dbName=#{dbName}
     </select>
-    <select id="findStoreNo" resultMap="join">
-        SELECT * FROM user WHERE storeNo=#{storeNo}
+    <resultMap type="com.example.demo.join.StoreDTO" id="store"/>
+    <select id="findStoreNo" resultMap="store">
+        SELECT * FROM store WHERE storeNo=#{storeNo}
     </select>
     <select id="checkStatus" resultMap="join">
         SELECT registStatus FROM user WHERE id=#{id}
     </select>
     <update id="updateProc">
-        UPDATE user SET pw=#{pw}, email=#{email}, tel=#{tel} WHERE id=#{id}
+        UPDATE user SET pw=#{pw}, email=#{email} WHERE id=#{id}
     </update>
     <select id="manageInfo" resultMap="join">
         SELECT * FROM user WHERE accountId='store'

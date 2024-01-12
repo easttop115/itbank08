@@ -9,13 +9,13 @@ public interface JoinMapper {
 
     int registProc(JoinDTO joins);
 
+    void insertStoreNo(StoreDTO store);
+
     JoinDTO findJoin(String id);
 
     JoinDTO findBN(String businessNo);
 
     JoinDTO findEmail(String email);
-
-    JoinDTO findTel(String tel);
 
     JoinDTO findDbName(String uniqueDbName);
 
