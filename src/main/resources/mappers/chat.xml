@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "classpath:mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.chat.ChatMapper">
+
+    <!-- 채팅 로그 저장 -->
+    <insert id="insertChatLog" parameterType="com.example.demo.chat.ChatLogDTO">
+        INSERT INTO chatLog (chatroom_no, user_id, message, timestamp)
+        VALUES (#{chatroomNo}, #{userId}, #{message}, NOW())
+    </insert>
+
+    <!-- 특정 채팅방의 채팅 로그 리스트 가져오기 -->
+    <select id="selectChatLogsByChatroomNo" parameterType="int" resultType="com.example.demo.chat.ChatLogDTO">
+        SELECT * FROM chatLog
+        WHERE chatroom_no = #{chatroomNo}
+    </select>
+
+    <!-- 모든 채팅방 가져오기 -->
+    <select id="selectAllChatrooms" resultType="com.example.demo.chat.ChatRoomDTO">
+        SELECT * FROM chatRoom
+    </select>
+
+    <!-- 채팅방에 입장 메시지 전송 -->
+    <insert id="insertChatRoom" parameterType="com.example.demo.chat.ChatRoomDTO">
+        INSERT INTO chatRoom (type, room_id, sender, message)
+        VALUES (#{type}, #{roomId}, #{sender}, #{message})
+    </insert>
+
+</mapper>
