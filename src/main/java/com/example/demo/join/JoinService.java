@@ -40,11 +40,12 @@ public class JoinService {
             return "전화번호를 입력해주세요.";
         } else if (joins.getAdCount() == null || joins.getAdCount().trim().isEmpty()) {
             return "운영 매장 개수를 입력해주세요.";
-        } else if (!joins.getId().matches("^[a-z0-9]{4,20}$")) {
-            return "아이디는 4~20자 영문, 숫자 입력 가능합니다.";
-        } else if (!joins.getPw()
-                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
-            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        } else if (!joins.getId().matches("^[a-zA-Z][a-zA-Z0-9]{3,20}$")) {
+            return "아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.";
+            // } else if (!joins.getPw()
+            // .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$"))
+            // {
+            // return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기는 9 뒤에 공백
             return "회사명은 영어로 시작 부탁드립니다.";
         } else if (Integer.parseInt(joins.getAdCount()) < 1) {
@@ -77,10 +78,10 @@ public class JoinService {
 
         int maxAttempts = 1000000;
         int attemptCount = 0;
-        String dbFirstName = joins.getCompany().substring(0, 3).toUpperCase();
-        // dbName 컬럼 생성
-        while (true) {
 
+        // dbName 컬럼 생성 - 아이디 참조
+        String dbFirstName = joins.getId().substring(0, 3).toUpperCase();
+        while (true) {
             int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 범위로 난수 생성
             String dbLastName = String.format("%06d", randomNum); // 난수를 6자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
 
@@ -90,6 +91,28 @@ public class JoinService {
             if (checkDbName == null) {
                 // 중복이 없으면 dbName으로 설정하고 반복문 종료
                 joins.setDbName(uniqueDbName);
+                break;
+            }
+
+            attemptCount++;
+            if (attemptCount >= maxAttempts) {
+                // 만약 최대 시도 횟수를 초과하면 강제로 종료
+                return "오류가 발생했습니다. 해결을 위해 연락 부탁드립니다.";
+            }
+        }
+
+        // storeNo 컬럼 생성 - 회사명 참조
+        String storeNoFirstName = joins.getCompany().substring(0, 4).toUpperCase();
+        while (true) {
+            int randomNum = new Random().nextInt(100000); // 0부터 99999까지의 범위로 난수 생성
+            String storeNoLastName = String.format("%05d", randomNum); // 난수를 5자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
+
+            String uniqueStoreNo = storeNoFirstName + storeNoLastName;
+
+            JoinDTO checkStoreNo = mapper.findStoreNo(uniqueStoreNo);
+            if (checkStoreNo == null) {
+                // 중복이 없으면 storeNo로 설정하고 반복문 종료
+                joins.setStoreNo(uniqueStoreNo);
                 break;
             }
 
@@ -129,6 +152,7 @@ public class JoinService {
             session.setAttribute("tel", checkId.getTel());
             session.setAttribute("accountId", checkId.getAccountId());
             session.setAttribute("dbName", checkId.getDbName());
+            session.setAttribute("storeNo", checkId.getStoreNo());
             String dbName = checkId.getDbName();
             dbConfig.setDynamicDatabase(dbName);
             return "success";

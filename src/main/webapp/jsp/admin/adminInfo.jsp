@@ -52,8 +52,9 @@
 										<th class="th">전화번호</th>
 										<th class="th">승인 날짜</th>
 										<th class="th">계정 상태</th>
-										<th class="th">매장 수</th>
 										<th class="th">상태 변경</th>
+										<th class="th">매장 수</th>
+										<th class="th">매장 추가</th>
 										<th class="th">삭제</th>
 									</tr>
 								</thead>
@@ -67,21 +68,25 @@
 											<td class="td">${joins.tel}</td>
 											<td class="td">${joins.regDate}</td>
 											<td class="td">${joins.registStatus}</td>
-											<td class="td">${joins.adCount}</td>
 											<c:choose>
 												<c:when test="${joins.registStatus == 'denied'}">
-													<td class="td"><a href="/verifyProc?email=${joins.email}">가입 승인</a></td>
+													<td class="td"><a href="/verifyProc?email=${joins.email}">가입 승인</a>
+													</td>
 												</c:when>
 												<c:when test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
 													<td class="td"><a href="/adminStatusModify?id=${joins.id}">비활성화</a></td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/adminStatusModify?id=${joins.id}">활성화</a></td>
+													<td class="td"><a href="/adminStatusModify?id=${joins.id}">활성화</a>
+													</td>
 												</c:otherwise>
 											</c:choose>
+											<td class="td">${joins.adCount}</td>
 											<td class="td">
-												<a href="/adminRootDelete?id=${joins.id}">삭제</a>
+												<input type="number" id="adCount" name="adCount" min="1">
+												<button onclick="addRows('${joins.id}', '${joins.email}')">추가</button>
 											</td>
+											<td class="td"><a href="/adminRootDelete?id=${joins.id}">삭제</a></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -90,3 +95,22 @@
 					</c:choose>
 				</div>
 			</div>
+
+			<script>
+				function addRows(id, email) {
+					var adCount = document.getElementById("adCount").value;
+
+					// AJAX를 이용하여 입력값을 컨트롤러로 전송할 수 있습니다.
+					// 이 예제에서는 간단한 URL로 가정하고 GET 방식으로 전송합니다.
+					var url = "/addSubAccount?id=" + id + "&email=" + email + "&adCount=" + adCount;
+
+					// 실제로는 더 복잡한 AJAX 요청을 사용해야 할 수 있습니다.
+					// 예를 들어 jQuery나 fetch API 등을 활용할 수 있습니다.
+					// 아래 코드는 jQuery를 사용한 예제입니다.
+					$.get(url, function (data) {
+						// 성공적으로 처리된 경우의 로직
+						// 예를 들어 결과를 콘솔에 출력하거나 다른 동작을 수행할 수 있습니다.
+						console.log(data);
+					});
+				}
+			</script>

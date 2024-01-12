@@ -19,6 +19,8 @@ public interface JoinMapper {
 
     JoinDTO findDbName(String uniqueDbName);
 
+    JoinDTO findStoreNo(String uniqueStoreNo);
+
     JoinDTO checkStatus(String id);
 
     int updateProc(JoinDTO joins);

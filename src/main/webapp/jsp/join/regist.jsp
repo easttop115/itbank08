@@ -170,7 +170,7 @@
                     <p id="errorMsg">${msg}</p>
                     <form class="form-container" action="/registProc" method="post">
                         <label class="form-label" for="id">아이디</label>
-                        <input class="form-input" type="text" name="id" value="${param.id}" placeholder="4~20자 영문, 숫자">
+                        <input class="form-input" type="text" name="id" value="${param.id}" placeholder="영문 시작 4~20자 영문, 숫자">
 
                         <label class="form-label" for="pw">비밀번호</label>
                         <input class="form-input" type="password" name="pw" value="${param.pw}" placeholder="6~20자 대소문자, 숫자, 특수문자">
@@ -215,7 +215,7 @@
                 var adCountInput = document.getElementsByName('adCount')[0];
 
                 // ${msg}의 값에 따라 스타일을 동적으로 변경
-                if (errorMsg.innerText === '아이디를 입력해주세요.' || errorMsg.innerText === '아이디는 4~20자 영문, 숫자 입력 가능합니다.' || errorMsg.innerText === '존재하는 아이디입니다.') {
+                if (errorMsg.innerText === '아이디를 입력해주세요.' || errorMsg.innerText === '아이디는 영문 시작 4~20자 영문, 숫자 입력 가능합니다.' || errorMsg.innerText === '존재하는 아이디입니다.') {
                     idInput.style.border = '2px solid red';
                 } else if (errorMsg.innerText === '비밀번호를 입력해주세요.') {
                     pwInput.style.border = '2px solid red';

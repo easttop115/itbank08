@@ -24,6 +24,9 @@
     <select id="findDbName" resultMap="join">
         SELECT * FROM user WHERE dbName=#{dbName}
     </select>
+    <select id="findStoreNo" resultMap="join">
+        SELECT * FROM user WHERE storeNo=#{storeNo}
+    </select>
     <select id="checkStatus" resultMap="join">
         SELECT registStatus FROM user WHERE id=#{id}
     </select>
