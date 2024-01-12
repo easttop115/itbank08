@@ -173,9 +173,9 @@ public class JoinService {
             return "이메일을 입력해주세요.";
         } else if (joins.getTel() == null || joins.getTel().trim().isEmpty()) {
             return "전화번호를 입력해주세요.";
-        } else if (!joins.getPw()
-                .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
-            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        // } else if (!joins.getPw()
+        //         .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+        //     return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         }
         // 암호화 과정
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
