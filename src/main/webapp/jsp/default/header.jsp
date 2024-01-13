@@ -55,14 +55,12 @@
                                 <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
                                 <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
                                 <li class="liStyle"><a href="/cateInsert">카테고리 등록</a></li>
-                                <li class="liStyle"><a href="#">sub05</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
                                 <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
                                 <li class="liStyle"><a href="/cateInsert">카테고리 등록</a></li>
                                 <li class="liStyle"><a href="#">sub04</a></li>
-                                <li class="liStyle"><a href="#">sub05</a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
@@ -74,7 +72,6 @@
                         <li class="liStyle"><a href="#">입출고내역조회</a></li>
                         <li class="liStyle"><a href="#">sub03</a></li>
                         <li class="liStyle"><a href="#">sub04</a></li>
-                        <li class="liStyle"><a href="#">sub05</a></li>
                     </ul>
                 </li>
                 <li class="liStyle">
@@ -84,7 +81,6 @@
                         <li class="liStyle"><a href="#">일일통계</a></li>
                         <li class="liStyle"><a href="#">월별통계</a></li>
                         <li class="liStyle"><a href="#">sub04</a></li>
-                        <li class="liStyle"><a href="#">sub05</a></li>
                     </ul>
                 </li>
 
@@ -97,14 +93,12 @@
                                 <li class="liStyle"><a href="/notice/noticewrite">게시글 쓰기</a></li>
                                 <li class="liStyle"><a href="#">sub03</a></li>
                                 <li class="liStyle"><a href="#">sub04</a></li>
-                                <li class="liStyle"><a href="#">sub05</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
                                 <li class="liStyle"><a href="/notice/noticewrite">게시글 쓰기</a></li>
                                 <li class="liStyle"><a href="#">sub03</a></li>
                                 <li class="liStyle"><a href="#">sub04</a></li>
-                                <li class="liStyle"><a href="#">sub05</a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
@@ -116,7 +110,6 @@
                         <li class="liStyle"><a href="#">연지</a></li>
                         <li class="liStyle"><a href="#">동현</a></li>
                         <li class="liStyle"><a href="#">동운</a></li>
-                        <li class="liStyle"><a href="#">상원</a></li>
                     </ul>
                 </li>
                 <div>

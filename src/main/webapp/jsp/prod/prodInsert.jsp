@@ -314,8 +314,6 @@
       <!-- 브랜드코드  모달 창 -->
       <div id="brandModal" class="modal">
         <div class="modal-content">
-          <!-- <span class="close" onclick="closeBrandModal()">&times;</span> -->
-          <!-- Left Form: Category Registration -->
           <div class="form-container">
             <h2 style="text-align: center;">브랜드코드 등록</h2><br>
             <form id="modalForm" action="/brandInsert" method="post">
@@ -371,8 +369,6 @@
       <!-- 컬러코드 모달 창 -->
       <div id="colorModal" class="modal">
         <div class="modal-content">
-          <!-- <span class="close" onclick="closeBrandModal()">&times;</span> -->
-          <!-- Left Form: Category Registration -->
           <div class="form-container">
             <h2 style="text-align: center;">컬러코드 등록</h2><br>
             <form id="modalForm" action="/colorInsert" method="post">

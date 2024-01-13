@@ -27,14 +27,51 @@
     <select id="colorCodeList" resultMap="color">
         SELECT * FROM color;
     </select>
-
-    <select id = "selectSearch">
-        SELECT * FROM product 
-    </select>
-
-    <select id = "selectProdNo">
+<!-- 
+    <select id = "prodList">
         SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')
-    </select>
+    </select> -->
+
+    <select id="searchProd" resultType="com.example.demo.prod.ProdDTO">
+    SELECT * FROM product
+    <where>
+        <if test="cateCode == null or cateCode == ''">
+            OR cateCode like concat (#{cateGroup}, '%')
+        </if>
+        <if test="cateGroup == null or cateGroup == ''">
+            OR  cateCode like concat ('%', #{cateCode}, '%')
+        </if>
+        <if test="cateCode != null or cateCode != '' and cateGroup != null or cateGroup != ''">
+            OR  cateCode = CONCAT(#{cateGroup},'(',#{cateCode},')')
+        </if>
+        <if test="colorCode != null and colorCode != ''">
+            OR colorCode = #{colorCode}
+        </if>
+        <if test="size != null and size != ''">
+            OR size = #{size}
+        </if>
+    </where>
+</select>
+
+<!-- 
+    <select id = "searchProd" resultType="com.example.demo.prod.ProdDTO">
+        SELECT * FROM product
+            <where>
+                cateCode like concat
+                <if test="cateGroup != null and prodNo != ''">
+                    AND prodNo LIKE CONCAT('%', #{prodNo}, '%')
+                </if> -->
+                <!--<if test="cateCode != null and cateCode != ''">
+                    AND cateCode = #{cateCode}
+                </if>
+                <if test="colorCode != null and colorCode != ''">
+                    AND colorCode = #{colorCode}
+                </if>
+                <if test="size != null and size != ''">
+                    AND size = #{size}
+                </if>
+        </where>
+    </select> -->
 
     <!-- 카테고리 추가 -->
     <insert id="addBrand" parameterType="com.example.demo.prod.BrandDTO">

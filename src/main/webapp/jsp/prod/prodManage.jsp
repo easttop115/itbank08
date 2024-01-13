@@ -21,52 +21,30 @@
         <h2 class="inventory-title">상품 조회</h2>
         <div class="center class">
           <div class="search-container class">
-            <form id="searchForm" action="/prodList" method="post">
-              <!--엔터 눌러도 form제출 x, searchProduct() 호출-->
+            <form id="searchForm" action="/prod/prodList" method="post">
               <table class="search-table">
                 <tr>
                   <td>
                     <select name="cateGroup" id="cateGroup" class="searchOption">
-                      <option value="null">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
-                      <c:choose>
-                        <c:when test="${empty cateGroups}">
-                          <option value="noCateGroup">카테고리그룹</option>
-                        </c:when>
-                        <c:otherwise>
-                          <c:forEach var="cateGroup" items="${cateGroups}">
-                            <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}</option>
-                          </c:forEach>
-                        </c:otherwise>
-                      </c:choose>
+                      <option value="">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
+                      <c:forEach var="cateGroup" items="${cateGroups}">
+                        <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}</option>
+                      </c:forEach>
                     </select>
                     <select name="cateCode" id="cateCode" class="searchOption">
-                      <option value="null">카테고리코드</option>
-                      <c:choose>
-                        <c:when test="${empty cateCodes}">
-                          <option value="noCateCode">카테고리코드</option>
-                        </c:when>
-                        <c:otherwise>
-                          <c:forEach var="cateCode" items="${cateCodes}">
-                            <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
-                          </c:forEach>
-                        </c:otherwise>
-                      </c:choose>
+                      <option value="">카테고리코드</option>
+                      <c:forEach var="cateCode" items="${cateCodes}">
+                        <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
+                      </c:forEach>
                     </select>
                     <select name="colorCode" id="colorCode" class="searchOption">
-                      <option value="null">색상코드</option>
-                      <c:choose>
-                        <c:when test="${empty colorCodes}">
-                          <option value="noColor">색상코드</option>
-                        </c:when>
-                        <c:otherwise>
-                          <c:forEach var="colorCode" items="${colorCodes}">
-                            <option value="${colorCode.colorCode}">${colorCode.colorCode}</option>
-                          </c:forEach>
-                        </c:otherwise>
-                      </c:choose>
+                      <option value="">색상코드</option>
+                      <c:forEach var="colorCode" items="${colorCodes}">
+                        <option value="${colorCode.colorCode}">${colorCode.colorCode}</option>
+                      </c:forEach>
                     </select>
-                    <select class="searchOption" id="size" name="size" required>
-                      <option value="null">사이즈</option>
+                    <select class="searchOption" id="size" name="size">
+                      <option value="">사이즈</option>
                       <option value="S">S</option>
                       <option value="M">M</option>
                       <option value="L">L</option>
@@ -78,9 +56,8 @@
                   <td>
                     <input type="text" id="prodNo" name="prodNo" placeholder="상품코드 입력를 입력하세요" value="${prodNo}"
                       class="txtProductNO">
+                    <!-- <button type="button" onclick="searchProducts()">검색</button> -->
                     <input type="submit" class="search-button" value="검색">
-
-                    <!-- <input type="button" class="search-button" value="검색" onclick="searchProducts()"> -->
                   </td>
                 </tr>
               </table>
@@ -88,26 +65,38 @@
           </div>
         </div>
         <div class="class">
-          <!-- <form action="/prodList" method="post"> -->
           <table id="prodListTable" class="prodList-table">
-            <thead>
-              <tr>
-                <!-- <td class="No">No</td> -->
-                <td class="prodNo">상품코드</td>
-                <td class="prodName">상품명</td>
-                <td class="size">사이즈</td>
-                <td class="colorCode">색상코드</td>
-                <td class="Quan">총수량</td>
-              </tr>
-            </thead>
-            <tbody id="tbody">
-
-            </tbody>
+            <tr>
+              <td class="prodNo">상품코드</td>
+              <td class="prodName">상품명</td>
+              <td class="size">사이즈</td>
+              <td class="colorCode">색상코드</td>
+              <td class="quan">총수량</td>
+            </tr>
+            <c:choose>
+              <c:when test="${not empty prods}">
+                <c:forEach var="product" items="${prods}">
+                  <tr>
+                    <td class="prodNo">${product.prodNo}</td>
+                    <td class="prodName">${product.prodName}</td>
+                    <td class="size">${product.size}</td>
+                    <td class="colorCode">${product.colorCode}</td>
+                    <td class="quan">${product.quan}</td>
+                  </tr>
+                </c:forEach>
+              </c:when>
+              <c:otherwise>
+                <!-- prod가 비어있는 경우 (검색 결과가 없는 경우) -->
+                <tr>
+                  <td colspan="5">조회된 정보가 없습니다.</td>
+                </tr>
+              </c:otherwise>
+            </c:choose>
           </table>
         </div>
       </div>
 
-      <script>
+      <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
           document.getElementById("searchForm").addEventListener("submit", function (event) {
             event.preventDefault(); // 기본 폼 제출 방지
@@ -117,35 +106,72 @@
           });
         });
 
+        var xhr;
+
         function searchProducts() {
           // 폼 데이터 가져오기
-          var formData = new FormData(document.getElementById("searchForm"));
-
-          // XMLHttpRequest 객체 생성
-          var xhr = new XMLHttpRequest();
-
+          var cg = document.getElementById('cateGroup').value;
+          var cCode = document.getElementById('cateCode').value;
+          var cColor = document.getElementById('colorCode').value;
+          var sz = document.getElementById('size').value;
+          xhr = new XMLHttpRequest();
           // 비동기적으로 서버에 요청 보내기
           xhr.open("POST", "/prodList", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
 
-          // 요청 완료 후 처리할 함수 설정
-          xhr.onload = function () {
-            if (xhr.status === 200) {
-              // 받은 데이터로 테이블 업데이트
-              document.getElementById("tbody").innerHTML = xhr.responseText;
+          console.log("cg:", cg);
+          console.log("cCode:", cCode);
+          console.log("cColor:", cColor);
+          console.log("sz:", sz);
+          var data = { cateCode: cg + "(" + cCode + ")", colorCode: cColor, size: sz };
+          console.log(data);
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              // 받은 데이터를 이용하여 테이블 업데이트
+              console.log(xhr.responseText)
+              var resData = JSON.parse(xhr.responseText);
+              console.log(resData);
+              updateTable(resData);
             } else {
               console.error("데이터를 가져오는 중 에러 발생:", xhr.statusText);
             }
+
           };
 
-          // 오류 처리
-          xhr.onerror = function () {
-            console.error("요청 중에 에러 발생");
-          };
-
-          // 요청 보내기
-          xhr.send(formData);
+          xhr.send(JSON.stringify(data));
         }
-      </script>
+
+
+        function updateTable(data) {
+          // 테이블의 tbody를 찾아서 비우기
+          var tbody = document.getElementById("tbody");
+          tbody.innerHTML = "";
+          console.log(data);
+          // 받은 데이터가 있는지 확인
+          if (data != null) {
+            // 받은 데이터를 이용하여 테이블 업데이트
+            for (var i = 0; i < data.length; i++) {
+              var row = "<tr>";
+              row += "<td>" + data[i].prodNo + "</td>";
+              row += "<td>" + data[i].prodName + "</td>";
+              row += "<td>" + data[i].size + "</td>";
+              row += "<td>" + data[i].colorCode + "</td>";
+              row += "<td>" + data[i].quan + "</td>";
+              row += "</tr>";
+
+              tbody.innerHTML += row;
+            }
+
+          } else {
+            // 데이터가 없는 경우 메시지를 표시
+            var row = "<tr><td colspan='5'>조회된 정보가 없습니다.</td></tr>";
+            tbody.innerHTML = row;
+          }
+        }
+      </script> -->
+
+
     </body>
 
     </html>

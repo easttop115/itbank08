@@ -2,29 +2,37 @@ package com.example.demo.prod;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ProdController {
 
     @Autowired
     ProdService service;
+    @Autowired
+    private HttpSession session;
 
-    @GetMapping("/cateInsert")
-    public String cateInsert() {
-        return "prod/cateInsert";
-    }
-
+    // 브랜드코드 추가
     @PostMapping("/brandInsert")
     public String addBrand(BrandDTO brand, RedirectAttributes ra) {
 
@@ -36,6 +44,16 @@ public class ProdController {
             return "redirect:prodInsert";
         }
         return "prodInsert";
+    }
+
+    // 카테고리 추가
+    @GetMapping("/cateInsert")
+    public String cateInsert() {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null) {
+            return "redirect:/";
+        }
+        return "prod/cateInsert";
     }
 
     @PostMapping("/cateInsert")
@@ -64,9 +82,14 @@ public class ProdController {
         return "prodInsert";
     }
 
+    // 상품등록
     @RequestMapping("/prodInsert")
     public String prodInsert(Model model) {
 
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null) {
+            return "redirect:/";
+        }
         List<CateDTO> cateGroups = service.cateGroupList();
         List<CateDTO> cateCodes = service.cateCodeList();
         List<BrandDTO> brandCodes = service.brandCodeList();
@@ -90,6 +113,7 @@ public class ProdController {
         return "redirect:/prodManage";
     }
 
+    // 상품조회, 관리
     @RequestMapping("/prodManage")
     public String prodManage(Model model) {
 
@@ -102,30 +126,22 @@ public class ProdController {
         model.addAttribute("cateCodes", cateCodes);
         model.addAttribute("brandCodes", brandCodes);
         model.addAttribute("colorCodes", colorCodes);
-        return "prod/prodManage";
+        return "/prod/prodManage";
     }
 
-    @ResponseBody
-    @PostMapping("/prodList")
-    public String prodList(Map<String, String> params) {
+    // 등록상품 조회
+    @PostMapping("/prod/prodList")
+    public String prodList(@ModelAttribute("prod") ProdDTO prod, RedirectAttributes ra) {
+        System.out.println("cateGroup" + prod.getCateGroup());
+        System.out.println("cateCode" + prod.getCateCode());
 
-        List<ProdDTO> prodList = service.prodList(params);
+        // String cateC = cateGroup + "(" + prod.getCateCode() + ")";
+        // prod.setCateCode(cateC);
+        List<ProdDTO> plist = service.prodList(prod);
+        ra.addFlashAttribute("prods", plist);
+        System.out.println("확인" + plist);
+        return "redirect:/prodManage";
 
-        String productListHtml = "<table>";
-        productListHtml += "<thead><tr><th>상품코드</th><th>상품명</th><th>사이즈</th><th>색상코드</th><th>총수량</th></tr></thead><tbody>";
-
-        for (ProdDTO prod : prodList) {
-            productListHtml += "<tr>";
-            productListHtml += "<td>" + prod.getProdNo() + "</td>";
-            productListHtml += "<td>" + prod.getProdName() + "</td>";
-            productListHtml += "<td>" + prod.getSize() + "</td>";
-            productListHtml += "<td>" + prod.getColorCode() + "</td>";
-            productListHtml += "<td>" + prod.getQuan() + "</td>";
-            productListHtml += "</tr>";
-        }
-
-        productListHtml += "</tbody></table>";
-        return productListHtml;
     }
 
     @RequestMapping("stockStatus")

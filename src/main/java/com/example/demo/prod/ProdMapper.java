@@ -24,9 +24,12 @@ public interface ProdMapper {
 
   int addBrand(String brandCode, String brandDescription);
 
-  List<ProdDTO> prodList(Map<String, String> params);
-
   int addCategory(String cateGroup, String cateCode, String cateName);
 
   int addColor(String colorCode, String colorName);
+
+  // List<ProdDTO> prodList(String cateCode, String colorCode, String size, String
+  // prodNo);
+
+  List<ProdDTO> searchProd(ProdDTO prod);
 }
