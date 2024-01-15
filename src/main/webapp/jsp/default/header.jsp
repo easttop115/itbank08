@@ -127,7 +127,6 @@
                             <a href="${context}/logout" style="font-size: 12px;">LOGOUT</a>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
             </ul>
         </body>

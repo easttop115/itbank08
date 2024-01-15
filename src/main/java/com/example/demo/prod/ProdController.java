@@ -132,8 +132,21 @@ public class ProdController {
     // 등록상품 조회
     @PostMapping("/prod/prodList")
     public String prodList(@ModelAttribute("prod") ProdDTO prod, RedirectAttributes ra) {
+
+        if (prod.getCateCode().trim().isEmpty()
+                && prod.getCateGroup().trim().isEmpty()
+                && prod.getColorCode().trim().isEmpty()
+                && prod.getSize().trim().isEmpty()
+                && prod.getProdNo().trim().isEmpty()) {
+            System.out.println(prod.getCateCode());
+            System.out.println(prod.getColorCode());
+            return "redirect:/prodManage";
+        }
         System.out.println("cateGroup" + prod.getCateGroup());
         System.out.println("cateCode" + prod.getCateCode());
+        System.out.println("colorCode" + prod.getColorCode());
+        System.out.println("size" + prod.getSize());
+        System.out.println("prodNo" + prod.getProdNo());
 
         // String cateC = cateGroup + "(" + prod.getCateCode() + ")";
         // prod.setCateCode(cateC);
