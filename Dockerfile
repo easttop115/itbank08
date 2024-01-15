@@ -25,3 +25,4 @@ EXPOSE 8080
 
 # Run the application when the container launches
 CMD ["java", "-jar", "build/libs/your-web-app.jar"]
+ENV DOCKER_BUILDKIT=0
