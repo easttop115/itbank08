@@ -1,6 +1,7 @@
 # Use an official Alpine Linux runtime as a parent image
 FROM alpine:latest
 
+ENV DOCKER_BUILDKIT=0
 # Set the working directory to /app
 WORKDIR /app
 
@@ -8,10 +9,10 @@ WORKDIR /app
 RUN apk --no-cache add openjdk17
 
 # Install Gradle 8.5
-RUN wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip \
-    && unzip -q gradle-8.5-bin.zip \
-    && rm gradle-8.5-bin.zip \
-    && mv gradle-8.5 /opt/gradle \
+RUN wget -q https://services.gradle.org/distributions/gradle-8.6-bin.zip \
+    && unzip -q gradle-8.6-bin.zip \
+    && rm gradle-8.6-bin.zip \
+    && mv gradle-8.6 /opt/gradle \
     && ln -s /opt/gradle/bin/gradle /usr/bin/gradle
 
 # Copy the current directory contents into the container at /app
