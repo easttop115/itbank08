@@ -49,7 +49,6 @@
 										<th class="th">회사명</th>
 										<th class="th">사업자등록번호</th>
 										<th class="th">이메일</th>
-										<th class="th">전화번호</th>
 										<th class="th">승인 날짜</th>
 										<th class="th">계정 상태</th>
 										<th class="th">상태 변경</th>
@@ -65,7 +64,6 @@
 											<td class="td">${joins.company}</td>
 											<td class="td">${joins.businessNo}</td>
 											<td class="td">${joins.email}</td>
-											<td class="td">${joins.tel}</td>
 											<td class="td">${joins.regDate}</td>
 											<td class="td">${joins.registStatus}</td>
 											<c:choose>
