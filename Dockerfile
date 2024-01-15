@@ -1,7 +1,6 @@
 # Use an official Alpine Linux runtime as a parent image
 FROM alpine:latest
 
-ENV DOCKER_BUILDKIT=0
 # Set the working directory to /app
 WORKDIR /app
 
