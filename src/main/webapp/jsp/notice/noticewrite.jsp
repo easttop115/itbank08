@@ -71,6 +71,9 @@
 
                 #password {
                     width: 40%;
+                    margin-left: 8%;
+                    margin-top: -3%;
+
                 }
 
                 .custom-button {
@@ -81,23 +84,7 @@
                     font-size: 16px;
                 }
 
-                .meddle .style-options {
-                    display: flex;
-                    flex-direction: row;
-                    /* 수정된 부분: 로우로 변경 */
-                    gap: 10px;
-                    /* 각 옵션 사이의 간격 조절 */
-                }
 
-                .meddle .style-options label {
-                    margin-right: 10px;
-                    /* 옵션 라벨과의 간격 조절 */
-                    background-color: black;
-                    color: white;
-                    padding: 5px;
-                    border-radius: 5px;
-                    display: inline-block;
-                }
 
                 /* 추가된 스타일 */
                 .top-line,
@@ -123,14 +110,19 @@
                 }
 
                 #editor {
-                    height: 400px;
-                    /* Set the desired height in pixels or any other unit */
+                    width: 100%;
+                    /* 또는 다른 원하는 값으로 설정하세요 */
+                    height: 600px;
                     overflow-y: auto;
-                    /* Enable vertical scroll if content exceeds the height */
                 }
 
+
                 .btn-box {
-                    margin-left: 59%;
+                    margin-left: 61%;
+                }
+
+                .fi-pa {
+                    margin-left: 32%;
                 }
             </style>
         </head>
@@ -165,18 +157,22 @@
 
                         <div class="meddle">
                             <label for="content">내용</label>
-                            <input type="textarea" id="editor" name="content">
+                            <!-- Quill 에디터로 사용할 div -->
+                            <div id="editor"></div>
+                            <!-- 실제 내용을 전달할 input -->
+                            <input type="hidden" id="content" name="content">
                         </div>
                 </div>
-
-                <div class="meddle">
-                    <label for="fileName">파일첨부</label>
-                    <input type="file" name="fileName">
-                </div>
-                <div class="meddle">
-                    <label for="password">비밀번호</label>
-                    <input type="password" name="password" size="10" class="form-control" id="password"
-                        placeholder="4자리 입력해주세요">
+                <div class="fi-pa">
+                    <div class="meddle">
+                        <label for="fileName">파일첨부</label>
+                        <input type="file" name="fileName">
+                    </div>
+                    <div class="meddle">
+                        <label for="password">비밀번호</label>
+                        <input type="password" name="password" size="10" class="form-control" id="password"
+                            placeholder="4자리 입력해주세요">
+                    </div>
                 </div>
                 </div>
                 <div class="btn-box">
@@ -205,12 +201,12 @@
                             ]
                         },
                     });
-
-                    // Quill 스타일 업데이트
                     quill.on('text-change', function () {
-                        var plainText = quill.getText();
-                        $('#editor').val(plainText);
+                        var htmlContent = $('#editor .ql-editor').html();
+                        console.log(htmlContent); // 콘솔에서 HTML 내용 확인
+                        $('#content').val(htmlContent);
                     });
+
 
                     $(document).on('click', '#btnSave', function (e) {
                         e.preventDefault();

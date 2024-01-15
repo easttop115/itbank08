@@ -40,7 +40,7 @@
 	    UPDATE notice SET views = views + 1 WHERE no=#{n}
 	</update>
 	
-	<select id="noticeDownload">
+	<select id="noticedownload">
 		SELECT fileName FROM notice WHERE no=#{n}
 	</select>
 	
@@ -55,6 +55,8 @@
 	<select id="searchNotice" resultType="com.example.demo.notice.NoticeDTO">
 		SELECT * FROM notice WHERE title LIKE CONCAT('%',#{title},'%') 
 	</select>
+
+
 
 </mapper>
 

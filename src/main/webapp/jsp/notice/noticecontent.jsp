@@ -6,6 +6,8 @@
 
         <head>
             <meta charset="UTF-8">
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
             <title>게시글 상세 페이지</title>
             <style>
@@ -45,10 +47,6 @@
                 }
 
                 .custom-button {
-                    /* background-color: #2895F4;
-                    border: 1px solid #2895F4;
-                    border-radius: 5px; */
-
                     color: #999;
                     font-family: 'Monument', 'Noto Sans KR', sans-serif;
                     border: solid 1px #ddd;
@@ -56,6 +54,10 @@
                     padding: 4px 12px 5px;
                     line-height: 1.4;
                     border-radius: 5px;
+                    text-align: left;
+                    margin-left: 10px;
+
+
                 }
 
                 .user-form {
@@ -67,7 +69,7 @@
                 .admin {
                     margin-bottom: 4px;
                     padding-top: 10px;
-                    /* Adjust the spacing above 작성자 */
+
                 }
 
                 .admin label {
@@ -98,6 +100,13 @@
                 .cobo .form-control {
                     margin-top: 10px;
                 }
+
+                .bu {
+                    /* 버튼 스타일 */
+                    margin-left: 9%;
+                    margin-top: 21%;
+
+                }
             </style>
         </head>
 
@@ -127,42 +136,22 @@
                             <div class="form-control" rows="5" name="content" id="content">${notice.content}</div>
                         </div>
                     </div>
-                    <div class="meddle">
+                    <div class="meddle" style="margin-top: -12%;">
+                        <c:if test="${not empty notice.fileName}">
+                            <a href="noticedownload?no=${notice.no}" class="btn btn-sm btn-primary custom-button"
+                                style="margin-left: 88%;">파일 첨부</a>
+                        </c:if>
+                    </div>
+
+                    <!-- <div class="meddle">
                         <c:if test="${not empty notice.fileName}">
                             <label for="fileName">파일 이름</label>
                             <div class="form-control" id="FileName">${notice.fileName}</div>
-                            <a href="noticeDownload?no=${notice.no}">파일 다운로드</a>
+                            <a href="noticedownload?no=${notice.no}">파일 첨부</a>
                         </c:if>
-                    </div>
-                    <!-- <div
-                            class="xans-element- xans-board xans-board-movement-1002 xans-board-movement xans-board-1002">
-                            <ul>
-                                <li class="prev">
-                                    <strong>이전글</strong>
-                                    <c:choose>
-                                        <c:when test="${prevNext.prevNum == 0}">
-                                            <span style="color: gray;">이전글이 없습니다.</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a
-                                                href="/notice/noticecontent?reviewNum='${prevNext.prevNum}'">${prevNext.prevTitle}</a>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </li>
-                                <li class="next">
-                                    <strong>다음글</strong>
-                                    <c:choose>
-                                        <c:when test="${prevNext.nextNum == 0}">
-                                            <span style="color: gray;">다음글이 없습니다.</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <a
-                                                href="${contextPath}/notice/noticecontent?reviewNum=${prevNext.nextNum}">${prevNext.nextTitle}</a>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </li>
-                            </ul>
-                        </div> -->
+                    </div> -->
+
+
 
                     <div>
                         <!-- <c:choose>
@@ -175,13 +164,14 @@
                                     onclick="deleteCheck()">삭제</button>
                             </c:when>
                         </c:choose> -->
-                        <button type="button" class="btn btn-sm btn-primary custom-button"
-                            onclick="location.href='/notice/noticeform'">목록</button>
-                        <button type="button" class="btn btn-sm btn-primary custom-button"
-                            onclick="location.href='noticemodify?no=${notice.no}'">수정</button>
-                        <button type="button" class="btn btn-sm btn-primary custom-button" id="btnDelete"
-                            onclick="deleteCheck()">삭제</button>
-
+                        <div class="bu">
+                            <button type="button" class="btn btn-sm btn-primary custom-button"
+                                onclick="location.href='/notice/noticeform'">목록</button>
+                            <button type="button" class="btn btn-sm btn-primary custom-button"
+                                onclick="location.href='noticemodify?no=${notice.no}'">수정</button>
+                            <button type="button" class="btn btn-sm btn-primary custom-button" id="btnDelete"
+                                onclick="deleteCheck()">삭제</button>
+                        </div>
                     </div>
                 </form>
                 </div>
@@ -191,7 +181,7 @@
                 function deleteCheck() {
                     result = confirm('진짜로 삭제하겠습니까?');
                     if (result == true) {
-                        location.href = 'NoticeDeleteProc?no=${Notice.no}'
+                        location.href = 'NoticeDeleteProc?no=${notice.no}';
                     }
                 }
 
@@ -200,9 +190,10 @@
                     $("#form").attr('action', "/notice/noticemodify");
                     $("#form").submit();
                 });
+
                 $(document).on('click', '#btnDelete', function (e) {
                     e.preventDefault();
-                    $("#form").attr('action', "/ noticedeleteProc");
+                    $("#form").attr('action', "/noticedeleteProc");
                     // $("#form").submit();
                 });
 
@@ -213,9 +204,6 @@
 
 
             </script>
-
-
-
 
         </body>
 

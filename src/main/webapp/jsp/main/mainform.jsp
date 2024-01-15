@@ -26,7 +26,7 @@
 
             .main {
                 display: flex;
-                width: 1600px;
+                width: 1600pxzz;
                 justify-content: space-between;
             }
 

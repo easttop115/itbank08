@@ -1,5 +1,7 @@
 package com.example.demo.notice;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,7 +70,7 @@ public class NoticeController {
     }
 
     @RequestMapping("noticedownload")
-    public void noticedownload(String no, HttpServletResponse response) {
+    public void noticedownload(String no, HttpServletResponse response) throws IOException {
         service.noticedownload(no, response);
     }
 

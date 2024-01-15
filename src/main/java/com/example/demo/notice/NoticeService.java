@@ -1,6 +1,12 @@
 package com.example.demo.notice;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +26,7 @@ import jakarta.servlet.http.HttpSession;
 public class NoticeService {
     @Autowired
     private NoticeMapper mapper;
-    private String filePath = "C:\\itbank08\\upload\\";
+    private String filePath = "C:\\itbank08\\upload";
     private NoticeMapper noticeMapper;
 
     public void noticeform(String cp, Model model, Object jdbcTemplate) {
@@ -113,7 +119,7 @@ public class NoticeService {
                 return "redirect:noticewrite";
 
             // 파일의 저장 경로
-            String fileSaveDirectory = "C:\\itbank08\\upload\\" + sessionId;
+            String fileSaveDirectory = "C:\\itbank08\\upload" + sessionId;
             File f = new File(fileSaveDirectory);
             if (f.exists() == false) {
                 f.mkdir();
@@ -206,7 +212,37 @@ public class NoticeService {
         return notice;
     }
 
-    public void noticedownload(String no, HttpServletResponse response) {
+    public void noticedownload(String no, HttpServletResponse response) throws IOException {
+        String filePath = "C:\\itbank08\\upload"; // 실제 파일이 저장된 경로로 변경
+
+        // 파일명 가져오기
+        String fileName = no; // "no" 파라미터로 파일명을 전달받아 사용
+
+        // 파일 경로 설정
+        String fileFullPath = filePath + fileName;
+
+        // 파일의 확장자를 통해 MIME 타입 결정
+        String mimeType = Files.probeContentType(Paths.get(fileFullPath));
+        if (mimeType == null) {
+            // MIME 타입을 찾을 수 없으면 기본으로 application/octet-stream 설정
+            mimeType = "application/octet-stream";
+        }
+
+        // 파일을 읽어 응답으로 전송
+        try (InputStream in = new FileInputStream(fileFullPath);
+                OutputStream out = response.getOutputStream()) {
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+            response.setContentType(mimeType);// 파일의 MIME 타입으로 설정
+
+            // 파일 전송
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public NoticeDTO searchNotice(String title) {
