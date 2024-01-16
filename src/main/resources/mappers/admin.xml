@@ -34,4 +34,10 @@
     <delete id="adminRootDeleteProc">
         DELETE FROM user WHERE id=#{id}
     </delete>
+    <select id="checkMainId" resultMap="join">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+    <update id="updateAdCount">
+        UPDATE user SET adCount=#{adCount} WHERE dbName=#{dbName}
+    </update>
 </mapper>

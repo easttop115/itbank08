@@ -1,6 +1,7 @@
 package com.example.demo.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.DbConfig;
 import com.example.demo.join.JoinDTO;
 import com.example.demo.mail.MailContents;
 
@@ -22,12 +24,15 @@ public class AdminController {
     @Autowired
     private AdminService service;
     @Autowired
+    private AdminMapper mapper;
+    @Autowired
     private MailContents mailContents;
-    // @Autowired
-    // private DbConfig dbConfig;
+    @Autowired
+    private DbConfig dbConfig;
 
     @RequestMapping("/suadonghyunyeonjidongwoonsangwon@SC")
     public String adminLogin() {
+        dbConfig.setLogoutDatabase();
         return "/admin/adminLogin";
     }
 
@@ -103,4 +108,24 @@ public class AdminController {
         model.addAttribute("msg", confirm);
         return "/admin/adminRootDelete";
     }
+
+    @PostMapping("/createSubAccounts")
+    public String createSubAccounts(HttpServletRequest request) throws Exception {
+        String mainId = request.getParameter("mainId");
+        String mainEmail = request.getParameter("mainEmail");
+        int adCount = Integer.parseInt(request.getParameter("adCount"));
+        int count = Integer.parseInt(request.getParameter("editAccount"));
+
+        JoinDTO joins = mapper.checkMainId(mainId);
+        joins.setId(mainId);
+        joins.setEmail(mainEmail);
+        joins.setRegistStatus("active");
+        joins.setAdCount(Integer.toString(adCount));
+        joins.setCount(Integer.toString(count));
+
+        mailContents.sendSimpleMessage(mainEmail, joins);
+
+        return "redirect:/adminInfo";
+    }
+
 }

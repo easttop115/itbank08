@@ -71,8 +71,10 @@
 													<td class="td"><a href="/verifyProc?email=${joins.email}">가입 승인</a>
 													</td>
 												</c:when>
-												<c:when test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
-													<td class="td"><a href="/adminStatusModify?id=${joins.id}">비활성화</a></td>
+												<c:when
+													test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
+													<td class="td"><a href="/adminStatusModify?id=${joins.id}">비활성화</a>
+													</td>
 												</c:when>
 												<c:otherwise>
 													<td class="td"><a href="/adminStatusModify?id=${joins.id}">활성화</a>
@@ -81,8 +83,14 @@
 											</c:choose>
 											<td class="td">${joins.adCount}</td>
 											<td class="td">
-												<input type="number" id="adCount" name="adCount" min="1">
-												<button onclick="addRows('${joins.id}', '${joins.email}')">추가</button>
+												<form action="/createSubAccounts" method="post">
+													<input type="hidden" name="mainId" value="${joins.id}">
+													<input type="hidden" name="mainEmail" value="${joins.email}">
+													<input type="hidden" name="adCount" value="${joins.adCount}">
+													<input type="number" name="editAccount" placeholder="추가 계정 수" required min="1">
+								
+													<input type="submit" value="추가">
+												</form>
 											</td>
 											<td class="td"><a href="/adminRootDelete?id=${joins.id}">삭제</a></td>
 										</tr>
@@ -93,22 +101,3 @@
 					</c:choose>
 				</div>
 			</div>
-
-			<script>
-				function addRows(id, email) {
-					var adCount = document.getElementById("adCount").value;
-
-					// AJAX를 이용하여 입력값을 컨트롤러로 전송할 수 있습니다.
-					// 이 예제에서는 간단한 URL로 가정하고 GET 방식으로 전송합니다.
-					var url = "/addSubAccount?id=" + id + "&email=" + email + "&adCount=" + adCount;
-
-					// 실제로는 더 복잡한 AJAX 요청을 사용해야 할 수 있습니다.
-					// 예를 들어 jQuery나 fetch API 등을 활용할 수 있습니다.
-					// 아래 코드는 jQuery를 사용한 예제입니다.
-					$.get(url, function (data) {
-						// 성공적으로 처리된 경우의 로직
-						// 예를 들어 결과를 콘솔에 출력하거나 다른 동작을 수행할 수 있습니다.
-						console.log(data);
-					});
-				}
-			</script>

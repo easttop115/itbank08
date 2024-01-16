@@ -34,4 +34,5 @@ public class JoinDTO {
     private String adCount;
     private String accountId;
     private String dbName;
+    private String count;
 }

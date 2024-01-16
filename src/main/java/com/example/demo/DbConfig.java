@@ -206,7 +206,7 @@ public class DbConfig {
                 System.out.println("AccountId: " + join.getAccountId());
                 System.out.println("DbName: " + join.getDbName());
 
-                String insertSql1 = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                String insertSql1 = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
                 jdbcTemplate.update(insertSql1, join.getNo(), join.getId(), join.getPw(),
                         join.getCompany(), join.getBusinessNo(), join.getEmail(), join.getRegDate(),

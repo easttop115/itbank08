@@ -80,16 +80,8 @@ public class JoinService {
             }
         }
 
-        // pw 컬럼 생성 - 10자리 난수
-        int leftLimit = 48;
-        int rightLimit = 122;
-        int targetStringLength = 10;
-        Random random = new Random();
-        String key = random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+        // pw 컬럼 생성
+        String key = "QaWsEd123a";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secretPw = encoder.encode(key);
         joins.setPw(secretPw);

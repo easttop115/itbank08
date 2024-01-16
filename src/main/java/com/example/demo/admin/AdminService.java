@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+// import com.example.demo.DbConfig;
 import com.example.demo.join.JoinDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,8 @@ public class AdminService {
     private HttpSession session;
     @Autowired
     private AdminMapper mapper;
+    // @Autowired
+    // private DbConfig dbConfig;
 
     public String adminLoginProc(HttpServletRequest request, String aId, String aPw) {
         HttpSession sessionCheck = request.getSession(false);

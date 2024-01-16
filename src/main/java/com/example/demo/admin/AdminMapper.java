@@ -21,4 +21,7 @@ public interface AdminMapper {
 
     int adminRootDeleteProc(JoinDTO join);
 
+    JoinDTO checkMainId(String mainId);
+
+    void updateAdCount(JoinDTO joins);
 }
