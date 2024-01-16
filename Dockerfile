@@ -24,6 +24,6 @@ RUN gradle build
 EXPOSE 8080
 
 # Run the application when the container launches
-CMD ["java", "-jar", "build/libs/test-jenkins.jar"]
+# CMD ["java", "-jar", "build/libs/test-jenkins.jar"]
 
 ##
