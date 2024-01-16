@@ -74,10 +74,10 @@ public class AdminController {
     @RequestMapping("/adminInfo")
     public String adminInfo(Model model, JoinDTO join) {
         String sessionId = (String) session.getAttribute("aId");
-        AdminDTO admin = service.adminInfo(sessionId);
-        if (admin == null || !admin.getAId().equals(sessionId))
+        if (sessionId == null)
             return "redirect:/";
 
+        dbConfig.setLogoutDatabase();
         service.adminInfo(model, join);
         return "/admin/adminInfo";
     }
@@ -112,8 +112,7 @@ public class AdminController {
     @RequestMapping("/adminRootDelete")
     public String adminRootDelete(@RequestParam("id") String selectId, JoinDTO join) {
         String sessionId = (String) session.getAttribute("aId");
-        AdminDTO admin = service.adminInfo(sessionId);
-        if (!admin.getAId().equals(sessionId))
+        if (sessionId == null)
             return "redirect:/";
 
         join.setId(selectId); // 선택한 사용자의 ID를 Proc으로
@@ -139,6 +138,7 @@ public class AdminController {
         String mainEmail = request.getParameter("mainEmail");
         int adCount = Integer.parseInt(request.getParameter("adCount"));
         int count = Integer.parseInt(request.getParameter("editAccount"));
+        String dbName = request.getParameter("dbName");
 
         JoinDTO joins = mapper.checkMainId(mainId);
         joins.setId(mainId);
@@ -146,6 +146,7 @@ public class AdminController {
         joins.setRegistStatus("active");
         joins.setAdCount(Integer.toString(adCount));
         joins.setCount(Integer.toString(count));
+        joins.setDbName(dbName);
 
         mailContents.sendSimpleMessage(mainEmail, joins);
 

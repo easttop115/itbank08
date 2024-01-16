@@ -87,6 +87,7 @@
 													<input type="hidden" name="mainId" value="${joins.id}">
 													<input type="hidden" name="mainEmail" value="${joins.email}">
 													<input type="hidden" name="adCount" value="${joins.adCount}">
+													<input type="hidden" name="dbName" value="${joins.dbName}"> <!-- second DB for문을 돌리기 위한 값 -->
 													<input type="number" name="editAccount" placeholder="추가 계정 수" required min="1">
 								
 													<input type="submit" value="추가">

@@ -105,6 +105,9 @@ public class DbConfig {
         }
     }
 
+    public void changeUseDatabase(String dbName){
+        jdbcTemplate.execute("USE " + dbName);
+    }
     protected void createDatabase(String dbName) { // 1. 데이터 베이스 생성
         try {
             String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + dbName;

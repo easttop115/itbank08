@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.eclipse.tags.shaded.org.apache.xalan.xsltc.dom.ArrayNodeListIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +36,7 @@ public class MailContents implements IMailService {
 	// 메일 내용 작성
 	@Override
 	public MimeMessage creatMessage(String to, JoinDTO joins) throws MessagingException, UnsupportedEncodingException {
+
 		List<SubAccountDTO> subAccountList = new ArrayList<>(); // 계정 정보를 담을 리스트 생성
 
 		// 추가 계정 생성 요청 시 동작 코드
@@ -42,34 +44,46 @@ public class MailContents implements IMailService {
 			String mainId = joins.getId();
 			int adCount = Integer.parseInt(joins.getAdCount());
 			int count = Integer.parseInt(joins.getCount());
+			String dbName = joins.getDbName();
 
 			// 추가 계정 생성
-			for (int i = adCount + 1; i <= adCount + count; i++) {
-				String subAccountId = mainId + "_" + String.format("%02d", i);
-				String ePw = createKey();
+			ArrayList<String> dbNames = new ArrayList<>();
+			dbNames.add("demo");
+			dbNames.add(dbName);
 
-				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-				String secretPw = encoder.encode(ePw);
-				joins.setId(subAccountId);
-				joins.setPw(secretPw);
-				joins.setBusinessNo(null);
-				joins.setEmail(null);
-				joins.setRegistStatus("active");
-				joins.setAccountId(null);
+			for (String useDb : dbNames) {
+				dbConfig.changeUseDatabase(useDb);
+				for (int i = adCount + 1; i <= adCount + count; i++) {
+					String subAccountId = mainId + "_" + String.format("%02d", i);
+					String ePw = createKey();
 
-				mapper.registProc(joins);
+					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+					String secretPw = encoder.encode(ePw);
+					joins.setId(subAccountId);
+					joins.setPw(secretPw);
+					joins.setBusinessNo(null);
+					joins.setEmail(null);
+					joins.setRegistStatus("active");
+					joins.setAccountId(null);
 
-				// 추가 계정 정보를 리스트에 담기
-				SubAccountDTO subAccountInfo = new SubAccountDTO(subAccountId, ePw);
-				subAccountList.add(subAccountInfo);
+					mapper.registProc(joins);
 
-				joins.setId(mainId); // 초기화 작업
+					// 발신 이메일에 중복된 아이디가 담기지 않게 하기 위한 조건문
+					if ("demo".equals(useDb)) {
+						// 추가 계정 정보를 리스트에 담기
+						SubAccountDTO subAccountInfo = new SubAccountDTO(subAccountId, ePw);
+						subAccountList.add(subAccountInfo);
+					}
+
+					joins.setId(mainId); // 초기화 작업
+				}
+
+				int totalCount = adCount + count;
+				joins.setAdCount(Integer.toString(totalCount));
+				adminMapper.updateAdCount(joins); // 서브 계정 수 업데이트
 			}
-			int totalCount = adCount + count;
-			joins.setAdCount(Integer.toString(totalCount));
-			adminMapper.updateAdCount(joins); // 서브 계정 수 업데이트
+			dbConfig.setLogoutDatabase(); // 다시 demo database로 돌아오기 위한 로직
 
-			dbConfig.createSetDatabase(joins.getDbName());
 			MimeMessage message = emailSender.createMimeMessage();
 
 			message.addRecipients(RecipientType.TO, to); // 메일 받을 사용자

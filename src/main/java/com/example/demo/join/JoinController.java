@@ -53,7 +53,7 @@ public class JoinController {
             if ("approve".equals(checkStatus.getRegistStatus()) || "active".equals(checkStatus.getRegistStatus()))
                 return "redirect:/main/mainform";
 
-            model.addAttribute("msg", "가입 미승인 회원입니다.");
+            model.addAttribute("msg", "미승인 회원입니다.");
             session.invalidate();
             return "/join/login";
         }

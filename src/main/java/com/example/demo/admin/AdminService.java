@@ -78,10 +78,6 @@ public class AdminService {
         model.addAttribute("joins", joins);
     }
 
-    public AdminDTO adminInfo(String sessionId) {
-        return mapper.findAdmin(sessionId);
-    }
-
     public JoinDTO checkAccount(String email) {
         return mapper.checkAccount(email);
     }
