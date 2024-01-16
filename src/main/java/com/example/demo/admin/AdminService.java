@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-// import com.example.demo.DbConfig;
+import com.example.demo.DbConfig;
 import com.example.demo.join.JoinDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +20,8 @@ public class AdminService {
     private HttpSession session;
     @Autowired
     private AdminMapper mapper;
-    // @Autowired
-    // private DbConfig dbConfig;
+    @Autowired
+    private DbConfig dbConfig;
 
     public String adminRegistProc(AdminDTO admins, Model model) {
         if (admins.getAId() == null || admins.getAId().trim().isEmpty()) {
@@ -95,7 +95,9 @@ public class AdminService {
     }
 
     public String adminStatusModify(JoinDTO join) {
-        int result = mapper.adminStatusModify(join);
+        int result = mapper.adminStatusModify(join); // 보여지는 demo DB 아이디 상태 변경
+        dbConfig.setDynamicDatabase(join.getDbName());
+        result = mapper.adminStatusModify(join); // 실제 로그인하는 아이디 상태 변경
         if (result > 0)
             return "success";
 

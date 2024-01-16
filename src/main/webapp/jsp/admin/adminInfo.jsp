@@ -73,11 +73,11 @@
 												</c:when>
 												<c:when
 													test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
-													<td class="td"><a href="/adminStatusModify?id=${joins.id}">비활성화</a>
+													<td class="td"><a href="/adminStatusModify?dbName=${joins.dbName}">비활성화</a>
 													</td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/adminStatusModify?id=${joins.id}">활성화</a>
+													<td class="td"><a href="/adminStatusModify?dbName=${joins.dbName}">활성화</a>
 													</td>
 												</c:otherwise>
 											</c:choose>

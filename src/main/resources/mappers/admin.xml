@@ -35,7 +35,14 @@
             WHEN registStatus = 'inactive' THEN 'X'
             WHEN registStatus = 'active' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
         END
-        WHERE id=#{id}
+        WHERE dbName=#{dbName}
+        AND (accountId='root' OR (accountId!='root' AND registStatus = (
+            CASE 
+                WHEN registStatus = 'approve' THEN 'inactive'
+                WHEN registStatus = 'inactive' THEN 'active'
+                WHEN registStatus = 'active' THEN 'inactive'
+            END
+        )))
     </update>
     <delete id="adminRootDeleteProc">
         DELETE FROM user WHERE id=#{id}

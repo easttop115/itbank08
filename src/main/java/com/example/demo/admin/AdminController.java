@@ -77,7 +77,7 @@ public class AdminController {
         if (sessionId == null)
             return "redirect:/";
 
-        dbConfig.setLogoutDatabase();
+        dbConfig.setLogoutDatabase(); // demo DB로 돌아와야 모든 회사의 정보가 보임
         service.adminInfo(model, join);
         return "/admin/adminInfo";
     }
@@ -98,8 +98,8 @@ public class AdminController {
     }
 
     @RequestMapping("/adminStatusModify")
-    public String adminStatusModify(@RequestParam("id") String selectId, JoinDTO join, Model model) {
-        join.setId(selectId); // 선택한 사용자의 ID의 registStatus를 변경
+    public String adminStatusModify(@RequestParam("dbName") String selectDbName, JoinDTO join, Model model) {
+        join.setDbName(selectDbName); // 선택한 사용자 dbName의 해당하는 registStatus를 모두 변경
         String confirm = service.adminStatusModify(join);
         if (confirm.equals("success")) {
             return "redirect:/adminInfo";
