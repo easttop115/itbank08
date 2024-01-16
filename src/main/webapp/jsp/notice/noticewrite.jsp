@@ -29,18 +29,40 @@
 
                 .container {
                     max-width: 600px;
-                    /* 폼의 최대 너비 설정 */
+                    margin: 0 auto;
                 }
 
                 .header-section {
-                    display: flex;
-                    align-items: center;
+                    text-align: center;
                     margin-bottom: 20px;
                 }
 
                 .page-name-box {
-                    display: flex;
+                    text-align: center;
                     margin-top: 30px;
+                }
+
+                .btn-box {
+                    text-align: center;
+                    margin-top: 15px;
+                }
+
+                .meddle {
+                    margin-bottom: 15px;
+                }
+
+                .form-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                /* 추가된 부분 */
+                @media (min-width: 768px) {
+                    .form-container {
+                        flex-direction: row;
+                        justify-content: center;
+                    }
                 }
 
                 .site-name {
@@ -55,26 +77,11 @@
                     font-weight: 900;
                 }
 
-                .meddle {
-                    margin-bottom: 15px;
-                }
-
                 .label {
                     font-size: 18px;
                     color: #555;
                 }
 
-                .form-control {
-                    font-size: 16px;
-                    /* 추가 스타일은 JavaScript로 조절합니다. */
-                }
-
-                #password {
-                    width: 40%;
-                    margin-left: 8%;
-                    margin-top: -3%;
-
-                }
 
                 .custom-button {
                     background-color: #2895F4;
@@ -114,11 +121,6 @@
                     /* 또는 다른 원하는 값으로 설정하세요 */
                     height: 600px;
                     overflow-y: auto;
-                }
-
-
-                .btn-box {
-                    margin-left: 61%;
                 }
 
                 .fi-pa {
@@ -168,11 +170,7 @@
                         <label for="fileName">파일첨부</label>
                         <input type="file" name="fileName">
                     </div>
-                    <div class="meddle">
-                        <label for="password">비밀번호</label>
-                        <input type="password" name="password" size="10" class="form-control" id="password"
-                            placeholder="4자리 입력해주세요">
-                    </div>
+
                 </div>
                 </div>
                 <div class="btn-box">
@@ -205,16 +203,6 @@
                         var htmlContent = $('#editor .ql-editor').html();
                         console.log(htmlContent); // 콘솔에서 HTML 내용 확인
                         $('#content').val(htmlContent);
-                    });
-
-
-                    $(document).on('click', '#btnSave', function (e) {
-                        e.preventDefault();
-                        var userEnteredPassword = $("#password").val();
-                        userEnteredPassword = userEnteredPassword.substring(0, 4);
-                        $("#form").attr('action', "/notice/noticewriteProc");
-                        $("#form input[name='password']").val(userEnteredPassword);
-                        $("#form").submit();
                     });
 
                     $(document).on('click', '#btnList', function (e) {

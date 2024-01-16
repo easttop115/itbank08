@@ -88,8 +88,8 @@ public class NoticeController {
     public String noticemodifyProc(NoticeDTO notice, RedirectAttributes ra) {
         String sessionId = (String) session.getAttribute("id");
         if (sessionId == null)
-            sessionId = "admin";
-        // return "redirect:login";
+            // sessionId = "admin";
+            return "redirect:/";
         String msg = service.noticemodifyProc(notice);
         ra.addFlashAttribute("msg", msg);
 
@@ -111,7 +111,7 @@ public class NoticeController {
         if (msg.equals("작성자만 삭제 할 수 있습니다."))
             return "redirect:NoticeContent?no=" + no;
 
-        return "redirect:NoticeForm";
+        return "redirect:noticeForm";
     }
 
     // @RequestMapping("/notice/noticewrite")

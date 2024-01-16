@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -96,14 +96,6 @@ public class NoticeService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         noticeDTO.setWriteDate(sdf.format(new Date()));
         noticeDTO.setFileName("");
-
-        // 비밀번호 설정 후 인코딩
-        String userEnteredPassword = multi.getParameter("password");
-        noticeDTO.setPassword(userEnteredPassword);
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String secretPw = encoder.encode(noticeDTO.getPassword());
-        noticeDTO.setPassword(secretPw);
 
         MultipartFile file = multi.getFile("fileName");
         // if(file.getSize() != 0) { // 클라이언트가 파일을 업로드 했다면
@@ -258,33 +250,40 @@ public class NoticeService {
             return "redirect:noticeform";
         }
 
-        NoticeDTO Notice = mapper.noticecontent(n);
+        NoticeDTO notice = mapper.noticecontent(n);
 
-        if (Notice == null)
-            // sessionId = "admin";
+        if (notice == null)
             return "redirect:noticeform";
 
-        if (Notice.getFileName() != null) {
-            String[] names = Notice.getFileName().split("\\\\");
-            String[] fileNames = names[4].split("-", 2);
-            Notice.setFileName(fileNames[1]);
+        if (notice.getFileName() != null) {
+            String[] names = notice.getFileName().split("\\\\");
+            if (names.length >= 5) { // 배열 길이 확인
+                String[] fileNames = names[4].split("-", 2);
+                if (fileNames.length >= 2) { // 배열 길이 확인
+                    notice.setFileName(fileNames[1]);
+                }
+            }
         }
 
-        model.addAttribute("noice", Notice);
+        model.addAttribute("notice", notice);
         return "/notice/noticemodify";
     }
 
     public String noticemodifyProc(NoticeDTO notice) {
-        // System.out.println(Notice.getNo());
         NoticeDTO check = mapper.noticecontent(notice.getNo());
         if (check == null)
             return "게시글 번호에 문제가 발생했습니다. 다시 시도하세요.";
 
-        // 로그인한 아이디와 작성자 아이디가 같은지 확인
+        // 세션 아이디 확인
         String sessionId = (String) session.getAttribute("id");
-        /*
-         * if(check.getId().equals(sessionId) == false) return "작성자만 삭제 할 수 있습니다.";
-         */
+        if (sessionId == null) {
+            return "세션에 로그인 정보가 없습니다."; // 세션 아이디가 null인 경우 처리
+        }
+
+        // 작성자와 세션 아이디가 같은지 확인
+        if (!check.getId().equals(sessionId)) {
+            return "작성자만 수정할 수 있습니다.";
+        }
 
         if (notice.getTitle() == null || notice.getTitle().trim().isEmpty()) {
             return "제목을 입력하세요.";
@@ -294,7 +293,7 @@ public class NoticeService {
         if (result == 0)
             return "게시글 수정에 실패했습니다. 다시 시도하세요.";
 
-        return "게시글 수정 성공";
+        return "redirect:successPage"; // 성공 시 리다이렉트
     }
 
     public String noticedeleteProc(String no) {

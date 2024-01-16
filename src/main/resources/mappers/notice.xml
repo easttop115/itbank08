@@ -28,7 +28,7 @@
         SELECT NVL(max(no), 0) + 1 FROM notice
     </selectKey> 	
    INSERT INTO notice 
-    VALUES(#{id},#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{password}, #{views}, #{isSticky}, #{search_text})
+    VALUES(#{id},#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views}, #{isSticky}, #{search_text})
 </insert>
 
 	
