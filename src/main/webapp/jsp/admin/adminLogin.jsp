@@ -55,7 +55,8 @@
                 }
 
                 .brand a {
-                    text-decoration: none; /* 링크 밑줄 제거 */
+                    text-decoration: none;
+                    /* 링크 밑줄 제거 */
                 }
 
                 .brand p {
@@ -80,7 +81,7 @@
                     font-weight: bold;
                     color: red;
                 }
- 
+
                 .login-input {
                     width: 50%;
                     padding: 10px;
@@ -175,7 +176,9 @@
                 <div class="left">
                     <!-- 브랜드 로고 -->
                     <div class="brand">
-                        <a href="#"><p>Stock City</p></a>
+                        <a href="#">
+                            <p>Stock City</p>
+                        </a>
                     </div>
                     <!-- 동적 텍스트 -->
                     <p id="dynamicText" class="dynamic-text">Stock City</p>
@@ -189,6 +192,7 @@
                         <input class="login-input" name="aId" type="text">
                         <input class="login-input" name="aPw" type="password"><br>
                         <input class="login-button" type="submit" value="LOGIN"><br>
+                        <a href="/admin/adminRegist" class="signup-button">SIGN UP</a>
                     </form>
 
                     <!-- 하단 브랜드 로고 -->

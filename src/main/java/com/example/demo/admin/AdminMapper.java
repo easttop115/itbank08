@@ -8,6 +8,10 @@ import com.example.demo.join.JoinDTO;
 
 @Mapper
 public interface AdminMapper {
+    
+    ArrayList<AdminDTO> findAll();
+
+    int adminRegistProc(AdminDTO admins);
 
     AdminDTO findAdmin(String aId);
 

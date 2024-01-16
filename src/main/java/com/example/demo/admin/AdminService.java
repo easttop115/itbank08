@@ -3,6 +3,7 @@ package com.example.demo.admin;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -22,6 +23,25 @@ public class AdminService {
     // @Autowired
     // private DbConfig dbConfig;
 
+    public String adminRegistProc(AdminDTO admins, Model model) {
+        if (admins.getAId() == null || admins.getAId().trim().isEmpty()) {
+            return "null ID";
+        } else if (admins.getAPw() == null || admins.getAPw().trim().isEmpty()) {
+            return "null PW";
+        } else if (admins.getAPw().equals(admins.getConfirm()) == false)
+            return "not matched PW";
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String secretPw = encoder.encode(admins.getAPw());
+        admins.setAPw(secretPw);
+
+        int result = mapper.adminRegistProc(admins);
+        if (result <= 0)
+            return "regist failed. try again.";
+
+        return "success";
+    }
+
     public String adminLoginProc(HttpServletRequest request, String aId, String aPw) {
         HttpSession sessionCheck = request.getSession(false);
         if (sessionCheck != null) {
@@ -31,15 +51,13 @@ public class AdminService {
             return "null typed";
 
         AdminDTO checkId = mapper.findAdmin(aId);
-        // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        // if (checkId != null && encoder.matches(aPw, checkId.getAPw()) == true) {
-        if (checkId != null && aPw.matches(checkId.getAPw())) {
+        if (checkId != null && encoder.matches(aPw, checkId.getAPw()) == true) {
             session.setAttribute("aId", checkId.getAId());
 
             return "success";
         }
-        // }
         return "failed";
     }
 

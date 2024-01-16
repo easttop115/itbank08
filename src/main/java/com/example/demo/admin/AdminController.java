@@ -1,7 +1,8 @@
 package com.example.demo.admin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +31,32 @@ public class AdminController {
     @Autowired
     private DbConfig dbConfig;
 
+    @RequestMapping("/admin/adminRegist")
+    public String adminRegist(Model model) {
+        List<AdminDTO> admin = mapper.findAll();
+        if (!admin.isEmpty()) {
+            model.addAttribute("msg", "permission denied");
+            return "/admin/adminLogin";
+        }
+
+        return "/admin/adminRegist";
+    }
+
+    @PostMapping("/adminRegistProc")
+    public String registProc(AdminDTO admins, Model model) {
+        String confirm = service.adminRegistProc(admins, model);
+
+        if (confirm.equals("success"))
+            return "redirect:/suadonghyunyeonjidongwoonsangwon@SC";
+
+        model.addAttribute("msg", confirm);
+        return "/admin/adminRegist";
+    }
+
     @RequestMapping("/suadonghyunyeonjidongwoonsangwon@SC")
     public String adminLogin() {
         dbConfig.setLogoutDatabase();
+
         return "/admin/adminLogin";
     }
 

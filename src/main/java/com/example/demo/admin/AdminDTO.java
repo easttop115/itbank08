@@ -10,4 +10,5 @@ import lombok.Setter;
 public class AdminDTO {
     private String aId;
     private String aPw;
+    private String confirm;
 }
