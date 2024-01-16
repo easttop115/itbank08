@@ -33,7 +33,7 @@ FROM alpine:latest as builder
 
 WORKDIR /app
 
-RUN apk --no-cache add openjdk17
+RUN apk --no-cache add openjdk17 curl nginx
 
 RUN wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip \
     && unzip -q gradle-8.5-bin.zip \
