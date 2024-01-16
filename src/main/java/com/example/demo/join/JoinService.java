@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.example.demo.DbConfig;
+import com.example.demo.admin.AdminDTO;
+import com.example.demo.admin.AdminMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +22,8 @@ public class JoinService {
     private HttpSession session;
     @Autowired
     private JoinMapper mapper;
+    @Autowired
+    private AdminMapper adminMapper;
     @Autowired
     private DbConfig dbConfig;
 
@@ -67,10 +71,13 @@ public class JoinService {
             String uniqueId = idFirstName + idLastName;
 
             JoinDTO checkId = mapper.findJoin(uniqueId);
-            if (checkId == null) {
-                // 중복이 없으면 id로 설정하고 반복문 종료
-                joins.setId(uniqueId);
-                break;
+            AdminDTO adminId = adminMapper.findAdmin(uniqueId);
+            if (adminId == null) {
+                if (checkId == null) { // 중복이 없으면 id로 설정하고 반복문 종료
+                    joins.setId(uniqueId);
+                    break;
+                }
+                return "포함할 수 없는 단어가 포함되어 있습니다.";
             }
 
             attemptCount++;
