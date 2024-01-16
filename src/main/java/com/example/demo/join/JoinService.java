@@ -77,8 +77,7 @@ public class JoinService {
                     joins.setId(uniqueId);
                     break;
                 }
-            } else
-                return "포함할 수 없는 단어가 포함되어 있습니다.";
+            }
 
             attemptCount++;
             if (attemptCount >= maxAttempts) {
