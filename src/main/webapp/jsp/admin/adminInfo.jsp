@@ -2,7 +2,6 @@
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 		<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 			<c:import url="/header" />
-			<c:import url="/sider" />
 			<link rel="stylesheet" href="/css/userInfo.css">
 			<style>
 				.header-section {
@@ -73,11 +72,11 @@
 												</c:when>
 												<c:when
 													test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
-													<td class="td"><a href="/adminStatusModify?dbName=${joins.dbName}">비활성화</a>
+													<td class="td"><a href="/adminStatusInactiveModify?dbName=${joins.dbName}">비활성화</a>
 													</td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/adminStatusModify?dbName=${joins.dbName}">활성화</a>
+													<td class="td"><a href="/adminStatusActiveModify?dbName=${joins.dbName}">활성화</a>
 													</td>
 												</c:otherwise>
 											</c:choose>
@@ -93,7 +92,7 @@
 													<input type="submit" value="추가">
 												</form>
 											</td>
-											<td class="td"><a href="/adminRootDelete?id=${joins.id}">삭제</a></td>
+											<td class="td"><a href="/adminRootDelete?dbName=${joins.dbName}&id=${joins.id}">삭제</a></td>
 										</tr>
 									</c:forEach>
 								</tbody>

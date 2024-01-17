@@ -94,10 +94,22 @@ public class AdminService {
         return "fail";
     }
 
-    public String adminStatusModify(JoinDTO join) {
-        int result = mapper.adminStatusModify(join); // 보여지는 demo DB 아이디 상태 변경
+    // 활성화(active)
+    public String adminStatusActiveModify(JoinDTO join) {
+        int result = mapper.adminStatusActiveModify(join); // 보여지는 demo DB 아이디 상태 변경
         dbConfig.setDynamicDatabase(join.getDbName());
-        result = mapper.adminStatusModify(join); // 실제 로그인하는 아이디 상태 변경
+        result = mapper.adminStatusActiveModify(join); // 실제 로그인하는 아이디 상태 변경
+        if (result > 0)
+            return "success";
+
+        return "failed";
+    }
+
+    // 비활성화(inactive)
+    public String adminStatusInactiveModify(JoinDTO join) {
+        int result = mapper.adminStatusInactiveModify(join); // 보여지는 demo DB 아이디 상태 변경
+        dbConfig.setDynamicDatabase(join.getDbName());
+        result = mapper.adminStatusInactiveModify(join); // 실제 로그인하는 아이디 상태 변경
         if (result > 0)
             return "success";
 
@@ -106,6 +118,8 @@ public class AdminService {
 
     public String adminRootDeleteProc(JoinDTO join) {
         int result = mapper.adminRootDeleteProc(join);
+        dbConfig.setDynamicDatabase(join.getDbName());
+        result = mapper.adminRootDeleteProc(join);
         if (result > 0)
             return "success";
 

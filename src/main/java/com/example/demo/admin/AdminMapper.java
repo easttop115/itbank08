@@ -21,7 +21,9 @@ public interface AdminMapper {
 
     int verifyProc(JoinDTO joins);
 
-    int adminStatusModify(JoinDTO join);
+    int adminStatusActiveModify(JoinDTO join);
+
+    int adminStatusInactiveModify(JoinDTO join);
 
     int adminRootDeleteProc(JoinDTO join);
 

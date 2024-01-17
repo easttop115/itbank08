@@ -3,6 +3,7 @@ package com.example.demo.join;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.eclipse.tags.shaded.org.apache.xalan.xsltc.util.IntegerArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -219,7 +220,13 @@ public class JoinService {
     }
 
     public String statusModify(JoinDTO join) {
-        int result = mapper.statusModify(join);
+        int result = mapper.statusModify(join); // 자기 DB 계정 상태 변경
+
+        dbConfig.setLogoutDatabase();
+        result = mapper.statusModify(join); // demo DB 계정 상태 변경
+
+        JoinDTO dbName = mapper.findJoin(join.getId());
+        dbConfig.setDynamicDatabase(dbName.getDbName()); // 자기 DB로 돌아옴
         if (result > 0) {
             return "success";
         }
@@ -228,7 +235,17 @@ public class JoinService {
     }
 
     public String storeDeleteProc(JoinDTO join) {
+        int totalCount = Integer.parseInt(join.getAdCount()) - 1;
+        join.setAdCount(Integer.toString(totalCount));
+
         int result = mapper.storeDeleteProc(join);
+        adminMapper.updateAdCount(join); // adCount 업데이트
+
+        dbConfig.setLogoutDatabase();
+        result = mapper.storeDeleteProc(join);
+        adminMapper.updateAdCount(join); // adCount 업데이트
+
+        dbConfig.setDynamicDatabase(join.getDbName()); // 자기 DB로 돌아옴
         if (result > 0) {
             return "success";
         }

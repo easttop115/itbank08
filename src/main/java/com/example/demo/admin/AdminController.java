@@ -97,10 +97,24 @@ public class AdminController {
         return "/admin/adminInfo";
     }
 
-    @RequestMapping("/adminStatusModify")
-    public String adminStatusModify(@RequestParam("dbName") String selectDbName, JoinDTO join, Model model) {
+    // 활성화(active)
+    @RequestMapping("/adminStatusActiveModify")
+    public String adminStatusActiveModify(@RequestParam("dbName") String selectDbName, JoinDTO join, Model model) {
         join.setDbName(selectDbName); // 선택한 사용자 dbName의 해당하는 registStatus를 모두 변경
-        String confirm = service.adminStatusModify(join);
+        String confirm = service.adminStatusActiveModify(join);
+        if (confirm.equals("success")) {
+            return "redirect:/adminInfo";
+        }
+
+        model.addAttribute("msg", confirm);
+        return "/admin/adminInfo";
+    }
+
+    // 비활성화(inactive)
+    @RequestMapping("/adminStatusInactiveModify")
+    public String adminStatusInactiveModify(@RequestParam("dbName") String selectDbName, JoinDTO join, Model model) {
+        join.setDbName(selectDbName); // 선택한 사용자 dbName의 해당하는 registStatus를 모두 변경
+        String confirm = service.adminStatusInactiveModify(join);
         if (confirm.equals("success")) {
             return "redirect:/adminInfo";
         }
@@ -110,19 +124,19 @@ public class AdminController {
     }
 
     @RequestMapping("/adminRootDelete")
-    public String adminRootDelete(@RequestParam("id") String selectId, JoinDTO join) {
+    public String adminRootDelete(@RequestParam("dbName") String selectDbName, JoinDTO join) {
         String sessionId = (String) session.getAttribute("aId");
         if (sessionId == null)
             return "redirect:/";
 
-        join.setId(selectId); // 선택한 사용자의 ID를 Proc으로
+        join.setDbName(selectDbName); // 선택한 사용자의 dbName을 Proc으로
 
         return "/admin/adminRootDelete";
     }
 
     @PostMapping("/adminRootDeleteProc")
-    public String adminRootDeleteProc(@RequestParam("id") String selectId, JoinDTO join, Model model) {
-        join.setId(selectId); // 선택한 사용자의 ID를 삭제
+    public String adminRootDeleteProc(@RequestParam("dbName") String selectDbName, JoinDTO join, Model model) {
+        join.setDbName(selectDbName); // 선택한 사용자의 ID를 삭제
         String confirm = service.adminRootDeleteProc(join);
         if (confirm.equals("success")) {
             return "redirect:/adminInfo";

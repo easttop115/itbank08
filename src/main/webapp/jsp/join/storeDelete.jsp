@@ -37,9 +37,11 @@
                     <table class="form-container">
                         <tr>
                             <td>
-                                <form action="storeDeleteProc" method="post">
+                                <form action="/storeDeleteProc" method="post">
                                     <input class="input-field" type="text" name="id" value="${param.id}"
                                         readonly="readonly"><br>
+                                    <input type="hidden" name="adCount" value="${param.adCount}">
+                                    <input type="hidden" name="dbName" value="${param.dbName}">
                                     <input class="button" type="submit" value="매장 삭제"
                                         style="border-top-width: 0px; border-left-width: 0px; border-right-width: 0px; border-bottom-width: 0px;">
                                     <input class="cancel-button" type="button" value="취소"

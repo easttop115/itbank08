@@ -128,19 +128,23 @@ public class JoinController {
     }
 
     @RequestMapping("/storeDelete")
-    public String storeDelete(@RequestParam("id") String selectId, JoinDTO join) {
+    public String storeDelete(@RequestParam("id") String selectId, @RequestParam("adCount") String selectAdCount, @RequestParam("dbName") String selectDbName, JoinDTO join) {
         String accountId = (String) session.getAttribute("accountId");
         if (!"root".equals(accountId))
             return "redirect:/";
 
         join.setId(selectId); // 선택한 사용자의 ID를 Proc으로
+        join.setAdCount(selectAdCount);
+        join.setDbName(selectDbName);
 
         return "/join/storeDelete";
     }
 
     @PostMapping("/storeDeleteProc")
-    public String storeDeleteProc(@RequestParam("id") String selectId, JoinDTO join, Model model) {
+    public String storeDeleteProc(@RequestParam("id") String selectId, @RequestParam("adCount") String selectAdCount, @RequestParam("dbName") String selectDbName, JoinDTO join, Model model) {
         join.setId(selectId); // 선택한 사용자의 ID를 삭제
+        join.setAdCount(selectAdCount);
+        join.setDbName(selectDbName);
         String confirm = service.storeDeleteProc(join);
         if (confirm.equals("success")) {
             return "redirect:/manageInfo";

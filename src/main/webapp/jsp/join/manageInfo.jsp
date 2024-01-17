@@ -71,7 +71,7 @@
 												</c:otherwise>
 											</c:choose>
 											<td class="td">
-												<a href="/storeDelete?id=${joins.id}">삭제</a>
+												<a href="/storeDelete?id=${joins.id}&adCount=${joins.adCount}&dbName=${joins.dbName}">삭제</a>
 											</td>
 										</tr>
 									</c:forEach>
