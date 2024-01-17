@@ -54,6 +54,9 @@ FROM eclipse-temurin:17-jdk-jammy AS builder
 
 WORKDIR /app
 
+# Add a dummy file to invalidate the cache if gradlew or gradle files change
+ADD somefile.txt ./
+
 COPY gradlew* ./
 COPY gradle /app/gradle
 COPY build.gradle settings.gradle /app/
@@ -79,3 +82,4 @@ EXPOSE 8000
 
 # Command to start Nginx and run the Java application
 CMD ["nginx", "-g", "daemon off;"]
+
