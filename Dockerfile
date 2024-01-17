@@ -83,3 +83,4 @@ EXPOSE 8000
 # Command to start Nginx and run the Java application
 CMD ["nginx", "-g", "daemon off;"]
 
+
