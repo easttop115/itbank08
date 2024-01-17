@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 /* 
-Maria DB
 CREATE TABLE user (
     no INT AUTO_INCREMENT PRIMARY KEY,
     id VARCHAR(20) not null,
