@@ -120,3 +120,35 @@
 .totalQuan {
   width: 8%;
 }
+
+.no-data-row {
+  height: 400px;
+}
+
+/* 모달생성 */
+.modal {
+  display: none;
+  border-radius: 8px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  /* 최대 너비 지정 */
+  height: auto;
+  overflow: auto;
+  padding: 20px;
+  background-color: #e6f4ff;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal.open {
+  display: block;
+}
+
+.modal-content {
+  width: 100%
+}

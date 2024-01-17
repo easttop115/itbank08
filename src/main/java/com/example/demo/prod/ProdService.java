@@ -1,12 +1,10 @@
 package com.example.demo.prod;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @Transactional
@@ -68,18 +66,17 @@ public class ProdService {
     return colors;
   }
 
-  // public List<ProdDTO> prodList(String cateCode, String colorCode, String size)
-  // {
-
-  // List<ProdDTO> plist = mapper.prodList(cateCode, colorCode, size);
-  // System.out.println("prodList : " + plist);
-  // return plist;
-
-  // }
-
   public List<ProdDTO> prodList(ProdDTO prod) {
 
     return mapper.searchProd(prod);
+  }
+
+  public ProdDTO findById(String prodNo) {
+    return mapper.findById(prodNo);
+  }
+
+  public ProdDTO updateProd(String prodNo, ProdDTO prod) {
+    return mapper.updateProd(prodNo, prod);
   }
 
 }
