@@ -3,27 +3,14 @@
 <mapper namespace="com.example.demo.notice.NoticeMapper">
 
 
-  <select id="noticeform" resultType="com.example.demo.notice.NoticeDTO">
+	<select id="noticeform" resultType="com.example.demo.notice.NoticeDTO">
     SELECT * FROM notice ORDER BY no DESC LIMIT #{begin}, #{end}
-  </select>
-
-  <!-- <select id="totalCount">s
-      SELECT count(no) FROM notice
-   </select> -->
-
-  <select id="totalCount">
+	</select>
+	
+	<select id="totalCount">
     SELECT count(no) FROM notice
-  </select>
-
-  <!-- 
-   <insert id="noticewriteProc">
-      <selectKey order="BEFORE" keyProperty="no" resultType="int">
-         SELECT NVL(max(no), 0)+1 FROM notice
-      </selectKey>    
-      INSERT INTO notice
-    VALUES(no, #{title}, #{content}, now(), #{fileName}, #{password}, 0, #{isSticky})
-<<<<<<< HEAD
-	</insert> -->
+	</select>
+	
 	<insert id="noticewriteProc" parameterType="com.example.demo.notice.NoticeDTO">
 		<selectKey order="BEFORE" keyProperty="no" resultType="int">
 			SELECT NVL(max(no), 0) + 1 FROM notice
@@ -32,7 +19,7 @@
 	</insert>
 
 	
- <select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
+ 	<select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
 		SELECT * FROM notice WHERE no=#{no}
 	</select>
 	
@@ -57,40 +44,8 @@
 	</select>
 
 </mapper>
-=======
-   </insert> -->
-  <insert id="noticewriteProc">
-    <selectKey order="BEFORE" keyProperty="no" resultType="int">
-      SELECT NVL(max(no), 0) + 1 FROM notice
-    </selectKey> INSERT INTO notice
-    VALUES(#{id},#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views}, #{isSticky},
-    #{search_text}) </insert>
->>>>>>> 548a68cfdf17eb5d5eef5d99d955c1941e060994
 
 
-  <select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
-    SELECT * FROM notice WHERE no=#{no}
-  </select>
-
-  <update id="incrementViews">
-    UPDATE notice SET views = views + 1 WHERE no=#{n}
-  </update>
-
-  <select id="noticedownload">
-    SELECT fileName FROM notice WHERE no=#{n}
-  </select>
-
-  <update id="noticemodifyProc">
-    UPDATE notice SET title=#{title}, content=#{content} WHERE no=#{no}
-  </update>
-
-  <delete id="noticedeleteProc">
-    DELETE FROM notice WHERE no=#{n}
-  </delete>
-
-  <select id="searchNotice" resultType="com.example.demo.notice.NoticeDTO">
-    SELECT * FROM notice WHERE title LIKE CONCAT('%',#{title},'%')
-  </select>
 
 
-</mapper>
+

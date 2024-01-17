@@ -54,6 +54,7 @@ public class NoticeController {
     public String noticewriteProc(MultipartHttpServletRequest multi) {
         String sessionId = (String) session.getAttribute("id");
         if (sessionId == null)
+
             return "redirect:/";
 
         String path = service.noticewriteProc(multi);
