@@ -12,6 +12,7 @@ import lombok.Setter;
 //     fileName VARCHAR(255) NOT NULL DEFAULT '',
 //     views INT(11) NOT NULL DEFAULT 0,
 //     isSticky VARCHAR(20) DEFAULT NULL,
+//     checked TINYINT(1) DEFAULT NULL,  //확인
 //     PRIMARY KEY (no)
 // );
 
@@ -26,5 +27,6 @@ public class NoticeDTO {
     private String fileName;
     private int views;
     private String isSticky;
+    private String checked;
 
 }

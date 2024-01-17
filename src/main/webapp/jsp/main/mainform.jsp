@@ -227,6 +227,17 @@
                 border-radius: 5px;
                 cursor: pointer;
             }
+
+            .checked .check::before {
+                /* 확인했을 때의 스타일, 동그라미 없음 */
+                content: '';
+            }
+
+            .unchecked .check::before {
+                /* 확인 안 했을 때의 스타일, 초록색 동그라미 추가 */
+                content: '●';
+                color: green;
+            }
         </style>
 
         <body>
@@ -368,40 +379,28 @@
                                 <div class="writeDate">날짜</div>
                                 <div class="title">제목</div>
                                 <div class="check">확인</div>
-                                <div class="file">첨부</div>
+
                             </div>
                             <div class="notice-list">
-                                <div class="notice-item">
-                                    <div class="writeDate">날짜</div>
-                                    <div class="title">제목</div>
+                                <div class="notice-item ${notice.checked ? 'checked' : 'unchecked'}">
+                                    <div class="writeDate">${notice.writeDate}</div>
+                                    <div class="title" onclick="location.href='noticecontent?no=${Notice.no}'">
+                                        ${notice.title}</div>
                                     <div class="check">확인</div>
-                                    <div class="file">첨부</div>
-                                </div>
-                                <div class="notice-item">
-                                    <div class="writeDate">날짜</div>
-                                    <div class="title">제목</div>
-                                    <div class="check">확인</div>
-                                    <div class="file">첨부</div>
-                                </div>
-                                <div class="notice-item">
-                                    <div class="writeDate">날짜</div>
-                                    <div class="title">제목</div>
-                                    <div class="check">확인</div>
-                                    <div class="file">첨부</div>
-                                </div>
-                                <div class="notice-item">
-                                    <div class="writeDate">날짜</div>
-                                    <div class="title">제목</div>
-                                    <div class="check">확인</div>
-                                    <div class="file">첨부</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <script>
+                    // 여기에서는 간단한 토글(Toggle) 함수를 사용하겠습니다.
+                    function toggleCheckedState() {
+                        const noticeItem = document.querySelector('.notice-item');
+                        noticeItem.classList.toggle('checked');
+                    }
 
-
+                </script>
 
 
         </body>

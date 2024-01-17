@@ -64,18 +64,18 @@ public class NoticeService {
 
     public String noticewriteProc(MultipartHttpServletRequest multi) {
         // System.out.println("title : " + multi.getParameter("title"));
-        String sessionId = (String) session.getAttribute("id");
+        String sessionId = (String) session.getAttribute("id"); // 세션 아이디 확인
         if (sessionId == null)
             // sessionId = "admin";
 
             return "redirect:/";
 
-        String title = multi.getParameter("title");
+        String title = multi.getParameter("title"); // 글제목 확인 및 공백 처리
         if (title == null || title.trim().isEmpty()) {
             return "redirect:/notice/noticewrite";
         }
 
-        NoticeDTO noticeDTO = new NoticeDTO();
+        NoticeDTO noticeDTO = new NoticeDTO(); /// NoticeDTO 생성 및 데이터 설정
         noticeDTO.setId(sessionId);
         noticeDTO.setTitle(title);
         noticeDTO.setContent(multi.getParameter("content"));
@@ -83,8 +83,7 @@ public class NoticeService {
         noticeDTO.setWriteDate(sdf.format(new Date()));
         noticeDTO.setFileName("");
 
-        MultipartFile file = multi.getFile("fileName");
-        // if(file.getSize() != 0) { // 클라이언트가 파일을 업로드 했다면
+        MultipartFile file = multi.getFile("fileName"); // 파일 업로드 처리
         if (file != null && !file.isEmpty()) {
             // 파일의 이름
             sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
@@ -115,7 +114,7 @@ public class NoticeService {
 
         }
 
-        mapper.noticewriteProc(noticeDTO);
+        mapper.noticewriteProc(noticeDTO); // 글쓰기 데이터 저장:
         return "redirect:/notice/noticeform";
     }
 
