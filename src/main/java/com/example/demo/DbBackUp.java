@@ -11,7 +11,7 @@ public class DbBackUp {
     private String defaultUserName = "admin";
     private String defaultPassword = "mariapass";
 
-    public void userRecoveryData(String dbName) { // 사용자(본사)의 데이터 백업기능
+    public void userRecoveryData(String dbName) { // 사용자(본사)의 데이터 복원기능
 
         String fullPath = "~/" + dbName;
         // AWS CLI 명령어 생성

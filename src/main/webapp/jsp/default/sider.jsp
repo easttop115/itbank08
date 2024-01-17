@@ -54,8 +54,18 @@
             <div class="sidebar">
                 <!-- 사이드바 내용 -->
                 <div class="sidebar-content">
-                    <h3>Sidebar Content</h3>
-                    <p>Some text or icons can go here.</p>
+                    <div style="position: absolute; bottom: 0; right: 0;">
+                        <c:choose>
+                            <c:when test="${sessionScope.accountId == 'root'}">
+                                <h3 style="margin: 0; padding: 5px;">
+                                    <a href="/backupProc?dbName=${sessionScope.dbName}" style="text-decoration: none;">BACKUP</a>
+                                </h3>
+                                <h3 style="margin: 0; padding: 5px;">
+                                    <a href="#" style="text-decoration: none;">RESTORE</a>
+                                </h3>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </div>
             </div>
         </body>

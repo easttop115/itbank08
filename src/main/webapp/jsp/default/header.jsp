@@ -10,7 +10,7 @@
                 // DOMContentLoaded 이벤트가 발생하면 실행되는 함수
                 document.addEventListener("DOMContentLoaded", function () {
                     // navbar의 li 요소들을 모두 선택
-                    var navbars = document.querySelectorAll('.navbar > li');
+                    var navbars = document.querySelectorAll('.navbar > li, .navbar > ul');
                     // 모든 subList 요소를 선택
                     var allSubLists = document.querySelectorAll('.subList');
 
@@ -41,7 +41,7 @@
         <body>
             <!-- 네비게이션 바 및 하위 메뉴 구조 -->
             <ul class="navbar">
-                <div>
+                <div class="exception-container">
                     <a href="/main/mainform" style="text-decoration: none; font-size: 0;">
                         <img src="/image/white_logo.png" style="margin-right: 250px; width: 80px; height: auto;">
                     </a>
@@ -112,7 +112,7 @@
                         <li class="liStyle"><a href="#">동운</a></li>
                     </ul>
                 </li>
-                <div>
+                <div class="exception-container">
                     <c:choose>
                         <c:when test="${sessionScope.accountId == 'root'}">
                             <a href="${context}/manageInfo"
