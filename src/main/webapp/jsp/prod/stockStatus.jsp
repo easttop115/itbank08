@@ -53,7 +53,7 @@
           height: 30px;
         }
 
-        .seacrch-button {
+        .search-button {
           background-color: #cadae7;
           color: black;
           padding: 4px 16px;
@@ -158,82 +158,68 @@ height: 30px;
       <c:import url="/sider" />
       <div class="content-container">
         <div class="inventory-title">매장별 재고 현황</div>
-        <table>
-          <tbody>
-            <tr>
-              <!-- 스타일 따로 빼-->
-              <td class="first-table-subject">매장</td>
-              <td class="first-table-content">
-                <select>
-                  <c:choose>
-                    <c:when test="${empty storeNames}">
-                      <option value="noStoreName">등록된 매장이 없습니다.</option>
-                    </c:when>
-                    <c:otherwise>
-                      <c:forEach var="storeName" items="${storeNames}">
-                        <option value="${storeName}">${storeName}</option>
-                      </c:forEach>
-                    </c:otherwise>
-                  </c:choose>
-                </select>
-              </td>
-              <!-- <td class="first-table-subject">등록일</td>
+        <form id="searchForm" action="/prod/stockList" method="post">
+          <table>
+            <tbody>
+              <tr>
+                <!-- 스타일 따로 빼-->
+                <td class="first-table-subject">매장</td>
+                <td class="first-table-content">
+                  <select>
+                    <c:choose>
+                      <c:when test="${empty storeNames}">
+                        <option value="noStoreName">등록된 매장이 없습니다.</option>
+                      </c:when>
+                      <c:otherwise>
+                        <c:forEach var="storeName" items="${storeNames}">
+                          <option value="${storeName}">${storeName}</option>
+                        </c:forEach>
+                      </c:otherwise>
+                    </c:choose>
+                  </select>
+                </td>
+                <!-- <td class="first-table-subject">등록일</td>
             <td class="first-table-content">
               <select id="dateSelect"></select>
             </td> -->
-            </tr>
+              </tr>
 
-            <tr>
-              <td class="first-table-subject">상세검색</td>
-              <td colspan="3" class="first-table-content">
-                <select class="half-width">
-                  <c:choose>
-                    <c:when test="${empty colors}">
-                      <option value="noColor">등록된 색상이 없습니다</option>
-                    </c:when>
-                    <c:otherwise>
-                      <c:forEach var="color" items="${colors}">
-                        <option value="${color}">${color}</option>
-                      </c:forEach>
-                    </c:otherwise>
-                  </c:choose>
-                </select>
-                <select class="half-width">
-                  <c:choose>
-                    <c:when test="${empty cateGroups}">
-                      <option value="noCate">등록된 카테고리 그룹이 없습니다.</option>
-                    </c:when>
-                    <c:otherwise>
-                      <c:forEach var="cateGroup" items="${cateGroups}">
-                        <option value="${cateGroups}">${cateGroup}</option>
-                      </c:forEach>
-                    </c:otherwise>
-                  </c:choose>
-                </select>
-                <select class="half-width">
-                  <c:choose>
-                    <c:when test="${empty cateCodes}">
-                      <option value="noCate">등록된 카테고리 코드가 없습니다.</option>
-                    </c:when>
-                    <c:otherwise>
-                      <c:forEach var="cateCode" items="${cateCodes}">
-                        <option value="${cateCode}">${catecode}</option>
-                      </c:forEach>
-                    </c:otherwise>
-                  </c:choose>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td class="first-table-subject">상품코드</td>
-              <td colspan="3" class="first-table-content">
-                <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
-                <select id="searchDropdown" class="searchDropdown"></select>
-                <button class="seacrch-button">검색</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <tr>
+                <td class="first-table-subject">상세검색</td>
+                <td colspan="3" class="first-table-content">
+                  <select class="half-width" name="colorCode" id="colorCode">
+                    <option value="">색상코드</option>
+                    <c:forEach var="colorCodeItem" items="${colorCodes}">
+                      <option value="${colorCodeItem.colorCode}">${colorCodeItem.colorCode}</option>
+                    </c:forEach>
+                  </select>
+
+                  <select name="cateGroup" id="cateGroup" class="half-width">
+                    <option value="">카테고리그룹</option>
+                    <c:forEach var="cateGroupItem" items="${cateGroups}">
+                      <option value="${cateGroupItem.cateGroup}">${cateGroupItem.cateGroup}</option>
+                    </c:forEach>
+                  </select>
+
+                  <select name="cateCode" id="cateCode" class="half-width">
+                    <option value="">카테고리코드</option>
+                    <c:forEach var="cateCodeItem" items="${cateCodes}">
+                      <option value="${cateCodeItem.cateCode}">${cateCodeItem.cateCode}</option>
+                    </c:forEach>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="first-table-subject">상품코드</td>
+                <td colspan="3" class="first-table-content">
+                  <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
+                  <select id="searchDropdown" class="searchDropdown"></select>
+                  <button class="search-button">검색</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
         <br>
 
         <table>

@@ -105,6 +105,9 @@ public class DbConfig {
         }
     }
 
+    public void changeUseDatabase(String dbName){
+        jdbcTemplate.execute("USE " + dbName);
+    }
     protected void createDatabase(String dbName) { // 1. 데이터 베이스 생성
         try {
             String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + dbName;
@@ -206,7 +209,7 @@ public class DbConfig {
                 System.out.println("AccountId: " + join.getAccountId());
                 System.out.println("DbName: " + join.getDbName());
 
-                String insertSql1 = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                String insertSql1 = "INSERT INTO " + table + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
                 jdbcTemplate.update(insertSql1, join.getNo(), join.getId(), join.getPw(),
                         join.getCompany(), join.getBusinessNo(), join.getEmail(), join.getRegDate(),

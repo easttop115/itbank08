@@ -1,30 +1,21 @@
 package com.example.demo.prod;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-
 @Controller
+@RequestMapping("prod")
 public class ProdController {
 
     @Autowired
@@ -130,7 +121,7 @@ public class ProdController {
     }
 
     // 등록상품 조회
-    @PostMapping("/prod/prodList")
+    @PostMapping("prodList")
     public String prodList(@ModelAttribute("prod") ProdDTO prod, RedirectAttributes ra) {
 
         if (prod.getCateCode().trim().isEmpty()
@@ -140,7 +131,7 @@ public class ProdController {
                 && prod.getProdNo().trim().isEmpty()) {
             System.out.println(prod.getCateCode());
             System.out.println(prod.getColorCode());
-            return "redirect:/prodManage";
+            return "redirect:/prod/prodManage";
         }
         System.out.println("cateGroup" + prod.getCateGroup());
         System.out.println("cateCode" + prod.getCateCode());
@@ -153,13 +144,29 @@ public class ProdController {
         List<ProdDTO> plist = service.prodList(prod);
         ra.addFlashAttribute("prods", plist);
         System.out.println("확인" + plist);
-        return "redirect:/prodManage";
+        return "redirect:/prod/prodManage";
 
     }
 
     @RequestMapping("stockStatus")
-    public String stockManage() {
-        return "prod/stockStatus";
+    public String stockManage(Model model) {
+
+        List<CateDTO> cateGroups = service.cateGroupList();
+        List<CateDTO> cateCodes = service.cateCodeList();
+        List<BrandDTO> brandCodes = service.brandCodeList();
+        List<ColorDTO> colorCodes = service.colorCodeList();
+
+        model.addAttribute("cateGroups", cateGroups);
+        model.addAttribute("cateCodes", cateCodes);
+        model.addAttribute("brandCodes", brandCodes);
+        model.addAttribute("colorCodes", colorCodes);
+
+        return "/prod/stockStatus";
+    }
+
+    @GetMapping("/getProdInfo")
+    public String prodInfo(@RequestParam(name = "prodNo") String prodNo) {
+        return "prodNo";
     }
 
 }

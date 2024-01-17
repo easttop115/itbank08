@@ -4,7 +4,7 @@
 
         <head>
 
-            <link rel="stylesheet" href="css/sider.css">
+            <link rel="stylesheet" href="/css/sider.css">
             <script>
 
                 var sidebar;

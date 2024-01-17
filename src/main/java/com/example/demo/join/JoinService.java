@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.example.demo.DbConfig;
+import com.example.demo.admin.AdminDTO;
+import com.example.demo.admin.AdminMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +22,8 @@ public class JoinService {
     private HttpSession session;
     @Autowired
     private JoinMapper mapper;
+    @Autowired
+    private AdminMapper adminMapper;
     @Autowired
     private DbConfig dbConfig;
 
@@ -67,10 +71,12 @@ public class JoinService {
             String uniqueId = idFirstName + idLastName;
 
             JoinDTO checkId = mapper.findJoin(uniqueId);
-            if (checkId == null) {
-                // 중복이 없으면 id로 설정하고 반복문 종료
-                joins.setId(uniqueId);
-                break;
+            AdminDTO adminId = adminMapper.findAdmin(uniqueId);
+            if (adminId == null) {
+                if (checkId == null) { // 중복이 없으면 id로 설정하고 반복문 종료
+                    joins.setId(uniqueId);
+                    break;
+                }
             }
 
             attemptCount++;
@@ -80,16 +86,8 @@ public class JoinService {
             }
         }
 
-        // pw 컬럼 생성 - 10자리 난수
-        int leftLimit = 48;
-        int rightLimit = 122;
-        int targetStringLength = 10;
-        Random random = new Random();
-        String key = random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+        // pw 컬럼 생성
+        String key = "QaWsEd123a";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secretPw = encoder.encode(key);
         joins.setPw(secretPw);
@@ -221,7 +219,13 @@ public class JoinService {
     }
 
     public String statusModify(JoinDTO join) {
-        int result = mapper.statusModify(join);
+        int result = mapper.statusModify(join); // 자기 DB 계정 상태 변경
+
+        dbConfig.setLogoutDatabase();
+        result = mapper.statusModify(join); // demo DB 계정 상태 변경
+
+        JoinDTO dbName = mapper.findJoin(join.getId());
+        dbConfig.setDynamicDatabase(dbName.getDbName()); // 자기 DB로 돌아옴
         if (result > 0) {
             return "success";
         }
@@ -230,7 +234,17 @@ public class JoinService {
     }
 
     public String storeDeleteProc(JoinDTO join) {
+        int totalCount = Integer.parseInt(join.getAdCount()) - 1;
+        join.setAdCount(Integer.toString(totalCount));
+
         int result = mapper.storeDeleteProc(join);
+        adminMapper.updateAdCount(join); // adCount 업데이트
+
+        dbConfig.setLogoutDatabase();
+        result = mapper.storeDeleteProc(join);
+        adminMapper.updateAdCount(join); // adCount 업데이트
+
+        dbConfig.setDynamicDatabase(join.getDbName()); // 자기 DB로 돌아옴
         if (result > 0) {
             return "success";
         }

@@ -77,7 +77,8 @@
               <c:when test="${not empty prods}">
                 <c:forEach var="product" items="${prods}">
                   <tr>
-                    <td class="prodNo">${product.prodNo}</td>
+                    <td class="prodNo" onclick="openModal('productModal',  '${product.prodNo}')">${product.prodNo}
+                    </td>
                     <td class="prodName">${product.prodName}</td>
                     <td class="size">${product.size}</td>
                     <td class="colorCode">${product.colorCode}</td>
@@ -87,7 +88,7 @@
               </c:when>
               <c:otherwise>
                 <!-- prod가 비어있는 경우 (검색 결과가 없는 경우) -->
-                <tr>
+                <tr class="no-data-row">
                   <td colspan="5">조회된 정보가 없습니다.</td>
                 </tr>
               </c:otherwise>
@@ -96,82 +97,143 @@
         </div>
       </div>
 
-      <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          document.getElementById("searchForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // 기본 폼 제출 방지
 
-            // 제품을 검색하고 테이블을 업데이트하는 함수 호출
-            searchProducts();
-          });
-        });
+      <!-- 모달 창 -->
+      <div id="productModal" class="modal">
+        <div class="modal-content">
+          <form id="modalForm">
 
-        var xhr;
+          </form>
+        </div>
+      </div>
+    </body>
 
-        function searchProducts() {
-          // 폼 데이터 가져오기
-          var cg = document.getElementById('cateGroup').value;
-          var cCode = document.getElementById('cateCode').value;
-          var cColor = document.getElementById('colorCode').value;
-          var sz = document.getElementById('size').value;
-          xhr = new XMLHttpRequest();
-          // 비동기적으로 서버에 요청 보내기
-          xhr.open("POST", "/prodList", true);
-          xhr.setRequestHeader("Content-Type", "application/json");
+    <script>
+      function openModal(modalName, prodNo) {
+        console.log('prodNo: ', prodNo);
+        loadProdInfo(prodNo)
+        const selector = '#' + modalName
+        const modalEle = document.querySelector(selector)
+        modalEle.classList.add('open')
+      }
 
-          console.log("cg:", cg);
-          console.log("cCode:", cCode);
-          console.log("cColor:", cColor);
-          console.log("sz:", sz);
-          var data = { cateCode: cg + "(" + cCode + ")", colorCode: cColor, size: sz };
-          console.log(data);
+      function closeModal(modalName) {
+        const selector = '#' + modalName
+        const modalEle = document.querySelector(selector)
+        modalEle.classList.remove('open')
+      }
 
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              // 받은 데이터를 이용하여 테이블 업데이트
-              console.log(xhr.responseText)
-              var resData = JSON.parse(xhr.responseText);
-              console.log(resData);
-              updateTable(resData);
-            } else {
-              console.error("데이터를 가져오는 중 에러 발생:", xhr.statusText);
-            }
+      const modalForm = document.querySelector('#modalForm')
+      modalForm.addEventListener('submit', function (event) {
+        event.preventDefault()
+        console.log('event: ', event);
 
-          };
+        const formData = new FormData(modalForm)
+        const formNameList = ['prodNo', 'brandCode', 'cateCode', 'size', 'colorCode', 'incomePrice', 'sellPrice', 'prodCon']
 
-          xhr.send(JSON.stringify(data));
-        }
+        const someObj = { a: 1, b: 2 }
+        // someObj.a // 1
+        // someObj['a'] // 1
 
+        // someObj.a = 3
+        // someObj['a'] = 3
 
-        function updateTable(data) {
-          // 테이블의 tbody를 찾아서 비우기
-          var tbody = document.getElementById("tbody");
-          tbody.innerHTML = "";
-          console.log(data);
-          // 받은 데이터가 있는지 확인
-          if (data != null) {
-            // 받은 데이터를 이용하여 테이블 업데이트
-            for (var i = 0; i < data.length; i++) {
-              var row = "<tr>";
-              row += "<td>" + data[i].prodNo + "</td>";
-              row += "<td>" + data[i].prodName + "</td>";
-              row += "<td>" + data[i].size + "</td>";
-              row += "<td>" + data[i].colorCode + "</td>";
-              row += "<td>" + data[i].quan + "</td>";
-              row += "</tr>";
+        const submitData = {}
 
-              tbody.innerHTML += row;
-            }
-
+        for (let i = 0; i < formNameList.length; i++) {
+          const formName = formNameList[i]
+          if (['incomePrice', 'sellPrice'].includes(formName)) {
+            submitData[formName] = parseInt(formData.get(formName))
           } else {
-            // 데이터가 없는 경우 메시지를 표시
-            var row = "<tr><td colspan='5'>조회된 정보가 없습니다.</td></tr>";
-            tbody.innerHTML = row;
+            submitData[formName] = formData.get(formName)
           }
         }
-      </script> -->
+        console.log('submitData: ', submitData);
+        updateFetch(submitData)
+      })
+
+      function updateFetch(submitData) {
+        fetch(
+          'http://localhost/prod/updateProd/' + submitData.prodNo,
+          {
+            method: 'PUT',
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(submitData)
+          })
+          .then(res => res.json())  // 응답데이터를 json으로 변경
+          .then(data => {           // json으로 변환된 data를 받아옴
+            console.log('data: ', data);
+          })
+
+      }
+
+      // fetch로 데이터 받아오기(비동기): fetch('url') -> get으로 동작
+      // 만약 post로 하려면 옵션 넣어줘야해
+      // fetch('url', {
+      // method: 'POST'
+      // body: JSON.stringify(data) (데이터를 객체로 만들어서 타입 String으로 변경)
+      // })
+      function loadProdInfo(prodNo) {
+        fetch('http://localhost/prod/detail/' + prodNo)
+          .then(res => res.json())  // 응답데이터를 json으로 변경
+          .then(data => {           // json으로 변환된 data를 받아옴
+            console.log('data: ', data);
+            generateModalContent(data)
+          })
+      }
+
+      function generateModalContent(prodInfo) {
+        const formHtml =
+          '<div class="form-container">'
+          + '  <h2 style="text-align: center;">' + prodInfo.prodName + '</h2>'
+          + '  <div class="input-row">'
+          + '    <label for="modifyProdNo">상품코드</label>'
+          + '    <input type="text" class="modifyProdNo" name="prodNo" value="' + prodInfo.prodNo + '" readonly>'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifyBrandCode">브랜드코드</label>'
+          + '    <input type="text" class="modifyBrandCode" name="brandCode" value="' + prodInfo.brandCode + '" readonly>'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifyCate">카테고리</label>'
+          + '    <input type="text" class="modifyCate" name="cateCode" value="' + prodInfo.cateCode + '" readonly>'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifySize">사이즈</label>'
+          + '    <input type="text" class="modifySize" name="size" value="' + prodInfo.size + '" readonly>'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifyColor">색상</label>'
+          + '    <input type="text" class="modifyColor" name="color" value="' + prodInfo.colorCode + '" readonly>'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifyIncomePrice">입고금액</label>'
+          + '    <input type="text" class="modifyIncomePrice" name="incomePrice" value="' + prodInfo.incomePrice + '">'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifySellPrice">판매금액</label>'
+          + '    <input type="text" class="modifySellPrice" name="sellPrice" value="' + prodInfo.sellPrice + '">'
+          + '  </div>'
+          + '  <div class="input-row">'
+          + '    <label for="modifyProdCon">상품설명</label>'
+          + '    <input type="text" class="modifyProdCon" name="prodCon" value="' + prodInfo.prodCon + '">'
+          + '  </div>'
+          + '  <input type="submit" class="form-container button" value="수정"></input>'
+          + '  <button type="button" class="form-container button" onclick="closeModal(`productModal`)">취소</button>'
+          + '</div>'
+
+        console.log('formHtml: ', formHtml);
+        const modal = document.querySelector('#modalForm')
+        modal.innerHTML = formHtml
 
 
-    </body>
+      }
+      loadProdInfo()
+
+
+
+    </script>
 
     </html>

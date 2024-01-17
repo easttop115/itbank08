@@ -140,6 +140,10 @@
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        .modal.open {
+          display: block;
+        }
+
         .modal-content {
           width: 100%
         }
@@ -214,7 +218,7 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="openBrandModal()">브랜드코드
+                  <button class="insert-button" type="button" onclick="openModal('brandModal')">브랜드코드
                     등록</button>
             <tr>
               <th>카테고리</th>
@@ -233,7 +237,7 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="openCateModal()">카테고리
+                  <button class="insert-button" type="button" onclick="openModal('cateModal')">카테고리
                     등록</button>
                 </div>
 
@@ -271,7 +275,7 @@
                       </c:otherwise>
                     </c:choose>
                   </select>
-                  <button class="insert-button" type="button" onclick="openColorModal()">색상코드
+                  <button class="insert-button" type="button" onclick="openModal(`colorModal`)">색상코드
                     등록</button>
                 </div>
               </td>
@@ -327,7 +331,7 @@
                 placeholder="브랜드에 대한 설명을 입력하세요"></textarea>
               <div class="button-container">
                 <input type="submit" class="form-container button" value="등록"></input>
-                <button type="button" class="form-container button" onclick="closeBrandModal()">취소</button>
+                <button type="button" class="form-container button" onclick="closeModal(`brandModal`)">취소</button>
               </div>
               <!-- 등록 버튼 -->
             </form>
@@ -356,7 +360,7 @@
               <input type="text" id="addCateName" name="cateName" value="${cateName}" placeholder="카테고리명을 입력하세요."
                 required>
               <input type="submit" class="form-container button" value="등록"></input>
-              <button type="button" class="form-container button" onclick="closeCateModal()">취소</button>
+              <button type="button" class="form-container button" onclick="closeModal(`cateModal`)">취소</button>
           </div>
           <!-- 등록 버튼 -->
           </form>
@@ -380,7 +384,7 @@
               <input type="text" id="addColorName" name="ColorName" value="${colorName}" placeholder="컬러명을 입력하세요."
                 required>
               <input type="submit" class="form-container button" value="등록"></input>
-              <button type="button" class="form-container button" onclick="closeColorModal()">취소</button>
+              <button type="button" class="form-container button" onclick="closeModal(`colorModal`)">취소</button>
           </div>
           <!-- 등록 버튼 -->
           </form>
@@ -391,33 +395,47 @@
 
       <script>
 
-        // 브랜드모달 열기
-        function openBrandModal() {
-          document.getElementById('brandModal').style.display = 'block';
-        }
-        // 모달 닫기
-        function closeBrandModal() {
-          document.getElementById('brandModal').style.display = 'none';
+        // // 브랜드모달 열기
+        // function openBrandModal() {
+        //   document.getElementById('brandModal').style.display = 'block';
+        // }
+        // // 모달 닫기
+        // function closeBrandModal() {
+        //   document.getElementById('brandModal').style.display = 'none';
+        // }
+
+        // // 카테모달 열기
+        // function openCateModal() {
+        //   document.getElementById('cateModal').style.display = 'block';
+        // }
+        // // 모달 닫기
+        // function closeCateModal() {
+        //   document.getElementById('cateModal').style.display = 'none';
+        // }
+        // // 컬러모달 열기
+        // function openColorModal() {
+        //   document.getElementById('colorModal').style.display = 'block';
+        // }
+
+        // // 모달 닫기
+        // function closeColorModal() {
+        //   document.getElementById('colorModal').style.display = 'none';
+        // }
+
+        function openModal(modalName) {
+          console.log('modalName : ', modalName)
+          const selector = '#' + modalName
+          console.log('selector : ', selector)
+          const modalEle = document.querySelector(selector)
+          modalEle.classList.add('open')
         }
 
-        // 카테모달 열기
-        function openCateModal() {
-          document.getElementById('cateModal').style.display = 'block';
+        function closeModal(modalName) {
+          const selector = '#' + modalName
+          console.log('selector : ', selector)
+          const modalEle = document.querySelector(selector)
+          modalEle.classList.remove('open')
         }
-        // 모달 닫기
-        function closeCateModal() {
-          document.getElementById('cateModal').style.display = 'none';
-        }
-        // 컬러모달 열기
-        function openColorModal() {
-          document.getElementById('colorModal').style.display = 'block';
-        }
-
-        // 모달 닫기
-        function closeColorModal() {
-          document.getElementById('colorModal').style.display = 'none';
-        }
-
       </script>
 
     </body>

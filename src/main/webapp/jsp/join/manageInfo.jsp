@@ -63,7 +63,7 @@
 											<td class="td">${joins.regDate}</td>
 											<td class="td">${joins.registStatus}</td>
 											<c:choose>
-												<c:when test="${joins.registStatus == 'approve'}">
+												<c:when test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
 													<td class="td"><a href="/statusModify?id=${joins.id}">비활성화</a></td>
 												</c:when>
 												<c:otherwise>
@@ -71,7 +71,7 @@
 												</c:otherwise>
 											</c:choose>
 											<td class="td">
-												<a href="/storeDelete?id=${joins.id}">삭제</a>
+												<a href="/storeDelete?id=${joins.id}&adCount=${joins.adCount}&dbName=${joins.dbName}">삭제</a>
 											</td>
 										</tr>
 									</c:forEach>

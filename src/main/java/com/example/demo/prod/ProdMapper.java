@@ -1,11 +1,8 @@
 package com.example.demo.prod;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.ui.Model;
 
 @Mapper
 public interface ProdMapper {
@@ -32,4 +29,8 @@ public interface ProdMapper {
   // prodNo);
 
   List<ProdDTO> searchProd(ProdDTO prod);
+
+  ProdDTO findById(String prodNo);
+
+  ProdDTO updateProd(String prodNo, ProdDTO prod);
 }

@@ -3,9 +3,11 @@ package com.example.demo.admin;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.example.demo.DbConfig;
 import com.example.demo.join.JoinDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,27 @@ public class AdminService {
     private HttpSession session;
     @Autowired
     private AdminMapper mapper;
+    @Autowired
+    private DbConfig dbConfig;
+
+    public String adminRegistProc(AdminDTO admins, Model model) {
+        if (admins.getAId() == null || admins.getAId().trim().isEmpty()) {
+            return "null ID";
+        } else if (admins.getAPw() == null || admins.getAPw().trim().isEmpty()) {
+            return "null PW";
+        } else if (admins.getAPw().equals(admins.getConfirm()) == false)
+            return "not matched PW";
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String secretPw = encoder.encode(admins.getAPw());
+        admins.setAPw(secretPw);
+
+        int result = mapper.adminRegistProc(admins);
+        if (result <= 0)
+            return "regist failed. try again.";
+
+        return "success";
+    }
 
     public String adminLoginProc(HttpServletRequest request, String aId, String aPw) {
         HttpSession sessionCheck = request.getSession(false);
@@ -28,15 +51,13 @@ public class AdminService {
             return "null typed";
 
         AdminDTO checkId = mapper.findAdmin(aId);
-        // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        // if (checkId != null && encoder.matches(aPw, checkId.getAPw()) == true) {
-        if (checkId != null && aPw.matches(checkId.getAPw())) {
+        if (checkId != null && encoder.matches(aPw, checkId.getAPw()) == true) {
             session.setAttribute("aId", checkId.getAId());
 
             return "success";
         }
-        // }
         return "failed";
     }
 
@@ -57,10 +78,6 @@ public class AdminService {
         model.addAttribute("joins", joins);
     }
 
-    public AdminDTO adminInfo(String sessionId) {
-        return mapper.findAdmin(sessionId);
-    }
-
     public JoinDTO checkAccount(String email) {
         return mapper.checkAccount(email);
     }
@@ -77,8 +94,22 @@ public class AdminService {
         return "fail";
     }
 
-    public String adminStatusModify(JoinDTO join) {
-        int result = mapper.adminStatusModify(join);
+    // 활성화(active)
+    public String adminStatusActiveModify(JoinDTO join) {
+        int result = mapper.adminStatusActiveModify(join); // 보여지는 demo DB 아이디 상태 변경
+        dbConfig.setDynamicDatabase(join.getDbName());
+        result = mapper.adminStatusActiveModify(join); // 실제 로그인하는 아이디 상태 변경
+        if (result > 0)
+            return "success";
+
+        return "failed";
+    }
+
+    // 비활성화(inactive)
+    public String adminStatusInactiveModify(JoinDTO join) {
+        int result = mapper.adminStatusInactiveModify(join); // 보여지는 demo DB 아이디 상태 변경
+        dbConfig.setDynamicDatabase(join.getDbName());
+        result = mapper.adminStatusInactiveModify(join); // 실제 로그인하는 아이디 상태 변경
         if (result > 0)
             return "success";
 
@@ -87,6 +118,8 @@ public class AdminService {
 
     public String adminRootDeleteProc(JoinDTO join) {
         int result = mapper.adminRootDeleteProc(join);
+        dbConfig.setDynamicDatabase(join.getDbName());
+        result = mapper.adminRootDeleteProc(join);
         if (result > 0)
             return "success";
 

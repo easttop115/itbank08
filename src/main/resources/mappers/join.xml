@@ -3,11 +3,11 @@
 <mapper namespace="com.example.demo.join.JoinMapper">
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="registProc">
-        INSERT INTO user (id, pw, company, businessNo, email, regDate, registStatus, adCount, accountId, dbName) 
-        VALUES 
-        (#{id}, #{pw}, #{company}, #{businessNo}, #{email}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 
+        INSERT INTO user (no, id, pw, company, businessNo, email, regDate, registStatus, adCount, accountId, dbName) 
+        SELECT IFNULL(MAX(no), 0) + 1, #{id}, #{pw}, #{company}, #{businessNo}, #{email}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 
         CASE WHEN #{registStatus} IS NULL THEN 'denied' ELSE #{registStatus} END, #{adCount}, 
-        CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END , #{dbName})
+        CASE WHEN #{accountId} IS NULL THEN 'store' ELSE #{accountId} END , #{dbName} 
+        FROM user
     </insert>
     <insert id="insertStoreNo">
         INSERT INTO store (storeNo) VALUES (#{storeNo})
@@ -41,15 +41,17 @@
         UPDATE user SET 
         registStatus=
         CASE 
-            WHEN registStatus = 'approve' THEN 'denied'
-            WHEN registStatus = 'denied' THEN 'approve'
+            WHEN registStatus = 'approve' THEN 'inactive'
+            WHEN registStatus = 'inactive' THEN 'active'
+            WHEN registStatus = 'active' THEN 'inactive'
         END, 
         regDate=
         CASE 
             WHEN registStatus = 'approve' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
-            WHEN registStatus = 'denied' THEN 'X'
+            WHEN registStatus = 'inactive' THEN 'X'
+            WHEN registStatus = 'active' THEN DATE_ADD(NOW(), INTERVAL 9 HOUR)
         END
-    WHERE id=#{id}
+        WHERE id=#{id}
     </update>
     <delete id="storeDeleteProc">
         DELETE FROM user WHERE id=#{id}

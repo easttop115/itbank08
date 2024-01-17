@@ -26,33 +26,25 @@
 # # Run the application when the container launches
 # # CMD ["java", "-jar", "build/libs/test-jenkins.jar"]
 
-# ##
-
-# 첫 번째 단계: 어플리케이션 빌드
-FROM alpine:latest as builder
+FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
-RUN apk --no-cache add openjdk17
+# Copy Gradle Wrapper
+COPY gradlew ./
+COPY gradlew.bat ./
+COPY gradle /app/gradle
 
-RUN wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip \
-    && unzip -q gradle-8.5-bin.zip \
-    && rm gradle-8.5-bin.zip \
-    && mv gradle-8.5 /opt/gradle \
-    && ln -s /opt/gradle/bin/gradle /usr/bin/gradle
+# Copy project files
+COPY build.gradle settings.gradle /app/
+COPY gradle /app/gradle
+COPY src /app/src
 
-COPY . /app
+# Grant execute permission to Gradle Wrapper
+RUN chmod +x ./gradlew
 
-RUN gradle build
+# Resolve dependencies and build the application using Gradle Wrapper
+RUN ./gradlew build --no-daemon
 
-# 두 번째 단계: Nginx를 사용하여 어플리케이션 배포
-FROM nginx:latest
-
-# Nginx 설정 파일 직접 설정
-RUN echo "events {\n  worker_connections  1024;\n}\n\nhttp {\n  server {\n    listen 80;\n    server_name localhost;\n\n    location / {\n      proxy_pass http://localhost:8080;\n      proxy_set_header Host $host;\n      proxy_set_header X-Real-IP $remote_addr;\n      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n      proxy_set_header X-Forwarded-Proto $scheme;\n    }\n\n    access_log /var/log/nginx/access.log;\n    error_log /var/log/nginx/error.log;\n  }\n}" > /etc/nginx/nginx.conf
-
-# 포트 80을 노출
-EXPOSE 80
-
-# Nginx 실행
-CMD ["nginx", "-g", "daemon off;"]
+# Run the application
+CMD ["./gradlew", "bootRun"]
