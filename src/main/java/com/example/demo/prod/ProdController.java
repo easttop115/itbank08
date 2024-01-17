@@ -24,7 +24,7 @@ public class ProdController {
     private HttpSession session;
 
     // 브랜드코드 추가
-    @PostMapping("/brandInsert")
+    @PostMapping("brandInsert") // modal action에는 "/" <-- 추가 x
     public String addBrand(BrandDTO brand, RedirectAttributes ra) {
 
         if (brand.getBrandCode() != null || !brand.getBrandCode().trim().isEmpty()) {
@@ -32,9 +32,9 @@ public class ProdController {
             System.out.println("brandCode:" + brand.getBrandCode());
             ra.addFlashAttribute("msg", "brandCode 추가 성공");
 
-            return "redirect:prodInsert";
+            return "redirect:/prod/prodInsert";
         }
-        return "prodInsert";
+        return "/prod/prodInsert";
     }
 
     // 카테고리 추가
@@ -47,7 +47,7 @@ public class ProdController {
         return "prod/cateInsert";
     }
 
-    @PostMapping("/cateInsert")
+    @PostMapping("cateInsert")
     public String addCategory(CateDTO cate, RedirectAttributes ra) {
 
         if (cate.getCateGroup() != null || !cate.getCateGroup().trim().isEmpty()) {
@@ -55,12 +55,12 @@ public class ProdController {
             System.out.println("cateCode:" + cate.getCateCode());
             ra.addFlashAttribute("msg", "cateCode 추가 성공");
 
-            return "redirect:prodInsert";
+            return "redirect:/prod/prodInsert";
         }
-        return "prodInsert";
+        return "/prod/prodInsert";
     }
 
-    @PostMapping("/colorInsert")
+    @PostMapping("colorInsert")
     public String addColor(ColorDTO color, RedirectAttributes ra) {
 
         if (color.getColorCode() != null || !color.getColorCode().trim().isEmpty()) {
@@ -68,9 +68,9 @@ public class ProdController {
             System.out.println("ColorCode:" + color.getColorCode());
             ra.addFlashAttribute("msg", "ColorCode 추가 성공");
 
-            return "redirect:prodInsert";
+            return "redirect:/prod/prodInsert";
         }
-        return "prodInsert";
+        return "/prod/prodInsert";
     }
 
     // 상품등록
@@ -95,13 +95,13 @@ public class ProdController {
 
     }
 
-    @PostMapping("/prodInsertProc")
+    @PostMapping("prodInsertProc")
     public String prodInsertProc(ProdDTO prods, RedirectAttributes ra) {
 
         String msg = service.prodInsertProc(prods);
         ra.addFlashAttribute("msg", msg);
 
-        return "redirect:/prodManage";
+        return "redirect:/prod/prodManage";
     }
 
     // 상품조회, 관리

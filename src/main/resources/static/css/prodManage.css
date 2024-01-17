@@ -101,12 +101,20 @@
   width: 48%;
 }
 
+.prodNo:hover {
+  cursor: pointer;
+}
+
 .dataProdNo {
   cursor: pointer;
 }
 
 .prodName {
   width: 24%;
+}
+
+.prodName:hover {
+  cursor: pointer;
 }
 
 .size {

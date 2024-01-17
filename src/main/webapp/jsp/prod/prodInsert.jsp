@@ -194,7 +194,7 @@
       <c:import url="/sider" />
       <div class="content-container">
         <h2 class="inventory-title">상품 등록</h2>
-        <form action="/prodInsertProc" method="post">
+        <form action="prodInsertProc" method="post">
           <table class="white-bg">
             <tr>
               <th>상품명</th>
@@ -320,7 +320,7 @@
         <div class="modal-content">
           <div class="form-container">
             <h2 style="text-align: center;">브랜드코드 등록</h2><br>
-            <form id="modalForm" action="/brandInsert" method="post">
+            <form id="modalForm" action="brandInsert" method="post">
               <!-- 브랜드 코드 입력 -->
               <label for="addBrandCode"></label>
               <input type="text" id="addBrandCode" name="brandCode" value="${brandCode}" placeholder="브랜드코드명을 입력하세요."
@@ -346,7 +346,7 @@
         <div class="modal-content">
           <div class="form-container">
             <h2 style="text-align: center;">카테고리 등록</h2><br>
-            <form id="modalForm" action="/cateInsert" method="post">
+            <form id="modalForm" action="cateInsert" method="post">
               <!-- 카테고리 그룹 입력 -->
               <label for="addCateGroup"></label>
               <input type="text" id="addCateGroup" name="cateGroup" value="${cateGroup}" placeholder="카테고리그룹명을 입력하세요."
@@ -375,7 +375,7 @@
         <div class="modal-content">
           <div class="form-container">
             <h2 style="text-align: center;">컬러코드 등록</h2><br>
-            <form id="modalForm" action="/colorInsert" method="post">
+            <form id="modalForm" action="colorInsert" method="post">
               <!-- 컬러 코드 입력 -->
               <label for="addColorCode"></label>
               <input type="text" id="addColorCode" name="ColorCode" value="${colorCode}" placeholder="컬러코드를 입력하세요."

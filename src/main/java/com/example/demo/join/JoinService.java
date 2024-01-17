@@ -195,6 +195,8 @@ public class JoinService {
         joins.setPw(secretPass);
 
         int result = mapper.updateProc(joins);
+        dbConfig.setLogoutDatabase();
+        result = mapper.updateProc(joins);
         if (result > 0)
             return "success";
 

@@ -79,7 +79,7 @@
                   <tr>
                     <td class="prodNo" onclick="openModal('productModal',  '${product.prodNo}')">${product.prodNo}
                     </td>
-                    <td class="prodName">${product.prodName}</td>
+                    <td class="prodName" onclick="openModal('productModal',  '${product.prodNo}')">${product.prodName}</td>
                     <td class="size">${product.size}</td>
                     <td class="colorCode">${product.colorCode}</td>
                     <td class="quan">${product.quan}</td>
