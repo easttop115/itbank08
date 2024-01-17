@@ -103,9 +103,14 @@
 
                 .bu {
                     /* 버튼 스타일 */
-                    margin-left: 9%;
-                    margin-top: 21%;
+                    margin-left: 7%;
+                    margin-top: 1%;
 
+                }
+
+                .fileName {
+                    margin-top: 20%;
+                    margin-left: 7%;
                 }
             </style>
         </head>
@@ -136,12 +141,18 @@
                             <div class="form-control" rows="5" name="content" id="content">${notice.content}</div>
                         </div>
                     </div>
-                    <div class="meddle" style="margin-top: -12%;">
-                        <c:if test="${not empty notice.fileName}">
-                            <a href="noticedownload?no=${notice.no}" class="btn btn-sm btn-primary custom-button"
-                                style="margin-left: 88%;">파일 첨부</a>
-                        </c:if>
+
+                    <div test="${not empty notice.fileName}"></div>
+
+                    <div class="meddle">
+                        <div class="fileName">
+                            <!-- <label for="fileName">파일 이름</label> -->
+                            <!-- <div class="form-control" id="FileName">${notice.fileName}</div> -->
+                            <a href="/noticeDownload?no=${notice.no}" class="custom-button">파일첨부: ${notice.fileName}</a>
+                        </div>
                     </div>
+
+
 
                     <!-- <div class="meddle">
                         <c:if test="${not empty notice.fileName}">
@@ -178,12 +189,7 @@
             </article>
             <script>
 
-                function deleteCheck() {
-                    result = confirm('진짜로 삭제하겠습니까?');
-                    if (result == true) {
-                        location.href = 'NoticeDeleteProc?no=${notice.no}';
-                    }
-                }
+
 
                 $(document).on('click', '#btnModify', function (e) {
                     e.preventDefault();
@@ -191,19 +197,21 @@
                     $("#form").submit();
                 });
 
+                function deleteCheck() {
+                    result = confirm('진짜로 삭제하겠습니까?');
+                    if (result == true) {
+                        location.href = '/noticedeleteProc?no=${notice.no}';
+                    }
+                }
+
                 $(document).on('click', '#btnDelete', function (e) {
                     e.preventDefault();
-                    $("#form").attr('action', "/noticedeleteProc");
-                    // $("#form").submit();
+                    $("#form").attr('action', "/noticedeleteProc?no=${notice.no}");
+                    $("#form").submit();
                 });
-
-                $(document).on('click', '#btnList', function (e) {
-                    e.preventDefault();
-                    location.href = "/notice/noticeform";
-                });
-
 
             </script>
+
 
         </body>
 

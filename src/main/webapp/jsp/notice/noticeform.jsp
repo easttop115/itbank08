@@ -247,16 +247,18 @@
 
           <div class="container">
             <div class="search-window">
-              <form action="/searchNotice" method="post">
+              <form action="/searchTitle" method="post">
                 <div class="search-wrap">
-                  <label for="search" class="blind">공지사항 제목 검색</label>
-                  <input id="title" type="text" name="title" placeholder="검색어를 입력해주세요.">
-                  <button type="submit" class="btn btn-dark">검색</button>
+                  <label for="search_text" class="blind">공지사항 제목 검색</label>
+                  <input id="search_text" type="text" name="title" placeholder="검색어를 입력해주세요.">
+                  <input type="submit" class="btn btn-dark" value="검색">
                 </div>
               </form>
             </div>
           </div>
         </div>
+
+
 
         <!-- 공지사항 항목 -->
         <div id="notice-list">
@@ -301,43 +303,68 @@
           </div>
         </div>
 
-        <script>
-          function searchFunction() {
-
-            var t = document.getElementById("search_tex").value.trim();
-            console.log(t);
-            var xhr;
-
-            xhr = new XMLHttpRequest();
-            xhr.open('post', '/searchNotice');
-            xhr.send(t);
-            xhr.onreadystatechange = resProc;
-          }
-          function resProc() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              var resData = xhr.responseText;
-              // 입력된 검색어 가져오기
-              var input, filter, table, tr, td, i, txtValue;
-              input = document.getElementById("search");
-              filter = input.value.toUpperCase();
-              table = document.getElementById("noticeTable"); // 공지사항 테이블의 id를 설정해야 합니다.
-              tr = table.getElementsByTagName("div"); // 테이블 행이 div 요소로 되어 있다고 가정합니다.
-
-              // 각 행을 반복하며 검색어에 맞지 않는 항목을 숨깁니다.
-              for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByClassName("title")[0]; // 제목이라고 가정합니다.
-                if (td) {
-                  txtValue = td.textContent || td.innerText;
-                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                  } else {
-                    tr[i].style.display = "none";
-                  }
+        <!-- <script>
+          function getSearchList() {
+            $.ajax({
+              type: 'GET',
+              url: "/getSearchList",
+              data: $("form[name=search-form]").serialize(),
+              success: function (result) {
+                //테이블 초기화
+                $('#noticetable > tbody').empty();
+                if (result.length >= 1) {
+                  result.forEach(function (item) {
+                    str = '<tr>'
+                    str += "<td>" + item.idx + "</td>";
+                    str += "<td>" + item.writer + "</td>";
+                    str += "<td><a href = '/notice/detail?idx=" + item.idx + "'>" + item.title + "</a></td>";
+                    str += "<td>" + item.date + "</td>";
+                    str += "<td>" + item.hit + "</td>";
+                    str += "</tr>"
+                    $('#boardtable').append(str);
+                  })
                 }
               }
+            })
+          } -->
+        <!-- <script>
+            function searchFunction() {
+              // 검색어가 비어있을 경우 처리 (생략 가능)
+              var search_text = $("#search_text").val();
+              if (search_text.trim() === "") {
+                alert("검색어를 입력해주세요.");
+                return;
+              }
+          
+              $.ajax({
+                type: 'POST',  // POST 방식으로 변경
+                url: "/searchNotice",
+                data: $("#search-form").serialize(),
+                success: function (result) {
+                  // 테이블 초기화
+                  $('#notice-list .notice-table').empty();
+          
+                  if (result.length >= 1) {
+                    result.forEach(function (item) {
+                      str = '<div class="notice-item">';
+                      str += '<div class="tr">';
+                      str += '<div class="no">' + item.no + '</div>';
+                      str += '<div class="title" onclick="location.href=\'noticecontent?no=' + item.no + '\'">' + item.title + '</div>';
+                      str += '<div class="writeDate">' + item.writeDate + '</div>';
+                      str += '</div>';
+                      str += '</div>';
+                      $('#notice-list .notice-table').append(str);
+                    });
+                  } else {
+                    // 검색 결과가 없을 때 처리
+                    $('#notice-list .notice-table').append('<div class="notice-item"><div class="tr"><div class="td" colspan="7">검색 결과가 없습니다.</div></div></div>');
+                  }
+                }
+              });
             }
-          }
-        </script>
+          </script> -->
+
+
 
 
     </body>

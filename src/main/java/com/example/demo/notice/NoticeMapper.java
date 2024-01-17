@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.demo.prod.ProdDTO;
+
 @Mapper
 public interface NoticeMapper {
 
@@ -24,6 +26,6 @@ public interface NoticeMapper {
 
     void incrementViews(int n);
 
-    NoticeDTO searchNotice(@Param("title") String title);
+    List<NoticeDTO> searchTitle(NoticeDTO notice);
 
 }

@@ -2,17 +2,16 @@ package com.example.demo.notice;
 
 import lombok.Getter;
 import lombok.Setter;
-//p
+
 // CREATE TABLE notice (
-//     id varchar(20) NOT NULL,
+//     id VARCHAR(20) NOT NULL,
 //     no INT(11) NOT NULL DEFAULT 0,
 //     title VARCHAR(30) NOT NULL DEFAULT '',
-//     content VARCHAR(300) NOT NULL DEFAULT '',  
+//     content VARCHAR(300) DEFAULT NULL,
 //     writeDate VARCHAR(20) NOT NULL DEFAULT '',
 //     fileName VARCHAR(255) NOT NULL DEFAULT '',
-//     views INT(11) NOT NULL DEFAULT 0,    조회수
-//     isSticky VARCHAR(20) DEFAULT NULL,   상단고정
-//     search_text VARCHAR(300) GENERATED ALWAYS AS (CONCAT('%', title, '%')) STORED,  검색
+//     views INT(11) NOT NULL DEFAULT 0,
+//     isSticky VARCHAR(20) DEFAULT NULL,
 //     PRIMARY KEY (no)
 // );
 
@@ -27,6 +26,5 @@ public class NoticeDTO {
     private String fileName;
     private int views;
     private String isSticky;
-    private String search_text;
 
 }

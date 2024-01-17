@@ -23,13 +23,12 @@
 	   INSERT INTO notice
     VALUES(no, #{title}, #{content}, now(), #{fileName}, #{password}, 0, #{isSticky})
 	</insert> -->
-	<insert id="noticewriteProc">
-    <selectKey order="BEFORE" keyProperty="no" resultType="int">
-        SELECT NVL(max(no), 0) + 1 FROM notice
-    </selectKey> 	
-   INSERT INTO notice 
-    VALUES(#{id},#{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views}, #{isSticky}, #{search_text})
-</insert>
+	<insert id="noticewriteProc" parameterType="com.example.demo.notice.NoticeDTO">
+		<selectKey order="BEFORE" keyProperty="no" resultType="int">
+			SELECT NVL(max(no), 0) + 1 FROM notice
+		</selectKey> 	
+		INSERT INTO notice(id,no,title,content,writeDate,fileName,views,isSticky) VALUES(#{id}, #{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views}, #{isSticky})
+	</insert>
 
 	
  <select id="noticecontent" resultType="com.example.demo.notice.NoticeDTO">
@@ -40,7 +39,7 @@
 	    UPDATE notice SET views = views + 1 WHERE no=#{n}
 	</update>
 	
-	<select id="noticedownload">
+	<select id="noticeDownload">
 		SELECT fileName FROM notice WHERE no=#{n}
 	</select>
 	
@@ -52,11 +51,9 @@
 		DELETE FROM notice WHERE no=#{n}
 	</delete>
 	
-	<select id="searchNotice" resultType="com.example.demo.notice.NoticeDTO">
-		SELECT * FROM notice WHERE title LIKE CONCAT('%',#{title},'%') 
+	<select id ="searchTitle">
+		SELECT * FROM notice WHERE title LIKE CONCAT('%', #{title}, '%')
 	</select>
-
-
 
 </mapper>
 

@@ -45,6 +45,7 @@
                 .btn-box {
                     text-align: center;
                     margin-top: 15px;
+                    margin-left: 24%;
                 }
 
                 .meddle {
@@ -69,12 +70,13 @@
                     font-size: 32px;
                     font-weight: 900;
                     color: #2895F4;
-                    margin-right: 10px;
+                    margin-right: 354px;
                 }
 
                 .page-name {
                     font-size: 32px;
                     font-weight: 900;
+                    margin-top: -8%;
                 }
 
                 .label {
@@ -84,11 +86,17 @@
 
 
                 .custom-button {
-                    background-color: #2895F4;
-                    border: 1px solid #2895F4;
+                    color: #999;
+                    font-family: 'Monument', 'Noto Sans KR', sans-serif;
+                    border: solid 1px #ddd;
+                    font-size: 13px;
+                    padding: 4px 12px 5px;
+                    line-height: 1.4;
                     border-radius: 5px;
-                    color: #fff;
-                    font-size: 16px;
+                    text-align: left;
+                    margin-left: 11px;
+                    background-color: #f5f5f5;
+
                 }
 
 
@@ -124,7 +132,7 @@
                 }
 
                 .fi-pa {
-                    margin-left: 32%;
+                    margin-left: 35%;
                 }
             </style>
         </head>
@@ -172,7 +180,7 @@
                     </div>
 
                 </div>
-                </div>
+
                 <div class="btn-box">
                     <input type="submit" class="btn btn-sm btn-primary custom-button" id="btnSave" value="저장">
                     <input type="button" class="btn btn-sm btn-primary custom-button" id="btnList" value="목록">
@@ -209,6 +217,11 @@
                         e.preventDefault();
                         location.href = "/notice/noticeform";
                     });
+                });
+                $(document).on('click', '#btnSave', function (e) {
+                    e.preventDefault();
+                    $("#form").attr('action', "${pageContext.request.contextPath}/notice/noticewriteProc");
+                    $("#form").submit();
                 });
 
             </script>

@@ -3,10 +3,7 @@ package com.example.demo.notice;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.demo.PageService;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpSession;
 public class NoticeService {
     @Autowired
     private NoticeMapper mapper;
-    private String filePath = "C:\\itbank08\\upload";
+    private String filePath = "C:\\itbank08\\upload\\";
     private NoticeMapper noticeMapper;
 
     public void noticeform(String cp, Model model, Object jdbcTemplate) {
@@ -54,20 +54,6 @@ public class NoticeService {
         model.addAttribute("result", result);
     }
 
-    // List<NoticeDTO> noticeformWithTitleSearch(int begin, int end, String
-    // titleSearch) {
-    // String sql = "SELECT * FROM notice WHERE search_text LIKE ? LIMIT ?, ?";
-    // titleSearch = "%" + titleSearch + "%";
-    // return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(NoticeDTO.class),
-    // titleSearch, begin, end);
-    // }
-
-    // // 검색어에 맞는 공지사항의 총 수 가져오기
-    // int totalCountWithTitleSearch(String titleSearch) {
-    // String sql = "SELECT COUNT(*) FROM notice WHERE search_text LIKE ?";
-    // titleSearch = "%" + titleSearch + "%";
-    // return jdbcTemplate.queryForObject(sql, Integer.class, titleSearch);
-
     @Autowired
     public NoticeService(NoticeMapper noticeMapper) {
         this.noticeMapper = noticeMapper;
@@ -86,7 +72,7 @@ public class NoticeService {
 
         String title = multi.getParameter("title");
         if (title == null || title.trim().isEmpty()) {
-            return "redirect:noticewrite";
+            return "redirect:/notice/noticewrite";
         }
 
         NoticeDTO noticeDTO = new NoticeDTO();
@@ -108,10 +94,10 @@ public class NoticeService {
             String suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
             System.out.println("NoticeService-notice writeProc-suffix : " + suffix);
             if (suffix.equalsIgnoreCase("pdf") == false)
-                return "redirect:noticewrite";
+                return "redirect:/notice/noticewrite";
 
             // 파일의 저장 경로
-            String fileSaveDirectory = "C:\\itbank08\\upload" + sessionId;
+            String fileSaveDirectory = "C:\\itbank08\\upload\\" + sessionId;
             File f = new File(fileSaveDirectory);
             if (f.exists() == false) {
                 f.mkdir();
@@ -197,6 +183,7 @@ public class NoticeService {
             }
 
             mapper.incrementViews(n);
+            notice.setContent(notice.getContent());
             notice.setViews(notice.getViews() + 1);
 
         }
@@ -204,42 +191,37 @@ public class NoticeService {
         return notice;
     }
 
-    public void noticedownload(String no, HttpServletResponse response) throws IOException {
-        String filePath = "C:\\itbank08\\upload"; // 실제 파일이 저장된 경로로 변경
-
-        // 파일명 가져오기
-        String fileName = no; // "no" 파라미터로 파일명을 전달받아 사용
-
-        // 파일 경로 설정
-        String fileFullPath = filePath + fileName;
-
-        // 파일의 확장자를 통해 MIME 타입 결정
-        String mimeType = Files.probeContentType(Paths.get(fileFullPath));
-        if (mimeType == null) {
-            // MIME 타입을 찾을 수 없으면 기본으로 application/octet-stream 설정
-            mimeType = "application/octet-stream";
+    public void noticeDownload(String no, HttpServletResponse response) {
+        int n = 1;
+        try {
+            n = Integer.parseInt(no);
+        } catch (Exception e) {
+            return;
         }
 
-        // 파일을 읽어 응답으로 전송
-        try (InputStream in = new FileInputStream(fileFullPath);
-                OutputStream out = response.getOutputStream()) {
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-            response.setContentType(mimeType);// 파일의 MIME 타입으로 설정
+        String fullPath = mapper.noticeDownload(n);
+        if (fullPath == null)
+            return;
 
-            // 파일 전송
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
+        String[] names = fullPath.split("\\\\");
+        String[] fileNames = names[4].split("-", 2);
+
+        try {
+            File file = new File(fullPath);
+            if (file.exists() == false)
+                return;
+
+            response.setHeader("Content-Disposition",
+                    // attachment;filename=pom.xml
+                    "attachment;filename=" + URLEncoder.encode(fileNames[1], "UTF-8"));
+
+            FileInputStream fis = new FileInputStream(file);
+            FileCopyUtils.copy(fis, response.getOutputStream());
+            fis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    public NoticeDTO searchNotice(String title) {
-        NoticeDTO notices = mapper.searchNotice(title);
-        return notices;
     }
 
     public String noticemodify(String no, Model model) {
@@ -270,6 +252,7 @@ public class NoticeService {
     }
 
     public String noticemodifyProc(NoticeDTO notice) {
+
         NoticeDTO check = mapper.noticecontent(notice.getNo());
         if (check == null)
             return "게시글 번호에 문제가 발생했습니다. 다시 시도하세요.";
@@ -293,7 +276,25 @@ public class NoticeService {
         if (result == 0)
             return "게시글 수정에 실패했습니다. 다시 시도하세요.";
 
-        return "redirect:successPage"; // 성공 시 리다이렉트
+        return "게시글 수정 성공";
+    }
+
+    public void modifyNoticeFile(NoticeDTO notice, String newFileName) {
+        String existingFileName = notice.getFileName();
+
+        if (newFileName != null && !newFileName.isEmpty()) {
+            // 새로운 파일이 업로드된 경우
+            if (existingFileName != null && !existingFileName.isEmpty()) {
+                // 기존 파일이 존재하면 삭제 또는 보관 등의 로직 수행
+                // 예를 들어, 파일 시스템에서 파일을 삭제하거나 다른 디렉토리로 이동하는 등의 작업이 필요
+                // 이 작업을 수행한 후에 새로운 파일로 교체
+                notice.setFileName(newFileName);
+            } else {
+                // 기존 파일이 없으면 그냥 새로운 파일로 설정
+                notice.setFileName(newFileName);
+
+            }
+        }
     }
 
     public String noticedeleteProc(String no) {
@@ -324,6 +325,11 @@ public class NoticeService {
         // 테이블에서 게시글번호와 일치하는 행(row)삭제
         mapper.noticedeleteProc(n);
         return "게시글 삭제 완료";
+    }
+
+    public List<NoticeDTO> searchTitle(NoticeDTO notice) {
+
+        return mapper.searchTitle(notice);
     }
 
 }

@@ -56,7 +56,7 @@
                 }
 
                 .meddle {
-                    margin-bottom: 15px;
+                    margin-bottom: px;
                 }
 
                 .label {
@@ -113,11 +113,12 @@
                 }
 
                 .btn-box {
-                    margin-left: 61%;
+                    margin-left: 55%;
                 }
 
-                .fi-pa {
-                    margin-left: 32%;
+
+                .file {
+                    margin-left: 35%;
                 }
             </style>
         </head>
@@ -132,11 +133,11 @@
                             <div class="page-name">글 수정</div>
                         </div>
                     </div>
-                    <form action="noticemodifyProc" role="form" method="post">
+                    <form action="/noticemodifyProc" method="post">
                         <input type="hidden" name="no" value="${notice.no }" />
                         <div class="meddle">
-                            <label for="title">제목</label> <input type="text" class="form-control" name="title"
-                                id="title" value="${notice.title }" />
+                            <label for="title">제목</label>
+                            <input type="text" class="form-control" name="title" id="title" value="${notice.title }" />
                         </div>
 
                         <div id="styleInfo"></div>
@@ -146,24 +147,30 @@
 
                         <div class="meddle">
                             <label for="content">내용수정</label>
-                            <div id="editor">
-                                <textarea class="form-control" rows="5" name="content"
-                                    id="content">${notice.content }</textarea>
-                            </div>
-                        </div>
 
-                        <div class="meddle">
-                            <label for="fileName">파일첨부</label> <input type="file" name="FileName"
-                                value="${notice.fileName }" />
+                            <!-- Quill 에디터에서 가져온 내용이 담긴 숨겨진 textarea -->
+                            <textarea name="content" id="content" style="display: none;"></textarea>
+                            <div id="editor">${notice.content }</div>
                         </div>
+                </div>
+                </div>
 
-                        <div class="btn-box">
-                            <input type="submit" class="btn btn-sm btn-primary custom-button" id="btnSave" value="제출">
-                            <button type="button" class="btn btn-sm btn-primary custom-button"
-                                onclick="location.href='noticeform'">목록</button>
-                            <button type="button" class="btn btn-sm btn-primary custom-button" id="btnbefore"
-                                onclick="history.back()">이전</button>
+                <div class="meddle">
+                    <div class="file">
+                        <label for="fileName">파일첨부</label>
+                        <div style="display: flex; align-items: center;">
+                            <input type="file" name="FileName" />
+                            <span>${notice.fileName }</span>
                         </div>
+                    </div>
+
+                    <div class="btn-box">
+                        <input type="submit" class="btn btn-sm btn-primary custom-button" id="btnSave" value="제출">
+                        <button type="button" class="btn btn-sm btn-primary custom-button"
+                            onclick="location.href='noticeform'">목록</button>
+                        <button type="button" class="btn btn-sm btn-primary custom-button" id="btnbefore"
+                            onclick="history.back()">이전</button>
+                    </div>
                     </form>
                 </div>
             </article>
@@ -189,10 +196,11 @@
                     });
 
                     quill.on('text-change', function () {
-                        var htmlContent = $('#editor .ql-editor').html();
-                        console.log(htmlContent); // 콘솔에서 HTML 내용 확인
-                        $('#content').val(htmlContent);
+                        var textContent = quill.getText();
+                        console.log(textContent); // 콘솔에서 텍스트 내용 확인
+                        $('#content').val(textContent);
                     });
+
                 }
 
                 $(document).on('click', '#btnList', function (e) {
