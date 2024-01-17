@@ -9,5 +9,6 @@ public class CateDTO {
 
   String cateGroup;
   String cateCode;
+  String cateName;
 
 }
