@@ -29,3 +29,5 @@ COPY --from=builder /app/build/libs/*.jar /app/app.jar
 
 # Entrypoint command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# 
