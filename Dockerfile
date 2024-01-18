@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Install OpenJDK on Alpine Linux
 RUN apk add openjdk17 && \
-  apk clean && rm -rf /var/lib/apt/lists/*
+  apk clean && rm -rf /var/cache/apk/*
 
 
 # Copy only necessary files from the build stage
