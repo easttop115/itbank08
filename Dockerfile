@@ -20,14 +20,9 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build --no-daemon
 
 # Stage 2: Runtime Stage
-FROM alpine:latest
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
-
-# Install OpenJDK on Alpine Linux
-RUN apk add openjdk17 && \
-  rm -rf /var/cache/apk/*
-
 
 # Copy only necessary files from the build stage
 COPY --from=builder /app/build/libs/*.jar /app/stockcity.jar
