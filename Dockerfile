@@ -20,7 +20,7 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build --no-daemon
 
 # Stage 2: Runtime Stage
-FROM eclipse-temurin:17.0.9_9-jre-jammy
+FROM alpine:latest
 
 WORKDIR /app
 
@@ -29,6 +29,3 @@ COPY --from=builder /app/build/libs/*.jar /app/app.jar
 
 # Entrypoint command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
-
