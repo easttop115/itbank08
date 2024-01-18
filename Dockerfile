@@ -26,61 +26,29 @@
 # # Run the application when the container launches
 # # CMD ["java", "-jar", "build/libs/test-jenkins.jar"]
 
-# FROM eclipse-temurin:17-jdk-jammy
-
-# WORKDIR /app
-
-# # Copy Gradle Wrapper
-# COPY gradlew ./
-# COPY gradlew.bat ./
-# COPY gradle /app/gradle
-
-# # Copy project files
-# COPY build.gradle settings.gradle /app/
-# COPY gradle /app/gradle
-# COPY src /app/src
-
-# # Grant execute permission to Gradle Wrapper
-# RUN chmod +x ./gradlew
-
-# # Resolve dependencies and build the application using Gradle Wrapper
-# RUN ./gradlew build --no-daemon
-
-# # Run the application
-# CMD ["./gradlew", "bootRun"]
-
-# Stage 1: Build Java application
-FROM eclipse-temurin:17-jdk-jammy AS builder
+FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
-# Add a dummy file to invalidate the cache if gradlew or gradle files change
-ADD somefile.txt ./
-
-COPY gradlew* ./
+# Copy Gradle Wrapper
+COPY gradlew ./
+COPY gradlew.bat ./
 COPY gradle /app/gradle
+
+# Copy project files
 COPY build.gradle settings.gradle /app/
 COPY gradle /app/gradle
 COPY src /app/src
 
+# Grant execute permission to Gradle Wrapper
 RUN chmod +x ./gradlew
+
+# Resolve dependencies and build the application using Gradle Wrapper
 RUN ./gradlew build --no-daemon
 
-# Stage 2: Create Nginx image
-FROM nginx:alpine
+# Run the application
+CMD ["./gradlew", "bootRun"]
 
-WORKDIR /usr/share/nginx/html
 
-# Copy the compiled Java application JAR from the builder stage
-COPY --from=builder /app/build/libs/*.jar /usr/share/nginx/html/application.jar
-
-# Copy Nginx configuration
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-
-# Expose the port Nginx will listen on
-EXPOSE 8000
-
-# Command to start Nginx and run the Java application
-CMD ["nginx", "-g", "daemon off;"]
 
 
