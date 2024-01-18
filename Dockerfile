@@ -1,5 +1,4 @@
-# Stage 1: Build Stage
-FROM eclipse-temurin:17-jdk-jammy AS builder
+FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
@@ -16,18 +15,8 @@ COPY src /app/src
 # Grant execute permission to Gradle Wrapper
 RUN chmod +x ./gradlew
 
-# Build the application using Gradle Wrapper
+# Resolve dependencies and build the application using Gradle Wrapper
 RUN ./gradlew build --no-daemon
 
-# Stage 2: Runtime Stage
-FROM eclipse-temurin:17-jre-alpine
-
-WORKDIR /app
-
-# Copy only necessary files from the build stage
-COPY --from=builder /app/build/libs/*.jar /app/stockcity.jar
-
-# Entrypoint command to run the application
-ENTRYPOINT ["java", "-jar", "stockcity.jar"]
-
-#
+# Run the application
+CMD ["./gradlew", "bootRun"]
