@@ -1,4 +1,6 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM alpine:latest
+
+RUN apk --no-cache add open jdk-17-gradle 
 
 WORKDIR /app
 
