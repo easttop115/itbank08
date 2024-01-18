@@ -24,10 +24,15 @@ FROM alpine:latest
 
 WORKDIR /app
 
+# Install OpenJDK on Alpine Linux
+RUN apk --no-cache add openjdk17 && \
+  apk --no-cache clean && rm -rf /var/lib/apt/lists/*
+
+
 # Copy only necessary files from the build stage
-COPY --from=builder /app/build/libs/*.jar /app/app.jar
+COPY --from=builder /app/build/libs/*.jar /app/stockcity.jar
 
 # Entrypoint command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "stockcity.jar"]
 
-# 
+#
