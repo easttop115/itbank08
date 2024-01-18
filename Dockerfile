@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk --no-cache add open jdk-17-gradle 
+RUN apk --no-cache add openjdk17 gradle
 
 WORKDIR /app
 
