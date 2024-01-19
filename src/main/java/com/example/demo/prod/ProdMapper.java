@@ -32,5 +32,5 @@ public interface ProdMapper {
 
   ProdDTO findById(String prodNo);
 
-  ProdDTO updateProd(String prodNo, ProdDTO prod);
+  void updateProd(String prodNo, int incomePrice, int sellPrice, String prodCon);
 }

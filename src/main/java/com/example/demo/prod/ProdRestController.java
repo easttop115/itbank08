@@ -25,10 +25,9 @@ public class ProdRestController {
   public ProdDTO updateProd(@PathVariable String prodNo, @RequestBody ProdDTO prod) {
     System.out.println("good");
 
-    ProdDTO updateProd = service.updateProd(prodNo, prod);
+    ProdDTO updateProd = service.updateProd(prodNo, prod.getIncomePrice(), prod.getSellPrice(), prod.getProdCon());
 
     return updateProd;
   }
 
 }
-//

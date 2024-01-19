@@ -54,7 +54,9 @@
 
     <select id="findById"> SELECT * from product WHERE prodNo = #{prodNo} </select>
 
-    <update id="updateProd" parameterType="com.example.demo.prod.ProdDTO"> UPDATE product SET
-        size=#{size}, colorCode=#{colorCode}, incomPrice=#{incomePrice}, sellPrice=#{sellPrice},
-        prodCon=#{prodCon} </update>
+    <update id="updateProd" parameterType="com.example.demo.prod.ProdDTO">
+        UPDATE product
+        SET incomePrice=#{incomePrice}, sellPrice=#{sellPrice}, prodCon=#{prodCon}
+        WHERE prodNo=#{prodNo}
+    </update>
 </mapper>

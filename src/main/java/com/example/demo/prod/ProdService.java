@@ -75,8 +75,10 @@ public class ProdService {
     return mapper.findById(prodNo);
   }
 
-  public ProdDTO updateProd(String prodNo, ProdDTO prod) {
-    return mapper.updateProd(prodNo, prod);
+  public ProdDTO updateProd(String prodNo, int incomePrice, int sellPrice, String prodCon) {
+    mapper.updateProd(prodNo, incomePrice, sellPrice, prodCon);
+
+    return null;
   }
 
 }
