@@ -11,7 +11,7 @@
         (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan,
         prodCon, regDate) VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'),
         #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon},
-        CURRENT_TIMESTAMP) </insert>
+        DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR)) </insert>
 
     <!--셀렉트
     옵션-->

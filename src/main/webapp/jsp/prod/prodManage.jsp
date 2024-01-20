@@ -79,7 +79,8 @@
                   <tr>
                     <td class="prodNo" onclick="openModal('productModal',  '${product.prodNo}')">${product.prodNo}
                     </td>
-                    <td class="prodName" onclick="openModal('productModal',  '${product.prodNo}')">${product.prodName}</td>
+                    <td class="prodName" onclick="openModal('productModal',  '${product.prodNo}')">${product.prodName}
+                    </td>
                     <td class="size">${product.size}</td>
                     <td class="colorCode">${product.colorCode}</td>
                     <td class="quan">${product.quan}</td>
@@ -131,7 +132,7 @@
         const formData = new FormData(modalForm)
         const formNameList = ['prodNo', 'brandCode', 'cateCode', 'size', 'colorCode', 'incomePrice', 'sellPrice', 'prodCon']
 
-        const someObj = { a: 1, b: 2 }
+        // const someObj = { a: 1, b: 2 }
         // someObj.a // 1
         // someObj['a'] // 1
 
@@ -150,6 +151,14 @@
         }
         console.log('submitData: ', submitData);
         updateFetch(submitData)
+
+        if (true) {
+          alert('수정 완료')
+          closeModal('productModal')
+        } else {
+          alert('수정 실패')
+        }
+
       })
 
       function updateFetch(submitData) {
@@ -165,6 +174,7 @@
           .then(res => res.json())  // 응답데이터를 json으로 변경
           .then(data => {           // json으로 변환된 data를 받아옴
             console.log('data: ', data);
+            return data
           })
 
       }
