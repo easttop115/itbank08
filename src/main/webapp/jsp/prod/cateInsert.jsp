@@ -85,7 +85,7 @@
                     <!-- Left Form: Category Registration -->
                     <div class="form-container">
                         <h2 style="text-align: center;">카테고리 등록</h2>
-                        <form id="categoryForm" action="/cateInsert" method="post">
+                        <form id="categoryForm" action="cateInsert" method="post">
                             <!-- 카테고리 그룹 입력 -->
                             <label for="addCateGroup">카테고리 그룹</label>
                             <input type="text" id="addCateGroup" name="cateGroup" value="${cateGroup}">
@@ -111,7 +111,7 @@
                     <!-- Right Form: Size Registration -->
                     <div class="form-container">
                         <h2 style="text-align: center;">브랜드 등록</h2>
-                        <form id="brandForm" action="/brandInsert" method="post">
+                        <form id="brandForm" action="brandInsert" method="post">
                             <!-- 브랜드 코드 입력 -->
                             <label for="addBrandCode">브랜드 코드</label>
                             <input type="text" id="brandCode" name="brandCode">
@@ -129,7 +129,7 @@
                     <!-- Right Form: Color Registration -->
                     <div class="form-container">
                         <h2 style="text-align: center;">색상 코드 등록</h2>
-                        <form id="colorForm" action="/colorInsert" method="post">
+                        <form id="colorForm" action="colorInsert" method="post">
                             <!-- 색상 코드 입력 -->
                             <label for="addColorCode">색상 코드</label>
                             <input type="text" id="addColorCode" name="ColorCode">
