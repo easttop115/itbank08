@@ -26,8 +26,11 @@
 
             .main {
                 display: flex;
-                width: 1600pxzz;
-                justify-content: space-between;
+                width: 1600px;
+                justify-content: flex-start;
+                /*flex정렬 방법 시작 지점부터 차곡차곡 쌓이게 해줌*/
+                flex-wrap: wrap;
+                /*넘치는걸 다음줄 나오게 해줌*/
             }
 
             .container {
@@ -384,24 +387,29 @@
                             <div class="notice-list">
                                 <div class="notice-item ${notice.checked ? 'checked' : 'unchecked'}">
                                     <div class="writeDate">${notice.writeDate}</div>
-                                    <div class="title" onclick="location.href='noticecontent?no=${Notice.no}'">
+                                    <div class="title" onclick="location.href='noticecontent?no=${notice.no}'">
                                         ${notice.title}</div>
-                                    <div class="check">확인</div>
+                                    <div class="check">${notice.checked}</div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- /notice/content 에서 가져온 내용 표시 -->
+
                     </div>
                 </div>
 
                 <script>
-                    // 여기에서는 간단한 토글(Toggle) 함수를 사용하겠습니다.
+                    // 여러 개의 .notice-item에 대해 토글(Toggle) 함수
                     function toggleCheckedState() {
-                        const noticeItem = document.querySelector('.notice-item');
-                        noticeItem.classList.toggle('checked');
+                        const noticeItems = document.querySelectorAll('.notice-item');
+
+                        // 각각의 .notice-item에 대해 토글 적용
+                        noticeItems.forEach((noticeItem) => {
+                            noticeItem.classList.toggle('checked');
+                        });
                     }
-
                 </script>
-
 
         </body>
 

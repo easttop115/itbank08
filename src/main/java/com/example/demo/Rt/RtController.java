@@ -1,4 +1,4 @@
-package com.example.demo.main.Rt;
+package com.example.demo.Rt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +37,13 @@ public class RtController {
         service.processingstform(cp, model);
 
         return "rt/processingstform";
+    }
+
+    @RequestMapping("rt/instructionwrite")
+    public String instructionwrite(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
+        service.instructionwrite(cp, model);
+
+        return "rt/instructionwrite";
     }
 
 }

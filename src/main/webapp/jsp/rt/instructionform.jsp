@@ -7,7 +7,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>R/T지시 등록 페이지</title>
+            <title>R/T지시 등록조회 페이지</title>
 
             <style>
                 body {
@@ -119,17 +119,21 @@
                 }
 
                 .button-box button {
-                    background-color: #2895F4;
-                    border: 1px solid #2895F4;
-                    padding: 8px 12px;
-                    color: #FFFFFF;
+                    color: #999;
+                    font-family: 'Monument', 'Noto Sans KR', sans-serif;
+                    border: solid 1px #ddd;
+                    font-size: 13px;
+                    padding: 4px 12px 5px;
+                    line-height: 1.4;
                     border-radius: 5px;
-                    /* 테두리를 둥글게 만듭니다. */
+                    text-align: left;
+                    margin-left: 10px;
+                    background-color: #f5f5f5;
 
                 }
 
                 .button-box button:hover {
-                    background-color: #1a77d4;
+                    background-color: #f5f5f5;
                     /* 마우스 호버 시 색상 변경 */
 
                 }
@@ -213,7 +217,7 @@
         <body>
             <c:import url="/header" />
 
-            <h1>R/T지시등록</h1>
+            <h1>R/T지시등록조회</h1>
             <div class="button-box">
                 <button>조회</button>
                 <button>등록</button>

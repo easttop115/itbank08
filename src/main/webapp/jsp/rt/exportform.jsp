@@ -20,37 +20,32 @@
                     font-size: 30px;
                 }
 
-                .main {
+                .filter-main {
                     display: flex;
                     flex-direction: row;
+                    justify-content: flex-start;
+                    gap: 10px;
+                    /*사이 간격 조절*/
                     align-items: center;
+                    flex-wrap: wrap;
+                    /* 넘치면 넣어가게 해줌*/
                     background-color: #FFFFFF;
                     padding: 0px;
                     border: 1px solid #ddd;
-                    margin-top: -2px;
-                    margin-bottom: 10px;
                 }
 
-                .section {
+                .filter-section {
                     display: flex;
-                    margin-right: -218px;
-                }
-
-                .section-three {
-                    display: flex;
-                    margin-right: 10px;
                 }
 
                 .table-row {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    margin-bottom: 5px;
                     width: 100%;
                 }
 
                 .table-cell {
-                    padding: 8px;
                     text-align: left;
                     flex: 1;
                     margin-left: 4px;
@@ -90,30 +85,18 @@
                     background-color: #cadae7;
                     padding: 5px;
                     display: block;
-                    margin-bottom: 5px;
                     text-align: center;
                     width: 100%;
                     border: 1px solid #D3D3D3;
                     /* 각 항목에 테두리 추가 */
                 }
 
-                .Instruction-period {
-                    margin-bottom: 10px;
-                    margin-top: 3px;
-                }
-
-                .section-two {
-                    display: flex;
-                    justify-items: center;
-                    align-items: center;
-                    margin: 0 auto;
-                }
-
                 .button-box {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-end;
+                    gap: 10px;
                     padding: 10px;
-                    margin-left: 93%;
+
                     margin-right: 0%;
                     /* 수정된 부분: %로 변경 */
                 }
@@ -218,8 +201,8 @@
                 <button>등록</button>
             </div>
 
-            <div class="main">
-                <div class="section">
+            <div class="filter-main">
+                <div class="filter-section">
                     <label class="Instruction-period">지시기간</label>
                     <div class="table-row">
                         <div class="table-cell">
@@ -232,7 +215,7 @@
                     </div>
                 </div>
 
-                <div class="section-two">
+                <div class="filter-section">
                     <label class="Processing">처리구분</label>
                     <div class="table-row">
                         <div class="table-Processing">
@@ -250,7 +233,7 @@
                     </div>
                 </div>
 
-                <div class="section-three">
+                <div class="filter-section">
                     <label class="shop">매장</label>
                     <div class="table-row">
                         <div class="table-cell">

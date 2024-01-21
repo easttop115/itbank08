@@ -19,6 +19,8 @@ public class MainController {
 	public String mainform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
 		service.mainform(cp, model);
 
+		// 여러 폼 불러올거 추가하기
+
 		return "main/mainform";
 	}
 

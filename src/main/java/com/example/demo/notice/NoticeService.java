@@ -30,26 +30,31 @@ public class NoticeService {
     private NoticeMapper noticeMapper;
 
     public void noticeform(String cp, Model model, Object jdbcTemplate) {
+        // 페이징 처리 변수 설정
         int currentPage = 1;
         try {
             currentPage = Integer.parseInt(cp);
         } catch (Exception e) {
             currentPage = 1;
         }
+        // 페이징 변수 계산(그냥 공식 외구기)
+        int size = 7; // 한 페이지에 보일 데이터의 수 limit, size
+        int start = (currentPage - 1) * size;
+        int end = start + size;// 테이블에서 가져올 마지막 행번호
 
-        int pageBlock = 7; // 한 페이지에 보일 데이터의 수
-        int end = pageBlock * currentPage; // 테이블에서 가져올 마지막 행번호
-        int begin = end - pageBlock + 1; // 테이블에서 가져올 시작 행번호
-
-        List<NoticeDTO> Notices = mapper.noticeform(begin, end);
+        // 데이터 조회
+        List<NoticeDTO> Notices = mapper.noticeform(start, end);
+        // 데이터 수 조회
         int totalCount = mapper.totalCount();
         if (totalCount == 0) {
             return;
         }
 
+        // 페이징 처리 결과 생성
         String url = "noticeform?currentPage=";
-        String result = PageService.printPage(url, totalCount, pageBlock, currentPage);
+        String result = PageService.printPage(url, totalCount, size, currentPage);
 
+        // 모델에 데이터 추가
         model.addAttribute("Notices", Notices);
         model.addAttribute("result", result);
     }
@@ -64,18 +69,22 @@ public class NoticeService {
 
     public String noticewriteProc(MultipartHttpServletRequest multi) {
         // System.out.println("title : " + multi.getParameter("title"));
+
+        // 세션에서 사용자 아이디 확인
         String sessionId = (String) session.getAttribute("id"); // 세션 아이디 확인
         if (sessionId == null)
             // sessionId = "admin";
 
             return "redirect:/";
 
-        String title = multi.getParameter("title"); // 글제목 확인 및 공백 처리
+        // 글 제목 확인 및 공백 처리
+        String title = multi.getParameter("title");
         if (title == null || title.trim().isEmpty()) {
             return "redirect:/notice/noticewrite";
         }
 
-        NoticeDTO noticeDTO = new NoticeDTO(); /// NoticeDTO 생성 및 데이터 설정
+        // NoticeDTO 생성 및 데이터 설정
+        NoticeDTO noticeDTO = new NoticeDTO();
         noticeDTO.setId(sessionId);
         noticeDTO.setTitle(title);
         noticeDTO.setContent(multi.getParameter("content"));
@@ -83,8 +92,10 @@ public class NoticeService {
         noticeDTO.setWriteDate(sdf.format(new Date()));
         noticeDTO.setFileName("");
 
-        MultipartFile file = multi.getFile("fileName"); // 파일 업로드 처리
+        // 파일 업로드 처리
+        MultipartFile file = multi.getFile("fileName");
         if (file != null && !file.isEmpty()) {
+
             // 파일의 이름
             sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
             String fileTime = sdf.format(new Date());
@@ -147,6 +158,7 @@ public class NoticeService {
     // }
     // return notice;
     // }
+
     public NoticeDTO noticecontent(String no) {
         int n = 1;
         try {
