@@ -44,7 +44,8 @@ public class ProdDTO {
   // colorCode VARCHAR(10),
   // quan INT,
   // regDat VARCHAR(50),
-  // prodCon VARCHAR(300)
+  // prodCon VARCHAR(300),
+  // storeName VARCHAR(20)
   // )
 
 }

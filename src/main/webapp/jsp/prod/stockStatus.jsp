@@ -167,12 +167,14 @@ height: 30px;
                 <td class="first-table-content">
                   <select>
                     <c:choose>
-                      <c:when test="${empty storeNames}">
-                        <option value="noStoreName">등록된 매장이 없습니다.</option>
+                      <c:when test="${empty storeNo}">
+                        <option value="noStoreNo">등록된 매장이 없습니다.</option>
                       </c:when>
                       <c:otherwise>
-                        <c:forEach var="storeName" items="${storeNames}">
-                          <option value="${storeName}">${storeName}</option>
+                        <c:forEach var="storeNo" items="${storeNo}">
+                          <c:if test="${storeNo.name != null}"> <!-- 본사는 안나오게 설정 -->
+                            <option value="${storeNo.name}">${storeNo.name}</option>
+                          </c:if>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>
@@ -214,7 +216,7 @@ height: 30px;
                 <td colspan="3" class="first-table-content">
                   <input type="text" id="searchInput" class="input-width" placeholder="상품코드를 입력하세요">
                   <select id="searchDropdown" class="searchDropdown"></select>
-                  <button class="search-button">검색</button>
+                  <button class="search-button" type="submit">검색</button>
                 </td>
               </tr>
             </tbody>

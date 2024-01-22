@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo.join.StoreDTO;
+
 @Mapper
 public interface ProdMapper {
 
@@ -33,4 +35,6 @@ public interface ProdMapper {
   ProdDTO findById(String prodNo);
 
   void updateProd(String prodNo, int incomePrice, int sellPrice, String prodCon);
+
+  List<StoreDTO> storeNoList();
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.join.StoreDTO;
+
 @Service
 @Transactional
 public class ProdService {
@@ -79,6 +81,10 @@ public class ProdService {
     mapper.updateProd(prodNo, incomePrice, sellPrice, prodCon);
 
     return null;
+  }
+
+  public List<StoreDTO> storeNoList() {
+    return mapper.storeNoList();
   }
 
 }

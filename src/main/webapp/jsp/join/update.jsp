@@ -34,7 +34,7 @@
 												<input class="input-field" type="password" name="confirm" placeholder="비밀번호 확인"><br>
 												<input class="input-field" type="text" name="company" value="${sessionScope.company}" readonly="readonly"><br>
 												<input class="input-field" type="email" name="email" value="${sessionScope.email}" placeholder="이메일"><br>
-												<input class="input-field" type="text" name="name" placeholder="매장 책임자 성함" required><br>
+												<input class="input-field" type="text" name="name" placeholder="지점 이름" required><br>
 												<input class="input-field" type="text" name="tel" placeholder="전화번호" required><br>
 												<input class="input-field" type="text" name="address" placeholder="매장 주소" required><br>
 												<input class="updateBtn" type="submit" value="수정">

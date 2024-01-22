@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.join.StoreDTO;
+
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("prod")
@@ -155,13 +158,31 @@ public class ProdController {
         List<CateDTO> cateCodes = service.cateCodeList();
         List<BrandDTO> brandCodes = service.brandCodeList();
         List<ColorDTO> colorCodes = service.colorCodeList();
+        List<StoreDTO> storeNo = service.storeNoList();
 
         model.addAttribute("cateGroups", cateGroups);
         model.addAttribute("cateCodes", cateCodes);
         model.addAttribute("brandCodes", brandCodes);
         model.addAttribute("colorCodes", colorCodes);
+        model.addAttribute("storeNo", storeNo);
 
         return "/prod/stockStatus";
+    }
+
+    @PostMapping("/prod/stockList")
+    public String stockList(@ModelAttribute("prod") ProdDTO prod) {
+        if (prod.getCateCode().trim().isEmpty()
+                && prod.getCateGroup().trim().isEmpty()
+                && prod.getColorCode().trim().isEmpty()
+                && prod.getSize().trim().isEmpty()
+                && prod.getProdNo().trim().isEmpty()) {
+
+            return "redirect:/prod/prodStatus";
+        }
+        List<ProdDTO> plist = service.prodList(prod);
+        System.out.println("확인" + plist);
+
+        return "redirect:/prod/prodStatus";
     }
 
     @GetMapping("/getProdInfo")
