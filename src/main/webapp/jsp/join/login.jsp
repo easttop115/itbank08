@@ -202,7 +202,7 @@
             <!-- 동적 텍스트 변경 스크립트 -->
             <script>
                 var dynamicText = document.getElementById('dynamicText');
-                var texts = ["누구나 손쉽게 승인받고 이용할 수 있는 서비스", "무료로 제공되는 재고 관리 서비스를 경험해보세요", "KG IT BANK 502호에서 만든 재고 서비스!!! 반응형 웹 브라우저까지!"];
+                var texts = ["누구나 손쉽게 승인받고 이용할 수 있는 서비스", "무료로 제공되는 재고 관리 서비스를 경험해보세요", "6주간 진행되는 숨막히는 프로젝트 서바이벌", "노력한 모두가 승자입니다"];
                 let index = 0;
 
                 function changeText() {

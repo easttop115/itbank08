@@ -114,33 +114,10 @@ public class JoinService {
             }
         }
 
-        // storeNo 컬럼 생성 - 회사명 참조
-        StoreDTO store = new StoreDTO();
-        String storeNoFirstName = "ST_" + joins.getCompany().substring(0, 3).toUpperCase();
-        while (true) {
-            int randomNum = new Random().nextInt(1000000); // 0부터 999999까지의 범위로 난수 생성
-            String storeNoLastName = String.format("%06d", randomNum); // 난수를 6자리 문자열로 변환 (부족한 자릿수는 0으로 채움)
-
-            String uniqueStoreNo = storeNoFirstName + storeNoLastName;
-
-            JoinDTO checkStoreNo = mapper.findStoreNo(uniqueStoreNo);
-            if (checkStoreNo == null) {
-                // 중복이 없으면 storeNo로 설정하고 반복문 종료
-                store.setStoreNo(uniqueStoreNo);
-                break;
-            }
-
-            attemptCount++;
-            if (attemptCount >= maxAttempts) {
-                // 만약 최대 시도 횟수를 초과하면 강제로 종료
-                return "오류가 발생했습니다. 해결을 위해 연락 부탁드립니다.";
-            }
-        }
         int result = mapper.registProc(joins);
         if (result <= 0)
             return "회원가입 실패. 다시 시도해주세요.";
 
-        mapper.insertStoreNo(store);
         return "success";
     }
 
@@ -160,6 +137,7 @@ public class JoinService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         if (checkId != null && encoder.matches(pw, checkId.getPw()) == true) {
+            session.setAttribute("no", checkId.getNo());
             session.setAttribute("id", checkId.getId());
             session.setAttribute("email", checkId.getEmail());
             session.setAttribute("company", checkId.getCompany());
@@ -177,7 +155,7 @@ public class JoinService {
         return mapper.checkStatus(id);
     }
 
-    public String updateProc(JoinDTO joins) {
+    public String updateProc(JoinDTO joins, StoreDTO stores) {
         if (joins.getPw() == null || joins.getPw().trim().isEmpty()) {
             return "비밀번호를 입력해주세요.";
         } else if (joins.getPw().equals(joins.getConfirm()) == false) {
@@ -194,6 +172,18 @@ public class JoinService {
         String secretPass = encoder.encode(joins.getPw());
         joins.setPw(secretPass);
 
+        // store 테이블 값 생성 - 계정 아이디 참조
+        String uniqueStoreNo = "ST_" + joins.getId();
+        stores.setStoreNo(uniqueStoreNo);
+
+        if (stores.getNo() != joins.getNo())
+            stores.setNo(joins.getNo()); // 부계정의 no와 동기화
+
+        if (mapper.findStoreNo(uniqueStoreNo) == null)
+            mapper.insertStoreNo(stores);
+        else
+            mapper.updateStoreNo(stores);
+        
         int result = mapper.updateProc(joins);
         dbConfig.setLogoutDatabase();
         result = mapper.updateProc(joins);

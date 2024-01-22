@@ -13,21 +13,35 @@
 						<table>
 							<tr>
 								<td>
-									<form action="/updateProc" method="post">
-										<input class="input-field" type="text" name="id" value="${sessionScope.id}"
-											readonly="readonly"><br>
-										<input class="input-field" type="password" name="pw" placeholder="비밀번호"><br>
-										<input class="input-field" type="password" name="confirm"
-											placeholder="비밀번호 확인"><br>
-										<input class="input-field" type="text" name="company"
-											value="${sessionScope.company}" readonly="readonly"><br>
-										<input class="input-field" type="email" name="email"
-											value="${sessionScope.email}" placeholder="이메일"><br>
-										<input class="updateBtn" type="submit" value="수정">
-										<input class="cancel-updateBtn" type="button"
-											onclick="window.location.href='/userInfo?id=${sessionScope.id}'"
-											value="취소"><br>
-									</form>
+									<c:choose>
+										<c:when test="${sessionScope.accountId == 'root'}">
+											<form action="/updateProc" method="post">
+												<input type="hidden" name="no" value="${sessionScope.no}">
+												<input class="input-field" type="text" name="id" value="${sessionScope.id}" readonly="readonly"><br>
+												<input class="input-field" type="password" name="pw" placeholder="비밀번호"><br>
+												<input class="input-field" type="password" name="confirm" placeholder="비밀번호 확인"><br>
+												<input class="input-field" type="text" name="company" value="${sessionScope.company}" readonly="readonly"><br>
+												<input class="input-field" type="email" name="email" value="${sessionScope.email}" placeholder="이메일"><br>
+												<input class="updateBtn" type="submit" value="수정">
+												<input class="cancel-updateBtn" type="button" onclick="window.location.href='/userInfo?id=${sessionScope.id}'" value="취소"><br>
+											</form>
+										</c:when>
+										<c:otherwise>
+											<form action="/updateProc" method="post">
+												<input type="hidden" name="no" value="${sessionScope.no}">
+												<input class="input-field" type="text" name="id" value="${sessionScope.id}" readonly="readonly"><br>
+												<input class="input-field" type="password" name="pw" placeholder="비밀번호"><br>
+												<input class="input-field" type="password" name="confirm" placeholder="비밀번호 확인"><br>
+												<input class="input-field" type="text" name="company" value="${sessionScope.company}" readonly="readonly"><br>
+												<input class="input-field" type="email" name="email" value="${sessionScope.email}" placeholder="이메일"><br>
+												<input class="input-field" type="text" name="name" placeholder="매장 책임자 성함" required><br>
+												<input class="input-field" type="text" name="tel" placeholder="전화번호" required><br>
+												<input class="input-field" type="text" name="address" placeholder="매장 주소" required><br>
+												<input class="updateBtn" type="submit" value="수정">
+												<input class="cancel-updateBtn" type="button" onclick="window.location.href='/userInfo?id=${sessionScope.id}'" value="취소"><br>
+											</form>
+										</c:otherwise>
+									</c:choose>
 								</td>
 							</tr>
 						</table>

@@ -10,8 +10,11 @@
         FROM user
     </insert>
     <insert id="insertStoreNo">
-        INSERT INTO store (storeNo) VALUES (#{storeNo})
+        INSERT INTO store (no, storeNo, name, address, tel) VALUES (#{no}, #{storeNo}, #{name}, #{address}, #{tel})
     </insert>
+    <update id="updateStoreNo">
+        UPDATE store SET name=#{name}, tel=#{tel}, address=#{address} WHERE storeNo=#{storeNo}
+    </update>
     <select id="findJoin" resultMap="join">
         SELECT * FROM user WHERE id=#{id}
     </select>

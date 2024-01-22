@@ -90,11 +90,11 @@ public class JoinController {
     }
 
     @PostMapping("/updateProc")
-    public String updateProc(JoinDTO joins, Model model) {
+    public String updateProc(JoinDTO joins, StoreDTO stores, Model model) {
         String sessionId = (String) session.getAttribute("id");
 
         joins.setId(sessionId);
-        String confirm = service.updateProc(joins);
+        String confirm = service.updateProc(joins, stores);
         if (confirm.equals("success")) {
             session.invalidate();
             return "redirect:/";

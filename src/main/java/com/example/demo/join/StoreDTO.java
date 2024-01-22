@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /*
 CREATE TABLE store (
-  no int(11) NOT NULL AUTO_INCREMENT,
+  no int(11) NOT NULL,
   storeNo varchar(20) DEFAULT NULL,
   name varchar(20) DEFAULT NULL,
   address varchar(50) DEFAULT NULL,

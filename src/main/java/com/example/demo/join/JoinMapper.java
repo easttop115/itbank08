@@ -11,6 +11,8 @@ public interface JoinMapper {
 
     void insertStoreNo(StoreDTO store);
 
+    void updateStoreNo(StoreDTO stores);
+
     JoinDTO findJoin(String id);
 
     JoinDTO findBN(String businessNo);
@@ -19,7 +21,7 @@ public interface JoinMapper {
 
     JoinDTO findDbName(String uniqueDbName);
 
-    JoinDTO findStoreNo(String uniqueStoreNo);
+    StoreDTO findStoreNo(String uniqueStoreNo);
 
     JoinDTO checkStatus(String id);
 

@@ -51,7 +51,8 @@
                 }
 
                 .brand a {
-                    text-decoration: none; /* 링크 밑줄 제거 */
+                    text-decoration: none;
+                    /* 링크 밑줄 제거 */
                 }
 
                 .brand p {
@@ -65,12 +66,13 @@
                     font-size: 30px;
                     font-weight: bold;
                     color: #ffffff;
+                    text-align: left;
                 }
 
                 p.regist-text {
                     font-size: 20px;
                     color: #ffffff;
-                    margin-top: -150%;
+                    margin: -100px 0 50px 0;
                 }
 
                 /* 오른쪽 영역 설정 */
@@ -91,10 +93,8 @@
                     grid-template-columns: max-content auto;
                     gap: 10px;
                     text-align: center;
-                    margin-right: 90px;
                     max-width: 100%;
-                    margin-top: -30px;
-                    margin-bottom: 70px;
+                    margin: -30px 90px 120px 0;
                 }
 
                 .form-label {
@@ -108,8 +108,10 @@
                     padding: 8px;
                     margin-bottom: 8px;
                     box-sizing: border-box;
-                    border-radius: 10px; /* 둥글게 */
-                    border: 1px solid #ccc; /* 테두리 추가 */
+                    border-radius: 10px;
+                    /* 둥글게 */
+                    border: 1px solid #ccc;
+                    /* 테두리 추가 */
                     width: 220px;
                 }
 
@@ -159,10 +161,19 @@
                 <div class="left">
                     <!-- 브랜드 로고 -->
                     <div class="brand">
-                        <a href="/"><p>Stock City</p></a>
+                        <a href="/">
+                            <p>Stock City</p>
+                        </a>
                     </div>
                     <h1 class="regist-text">회원가입 유의사항</h1>
-                    <p class="regist-text">블라블라블라<br>계약 위반 시, 철회 블라블라블라<br>미리 메리 크리스마스~!</p>
+                    <p class="regist-text">
+                        안녕하세요 Stock City입니다. 재고관리 프로그램입니다.<br><br>
+                        회원 정보를 정확하게 입력해주세요.<br><br>
+                        정보 누락으로 회원가입 신청이 거부될 수 있습니다.<br><br>
+                        회원가입 승인 후 이메일로 아이디, 비밀번호가 발송됩니다.<br><br>
+                        이용 약관 위반 사실이 확인될 경우, 서비스 이용이 제재됩니다.<br><br>
+                        첫 로그인 시 우측 상단 <strong style="color: greenyellow;">MYPAGE</strong>에서 정보 수정 후 이용 부탁드립니다.
+                    </p>
                 </div>
 
                 <!-- 오른쪽 영역 -->
@@ -182,7 +193,8 @@
                         <input class="form-input" type="email" name="email" value="${param.email}">
 
                         <label class="form-label" for="adCount">운영 매장 개수</label>
-                        <input class="form-input" type="text" name="adCount" value="${param.adCount}" placeholder="30개 초과 시 관리자 문의">
+                        <input class="form-input" type="text" name="adCount" value="${param.adCount}"
+                            placeholder="30개 초과 시 관리자 문의">
 
                         <input class="form-submit" type="submit" value="가입">
                         <input class="form-cancel" type="button" onclick="window.location.href='/'" value="취소">
