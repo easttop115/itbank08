@@ -1,0 +1,158 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+            <!DOCTYPE html>
+            <html lang="ko">
+
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>입고</title>
+                <link rel="stylesheet" href="/css/prodManage.css">
+                <style>
+                    .button-container {
+                        text-align: center;
+                        display: flex;
+                        justify-content: space-around;
+                        width: 100%;
+                    }
+
+                    input[type="submit"] {
+                        background-color: #cadae7;
+                        color: black;
+                        padding: 10px 30px;
+                        border: 2px rgb(168, 168, 168);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin: 10px;
+                        display: inline-block;
+                    }
+
+                    input[type="submit"]:hover {
+                        background-color: #2895F4;
+                    }
+
+                    .cancel {
+                        background-color: #cadae7;
+                        color: black;
+                        padding: 10px 30px;
+                        border: 2px rgb(168, 168, 168);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin: 10px;
+                        display: inline-block;
+                    }
+                </style>
+            </head>
+
+            <body>
+                <c:import url="/header" />
+                <c:import url="/sider" />
+                <div class="content-container class">
+                    <h2 class="inventory-title">상품 조회</h2>
+                    <div class="center class">
+                        <div class="search-container class">
+                            <form action="/searchStoring" method="post">
+                                <table class="search-table">
+                                    <tr>
+                                        <td>
+                                            <select name="cateGroup" class="searchOption">
+                                                <option value="">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
+                                                <c:forEach var="cateGroup" items="${cateGroups}">
+                                                    <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <select name="cateCode" class="searchOption">
+                                                <option value="">카테고리코드</option>
+                                                <c:forEach var="cateCode" items="${cateCodes}">
+                                                    <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select name="colorCode" class="searchOption">
+                                                <option value="">색상코드</option>
+                                                <c:forEach var="colorCode" items="${colorCodes}">
+                                                    <option value="${colorCode.colorCode}">${colorCode.colorCode}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="searchOption" name="size">
+                                                <option value="">사이즈</option>
+                                                <option value="S">S</option>
+                                                <option value="M">M</option>
+                                                <option value="L">L</option>
+                                                <option value="XL">XL</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="prodNo" placeholder="상품코드 입력를 입력하세요"
+                                                value="${prodNo}" style="width: 416px; height: 30px; margin-top: 5px;">
+                                            <input type="submit" value="검색"
+                                                style="padding: 4px 10px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-container">
+                    <h2 class="inventory-title">상품 입고</h2>
+                    <form action="/storingProc" method="post">
+                        <div class="class">
+                            <table class="prodList-table">
+                                <tr>
+                                    <td><input type="checkbox" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" /></td>
+                                    <td>상품코드</td>
+                                    <td>상품명</td>
+                                    <td>사이즈</td>
+                                    <td>색상코드</td>
+                                    <td>총수량</td>
+                                    <td>입고 수량</td>
+                                </tr>
+                                <c:choose>
+                                    <c:when test="${not empty prods}">
+                                        <c:forEach var="product" items="${prods}" varStatus="loop">
+                                            <tr>
+                                                <td><input type="checkbox" name="selectedProducts" value="${product.prodNo}" /></td>
+                                                <td>${product.prodNo}</td>
+                                                <td>${product.prodName}</td>
+                                                <td>${product.size}</td>
+                                                <td>${product.colorCode}</td>
+                                                <td>${product.quan}</td>
+                                                <td>
+                                                    <input type="number" style="width: 100px;" name="storingCount" placeholder="요청 수량">
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- prod가 비어있는 경우 (검색 결과가 없는 경우) -->
+                                        <tr class="no-data-row-storing">
+                                            <td colspan="7">조회된 정보가 없습니다.</td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </table>
+                        </div>
+                        <div class="button-container">
+                            <input type="submit" value="신청">
+                            <button class="cancel" type="button"
+                                onclick="window.location.href='/main/mainform'">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </body>
+
+            <script>
+                function toggleCheckboxes(checkbox) {
+                    var checkboxes = document.getElementsByName("selectedProducts");
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].checked = checkbox.checked;
+                    }
+                }
+            </script>
+
+            </html>

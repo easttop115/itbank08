@@ -27,14 +27,13 @@ public interface ProdMapper {
 
   int addColor(String colorCode, String colorName);
 
-  // List<ProdDTO> prodList(String cateCode, String colorCode, String size, String
-  // prodNo);
-
   List<ProdDTO> searchProd(ProdDTO prod);
 
   ProdDTO findById(String prodNo);
 
   void updateProd(String prodNo, int incomePrice, int sellPrice, String prodCon);
 
-  List<StoreDTO> storeNoList();
+  List<ProdDTO> storeNameList();
+
+  String connectName(String id);
 }

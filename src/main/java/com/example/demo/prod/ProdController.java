@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.join.StoreDTO;
-
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("prod")
@@ -158,13 +155,13 @@ public class ProdController {
         List<CateDTO> cateCodes = service.cateCodeList();
         List<BrandDTO> brandCodes = service.brandCodeList();
         List<ColorDTO> colorCodes = service.colorCodeList();
-        List<StoreDTO> storeNo = service.storeNoList();
+        List<ProdDTO> storeName = service.storeNameList();
 
         model.addAttribute("cateGroups", cateGroups);
         model.addAttribute("cateCodes", cateCodes);
         model.addAttribute("brandCodes", brandCodes);
         model.addAttribute("colorCodes", colorCodes);
-        model.addAttribute("storeNo", storeNo);
+        model.addAttribute("storeName", storeName);
 
         return "/prod/stockStatus";
     }

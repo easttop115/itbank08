@@ -167,14 +167,12 @@ height: 30px;
                 <td class="first-table-content">
                   <select>
                     <c:choose>
-                      <c:when test="${empty storeNo}">
-                        <option value="noStoreNo">등록된 매장이 없습니다.</option>
+                      <c:when test="${empty storeName}">
+                        <option value="noStoreName">등록된 매장이 없습니다.</option>
                       </c:when>
                       <c:otherwise>
-                        <c:forEach var="storeNo" items="${storeNo}">
-                          <c:if test="${storeNo.name != null}"> <!-- 본사는 안나오게 설정 -->
-                            <option value="${storeNo.name}">${storeNo.name}</option>
-                          </c:if>
+                        <c:forEach var="storeName" items="${storeName}">
+                          <option value="${storeName.storeName}">${storeName.storeName}</option>
                         </c:forEach>
                       </c:otherwise>
                     </c:choose>

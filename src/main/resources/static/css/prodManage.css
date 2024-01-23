@@ -2,13 +2,6 @@
   width: 100%;
 }
 
-.content-container {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  /* 화면 크기에 따라 나란히 놓이도록 설정 */
-}
-
 /* ------ title ------ */
 .inventory-title {
   font-size: 18px;
@@ -131,6 +124,10 @@
 
 .no-data-row {
   height: 400px;
+}
+
+.no-data-row-storing {
+  height: 200px;
 }
 
 /* 모달생성 */

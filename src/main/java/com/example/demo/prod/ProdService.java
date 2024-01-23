@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.join.StoreDTO;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 @Transactional
@@ -14,6 +14,8 @@ public class ProdService {
 
   @Autowired
   private ProdMapper mapper;
+  @Autowired
+  private HttpSession session;
 
   public String addBrand(String brandCode, String brandDescription) {
     int result = mapper.addBrand(brandCode, brandDescription);
@@ -40,7 +42,9 @@ public class ProdService {
   }
 
   public String prodInsertProc(ProdDTO prods) {
-
+    // String id = (String) session.getAttribute("id");   // 입고로 이동
+    // String storeName = mapper.connectName(id);
+    // prods.setStoreName(storeName);
     int result = mapper.prodInsertProc(prods);
     if (result <= 0) {
       return "상품등록 실패. 다시 시도해주세요";
@@ -83,8 +87,8 @@ public class ProdService {
     return null;
   }
 
-  public List<StoreDTO> storeNoList() {
-    return mapper.storeNoList();
+  public List<ProdDTO> storeNameList() {
+    return mapper.storeNameList();
   }
 
 }

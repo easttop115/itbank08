@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "classpath:mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.orderStock.OrderStockMapper">
+    <resultMap type="com.example.demo.orderStock.OrderStockDTO" id="orderStock" />
+    <insert id="storingProc">
+        INSERT INTO orderStock (reqStore, prodNo, reqQuan, reqDate, orderStatus) VALUES (#{reqStore}, #{prodNo}, #{reqQuan}, #{reqDate}, #{orderStatus})
+    </insert>
+    <select id="searchProd" resultType="com.example.demo.prod.ProdDTO"> SELECT * FROM product <where>
+        <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup},
+    '%') </if>
+    <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%',
+    #{cateCode}, '%') </if>
+    <if test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+    OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
+    <if test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+    <if test="size != null and size != ''"> AND size = #{size} </if>
+    <if test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+    </where>
+</select>
+</mapper>

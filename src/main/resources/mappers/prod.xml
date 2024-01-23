@@ -6,13 +6,21 @@
     <resultMap id="cate" type="com.example.demo.prod.CateDTO" />
     <resultMap id="brand" type="com.example.demo.prod.BrandDTO" />
     <resultMap id="color" type="com.example.demo.prod.ColorDTO" />
+    <resultMap id="join" type="com.example.demo.join.JoinDTO" />
     <resultMap id="store" type="com.example.demo.join.StoreDTO" />
 
     <insert id="prodInsertProc" parameterType="com.example.demo.prod.ProdDTO"> INSERT INTO product
         (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan,
-        prodCon, regDate) VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'),
+        prodCon, regDate, storeName) VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'),
         #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon},
-        DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR)) </insert>
+        DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR), #{storeName}) </insert>
+
+    <select id="connectName" resultMap="join"> <!-- user, store의 no값이 같은 store데이터의 name값 호출-->
+        SELECT store.name AS store_name
+        FROM user
+        INNER JOIN store ON user.no = store.no
+        WHERE user.id = #{id}
+    </select>
 
     <!--셀렉트
     옵션-->
@@ -20,7 +28,7 @@
     <select id="cateCodeList" resultMap="cate"> SELECT DISTINCT cateCode FROM category; </select>
     <select id="brandCodeList" resultMap="brand"> SELECT * FROM brand; </select>
     <select id="colorCodeList" resultMap="color"> SELECT * FROM color; </select>
-    <select id="storeNoList" resultMap="store"> SELECT * FROM store</select>
+    <select id="storeNameList" resultMap="prod"> SELECT * FROM product</select>
     <!-- 
     <select id = "prodList">
         SELECT * FROM product WHERE prodNo LIKE CONCAT('%', #{prodNo}, '%')

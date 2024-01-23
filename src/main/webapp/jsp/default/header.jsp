@@ -57,9 +57,9 @@
                                 <li class="liStyle"><a href="/prod/cateInsert">카테고리 등록</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li class="liStyle"><a href="/prodManage">등록상품관리</a></li>
-                                <li class="liStyle"><a href="/stockStatus">매장별 재고 현황</a></li>
-                                <li class="liStyle"><a href="/cateInsert">카테고리 등록</a></li>
+                                <li class="liStyle"><a href="/prod/prodManage">등록상품관리</a></li>
+                                <li class="liStyle"><a href="/prod/stockStatus">매장별 재고 현황</a></li>
+                                <li class="liStyle"><a href="/prod/cateInsert">카테고리 등록</a></li>
                                 <li class="liStyle"><a href="#">sub04</a></li>
                             </c:otherwise>
                         </c:choose>

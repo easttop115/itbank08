@@ -6,11 +6,13 @@ import lombok.Setter;
 /*
 MariaDB
 CREATE TABLE store (
-    no INT PRIMARY KEY,
-    storeNo VARCHAR(20) UNIQUE,
-    name VARCHAR(20),
-    address VARCHAR(50),
-    tel VARCHAR(20)
+  no int(11) NOT NULL,
+  storeNo varchar(20) DEFAULT NULL,
+  name varchar(20) DEFAULT NULL,
+  address varchar(50) DEFAULT NULL,
+  tel varchar(20) DEFAULT NULL,
+  PRIMARY KEY (no),
+  UNIQUE KEY storeNo (storeNo)
 );
 */
 @Getter
