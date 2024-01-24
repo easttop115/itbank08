@@ -1,25 +1,54 @@
-# FROM alpine:latest
+# # FROM alpine:latest
 
-# RUN apk --no-cache add openjdk17 gradle
+# # RUN apk --no-cache add openjdk17 gradle
+# FROM eclipse-temurin:17-jdk-jammy
+
+# WORKDIR /app
+
+# # Copy Gradle Wrapper
+# COPY gradlew ./
+# COPY gradlew.bat ./
+# COPY gradle /app/gradle
+
+# # Copy project files
+# COPY build.gradle settings.gradle /app/
+# COPY gradle /app/gradle
+# COPY src /app/src
+
+# # Grant execute permission to Gradle Wrapper
+# RUN chmod +x ./gradlew
+
+# # Resolve dependencies and build the application using Gradle Wrapper
+# RUN ./gradlew build --no-daemon
+
+# # Run the application
+# CMD ["./gradlew", "bootRun"]
+# Use the official Eclipse Temurin base image
 FROM eclipse-temurin:17-jdk-jammy
 
+# Set the working directory
 WORKDIR /app
 
-# Copy Gradle Wrapper
+# Copy Gradle wrapper files
 COPY gradlew ./
 COPY gradlew.bat ./
+
+# Copy Gradle directory
 COPY gradle /app/gradle
 
-# Copy project files
+# Copy build.gradle and settings.gradle
 COPY build.gradle settings.gradle /app/
-COPY gradle /app/gradle
+
+# Copy the source code
 COPY src /app/src
 
-# Grant execute permission to Gradle Wrapper
+# Change permissions for Gradle wrapper
 RUN chmod +x ./gradlew
 
-# Resolve dependencies and build the application using Gradle Wrapper
-RUN ./gradlew build --no-daemon
+# Install AWS CLI
+USER root
+RUN apt-get update && apt-get install -y awscli
+USER ${user}
 
-# Run the application
-CMD ["./gradlew", "bootRun"]
+# Build the application
+RUN ./gradlew build --no-daemon
