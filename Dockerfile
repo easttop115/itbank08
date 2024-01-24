@@ -48,4 +48,4 @@ RUN chmod +x ./gradlew
 # Install buildx
 COPY --from=buildx_builder /go/bin/buildx /usr/local/bin/buildx
 
-# Continue with the rest of your Dockerfi
+# Continue with the rest of your Dockerfile
