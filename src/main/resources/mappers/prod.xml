@@ -65,3 +65,4 @@
         incomePrice=#{incomePrice}, sellPrice=#{sellPrice}, prodCon=#{prodCon} WHERE
         prodNo=#{prodNo} </update>
 </mapper>
+<!--  -->
