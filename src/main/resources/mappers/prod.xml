@@ -11,16 +11,13 @@
 
     <insert id="prodInsertProc" parameterType="com.example.demo.prod.ProdDTO"> INSERT INTO product
         (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan,
-        prodCon, regDate, storeName) VALUES (#{prodNo}, #{brandCode}, CONCAT(#{cateGroup},'(',#{cateCode},')'),
-        #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon},
-        DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR), #{storeName}) </insert>
+        prodCon, regDate, storeName) VALUES (#{prodNo}, #{brandCode},
+        CONCAT(#{cateGroup},'(',#{cateCode},')'), #{prodName}, #{incomePrice}, #{sellPrice},
+        #{size}, #{colorCode}, #{quan}, #{prodCon}, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR),
+        #{storeName}) </insert>
 
-    <select id="connectName" resultMap="join"> <!-- user, store의 no값이 같은 store데이터의 name값 호출-->
-        SELECT store.name AS store_name
-        FROM user
-        INNER JOIN store ON user.no = store.no
-        WHERE user.id = #{id}
-    </select>
+    <select id="connectName" resultMap="join"> <!-- user, store의 no값이 같은 store데이터의 name값 호출--> SELECT store.name AS store_name FROM user INNER JOIN
+        store ON user.no = store.no WHERE user.id = #{id} </select>
 
     <!--셀렉트
     옵션-->
@@ -39,11 +36,15 @@
         '%') </if>
         <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%',
         #{cateCode}, '%') </if>
-        <if test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+        <if
+                test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
         OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
-        <if test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
-        <if test="size != null and size != ''"> AND size = #{size} </if>
-        <if test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+        <if
+                test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+        <if
+                test="size != null and size != ''"> AND size = #{size} </if>
+        <if
+                test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
         </where>
     </select>
 
@@ -64,3 +65,4 @@
         incomePrice=#{incomePrice}, sellPrice=#{sellPrice}, prodCon=#{prodCon} WHERE
         prodNo=#{prodNo} </update>
 </mapper>
+<!--  -->
