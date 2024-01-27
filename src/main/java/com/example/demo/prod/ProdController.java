@@ -26,9 +26,9 @@ public class ProdController {
     // 브랜드코드 추가
     @PostMapping("brandInsert") // modal action에는 "/" <-- 추가 x
     public String addBrand(BrandDTO brand, RedirectAttributes ra) {
-
+        System.out.println(brand.getBrandCode()); // 값 출력
         if (brand.getBrandCode() != null || !brand.getBrandCode().trim().isEmpty()) {
-            service.addBrand(brand.getBrandCode(), brand.getBrandDescription());
+            service.addBrand(brand);
             System.out.println("brandCode:" + brand.getBrandCode());
             ra.addFlashAttribute("msg", "brandCode 추가 성공");
 
@@ -51,7 +51,7 @@ public class ProdController {
     public String addCategory(CateDTO cate, RedirectAttributes ra) {
 
         if (cate.getCateGroup() != null || !cate.getCateGroup().trim().isEmpty()) {
-            service.addCategory(cate.getCateGroup(), cate.getCateCode(), cate.getCateName());
+            service.addCategory(cate);
             System.out.println("cateCode:" + cate.getCateCode());
             ra.addFlashAttribute("msg", "cateCode 추가 성공");
 
@@ -64,8 +64,9 @@ public class ProdController {
     public String addColor(ColorDTO color, RedirectAttributes ra) {
 
         if (color.getColorCode() != null || !color.getColorCode().trim().isEmpty()) {
-            service.addColor(color.getColorCode(), color.getColorName());
+            service.addColor(color);
             System.out.println("ColorCode:" + color.getColorCode());
+            System.out.println("ColorName:" + color.getColorName());
             ra.addFlashAttribute("msg", "ColorCode 추가 성공");
 
             return "redirect:/prod/prodInsert";

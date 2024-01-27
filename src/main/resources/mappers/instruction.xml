@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.instruction.InstructionMapper">
+
+<!--사용할 DTO-->
+<resultMap id="instruction" type="com.example.demo.instruction.InstructionDTO" />
+<resultMap id="prod" type="com.example.demo.prod.ProdDTO" />
+<resultMap id="orderStock" type="com.example.demo.orderStock.OrderStockDTO" />
+ 
+
+<!--셀렉트 옵션-->
+<select id="instructionGroupList" resultMap="instruction"> SELECT DISTINCT no FROM instruction; </select>
+<select id="prodList" resultMap="prod"> SELECT DISTINCT prodNo,prodName,colorCode,size,sellPrice  FROM product; </select>
+<select id="orderStockList" resultMap="orderStock"> SELECT DISTINCT reqQuan FROM orderStock ; </select>
+
+<select id="intructionProd" resultMap="prod"> SELECT * FROM PRODUCT WHERE (prodNo = #{prodNo} AND storeName = #{storeName} AND quan >= #{quan}) </select>

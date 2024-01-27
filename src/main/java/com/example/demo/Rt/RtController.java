@@ -7,16 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class RtController {
+public class RtController { // 서비스에 있는 기능 가져다 쓰기
     @Autowired
     private RtService service;
-
-    @RequestMapping("rt/instructionform")
-    public String instructionform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
-        service.instructionform(cp, model);
-
-        return "rt/instructionform";
-    }
 
     @RequestMapping("rt/entryform")
     public String entryform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {

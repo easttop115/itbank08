@@ -20,37 +20,32 @@
                     font-size: 30px;
                 }
 
-                .main {
+                .filter-main {
                     display: flex;
                     flex-direction: row;
+                    justify-content: flex-start;
+                    gap: 10px;
+                    /*사이 간격 조절*/
                     align-items: center;
+                    flex-wrap: wrap;
+                    /* 넘치면 넣어가게 해줌*/
                     background-color: #FFFFFF;
                     padding: 0px;
                     border: 1px solid #ddd;
-                    margin-top: -2px;
-                    margin-bottom: 10px;
                 }
 
-                .section {
+                .filter-section {
                     display: flex;
-                    margin-right: -218px;
-                }
-
-                .section-three {
-                    display: flex;
-                    margin-right: 10px;
                 }
 
                 .table-row {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    margin-bottom: 5px;
                     width: 100%;
                 }
 
                 .table-cell {
-                    padding: 8px;
                     text-align: left;
                     flex: 1;
                     margin-left: 4px;
@@ -90,30 +85,16 @@
                     background-color: #cadae7;
                     padding: 5px;
                     display: block;
-                    margin-bottom: 5px;
                     text-align: center;
                     width: 100%;
                     border: 1px solid #D3D3D3;
                     /* 각 항목에 테두리 추가 */
                 }
 
-                .Instruction-period {
-                    margin-bottom: 10px;
-                    margin-top: 3px;
-                }
-
-                .section-two {
-                    display: flex;
-                    justify-items: center;
-                    align-items: center;
-                    margin: 0 auto;
-                }
-
                 .button-box {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-end;
                     padding: 10px;
-                    margin-left: 93%;
                     margin-right: 0%;
                     /* 수정된 부분: %로 변경 */
                 }
@@ -127,15 +108,8 @@
                     line-height: 1.4;
                     border-radius: 5px;
                     text-align: left;
-                    margin-left: 10px;
+                    margin-left: 11px;
                     background-color: #f5f5f5;
-
-                }
-
-                .button-box button:hover {
-                    background-color: #f5f5f5;
-                    /* 마우스 호버 시 색상 변경 */
-
                 }
 
                 .table-container {
@@ -211,20 +185,24 @@
                     margin-top: 10px;
                     /* 아래에 간격 추가 */
                 }
+
+                .confirmed {
+                    color: green;
+                    font-weight: bold;
+                }
             </style>
         </head>
 
         <body>
-            <c:import url="/header" />
 
-            <h1>R/T지시등록조회</h1>
+            <h1>R/T지시요청/조회</h1>
             <div class="button-box">
                 <button>조회</button>
-                <button>등록</button>
+                <button onclick="location.href='/instruction/instructionwrite'">등록</button>
             </div>
 
-            <div class="main">
-                <div class="section">
+            <div class="filter-main">
+                <div class="filter-section">
                     <label class="Instruction-period">지시기간</label>
                     <div class="table-row">
                         <div class="table-cell">
@@ -237,16 +215,16 @@
                     </div>
                 </div>
 
-                <div class="section-two">
+                <div class="filter-section">
                     <label class="Processing">처리구분</label>
                     <div class="table-row">
                         <div class="table-Processing">
                             <input type="radio" name="status" value="미처리">
-                            <label for="미처리">미처리</label>
+                            <label for="미확정">미확정</label>
                         </div>
                         <div class="table-Processing">
                             <input type="radio" name="status" value="처리">
-                            <label for="처리">처리</label>
+                            <label for="확정">확정</label>
                         </div>
                         <div class="table-Processing">
                             <input type="radio" name="status" value="불이행">
@@ -255,7 +233,7 @@
                     </div>
                 </div>
 
-                <div class="section-three">
+                <div class="filter-section">
                     <label class="shop">매장</label>
                     <div class="table-row">
                         <div class="table-cell">
@@ -268,22 +246,26 @@
                 </div>
             </div>
 
+            <!--지시 요청 조회표-->
+            <div class="title-main">
+                <label>
+                    <지시요청조회>
+                </label>
+            </div>
+
             <div class="table-container">
                 <ul class="instruction-list">
                     <li class="instruction-item header">
                         <div class="no">NO.</div>
-                        <div class="store-re">받는매장</div>
-                        <div class="item-nu">품번</div>
-                        <div class="product-na">품명</div>
-                        <div class="color">색상</div>
+                        <div class="store-re">지시매장</div>
+                        <div class="prodNo">품번</div>
+                        <div class="prodName">품명</div>
+                        <div class="colorCode">색상</div>
                         <div class="size">사이즈</div>
-                        <div class="stock">재고</div>
-                        <div class="Instruction">지시</div>
-                        <div class="confirmation">확정</div>
-                        <div class="order-date">RT 지시일</div>
+                        <div class="re_quan">지시수량</div>
+                        <div class="re_date">RT 지시일</div>
                         <div class="outDate">반출일</div>
-                        <div class="processing">처리구분</div>
-                        <div class="remarks">비고</div>
+                        <div class="processing" id="processingStatus">처리구분</div>
                     </li>
                     <c:choose>
                         <c:when test="${empty instructions}">
@@ -295,19 +277,71 @@
                             <c:forEach var="instruction" items="${instructions}">
 
                                 <li class="instruction-item">
-                                    <div class="no">${instruction.no}</div>
-                                    <div class="store-re">${instruction.store-re}</div>
-                                    <div class="item-nu">${instruction.item-nu}</div>
-                                    <div class="product-na">${instruction.product-na}</div>
-                                    <div class="color">${instruction.color}</div>
-                                    <div class="size">${instruction.size}</div>
-                                    <div class="stock">${instruction.stock}</div>
-                                    <div class="Instruction">${instruction.Instruction}</div>
-                                    <div class="confirmation">${instruction.confirmation}</div>
-                                    <div class="order-date">${instruction.order-date}</div>
-                                    <div class="outDate">${instruction.outDate}</div>
-                                    <div class="processing">${instruction.processing}</div>
-                                    <div class="remarks">${instruction.remarks}</div>
+                                    <div class="no">${instructios.no}</div>
+                                    <div class="store-re">${instructions.store-re}</div>
+                                    <div class="prodNo">${product.prodNo}</div>
+                                    <div class="prodName">${product.prodName}</div>
+                                    <div class="colorCode">${color.colorCode}</div>
+                                    <div class="size">${product.size}</div>
+                                    <div class="re_quan">${instructions.re_quan}</div>
+                                    <div class="re_date">${instructions.re_date}</div>
+                                    <div class="confirmation">${instructions.confirmation}</div>
+                                    <div class="order-date">${instructions.order-date}</div>
+                                    <div class="outDate">${instructions.outDate}</div>
+                                    <div class="processing">${instructions.processing}</div>
+
+                                </li>
+                            </c:forEach>
+                            <li>
+                                <div class="vi" colspan="13">${result}</div>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+
+            <!--타매장 요청-->
+
+            <div class="title-bottem">
+                <label>
+                    <타 매장 지시요청>
+                </label>
+            </div>
+
+
+            <div class="table-container">
+                <ul class="instruction-list">
+                    <li class="instruction-item header">
+                        <div class="no">NO.</div>
+                        <div class="store_re">요청매장</div>
+                        <div class="prodNo">품번</div>
+                        <div class="prodName">품명</div>
+                        <div class="colorCode">색상</div>
+                        <div class="size">사이즈</div>
+                        <div class="re_quan">요청 수량</div>
+                        <div class="re_date">RT 요청일</div>
+                        <div class="confirmation">확정</div>
+                    </li>
+                    <c:choose>
+                        <c:when test="${empty instructions}">
+                            <li class="instruction-item" style="background-color: #fff;">
+                                <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="instruction" items="${instructions}">
+
+                                <li class="instruction-item">
+                                    <div class="no">${instructions.no}</div>
+                                    <div class="store-re">${instructions.store-re}</div>
+                                    <div class="prodNo">${product.prodNo}</div>
+                                    <div class="prodName">${product.prodName}</div>
+                                    <div class="colorCode">${color.colorCode}</div>
+                                    <div class="size">${product.size}</div>
+                                    <div class="re_quan">${instructions.re_quan}</div>
+                                    <div class="re_date">${instructions.re_date}</div>
+                                    <div class="confirmation">${instructions.confirmation}</div>
+                                    <button class="confirmation-btn">확정</button>
                                 </li>
                             </c:forEach>
                             <li>
@@ -335,8 +369,8 @@
 
                         dateCell.textContent = date.toISOString().split('T')[0];
 
-                        const radioBtn1 = createRadioButton('미처리');
-                        const radioBtn2 = createRadioButton('처리');
+                        const radioBtn1 = createRadioButton('미확정');
+                        const radioBtn2 = createRadioButton('확정');
                         const radioBtn3 = createRadioButton('불이행');
 
                         typeCell.appendChild(radioBtn1);
@@ -365,13 +399,52 @@
 
                     return wrapper;
                 }
-                document.addEventListener('DOMContentLoaded', function () {   //매장 스크롤바ㅊ
+                document.addEventListener('DOMContentLoaded', function () {   //매장 스크롤바
                     const shopSelect = document.getElementById('shopSelect');
 
                     shopSelect.addEventListener('change', function () {
                         const selectedShop = shopSelect.value;
                         console.log('Selected Shop:', selectedShop);
                         // 여기서 선택된 매장 값을 서버로 전송하도록 구현할 수 있습니다.
+                    });
+                });
+                //확정 버튼 기능
+                document.addEventListener('DOMContentLoaded', function () {
+                    const confirmationButtons = document.querySelectorAll('.confirmation-btn');
+
+                    confirmationButtons.forEach(function (button) {
+                        button.addEventListener('click', function () {
+                            const listItem = button.closest('.instruction-item');
+                            const confirmationCell = listItem.querySelector('.confirmation');
+
+                            // 현재 체크 상태에 따라 토글
+                            if (confirmationCell.classList.contains('confirmed')) {
+                                confirmationCell.classList.remove('confirmed');
+                            } else {
+                                confirmationCell.classList.add('confirmed');
+                            }
+                        });
+                    });
+                });
+                //처리구분 기능
+                document.addEventListener('DOMContentLoaded', function () {
+                    const confirmationButtons = document.querySelectorAll('.confirmation-btn');
+
+                    confirmationButtons.forEach(function (button) {
+                        button.addEventListener('click', function () {
+                            const listItem = button.closest('.instruction-item');
+                            const confirmationCell = listItem.querySelector('.confirmation');
+                            const processingStatus = listItem.querySelector('#processingStatus');
+
+                            // 현재 체크 상태에 따라 토글
+                            if (confirmationCell.classList.contains('confirmed')) {
+                                confirmationCell.classList.remove('confirmed');
+                                processingStatus.textContent = '미확정';
+                            } else {
+                                confirmationCell.classList.add('confirmed');
+                                processingStatus.textContent = '확정';
+                            }
+                        });
                     });
                 });
             </script>

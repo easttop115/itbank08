@@ -17,24 +17,24 @@ public class ProdService {
   @Autowired
   private HttpSession session;
 
-  public String addBrand(String brandCode, String brandDescription) {
-    int result = mapper.addBrand(brandCode, brandDescription);
+  public String addBrand(BrandDTO brand) {
+    int result = mapper.addBrand(brand);
     if (result <= 0) {
       return "fail";
     }
     return "success";
   }
 
-  public String addCategory(String cateGroup, String cateCode, String cateName) {
-    int result = mapper.addCategory(cateGroup, cateCode, cateName);
+  public String addCategory(CateDTO cate) {
+    int result = mapper.addCategory(cate);
     if (result <= 0) {
       return "fail";
     }
     return "success";
   }
 
-  public String addColor(String colorCode, String colorName) {
-    int result = mapper.addColor(colorCode, colorName);
+  public String addColor(ColorDTO color) {
+    int result = mapper.addColor(color);
     if (result <= 0) {
       return "fail";
     }
@@ -42,7 +42,7 @@ public class ProdService {
   }
 
   public String prodInsertProc(ProdDTO prods) {
-    // String id = (String) session.getAttribute("id");   // 입고로 이동
+    // String id = (String) session.getAttribute("id"); // 입고로 이동
     // String storeName = mapper.connectName(id);
     // prods.setStoreName(storeName);
     int result = mapper.prodInsertProc(prods);

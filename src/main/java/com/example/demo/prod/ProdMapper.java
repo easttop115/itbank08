@@ -21,11 +21,11 @@ public interface ProdMapper {
 
   List<ProdDTO> selectSearch();
 
-  int addBrand(String brandCode, String brandDescription);
+  int addBrand(BrandDTO brand);
 
-  int addCategory(String cateGroup, String cateCode, String cateName);
+  int addCategory(CateDTO cate);
 
-  int addColor(String colorCode, String colorName);
+  int addColor(ColorDTO color);
 
   List<ProdDTO> searchProd(ProdDTO prod);
 

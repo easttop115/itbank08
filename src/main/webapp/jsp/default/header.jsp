@@ -104,12 +104,22 @@
                     </ul>
                 </li>
                 <li class="liStyle">
-                    <a href="#">SC</a>
+                    <a href="#">RT</a>
                     <ul class="subList">
-                        <li class="liStyle"><a href="#">수아</a></li>
-                        <li class="liStyle"><a href="#">연지</a></li>
-                        <li class="liStyle"><a href="#">동현</a></li>
-                        <li class="liStyle"><a href="#">동운</a></li>
+                        <c:choose>
+                            <c:when test="${sessionScope.accountId eq 'root' }">
+                                <li class="liStyle"><a href="/instruction/instructionform">지시 등록/조회</a></li>
+                                <li class="liStyle"><a href="#">반입 등록/조회</a></li>
+                                <li class="liStyle"><a href="#">반출 등록/조회</a></li>
+                                <li class="liStyle"><a href="#">sub04</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="liStyle"><a href="/instruction/inructionform">지시 등록/조회</a></li>
+                                <li class="liStyle"><a href="#">반입 등록/조회</a></li>
+                                <li class="liStyle"><a href="#">반출 등록/조회</a></li>
+                                <li class="liStyle"><a href="#">sub04/a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </li>
                 <div class="exception-container">

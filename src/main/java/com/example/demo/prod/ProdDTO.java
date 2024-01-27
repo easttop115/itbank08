@@ -21,6 +21,7 @@ public class ProdDTO {
   int quan;
   String prodCon;
   String regDate; // mapper -> Now()
+  String storeName;
 
   public ProdDTO(String brandCode, String cateGroup, String cateCode, String size) {
     // 생성자에서 직접 getProdNo 메서드 호출
