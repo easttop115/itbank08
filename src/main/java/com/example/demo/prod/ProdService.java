@@ -42,9 +42,6 @@ public class ProdService {
   }
 
   public String prodInsertProc(ProdDTO prods) {
-    // String id = (String) session.getAttribute("id"); // 입고로 이동
-    // String storeName = mapper.connectName(id);
-    // prods.setStoreName(storeName);
     int result = mapper.prodInsertProc(prods);
     if (result <= 0) {
       return "상품등록 실패. 다시 시도해주세요";
@@ -87,8 +84,10 @@ public class ProdService {
     return null;
   }
 
-  public List<ProdDTO> storeNameList() {
-    return mapper.storeNameList();
+  public List<String> storeNameList() {
+    List<String> storeNames = mapper.storeNameList();
+    
+    return storeNames;
   }
 
 }

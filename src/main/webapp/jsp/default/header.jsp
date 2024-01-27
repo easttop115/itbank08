@@ -68,9 +68,9 @@
                 <li class="liStyle">
                     <a href="#">입출고등록</a>
                     <ul class="subList">
-                        <li class="liStyle"><a href="#">입출고개별등록</a></li>
-                        <li class="liStyle"><a href="#">입출고내역조회</a></li>
-                        <li class="liStyle"><a href="#">sub03</a></li>
+                        <li class="liStyle"><a href="/storing">입고</a></li>
+                        <li class="liStyle"><a href="/unstoring">출고</a></li>
+                        <li class="liStyle"><a href="/ioCheck">입출고내역조회</a></li>
                         <li class="liStyle"><a href="#">sub04</a></li>
                     </ul>
                 </li>

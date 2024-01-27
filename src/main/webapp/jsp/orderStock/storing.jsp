@@ -17,7 +17,7 @@
                         width: 100%;
                     }
 
-                    input[type="submit"] {
+                    input[type="button"] {
                         background-color: #cadae7;
                         color: black;
                         padding: 10px 30px;
@@ -28,7 +28,7 @@
                         display: inline-block;
                     }
 
-                    input[type="submit"]:hover {
+                    input[type="button"]:hover {
                         background-color: #2895F4;
                     }
 
@@ -41,6 +41,10 @@
                         cursor: pointer;
                         margin: 10px;
                         display: inline-block;
+                    }
+
+                    .cancel:hover {
+                        background-color: #2895F4;
                     }
                 </style>
             </head>
@@ -88,9 +92,9 @@
                                     <tr>
                                         <td>
                                             <input type="text" name="prodNo" placeholder="상품코드 입력를 입력하세요"
-                                                value="${prodNo}" style="width: 416px; height: 30px; margin-top: 5px;">
+                                                value="${prodNo}" style="width: 413px; height: 26px; margin-top: 5px;">
                                             <input type="submit" value="검색"
-                                                style="padding: 4px 10px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
+                                                style="padding: 4px 5px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
                                         </td>
                                     </tr>
                                 </table>
@@ -100,11 +104,12 @@
                 </div>
                 <div class="content-container">
                     <h2 class="inventory-title">상품 입고</h2>
-                    <form action="/storingProc" method="post">
+                    <form id="storingForm" action="/storingProc" method="post">
                         <div class="class">
                             <table class="prodList-table">
                                 <tr>
-                                    <td><input type="checkbox" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" /></td>
+                                    <td><input type="checkbox" id="selectAllCheckbox"
+                                            onclick="toggleCheckboxes(this)" /></td>
                                     <td>상품코드</td>
                                     <td>상품명</td>
                                     <td>사이즈</td>
@@ -116,29 +121,37 @@
                                     <c:when test="${not empty prods}">
                                         <c:forEach var="product" items="${prods}" varStatus="loop">
                                             <tr>
-                                                <td><input type="checkbox" name="selectedProducts" value="${product.prodNo}" /></td>
+                                                <td><input type="checkbox" name="selectedProducts"
+                                                        value="${product.prodNo}" /></td>
                                                 <td>${product.prodNo}</td>
                                                 <td>${product.prodName}</td>
                                                 <td>${product.size}</td>
                                                 <td>${product.colorCode}</td>
                                                 <td>${product.quan}</td>
                                                 <td>
-                                                    <input type="number" style="width: 100px;" name="storingCount" placeholder="요청 수량">
+                                                    <input type="number" style="width: 100px;" name="reqQuan"
+                                                        placeholder="요청 수량">
                                                 </td>
                                             </tr>
                                         </c:forEach>
                                     </c:when>
-                                    <c:otherwise>
+                                    <c:when test="${empty prods and empty msg}">
                                         <!-- prod가 비어있는 경우 (검색 결과가 없는 경우) -->
                                         <tr class="no-data-row-storing">
                                             <td colspan="7">조회된 정보가 없습니다.</td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- storeName이 null인 경우 -->
+                                        <tr class="no-data-row-storing">
+                                            <td colspan="7" style="color: red; font-weight: bold;">${msg}</td>
                                         </tr>
                                     </c:otherwise>
                                 </c:choose>
                             </table>
                         </div>
                         <div class="button-container">
-                            <input type="submit" value="신청">
+                            <input type="button" value="신청" onclick="submitForm()">
                             <button class="cancel" type="button"
                                 onclick="window.location.href='/main/mainform'">취소</button>
                         </div>
@@ -147,8 +160,47 @@
             </body>
 
             <script>
+                function submitForm() {
+                    var form = document.getElementById("storingForm");
+                    var checkboxes = document.getElementsByName("selectedProducts");
+
+                    // 폼 데이터를 저장할 새로운 FormData 객체 생성
+                    var formData = new FormData(form);
+
+                    // 체크박스를 반복하며 선택된 것들을 FormData에 추가
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                            var prodNo = checkboxes[i].value;
+                            var reqQuanInput = document.querySelector('input[name="reqQuan"][value="' + prodNo + '"]');
+
+                            if (reqQuanInput) {
+                                var reqQuan = reqQuanInput.value;
+
+                                // 요청 수량이 null이 아닌 경우에만 FormData에 추가
+                                if (reqQuan !== null && reqQuan !== "") {
+                                    formData.append("selectedProducts", prodNo + ":" + reqQuan);
+                                }
+                            }
+                        }
+                    }
+
+                    // 최소 한 개 이상의 상품이 선택되었는지 확인
+                    if (formData.getAll("selectedProducts").length === 0) {
+                        alert("하나 이상의 상품을 선택해주세요.");
+                        return;
+                    }
+
+                    // FormData를 폼 데이터로 설정
+                    form.formData = formData;
+
+                    // 폼 제출
+                    form.submit();
+                }
+
+                // 모든 체크박스 선택/해제하는 함수
                 function toggleCheckboxes(checkbox) {
                     var checkboxes = document.getElementsByName("selectedProducts");
+
                     for (var i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].checked = checkbox.checked;
                     }

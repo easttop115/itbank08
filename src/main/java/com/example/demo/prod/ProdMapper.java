@@ -33,7 +33,7 @@ public interface ProdMapper {
 
   void updateProd(String prodNo, int incomePrice, int sellPrice, String prodCon);
 
-  List<ProdDTO> storeNameList();
+  List<String> storeNameList();
 
   String connectName(String id);
 }

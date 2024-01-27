@@ -20,13 +20,13 @@ CREATE TABLE orderStock (
 @Setter
 public class OrderStockDTO {
 
-    private String reqStore; // 요청매장
-    private String respStore; // 받은매장
-    private String prodNo; // 상품번호
-    private int reqQuan; // 요청수량
-    private int respQuan; // 받은수량
-    private String reqDate; // 요청날짜
-    private String respDate; // 수령날짜
-    private String orderStatus; // 요청상태
+    private String reqStore;
+    private String respStore;
+    private String prodNo;
+    private int reqQuan;
+    private int respQuan;
+    private String reqDate;
+    private String respDate;
+    private String orderStatus;
 
 }

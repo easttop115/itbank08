@@ -156,13 +156,13 @@ public class ProdController {
         List<CateDTO> cateCodes = service.cateCodeList();
         List<BrandDTO> brandCodes = service.brandCodeList();
         List<ColorDTO> colorCodes = service.colorCodeList();
-        List<ProdDTO> storeName = service.storeNameList();
+        List<String> storeNames = service.storeNameList();
 
         model.addAttribute("cateGroups", cateGroups);
         model.addAttribute("cateCodes", cateCodes);
         model.addAttribute("brandCodes", brandCodes);
         model.addAttribute("colorCodes", colorCodes);
-        model.addAttribute("storeName", storeName);
+        model.addAttribute("storeNames", storeNames);
 
         return "/prod/stockStatus";
     }
