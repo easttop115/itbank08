@@ -192,6 +192,33 @@
                     /* 마지막 엘리먼트의 오른쪽 구분선 제거 */
                 }
 
+                .instruction-item2 {
+                    background-color: #fff;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px;
+                    margin-top: 5px;
+                    border: 1px solid #D3D3D3;
+                }
+
+                .instruction-item2 div {
+                    /* 각 div 엘리먼트에 대한 스타일 */
+                    flex: 1;
+                    border-right: 1px solid #060000;
+                    /* 각 엘리먼트 사이에 흰색 구분선 추가 */
+                    padding: 0 8px;
+                    /* 왼쪽 오른쪽으로 8px 간격 추가 */
+                    box-sizing: border-box;
+                    /* 패딩을 포함한 전체 크기 유지 */
+                }
+
+                .instruction-item2 div:last-child {
+                    border-right: none;
+                    /* 마지막 엘리먼트의 오른쪽 구분선 제거 */
+                }
+
+
+
                 .instruction-title {
                     flex: 1;
                     font-weight: bold;
@@ -281,6 +308,27 @@
                     margin-bottom: 5px;
                     /* 각 아이템 간격 조절 */
                 }
+
+                .instruction-item2 {
+                    background-color: #fff;
+                }
+
+                .prodNo-wrapper {
+                    overflow-x: auto;
+                }
+
+                .instruction-item.header .no {
+                    width: 30px;
+                    /* 원하는 너비로 조정 */
+                }
+
+                .instruction-item.header .no {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    max-width: 42px;
+                    /* 원하는 최대 너비로 조정 */
+                }
             </style>
         </head>
 
@@ -368,7 +416,7 @@
                         </div>
                     </div>
                 </div>
-                =
+
 
                 <div class="filter-section2">
                     <label class="Processing">지시수량</label>
@@ -394,11 +442,10 @@
 
             <!-- instruction-list 하단 표-->
 
-
             <div class="table-container">
                 <ul class="instruction-list">
                     <li class="instruction-item header">
-                        <div class="no">NO.</div>
+                        <div class="no">NO</div> <!-- NO 부분의 길이를 줄임 -->
                         <div class="prodNo">품번</div>
                         <div class="prodName">품명</div>
                         <div class="colorCode">색상</div>
@@ -408,55 +455,33 @@
                         <div class="delete">취소</div>
                     </li>
 
-
                     <!--DB-->
                     <c:choose>
-                        <c:when test="${empty instructions}">
+                        <c:when test="${empty instructionDTOLists}">
                             <li class="instruction-item" style="background-color: #fff;">
                                 <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div>
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <!-- <c:forEach var="instruction" items="${instructionGroups}">
-                                <li class="instruction-item">
+                            <c:forEach var="instruction" items="${instructionDTOLists}">
+                                <li class="instruction-item2">
                                     <div class="no">${instruction.no}</div>
+                                    <!-- HTML 코드 수정 -->
+                                    <div class="prodNo-wrapper">
+                                        <div class="prodNo" style="white-space: nowrap;">${instruction.prodNo}</div>
+                                    </div>
+                                    <!-- 품번이 긴 경우 스크롤 적용 -->
+                                    <div class="prodName">${instruction.prodName}</div>
+                                    <div class="colorCode">${instruction.colorCode}</div>
+                                    <div class="size">${instruction.size}</div>
+                                    <div class="reqQuan">${instruction.reqQuan}</div>
+                                    <div class="sellPrice">${instruction.sellPrice}</div>
                                 </li>
-                            </c:forEach>
-
-                            <c:forEach var="product" items="${prodGroups}">
-                                <li class="product-item">
-                                    <div class="prodNo">${product.prodNo}</div>
-                                    <div class="prodName">${product.prodName}</div>
-                                    <div class="colorCode">${product.colorCode}</div>
-                                    <div class="size">${product.size}</div>
-                                    <div class="sellPrice">${product.sellPrice}</div>
-                                </li>
-                            </c:forEach>
-
-                            <c:forEach var="orderStock" items="${orderStockGroups}">
-                                <li class="orderStock-item">
-                                    <div class="reqQuan">${orderStock.reqQuan}</div>
-                                </li>
-                            </c:forEach>
-                            <li>
-                                <div class="vi" colspan="13">${result}</div>
-                            </li> -->
-                            <c:forEach var="instruction" item="${instructions}">
-                                <div class="no">${instruction.no}</div>
-                                <div class="prodNo">${instruction.prodNo}</div>
-                                <div class="prodName">${instruction.prodName}</div>
-                                <div class="colorCode">${instruction.colorCode}</div>
-                                <div class="size">${instruction.size}</div>
-                                <div class="reqQuan">${instruction.reqQuan}</div>
-                                <div class="sellPrice">${instruction.sellPrice}</div>
-                                <div></div>
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
                 </ul>
             </div>
-
-
             <script>
                 function addDateRange() {
                     const startDate = document.getElementById('startDate').value;

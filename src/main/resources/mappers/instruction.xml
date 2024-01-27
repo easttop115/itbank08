@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.instruction.InstructionMapper">
 
-<!--사용할 DTO-->
-<resultMap id="instruction" type="com.example.demo.instruction.InstructionDTO" />
-<resultMap id="prod" type="com.example.demo.prod.ProdDTO" />
-<resultMap id="orderStock" type="com.example.demo.orderStock.OrderStockDTO" />
- 
+    <!-- 사용할 DTO -->
+    <resultMap id="instruction" type="com.example.demo.instruction.InstructionDTO">
+        <id property="no" column="no"/>
+        <result property="id" column="id"/>
+        <result property="processing" column="processing"/>
+        <result property="confirmation" column="confirmation"/>
+        <!-- InstructionDTO 필드에 대한 매핑 -->
 
-<!--셀렉트 옵션-->
-<select id="instructionGroupList" resultMap="instruction"> SELECT DISTINCT no FROM instruction; </select>
-<select id="prodList" resultMap="prod"> SELECT DISTINCT prodNo,prodName,colorCode,size,sellPrice  FROM product; </select>
-<select id="orderStockList" resultMap="orderStock"> SELECT DISTINCT reqQuan FROM orderStock ; </select>
+        <result property="reqQuan" column="reqQuan"/>
+        <result property="respQuan" column="respQuan"/>
+        <result property="reqDate" column="reqDate"/>
+        <result property="respDate" column="respDate"/>
+        <result property="orderStatus" column="orderStatus"/>
+        <!-- OrderStockDTO 필드에 대한 매핑 -->
 
-<select id="intructionProd" resultMap="prod"> SELECT * FROM PRODUCT WHERE (prodNo = #{prodNo} AND storeName = #{storeName} AND quan >= #{quan}) </select>
+        <result property="prodNo" column="prodNo"/>
+        <result property="brandCode" column="brandCode"/>
+        <result property="cateGroup" column="cateGroup"/>
+        <result property="cateCode" column="cateCode"/>
+        <result property="prodName" column="prodName"/>
+        <result property="incomePrice" column="incomePrice"/>
+        <result property="sellPrice" column="sellPrice"/>
+        <result property="size" column="size"/>
+        <result property="colorCode" column="colorCode"/>
+        <result property="storeName" column="storeName"/>
+        <!-- ProdDTO 필드에 대한 매핑 -->
+    </resultMap>
+
+    <!-- InstructionDTO에 대한 셀렉트 옵션 -->
+    <select id="instructionGroupList" resultMap="instruction"> 
+        SELECT DISTINCT no FROM instruction; 
+    </select>
+
+    <!-- OrderStockDTO에 대한 셀렉트 옵션 -->
+    <select id="orderStockList" resultMap="instruction"> 
+        SELECT DISTINCT reqQuan FROM orderStock; 
+    </select>
+
+    <!-- ProdDTO에 대한 셀렉트 옵션 -->
+    <select id="prodList" resultMap="instruction"> 
+        SELECT DISTINCT prodNo, prodName, colorCode, size, sellPrice FROM product; 
+    </select>
+</mapper>

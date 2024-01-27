@@ -7,17 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import com.example.demo.orderStock.OrderStockDTO;
-import com.example.demo.prod.BrandDTO;
-import com.example.demo.prod.ProdDTO;
 import jakarta.servlet.http.HttpSession;
 
 @Service
 @Transactional
 public class InstructionService {
-
-    @Autowired
-    private ProdDTO prodDTO;
     @Autowired
     private InstructionMapper mapper;
     @Autowired
@@ -31,21 +25,31 @@ public class InstructionService {
 
     }
 
-    public List<InstructionDTO> instructionGroupList() {
-        List<InstructionDTO> instructions = mapper.instructionGroupList();
-        return instructions;
+    // public List<InstructionDTO> instructionGroupList() {
+    // List<InstructionDTO> instructions = mapper.instructionGroupList();
+    // return instructions;
 
+    // }
+
+    // public List<ProdDTO> prodList() {
+
+    // return mapper.searchProd();
+    // }
+
+    // public List<OrderStockDTO> orderStockList() {
+    // List<OrderStockDTO> orderStocks = mapper.orderStockList();
+    // return orderStocks;
+
+    // }
+    @Autowired
+    public InstructionService(InstructionMapper mapper) {
+        this.mapper = mapper;
     }
 
-    public List<ProdDTO> prodList() {
-
-        return mapper.searchProd();
+    public List<InstructionDTO> getAllInstructionData() {
+        List<InstructionDTO> instructionDTOList = mapper.instructionGroupList();
+        instructionDTOList.addAll(mapper.prodList());
+        instructionDTOList.addAll(mapper.orderStockList());
+        return instructionDTOList;
     }
-
-    public List<OrderStockDTO> orderStockList() {
-        List<OrderStockDTO> orderStocks = mapper.orderStockList();
-        return orderStocks;
-
-    }
-
 }
