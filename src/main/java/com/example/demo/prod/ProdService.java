@@ -6,16 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.servlet.http.HttpSession;
-
 @Service
 @Transactional
 public class ProdService {
 
   @Autowired
   private ProdMapper mapper;
-  @Autowired
-  private HttpSession session;
 
   public String addBrand(BrandDTO brand) {
     int result = mapper.addBrand(brand);

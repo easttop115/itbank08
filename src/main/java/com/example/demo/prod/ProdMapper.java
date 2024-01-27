@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.join.StoreDTO;
-
 @Mapper
 public interface ProdMapper {
 
