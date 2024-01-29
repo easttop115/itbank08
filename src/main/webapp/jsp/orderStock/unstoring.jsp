@@ -136,17 +136,17 @@
                                                 <td>
                                                     <select name="storeName"> <!-- 서버로 전송하기 위해 필요 -->
                                                         <c:choose>
-                                                          <c:when test="${empty storeNames}">
-                                                            <option value="noStoreName">등록된 매장이 없습니다.</option>
-                                                          </c:when>
-                                                          <c:otherwise>
-                                                            <option value="">매장 선택</option>
-                                                            <c:forEach var="storeName" items="${storeNames}">
-                                                              <option value="${storeName}">${storeName}</option>
-                                                            </c:forEach>
-                                                          </c:otherwise>
+                                                            <c:when test="${empty storeNames}">
+                                                                <option value="noStoreName">등록된 매장이 없습니다.</option>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <option value="">매장 선택</option>
+                                                                <c:forEach var="storeName" items="${storeNames}">
+                                                                    <option value="${storeName}">${storeName}</option>
+                                                                </c:forEach>
+                                                            </c:otherwise>
                                                         </c:choose>
-                                                      </select>
+                                                    </select>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -183,22 +183,23 @@
                     // 폼 데이터를 저장할 새로운 FormData 객체 생성
                     var formData = new FormData(form);
 
-                    // 선택한 매장의 값을 FormData에 추가
-                    var selectedStore = document.querySelector('select[name="storeName"]');
-                    formData.append("storeName", selectedStore.value);
+                    // // 선택된 상품들의 정보를 저장할 배열
+                    // var selectedProducts = [];
 
                     // 체크박스를 반복하며 선택된 것들을 FormData에 추가
                     for (var i = 0; i < checkboxes.length; i++) {
                         if (checkboxes[i].checked) {
                             var prodNo = checkboxes[i].value;
                             var respQuanInput = document.querySelector('input[name="respQuan"][value="' + prodNo + '"]');
+                            var selectedStoreInput = document.querySelector('select[name="storeName"][value="' + prodNo + '"]');
 
-                            if (respQuanInput) {
+                            if (respQuanInput && selectedStoreInput) {
                                 var respQuan = respQuanInput.value;
+                                var selectedStore = selectedStoreInput.value;
 
                                 // 요청 수량이 null이 아닌 경우에만 FormData에 추가
-                                if (respQuan !== null && respQuan !== "") {
-                                    formData.append("selectedProducts", prodNo + ":" + respQuan);
+                                if (respQuan !== null && respQuan !== "" && selectedStore !== null && selectedStore !== "") {
+                                    formData.append("selectedProducts", prodNo + ":" + respQuan + ":" + selectedStore);
                                 }
                             }
                         }

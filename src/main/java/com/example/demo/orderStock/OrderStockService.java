@@ -19,7 +19,7 @@ public class OrderStockService {
     @Autowired
     private HttpSession session;
 
-    public String storingProc(String prodNo, int reqQuan, Model model) {
+    public String storingProc(String prodNo, int reqQuan) {
         String id = (String) session.getAttribute("id");
         String storeName = mapper.connectName(id);
         ProdDTO prod = new ProdDTO(null, null, null, null);
@@ -49,11 +49,12 @@ public class OrderStockService {
         model.addAttribute("stocks", stocks);
     }
 
+    // 입고 요청 승인
     public String storingApprove(OrderStockDTO store, Model model) {
         int searchProdQuan = mapper.searchRootQuan(store); // 본사가 등록한 재고 수량 확인
         OrderStockDTO searchProdInfo = mapper.searchProdInfo(store); // 매장에서 요청한 수량, prodNo 확인
         int updateRootQuan = searchProdQuan - searchProdInfo.getReqQuan();
-        if (updateRootQuan > 0) {
+        if (updateRootQuan >= 0) {
             ProdDTO prods = new ProdDTO(null, null, null, null);
             prods.setQuan(updateRootQuan);
             prods.setProdNo(searchProdInfo.getProdNo());
@@ -77,10 +78,9 @@ public class OrderStockService {
 
                 return "success";
             }
-            return "본사 재고 수량보다 많은 값을 입력했습니다. 확인 후 다시 시도해주세요.";
+            return "failed";
         }
-
-        return "failed";
+        return "본사 재고 수량보다 많은 값을 입력했습니다. 확인 후 다시 시도해주세요.";
     }
 
     public String storingDenied(OrderStockDTO store) {
@@ -91,20 +91,39 @@ public class OrderStockService {
         return "failed";
     }
 
-    public String unstoringProc(String prodNo, int respQuan, Model model) {
-        String id = (String) session.getAttribute("id");
-        String storeName = mapper.connectName(id);
+    // 출고
+    public String unstoringProc(String prodNo, int respQuan, String storeName) {
         ProdDTO prod = new ProdDTO(null, null, null, null);
         prod.setProdNo(prodNo);
-        ProdDTO totalQuan = mapper.findRootProd(prod);
-            if (respQuan < totalQuan.getQuan()) {
-                int result = mapper.unstoringProc(storeName, prodNo, respQuan);
-                if (result > 0)
-                    return "success";
+        ProdDTO totalQuan = mapper.findRootProd(prod); // prodNo 값은 유니크 값 => prodNo에 해당하는 수량을 가져와라
+        if (respQuan <= totalQuan.getQuan()) { // 출고 수량보다 총 수량이 많으면 ok
+            int result = mapper.unstoringProc(storeName, prodNo, respQuan); // 출고 기록용으로 db에 저장(orderStock)
 
-                return "failed";
+            if (result > 0) {
+                int updateRootQuan = totalQuan.getQuan() - respQuan;
+                prod.setQuan(updateRootQuan);
+                mapper.updateRootQuan(prod); // 본사 재고 수량 업데이트
+
+                prod.setStoreName(storeName);
+                ProdDTO findStoreProd = mapper.findStoreProd(prod); // 매장의 product 정보를 가져옴
+                
+                if (findStoreProd != null) { // 기존 정보가 있다면
+                    findStoreProd.setQuan(findStoreProd.getQuan() + respQuan); // 기존 수량 + 출고 수량
+                    mapper.updateStoreProd(findStoreProd); // 같은 매장 정보가 있다면 수량만 업데이트
+                } else { // 새 정보라면
+                    ProdDTO findRootProd = mapper.findRootProd(prod);
+
+                    findRootProd.setQuan(respQuan);
+                    findRootProd.setStoreName(storeName);
+                    mapper.insertStoreProd(findRootProd); // product 테이블에 매장의 재고 정보를 기입
+                }
+
+                return "success";
             }
-            return "재고 수량보다 신청 수량이 많습니다. 다시 시도해 주세요.";
+
+            return "failed";
+        }
+        return "재고 수량보다 입력한 수량이 많습니다. 다시 시도해 주세요.";
     }
 
     public void storeList(Model model) {

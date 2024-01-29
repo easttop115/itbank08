@@ -36,8 +36,8 @@
                             <tr>
                                 <td>매장명</td>
                                 <td>상품코드</td>
-                                <td>신청 수량</td>
-                                <td>신청 날짜</td>
+                                <td>수량</td>
+                                <td>결재일</td>
                                 <td>입출고 상태</td>
                             </tr>
                             <c:choose>
@@ -63,7 +63,7 @@
                                                     </c:choose>
                                                 </c:when>
                                                 <c:when test="${stock.orderStatus == 'response' and radioButton == 'selectResponse'}">
-                                                    <td>본사</td>
+                                                    <td>${stock.respStore}</td>
                                                     <td>${stock.prodNo}</td>
                                                     <td>${stock.respQuan}</td>
                                                     <td>${stock.respDate}</td>

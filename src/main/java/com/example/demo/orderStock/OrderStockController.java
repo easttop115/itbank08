@@ -50,14 +50,23 @@ public class OrderStockController {
     }
 
     @PostMapping("/storingProc")
-    public String storingProc(@RequestParam("selectedProducts") String prodNo, @RequestParam("reqQuan") int reqQuan,
-            Model model) {
-        String confirm = service.storingProc(prodNo, reqQuan, model);
-        if (confirm.equals("success"))
-            return "redirect:/storing";
+    public String storingProc(@RequestParam("selectedProducts") List<String> selectedProducts,
+            @RequestParam("reqQuan") List<Integer> reqQuanList, Model model) {
 
-        model.addAttribute("msg", confirm);
-        return "/orderStock/storing";
+        for (int i = 0; i < selectedProducts.size(); i++) {
+            if (reqQuanList.get(i) != null) { // 요청수량이 있을 때만 실행
+                String prodNo = selectedProducts.get(i);
+                int reqQuan = reqQuanList.get(i);
+
+                String confirm = service.storingProc(prodNo, reqQuan);
+
+                if (!confirm.equals("success")) {
+                    model.addAttribute("msg", confirm);
+                    return "/orderStock/storing";
+                }
+            }
+        }
+        return "redirect:/storing"; // 성공 시
     }
 
     @PostMapping("/searchStoring")
@@ -135,14 +144,26 @@ public class OrderStockController {
     }
 
     @PostMapping("/unstoringProc")
-    public String unstoringProc(@RequestParam("selectedProducts") String prodNo, @RequestParam("respQuan") int respQuan,
-            Model model) {
-        String confirm = service.unstoringProc(prodNo, respQuan, model);
-        if (confirm.equals("success"))
-            return "redirect:/unstoring";
+    public String unstoringProc(@RequestParam("selectedProducts") List<String> selectedProducts,
+            @RequestParam("respQuan") List<Integer> respQuanList,
+            @RequestParam("storeName") List<String> storeNameList, Model model) {
 
-        model.addAttribute("msg", confirm);
-        return "/orderStock/unstoring";
+        for (int i = 0; i < selectedProducts.size(); i++) {
+            if (respQuanList.get(i) != null && storeNameList.get(i) != null) { // 요청수량 또는 매장명이 있을 때만 실행
+                String prodNo = selectedProducts.get(i);
+                int respQuan = respQuanList.get(i);
+                String storeName = storeNameList.get(i);
+                System.out.println("뭣이 중헌디?? : " + prodNo + "\n" + respQuan + "\n" + storeName + " / 시마이");
+
+                String confirm = service.unstoringProc(prodNo, respQuan, storeName);
+
+                if (!confirm.equals("success")) {
+                    model.addAttribute("msg", confirm);
+                    return "/orderStock/unstoring";
+                }
+            }
+        }
+        return "redirect:/unstoring"; // 성공 시
     }
 
     @PostMapping("/searchUnstoring")
