@@ -50,7 +50,8 @@ public class OrderStockController {
     }
 
     @PostMapping("/storingProc")
-    public String storingProc(@RequestParam("selectedProducts") String prodNo, @RequestParam("reqQuan") int reqQuan, Model model) {
+    public String storingProc(@RequestParam("selectedProducts") String prodNo, @RequestParam("reqQuan") int reqQuan,
+            Model model) {
         String confirm = service.storingProc(prodNo, reqQuan, model);
         if (confirm.equals("success"))
             return "redirect:/storing";
@@ -111,6 +112,57 @@ public class OrderStockController {
             return "redirect:/ioCheck";
 
         return "/orderStock/ioCheck";
+    }
+
+    @RequestMapping("/unstoring")
+    public String unstoring(Model model) {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            return "/join/login";
+
+        List<CateDTO> cateGroups = prodService.cateGroupList();
+        List<CateDTO> cateCodes = prodService.cateCodeList();
+        List<BrandDTO> brandCodes = prodService.brandCodeList();
+        List<ColorDTO> colorCodes = prodService.colorCodeList();
+        service.storeList(model);
+
+        model.addAttribute("cateGroups", cateGroups);
+        model.addAttribute("cateCodes", cateCodes);
+        model.addAttribute("brandCodes", brandCodes);
+        model.addAttribute("colorCodes", colorCodes);
+
+        return "/orderStock/unstoring";
+    }
+
+    @PostMapping("/unstoringProc")
+    public String unstoringProc(@RequestParam("selectedProducts") String prodNo, @RequestParam("respQuan") int respQuan,
+            Model model) {
+        String confirm = service.unstoringProc(prodNo, respQuan, model);
+        if (confirm.equals("success"))
+            return "redirect:/unstoring";
+
+        model.addAttribute("msg", confirm);
+        return "/orderStock/unstoring";
+    }
+
+    @PostMapping("/searchUnstoring")
+    public String unprodList(@ModelAttribute("prod") ProdDTO prod, RedirectAttributes ra) {
+
+        if (prod.getCateCode().trim().isEmpty()
+                && prod.getCateGroup().trim().isEmpty()
+                && prod.getColorCode().trim().isEmpty()
+                && prod.getSize().trim().isEmpty()
+                && prod.getProdNo().trim().isEmpty()) {
+            System.out.println(prod.getCateCode());
+            System.out.println(prod.getColorCode());
+            return "redirect:/unstoring";
+        }
+
+        List<ProdDTO> plist = service.prodList(prod);
+        ra.addFlashAttribute("prods", plist);
+        System.out.println("확인" + plist);
+        return "redirect:/unstoring";
+
     }
 
 }

@@ -39,4 +39,8 @@ public interface OrderStockMapper {
 
     int storingDenied(OrderStockDTO store);
 
+    int unstoringProc(String storeName, String prodNo, int reqQuan);
+
+    List<String> storeList();
+
 }

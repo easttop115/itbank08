@@ -167,20 +167,14 @@ public class ProdController {
         return "/prod/stockStatus";
     }
 
-    @PostMapping("/prod/stockList")
-    public String stockList(@ModelAttribute("prod") ProdDTO prod) {
-        if (prod.getCateCode().trim().isEmpty()
-                && prod.getCateGroup().trim().isEmpty()
-                && prod.getColorCode().trim().isEmpty()
-                && prod.getSize().trim().isEmpty()
-                && prod.getProdNo().trim().isEmpty()) {
+    @PostMapping("prod/stockList")
+    public String stockList(@ModelAttribute("ss") StockStatusDTO ss, Model model) {
 
-            return "redirect:/prod/prodStatus";
-        }
-        List<ProdDTO> plist = service.prodList(prod);
-        System.out.println("확인" + plist);
+        List<StockStatusDTO> stockLists = service.stockStatusList(ss);
+        System.out.println("체크 : " + stockLists);
+        model.addAttribute("dataList", stockLists);
 
-        return "redirect:/prod/prodStatus";
+        return "redirect:/prod/stockStatus";
     }
 
     @GetMapping("/getProdInfo")

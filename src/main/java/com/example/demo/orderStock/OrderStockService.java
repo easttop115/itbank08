@@ -91,4 +91,26 @@ public class OrderStockService {
         return "failed";
     }
 
+    public String unstoringProc(String prodNo, int respQuan, Model model) {
+        String id = (String) session.getAttribute("id");
+        String storeName = mapper.connectName(id);
+        ProdDTO prod = new ProdDTO(null, null, null, null);
+        prod.setProdNo(prodNo);
+        ProdDTO totalQuan = mapper.findRootProd(prod);
+            if (respQuan < totalQuan.getQuan()) {
+                int result = mapper.unstoringProc(storeName, prodNo, respQuan);
+                if (result > 0)
+                    return "success";
+
+                return "failed";
+            }
+            return "재고 수량보다 신청 수량이 많습니다. 다시 시도해 주세요.";
+    }
+
+    public void storeList(Model model) {
+        List<String> storeNames = mapper.storeList();
+
+        model.addAttribute("storeNames", storeNames);
+    }
+
 }

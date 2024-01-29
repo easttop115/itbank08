@@ -66,4 +66,24 @@
     <update id="updateProd" parameterType="com.example.demo.prod.ProdDTO"> UPDATE product SET
         incomePrice=#{incomePrice}, sellPrice=#{sellPrice}, prodCon=#{prodCon} WHERE
         prodNo=#{prodNo} </update>
+
+    <!-- stockStatus.jsp 코드 -->
+    <select id="stockStatus" resultType="com.example.demo.prod.StockStatusDTO"> SELECT * FROM product <where>
+        <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup},
+        '%') </if>
+        <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%',
+        #{cateCode}, '%') </if>
+        <if
+                test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+        OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
+        <if
+                test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+        <if
+                test="size != null and size != ''"> AND size = #{size} </if>
+        <if
+                test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+        <if
+                test="storeName == null"> AND storeName = #{storeName} </if>
+        </where>
+    </select>
 </mapper>

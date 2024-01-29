@@ -158,7 +158,7 @@ height: 30px;
       <c:import url="/sider" />
       <div class="content-container">
         <div class="inventory-title">매장별 재고 현황</div>
-        <form id="searchForm" action="/prod/stockList" method="post">
+        <form id="searchForm" action="prod/stockList" method="post">
           <table>
             <tbody>
               <tr>
@@ -238,13 +238,13 @@ height: 30px;
 
             <!-- 데이터 유무 확인 -->
             <c:choose>
-              <c:when test="${empty DataList}">
+              <c:when test="${empty dataList}">
                 <tr class="no-data-row">
                   <td colspan="8">조회된 정보가 없습니다.</td>
                 </tr>
               </c:when>
               <c:otherwise>
-                <c:forEach var="item" items="${DataList}">
+                <c:forEach var="item" items="${dataList}">
                   <tr class="second-table-content">
                     <td>${item.prodCode}</td>
                     <td>${item.prodName}</td>
@@ -258,7 +258,6 @@ height: 30px;
                 </c:forEach>
               </c:otherwise>
             </c:choose>
-
           </tbody>
         </table>
       </div>

@@ -27,6 +27,8 @@ public interface ProdMapper {
 
   List<ProdDTO> searchProd(ProdDTO prod);
 
+  List<StockStatusDTO> stockStatus(StockStatusDTO ss);
+
   ProdDTO findById(String prodNo);
 
   void updateProd(String prodNo, int incomePrice, int sellPrice, String prodCon);

@@ -70,6 +70,11 @@ public class ProdService {
     return mapper.searchProd(prod);
   }
 
+  public List<StockStatusDTO> stockStatusList(StockStatusDTO ss) {
+
+    return mapper.stockStatus(ss);
+  }
+
   public ProdDTO findById(String prodNo) {
     return mapper.findById(prodNo);
   }

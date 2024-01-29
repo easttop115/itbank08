@@ -6,6 +6,10 @@
     <insert id="storingProc"> <!-- 입고 -->
         INSERT INTO orderStock (reqStore, prodNo, reqQuan, reqDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{reqQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'request')
     </insert>
+    <insert id="unstoringProc"> <!-- 출고 -->
+        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
+    </insert>
+
     <select id="searchProd" resultType="com.example.demo.prod.ProdDTO"> SELECT * FROM product <where>
         <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup},
         '%') </if>
@@ -69,4 +73,8 @@
 <update id="storingDenied">
     UPDATE orderStock SET orderStatus='denied' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='request')
 </update>
+
+<select id="storeList">
+    SELECT DISTINCT storeName FROM product WHERE storeName IS NOT NULL
+</select>
 </mapper>
