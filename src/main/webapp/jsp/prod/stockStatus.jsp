@@ -79,14 +79,6 @@
           display: none;
         }
 
-        /* .half-width {
-width: 30%;
-text-align: left;
-height: 30px;
-} */
-
-
-
         /* ------  표2 ----- */
         /* 표2 헤더 */
         .second-table-header {
@@ -112,45 +104,6 @@ height: 30px;
         }
       </style>
 
-      <!--검색 드롭다운  -->
-      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-      <script>
-        $(document).ready(function () {
-          $("#searchInput").on("input", function () {
-            var searchText = $(this).val();
-
-            $.ajax({
-              type: "GET",
-              url: "search.jsp", // 서버 측 파일의 경로
-              data: { searchText: searchText },
-              dataType: "json",
-              success: function (data) {
-                updateDropdown(data);
-              },
-              error: function () {
-                console.log("데이터 가져오기 실패");
-              }
-            });
-          });
-        });
-
-        function updateDropdown(data) {
-          var dropdown = $("#searchDropdown");
-
-          // 드롭다운 비우기
-          dropdown.empty();
-
-          // 가져온 데이터로 드롭다운 채우기
-          for (var i = 0; i < data.length; i++) {
-            dropdown.append("<option value='" + data[i] + "'>" + data[i] + "</option>");
-          }
-
-          // 드롭다운 보이기
-          dropdown.show();
-        }
-      </script>
-
     </head>
 
     <body>
@@ -158,14 +111,14 @@ height: 30px;
       <c:import url="/sider" />
       <div class="content-container">
         <div class="inventory-title">매장별 재고 현황</div>
-        <form id="searchForm" action="prod/stockList" method="post">
+        <form action="prod/stockList" method="post">
           <table>
             <tbody>
               <tr>
                 <!-- 스타일 따로 빼-->
                 <td class="first-table-subject">매장</td>
                 <td class="first-table-content">
-                  <select>
+                  <select name="storeName">
                     <c:choose>
                       <c:when test="${empty storeNames}">
                         <option value="noStoreName">등록된 매장이 없습니다.</option>
@@ -246,14 +199,14 @@ height: 30px;
               <c:otherwise>
                 <c:forEach var="item" items="${dataList}">
                   <tr class="second-table-content">
-                    <td>${item.prodCode}</td>
+                    <td>${item.prodNo}</td>
                     <td>${item.prodName}</td>
-                    <td>${item.color}</td>
-                    <td>${item.price}</td>
-                    <td>${item.sizeS}</td>
-                    <td>${item.sizeM}</td>
-                    <td>${item.sizeL}</td>
-                    <td>${item.sizeXL}</td>
+                    <td>${item.colorName}</td>
+                    <td>${item.sellPrice}</td>
+                    <td>${item.size}</td>
+                    <td>${item.size}</td>
+                    <td>${item.size}</td>
+                    <td>${item.size}</td>
                   </tr>
                 </c:forEach>
               </c:otherwise>

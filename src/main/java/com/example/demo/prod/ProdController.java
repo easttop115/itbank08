@@ -168,12 +168,13 @@ public class ProdController {
     }
 
     @PostMapping("prod/stockList")
-    public String stockList(@ModelAttribute("ss") StockStatusDTO ss, Model model) {
+    public String stockList(StockStatusDTO ss, RedirectAttributes ra) {
 
         List<StockStatusDTO> stockLists = service.stockStatusList(ss);
-        System.out.println("체크 : " + stockLists);
-        model.addAttribute("dataList", stockLists);
 
+        System.out.println("체크 : " + stockLists);
+
+        ra.addFlashAttribute("dataList", stockLists);
         return "redirect:/prod/stockStatus";
     }
 
