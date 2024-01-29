@@ -249,6 +249,7 @@
 
                 }
 
+                /*모달*/
                 .modal {
                     display: none;
                     position: fixed;
@@ -263,18 +264,81 @@
 
                 .modal-content {
                     background-color: #fff;
-                    padding: 120px;
+                    padding: 40px;
                     border-radius: 10px;
-                    width: 380px;
+                    width: 72%;
                     text-align: center;
+                    margin: 80px auto 0;
+                    display: flex;
+                    justify-content: center;
+                    /* 요소들을 시작 부분에 정렬 */
+                    flex-wrap: wrap;
+                    /* 넘치는 요소를 다음 줄로 이동시키기 위해 추가 */
+                }
+
+                .modal-filter {
+                    display: inline-flex;
+                    /* 요소들을 가로로 정렬하는 Flexbox 설정 */
+                    justify-content: center;
 
                 }
 
+
+
+                .output-container {
+                    border: 1px solid #ddd;
+                    /* 네모 박스 테두리 스타일 지정 */
+                    padding: 10px;
+                    /* 내부 간격 지정 */
+                    border-radius: 5px;
+                    /* 모서리를 둥글게 만듦 */
+                    background-color: #f5f5f5;
+                    /* 네모 박스 배경색 지정 */
+                    width: 100%;
+                    /* 네모 박스를 부모 요소의 가로폭에 맞춤 */
+                    margin-top: 20px;
+                    /* 상단 여백 추가 */
+                    display: flex;
+                    justify-content: flex-start;
+
+                }
+
+                .modal-bottem {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px;
+                    margin-top: -10px;
+                    background-color: #cadae7;
+                    /* 배경 색상 변경 */
+                    border: 1px solid #D3D3D3;
+                    /* 테두리 추가 */
+                    white-space: nowrap;
+                    width: 148%;
+
+                }
+
+                .modal-bottem div {
+                    /* 각 div 엘리먼트에 대한 스타일 */
+                    flex: 1;
+                    border-right: 1px solid #060000;
+                    /* 각 엘리먼트 사이에 흰색 구분선 추가 */
+                    padding: 0 8px;
+                    /* 왼쪽 오른쪽으로 8px 간격 추가 */
+                    box-sizing: border-box;
+                    /* 패딩을 포함한 전체 크기 유지 */
+                }
+
+                .modal-bottem div:last-child {
+                    border-right: none;
+                    /* 마지막 엘리먼트의 오른쪽 구분선 제거 */
+                }
+
+
+
                 .close-btn {
-                    cursor: pointer;
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
+                    margin-left: 136%;
+                    font-size: 24px;
+                    /* 추가된 부분 */
                 }
 
                 .pr-bu {
@@ -290,31 +354,26 @@
 
                 }
 
-                .model-list {
-                    border: 1px solid #ddd;
-                    /* 검은색 테두리 */
-                    padding: 10px;
-                    /* 내부 여백 조절 */
-                    border-radius: 5px;
-                }
 
-                .model-list ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                }
-
-                .model-list li {
-                    margin-bottom: 5px;
-                    /* 각 아이템 간격 조절 */
-                }
 
                 .instruction-item2 {
                     background-color: #fff;
                 }
 
+
+                /*스크롤*/
+
                 .prodNo-wrapper {
                     overflow-x: auto;
+                }
+
+                .prodName {
+                    overflow-x: auto;
+                    /* 가로 스크롤을 표시하기 위해 추가 */
+                    white-space: nowrap;
+                    /* 텍스트 줄바꿈 방지 */
+                    max-width: 200px;
+                    /* 필요한 경우 최대 너비 지정 */
                 }
 
                 .instruction-item.header .no {
@@ -329,16 +388,25 @@
                     max-width: 42px;
                     /* 원하는 최대 너비로 조정 */
                 }
+
+                .instruction-item2 .no {
+                    max-width: 42px;
+                    /* 원하는 너비로 조정 */
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
             </style>
         </head>
 
         <body>
+            <c:import url="/header" />
             <!--버튼-->
 
             <h1>R/T지시요청</h1>
             <div class="button-box">
                 <button>조회</button>
-                <button>신규</button>
+                <button type="button" onclick="location.href='/instruction/instructionform'">목록</button>
                 <button>삭제</button>
                 <button>마감처리</button>
 
@@ -373,36 +441,6 @@
                     </div>
                 </div>
 
-                <!--모달창-->
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close-btn" onclick="closeModal()">&times;</span>
-                        <!-- 여기에 모달 내용 추가 -->
-                        <div class="table-row">
-                            <div class="table-cell"
-                                style="background-color: #f9f7f9; padding: 10px; border-radius: 5px;">
-                                <input type="text" id="modal-prodno" placeholder="품명 코드를 입력하세요"
-                                    value="${instruction.prodNo}">
-                                <input type="submit" class="pr-bu" value="조회">
-                            </div>
-                        </div>
-                        <!-- 추가된 부분: model-list 네모 박스 -->
-                        <c:choose>
-                            <c:when test="${not empty prods}">
-                                <c:forEach var="product" items="${prods}">
-                                    <div class="prodNo" onclick="openModal('productModal',  '${instruction.prodNo}')">
-                                        ${instruction.prodNo}
-                                    </div>
-                                </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="model-list">
-                                    <div class="td" colspan="5">조회된 정보가 없습니다.</div>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div>
 
                 <div class="filter-section2">
                     <label class="Processing">지시매장</label>
@@ -459,7 +497,8 @@
                     <c:choose>
                         <c:when test="${empty instructionDTOLists}">
                             <li class="instruction-item" style="background-color: #fff;">
-                                <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div>
+                                <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.
+                                </div>
                             </li>
                         </c:when>
                         <c:otherwise>
@@ -468,7 +507,8 @@
                                     <div class="no">${instruction.no}</div>
                                     <!-- HTML 코드 수정 -->
                                     <div class="prodNo-wrapper">
-                                        <div class="prodNo" style="white-space: nowrap;">${instruction.prodNo}</div>
+                                        <div class="prodNo" style="white-space: nowrap;">${instruction.prodNo}
+                                        </div>
                                     </div>
                                     <!-- 품번이 긴 경우 스크롤 적용 -->
                                     <div class="prodName">${instruction.prodName}</div>
@@ -482,136 +522,295 @@
                     </c:choose>
                 </ul>
             </div>
-            <script>
-                function addDateRange() {
-                    const startDate = document.getElementById('startDate').value;
 
-                    // 날짜 범위에서 각 날짜에 대한 처리구분을 추가
-                    for (let date = new Date(startDate); date <= new Date(startDate); date.setDate(date.getDate() + 1)) {
-                        const newRow = document.createElement('div');
-                        newRow.className = 'table-row';
-                        const dateCell = document.createElement('div');
-                        dateCell.className = 'table-cell';
+            <!-- 모달 -->
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <form id="filter-form">
+                        <form id="searchForm" action="/instruction/modalList" method="post">
+                            <span class="close-btn" onclick="closeModal()">&times;</span>
+                            <div class="modal-filter">
+                                <label for="cateGroup" class="filter-label"></label>
+                                <select name="cateGroup" id="cateGroup" class="searchOption">
+                                    <option value="">카테고리 그룹 선택</option>
+                                    <c:forEach var="instruction" items="${instructionDTOLists}">
+                                        <option value="${instruction.cateGroup}">${instruction.cateGroup}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="modal-filter">
+                                <label for="cateCode" class="filter-label"></label>
+                                <select name="cateCode" id="cateCode" class="searchOption">
+                                    <option value="">카테고리 코드 선택</option>
+                                    <c:forEach var="instruction" items="${instructionDTOLists}">
+                                        <option value="${instruction.cateCode}">${instruction.cateCode}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="modal-filter">
+                                <label for="colorCode" class="filter-label"></label>
+                                <select name="colorCode" id="colorCode" class="searchOption">
+                                    <option value="">색상 코드 선택</option>
+                                    <c:forEach var="instruction" items="${instructionDTOLists}">
+                                        <option value="${instruction.colorCode}">${instruction.colorCode}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="modal-filter">
+                                <label for="size" class="filter-label"></label>
+                                <select name="size" id="size" class="searchOption">
+                                    <option value="">사이즈 선택</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                            </div>
+                            <div class="filter-search">
+                                <input id="searchProdNo" type="text" name="searchProdNo" placeholder="상품코드를 입력해주세요">
+                                <input type="submit" class="search-button" value="검색">
+                            </div>
+                        </form>
+                    </form>
+                    <!-- 품번, 품명, 색상, 사이즈 출력란 -->
+                    <div class="output-container">
+                        <div class="table">
+                            <div class="modal-bottem">
+                                <div class="modal-cell">품번</div>
+                                <div class="modal-cell">품명</div>
+                                <div class="modal-cell">색상</div>
+                                <div class="modal-cell">사이즈</div>
+                                <!-- 필요한 열을 추가할 수 있습니다. -->
+                            </div>
+                            <div class="table-body">
+                                <!-- 여기에 조회 결과를 반복문으로 표현하는 div 요소들을 추가합니다. -->
+                                <c:choose>
+                                    <c:when test="${not empty instructionDTOLists}">
+                                        <c:forEach var="instruction" items="${instructionDTOLists}">
+                                            <div class="instruction-item">
+                                                <div class="prodNo"
+                                                    onclick="openModal('productModal', '${instruction.prodNo}')">
+                                                    ${instruction.prodNo}</div>
+                                                <div class="prodName"
+                                                    onclick="openModal('productModal', '${instruction.prodNo}')">
+                                                    ${instruction.prodName}</div>
+                                                <div class="size">${instruction.size}</div>
+                                                <div class="colorCode">${instruction.colorCode}</div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="no-data-row">
+                                            <div colspan="5">조회된 정보가 없습니다.</div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+        </body>
+        <script>
+            // 모달 관련 함수들
+            function openModal() {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "block";
+            }
 
-                        dateCell.textContent = date.toISOString().split('T')[0];
+            function closeModal() {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "none";
+            }
 
-                        newRow.appendChild(dateCell);
+            // 검색 버튼에 이벤트 핸들러 추가
+            document.getElementById('searchButton').addEventListener('click', function (event) {
+                event.preventDefault(); // 기본 동작 중지
+                openModal(); // 모달 열기 함수 호출
+            });
 
-                        document.getElementById('dataBody').appendChild(newRow);
-                    }
+            const modalForm = document.querySelector('#modalForm');
+            modalForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                console.log('event: ', event);
+
+                const formData = new FormData(modalForm);
+                const formNameList = ['prodNo', 'brandCode', 'cateCode', 'size', 'colorCode', 'incomePrice', 'sellPrice', 'prodCon'];
+
+                const submitData = {};
+
+                for (let i = 0; i < formNameList.length; i++) {
+                    const formName = formNameList[i];
+                    submitData[formName] = formData.get(formName);
                 }
-                function searchInstructions() {
-                    // 지시번호를 기반으로 검색하는 로직을 추가하세요
-                    const instructionNumber = document.getElementById('instructionNumber').value;
-
-                    // AJAX 요청 또는 서버로부터 지시를 가져오는 다른 로직을 구현하세요
-                    console.log('번호로 지시 검색 중:', instructionNumber);
-                }
-
-                document.addEventListener('DOMContentLoaded', function () {   //매장 스크롤바ㅊ
-                    const shopSelect = document.getElementById('shopSelect');
-
-                    shopSelect.addEventListener('change', function () {
-                        const selectedShop = shopSelect.value;
-                        console.log('Selected Shop:', selectedShop);
-                        // 여기서 선택된 매장 값을 서버로 전송하도록 구현할 수 있습니다.
+                console.log('submitData: ', submitData);
+                updateFetch(submitData);
+            });
 
 
+
+            function loadProdInfo(prodNo) {
+                fetch('<c:url value="/prod/detail/" />' + prodNo)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log('data: ', data);
+                        generateModalContent(data);
                     });
+            }
+
+            function generateModalContent(prodInfo) {
+                const formHtml =
+                    '<div class="form-container">' +
+                    '  <h2 style="text-align: center;">' + prodInfo.prodName + '</h2>' +
+                    '  <div class="input-row">' +
+                    '    <label for="modifyProdNo">상품코드</label>' +
+                    '    <input type="text" class="modifyProdNo" name="prodNo" value="' + prodInfo.prodNo + '" readonly>' +
+                    '  </div>' +
+                    '  <div class="input-row">' +
+                    '    <label for="modifyBrandCode">브랜드코드</label>' +
+                    '    <input type="text" class="modifyBrandCode" name="brandCode" value="' + prodInfo.brandCode + '" readonly>' +
+                    '  </div>' +
+                    '  <div class="input-row">' +
+                    '    <label for="modifyCate">카테고리</label>' +
+                    '    <input type="text" class="modifyCate" name="cateCode" value="' + prodInfo.cateCode + '" readonly>' +
+                    '  </div>' +
+                    '  <div class="input-row">' +
+                    '    <label for="modifySize">사이즈</label>' +
+                    '    <input type="text" class="modifySize" name="size" value="' + prodInfo.size + '" readonly>' +
+                    '  </div>' +
+                    '  <div class="input-row">' +
+                    '    <label for="modifyColor">색상</label>' +
+                    '    <input type="text" class="modifyColor" name="color" value="' + prodInfo.colorCode + '" readonly>' +
+                    '  </div>' +
+
+
+                    console.log('formHtml: ', formHtml);
+                const modal = document.querySelector('#modalForm');
+                modal.innerHTML = formHtml;
+            }
+
+            // 페이지 로딩 시 실행되는 함수
+            document.addEventListener('DOMContentLoaded', function () {
+                const shopSelect = document.getElementById('shopSelect');
+
+                // 매장 선택 시
+                shopSelect.addEventListener('change', function () {
+                    const selectedShop = shopSelect.value;
+                    console.log('Selected Shop:', selectedShop);
+                    // 여기서 선택된 매장 값을 서버로 전송하도록 구현할 수 있습니다.
                 });
 
+                // 검색 버튼에 이벤트 핸들러 추가
+                document.getElementById('searchButton').addEventListener('click', function (event) {
+                    event.preventDefault(); // 기본 동작 중지
+                    searchInstructions(); // 검색 수행
+                });
 
-                //매장 재고
+                // 카테고리 선택 시 검색 수행
+                document.getElementById('cateGroup').addEventListener('change', function () {
+                    searchInstructions();
+                });
 
-                function searchProduct() {
-                    // 품번 입력란과 매장재고 결과를 가져오기
-                    const productName = document.getElementById('productName').value;
+                // 필터 폼 내부의 변경 사항 감지
+                document.getElementById('filter-form').addEventListener('change', function () {
+                    searchInstructions();
+                });
+            });
 
-                    // AJAX 또는 서버로 품번을 전송하여 매장 재고를 가져오는 로직을 구현
-                    // 여기에서는 임의의 매장 재고 값인 "100"을 사용합니다.
-                    const storeInventory = "100";
+            // 검색 수행 함수
+            function searchInstructions() {
+                // 검색 조건 수집
+                var cateGroup = document.getElementById('cateGroup').value;
+                var cateCode = document.getElementById('cateCode').value;
+                var colorCode = document.getElementById('colorCode').value;
+                var size = document.getElementById('size').value;
+                var prodNo = document.getElementById('searchProdNo').value;
 
-                    // 가져온 매장 재고를 결과란에 표시
-                    document.getElementById('storeInventory').value = storeInventory;
+                // AJAX 또는 서버로부터 데이터를 가져옴
+
+                // 임시 데이터 예시
+                var instructionDTOLists = [
+                    { prodNo: '001', prodName: 'Product 1', size: 'M', colorCode: 'Red' },
+                    { prodNo: '002', prodName: 'Product 2', size: 'L', colorCode: 'Blue' }
+                ];
+
+                displaySearchResults(instructionDTOLists);
+            }
+
+            // 검색 결과 표시 함수
+            function displaySearchResults(results) {
+                var searchResults = document.querySelector('.table-body');
+                searchResults.innerHTML = '';
+
+                if (results.length > 0) {
+                    results.forEach(function (instruction) {
+                        var newItem = document.createElement('div');
+                        newItem.className = 'instruction-item';
+                        newItem.innerHTML = `
+                    <div class="prodNo" onclick="openModal('productModal', '${instruction.prodNo}')">${instruction.prodNo}</div>
+                    <div class="prodName" onclick="openModal('productModal', '${instruction.prodNo}')">${instruction.prodName}</div>
+                    <div class="size">${instruction.size}</div>
+                    <div class="colorCode">${instruction.colorCode}</div>
+                `;
+                        searchResults.appendChild(newItem);
+                    });
+                } else {
+                    var noDataRow = document.createElement('div');
+                    noDataRow.className = 'no-data-row';
+                    noDataRow.innerHTML = '<div colspan="4">조회된 정보가 없습니다.</div>';
+                    searchResults.appendChild(noDataRow);
                 }
+            }
 
+            // 모달에서 카테고리 그룹, 카테고리 코드, 색상 코드, 사이즈 선택 및 품번 입력 시 해당 값을 출력란에 표시
+            document.getElementById('filter-form').addEventListener('input', function () {
+                var cateGroup = document.getElementById('cateGroup').value;
+                var cateCode = document.getElementById('cateCode').value;
+                var colorCode = document.getElementById('colorCode').value;
+                var size = document.getElementById('size').value;
+                var prodNo = document.getElementById('prodNo').value;
+                document.getElementById('outputProdNo').innerText = prodNo || cateGroup;
+                document.getElementById('outputProdName').innerText = cateCode;
+                document.getElementById('outputColor').innerText = colorCode;
+                document.getElementById('outputSize').innerText = size;
+            });
 
-                // function deleteCheck() {
-                //     result = confirm('진짜로 삭제하겠습니까?');
-                //     if (result == true) {
-                //         location.href = 'instructiondeleteProc?no=${instruction.no}'
-                //     }
-                // }
+            // 품번 입력란과 매장재고 결과를 가져오기
+            function searchProduct() {
+                const productName = document.getElementById('productName').value;
 
+                // AJAX 또는 서버로 품번을 전송하여 매장 재고를 가져오는 로직을 구현
+                // 여기에서는 임의의 매장 재고 값인 "100"을 사용합니다.
+                const storeInventory = "100";
 
-                // 모달 창 열기
-                function openModal() {
-                    document.getElementById('myModal').style.display = 'flex';
+                // 가져온 매장 재고를 결과란에 표시
+                document.getElementById('storeInventory').value = storeInventory;
+            }
+
+            // 날짜 범위 추가
+            function addDateRange() {
+                const startDate = document.getElementById('startDate').value; tjd
+
+                // 날짜 범위에서 각 날짜에 대한 처리구분을 추가
+                for (let date = new Date(startDate); date <= new Date(startDate); date.setDate(date.getDate() + 1)) {
+                    const newRow = document.createElement('div');
+                    newRow.className = 'table-row';
+                    const dateCell = document.createElement('div');
+                    dateCell.className = 'table-cell';
+
+                    dateCell.textContent = date.toISOString().split('T')[0];
+
+                    newRow.appendChild(dateCell);
+
+                    document.getElementById('dataBody').appendChild(newRow);
                 }
+            }
 
-                // 모달 창 닫기
-                function closeModal() {
-                    document.getElementById('myModal').style.display = 'none';
-                }
+            // 지시번호를 기반으로 검색하는 함수
+            function searchInstructions() {
+                const instructionNumber = document.getElementById('instructionNumber').value;
 
-                // 조회를 수행하는 함수 (원하는대로 사용자 정의 가능)
-                function lookupCode() {
-                    // 팝업 창에서 입력한 코드 가져오기
-                    const enteredCode = document.getElementById('codeInput').value;
-
-                    // 조회 로직 수행 (AJAX 또는 필요한 다른 로직)
-
-                    // 현재는 입력한 코드를 포함한 경고 표시
-                    alert('코드 조회: ' + enteredCode);
-
-                    // 모달 창 닫기
-                    closeModal();
-                }
-                function fetchProductInfo() {
-                    // 모달에 입력된 상품 코드 가져오기
-                    const prodNo = document.getElementById('modal-prodno').value;
-
-                    // AJAX를 이용하여 서버에 상품 코드 전송
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/your-controller-path/fetchProdNo?criteria=' + prodNo, true);
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            const productInfo = JSON.parse(xhr.responseText);
-                            displayProductInfo(productInfo);
-                        }
-                    };
-                    xhr.send();
-                }
-                function displayProductInfo(productInfo) {
-                    const productInfoDiv = document.getElementById('productInfo');
-
-                    // 이전에 표시된 정보 초기화
-                    productInfoDiv.innerHTML = '';
-
-                    // 조회된 정보가 있는 경우
-                    if (productInfo.length > 0) {
-                        productInfo.forEach(function (product) {
-                            const productDiv = document.createElement('div');
-                            productDiv.className = 'prodNo';
-                            productDiv.textContent = product.prodNo;
-
-                            // 클릭 이벤트 추가
-                            productDiv.addEventListener('click', function () {
-                                openModal('productModal', product.prodNo);
-                            });
-
-                            productInfoDiv.appendChild(productDiv);
-                        });
-                    } else {
-                        // 조회된 정보가 없는 경우
-                        const noInfoDiv = document.createElement('div');
-                        noInfoDiv.className = 'td';
-                        noInfoDiv.textContent = '조회된 정보가 없습니다.';
-                        productInfoDiv.appendChild(noInfoDiv);
-                    }
-                }
-
-            </script>
+                // AJAX 요청 또는 서버로부터 지시를 가져오는 다른 로직을 구현하세요
+                console.log('번호로 지시 검색 중:', instructionNumber);
+            }
+        </script>
 
         </body>
 

@@ -15,7 +15,7 @@
 		<selectKey order="BEFORE" keyProperty="no" resultType="int">
 			SELECT NVL(max(no), 0) + 1 FROM notice
 		</selectKey> 	
-		INSERT INTO notice(id,no,title,content,writeDate,fileName,views,isSticky) VALUES(#{id}, #{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views}, #{isSticky})
+		INSERT INTO notice(id,no,title,content,writeDate,fileName,views) VALUES(#{id}, #{no}, #{title}, #{content}, #{writeDate}, #{fileName}, #{views})
 	</insert>
 
 	

@@ -155,11 +155,6 @@
 
                         <!-- 추가된 부분: 상단 선 -->
                         <div class="top-line"></div>
-
-                        <div class="meddle">
-                            <label for="isSticky">상단 고정 여부</label>
-                            <input type="checkbox" name="isSticky" id="isSticky" value="true">
-                        </div>
                         <div id="styleInfo"></div>
 
                         <!-- 추가된 부분: 상단 선 -->

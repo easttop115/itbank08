@@ -50,6 +50,17 @@ public class InstructionService {
         List<InstructionDTO> instructionDTOList = mapper.instructionGroupList();
         instructionDTOList.addAll(mapper.prodList());
         instructionDTOList.addAll(mapper.orderStockList());
+        instructionDTOList.addAll(mapper.cateList());
+        instructionDTOList.addAll(mapper.colorList());
+
         return instructionDTOList;
+    }
+
+    public List<InstructionDTO> searchProdNo(InstructionDTO instruction) {
+        return mapper.searchProdNo(instruction);
+    }
+
+    public List<InstructionDTO> instructionList(InstructionDTO instruction) {
+        return mapper.modalsearch(instruction);
     }
 }

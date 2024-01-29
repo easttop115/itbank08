@@ -30,13 +30,19 @@ public class InstructionDTO {
     // ProdDTO
     private String prodNo; // 상품코드번호
     private String brandCode; // 브랜드코드
-    private String cateGroup; // 카테그룹
-    private String cateCode; // 카테코드
     private String prodName; // 품명
     private int incomePrice; // 입고가격
     private int sellPrice; // 판매가격
     private String size; // 사이즈
-    private String colorCode; // 색상
     private String storeName; // 매장
+
+    // CateDTO
+    private String cateGroup;
+    private String cateCode;
+    private String cateName;
+
+    // ColorDTO
+    private String colorCode;
+    private String colorName;
 
 }

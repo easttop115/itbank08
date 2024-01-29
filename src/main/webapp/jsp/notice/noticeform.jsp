@@ -285,7 +285,7 @@
                     <div class="notice-item">
                       <div class="tr">
                         <div class="no">${Notice.no}</div>
-                        <div class="title" onclick="location.href='noticecontent?no=${Notice.no}'">
+                        <div class="title" onclick="location.href='/notice/noticecontent?no=${Notice.no}'">
                           ${Notice.title}</div>
                         <div class="writeDate">${Notice.writeDate}</div>
                       </div>

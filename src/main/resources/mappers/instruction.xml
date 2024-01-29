@@ -4,30 +4,44 @@
 
     <!-- 사용할 DTO -->
     <resultMap id="instruction" type="com.example.demo.instruction.InstructionDTO">
+
+
+        <!-- InstructionDTO 필드에 대한 매핑 -->
         <id property="no" column="no"/>
         <result property="id" column="id"/>
         <result property="processing" column="processing"/>
         <result property="confirmation" column="confirmation"/>
-        <!-- InstructionDTO 필드에 대한 매핑 -->
+    
 
+         <!-- OrderStockDTO 필드에 대한 매핑 -->
         <result property="reqQuan" column="reqQuan"/>
         <result property="respQuan" column="respQuan"/>
         <result property="reqDate" column="reqDate"/>
         <result property="respDate" column="respDate"/>
         <result property="orderStatus" column="orderStatus"/>
-        <!-- OrderStockDTO 필드에 대한 매핑 -->
+       
 
+         <!-- ProdDTO 필드에 대한 매핑 -->
         <result property="prodNo" column="prodNo"/>
         <result property="brandCode" column="brandCode"/>
-        <result property="cateGroup" column="cateGroup"/>
-        <result property="cateCode" column="cateCode"/>
         <result property="prodName" column="prodName"/>
         <result property="incomePrice" column="incomePrice"/>
         <result property="sellPrice" column="sellPrice"/>
         <result property="size" column="size"/>
-        <result property="colorCode" column="colorCode"/>
         <result property="storeName" column="storeName"/>
-        <!-- ProdDTO 필드에 대한 매핑 -->
+       
+
+        <!-- CateDTO 필드에 대한 매핑 -->
+        <result property="cateGroup" column="cateGroup"/>
+        <result property="cateCode" column="cateCode"/>
+        <result property="cateName" column="cateName"/>
+     
+
+        <!-- ColorDTO 필드에 대한 매핑 -->
+        <result property="colorCode" column="colorCode"/>
+        <result property="colorName" column="colorName"/>
+     
+       
     </resultMap>
 
     <!-- InstructionDTO에 대한 셀렉트 옵션 -->
@@ -44,4 +58,20 @@
     <select id="prodList" resultMap="instruction"> 
         SELECT DISTINCT prodNo, prodName, colorCode, size, sellPrice FROM product; 
     </select>
+
+    <!-- CateDTO에 대한 셀렉트 옵션 -->
+    <select id="cateList" resultMap="instruction"> 
+        SELECT DISTINCT cateGroup,cateCode,cateName FROM category; 
+    </select>
+    
+    <!-- ColorDTO에 대한 셀렉트 옵션 -->
+    <select id="colorList" resultMap="instruction"> 
+        SELECT DISTINCT colorCode,colorName FROM color; 
+    </select>
+
+    <!--검색창-->
+    <select id ="searchProdNo">
+		SELECT * FROM instruction WHERE ProdNo LIKE CONCAT('%', #{ProdNo}, '%')
+	</select>
+    
 </mapper>

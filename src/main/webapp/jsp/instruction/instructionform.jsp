@@ -194,6 +194,7 @@
         </head>
 
         <body>
+            <c:import url="/header" />
 
             <h1>R/T지시요청/조회</h1>
             <div class="button-box">
