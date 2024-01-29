@@ -60,7 +60,7 @@
                                 <li class="liStyle"><a href="/prod/prodManage">등록상품관리</a></li>
                                 <li class="liStyle"><a href="/prod/stockStatus">매장별 재고 현황</a></li>
                                 <li class="liStyle"><a href="/prod/cateInsert">카테고리 등록</a></li>
-                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
@@ -68,10 +68,20 @@
                 <li class="liStyle">
                     <a href="#">입출고등록</a>
                     <ul class="subList">
-                        <li class="liStyle"><a href="/storing">입고</a></li>
-                        <li class="liStyle"><a href="/unstoring">출고</a></li>
-                        <li class="liStyle"><a href="/ioCheck">입출고내역조회</a></li>
-                        <li class="liStyle"><a href="#">sub04</a></li>
+                        <c:choose>
+                            <c:when test="${sessionScope.accountId == 'store'}">
+                                <li class="liStyle"><a href="/storing">입고</a></li>
+                                <li class="liStyle"><a href="/ioCheck">입출고내역조회</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                            </c:when>
+                            <c:when test="${sessionScope.accountId == 'root'}">
+                                <li class="liStyle"><a href="/unstoring">출고</a></li>
+                                <li class="liStyle"><a href="/ioCheck">입출고내역조회</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                            </c:when>
+                        </c:choose>
                     </ul>
                 </li>
                 <li class="liStyle">
@@ -80,7 +90,7 @@
                         <li class="liStyle"><a href="#">판매통계</a></li>
                         <li class="liStyle"><a href="#">일일통계</a></li>
                         <li class="liStyle"><a href="#">월별통계</a></li>
-                        <li class="liStyle"><a href="#">sub04</a></li>
+                        <li class="liStyle"><a href="#">&nbsp</a></li>
                     </ul>
                 </li>
 
@@ -91,14 +101,14 @@
                             <c:when test="${sessionScope.accountId eq 'root' }">
                                 <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
                                 <li class="liStyle"><a href="/notice/noticewrite">게시글 쓰기</a></li>
-                                <li class="liStyle"><a href="#">sub03</a></li>
-                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="liStyle"><a href="/notice/noticecontent">공지사항</a></li>
                                 <li class="liStyle"><a href="/notice/noticewrite">게시글 쓰기</a></li>
-                                <li class="liStyle"><a href="#">sub03</a></li>
-                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
@@ -111,13 +121,13 @@
                                 <li class="liStyle"><a href="/instruction/instructionform">지시 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">반입 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">반출 등록/조회</a></li>
-                                <li class="liStyle"><a href="#">sub04</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="liStyle"><a href="/instruction/inructionform">지시 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">반입 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">반출 등록/조회</a></li>
-                                <li class="liStyle"><a href="#">sub04/a></li>
+                                <li class="liStyle"><a href="#">&nbsp<a></li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
