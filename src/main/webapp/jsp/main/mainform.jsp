@@ -26,11 +26,10 @@
 
             .main {
                 display: flex;
-                width: 1600px;
+                width: 95%;
                 justify-content: flex-start;
-                /*flex정렬 방법 시작 지점부터 차곡차곡 쌓이게 해줌*/
                 flex-wrap: wrap;
-                /*넘치는걸 다음줄 나오게 해줌*/
+                /* flex 정렬 방법 시작 지점부터 차곡차곡 쌓이게 해줌 */
             }
 
             .container {
@@ -218,7 +217,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                margin-left: 290px;
+                margin-left: 87%;
                 margin-bottom: -20px;
             }
 
