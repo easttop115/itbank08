@@ -65,7 +65,7 @@ public class OrderStockService {
 
                 prods.setStoreName(searchProdInfo.getReqStore());
                 ProdDTO findStoreProd = mapper.findStoreProd(prods); // 매장의 product 정보를 가져옴
-                if (findStoreProd.getStoreName() != null) { // 기존 정보가 있다면
+                if (findStoreProd != null) { // 기존 정보가 있다면
                     findStoreProd.setQuan(findStoreProd.getQuan() + searchProdInfo.getReqQuan()); // 기존 수량 + 입고 수량
                     mapper.updateStoreProd(findStoreProd); // 같은 매장 정보가 있다면 수량만 업데이트
                 } else { // 새 정보라면

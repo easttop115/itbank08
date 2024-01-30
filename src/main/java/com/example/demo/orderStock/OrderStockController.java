@@ -159,7 +159,6 @@ public class OrderStockController {
                 String prodNo = selectedProducts.get(i);
                 int respQuan = respQuanList.get(i);
                 String storeName = storeNameList.get(i);
-                System.out.println("뭣이 중헌디?? : " + prodNo + "\n" + respQuan + "\n" + storeName + " / 시마이");
 
                 String confirm = service.unstoringProc(prodNo, respQuan, storeName);
 

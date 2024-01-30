@@ -160,7 +160,7 @@
                                     <c:otherwise>
                                         <!-- storeName이 null인 경우 -->
                                         <tr class="no-data-row-storing">
-                                            <td colspan="7" style="color: red; font-weight: bold;">${msg}</td>
+                                            <td colspan="8" style="color: red; font-weight: bold;">${msg}</td>
                                         </tr>
                                     </c:otherwise>
                                 </c:choose>

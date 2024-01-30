@@ -35,7 +35,6 @@
                         </label>
                         <input type="submit" value="조회"
                             style="background-color: #2895F4; color: white; border: none; border-radius: 6px; width: 4%; font-size: 16px; cursor: pointer;">
-                        <p style="color: red; font-weight: bold;">${msg}</p>
                     </form>
 
                     <div class="class">
@@ -48,7 +47,7 @@
                                 <td>입출고 상태</td>
                             </tr>
                             <c:choose>
-                                <c:when test="${not empty stocks}">
+                                <c:when test="${not empty stocks and param.radioButton != null}">
                                     <c:forEach var="stock" items="${stocks}">
                                         <tr>
                                             <c:choose>
@@ -85,6 +84,11 @@
                                         </tr>
                                     </c:forEach>
                                 </c:when>
+                                <c:otherwise>
+                                    <tr class="no-data-row-storing">
+                                        <td colspan="5">조회된 정보가 없습니다.</td>
+                                    </tr>
+                                </c:otherwise>
                             </c:choose>
                         </table>
                     </div>
