@@ -106,7 +106,7 @@
                     <if test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
                     <if test="size != null and size != ''"> AND size = #{size} </if>
                     <if test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
-                    <if test="storeName == null"> AND storeName = #{storeName} </if>
+                    AND storeName = #{storeName}
                 </where>
             </select>
 </mapper>
