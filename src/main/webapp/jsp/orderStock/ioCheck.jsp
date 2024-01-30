@@ -18,7 +18,13 @@
                     <h2 class="inventory-title">상품 입출고 조회</h2>
 
                     <!-- 라디오 버튼 폼 추가 -->
-                    <form action="/ioCheck" method="get">
+                    <form action="/ioCheck" method="get" style="text-align: right; margin-right: 2%;">
+                        <label>
+                            <a href="/csv/down" style="text-decoration: none; font-size: 0;">
+                                <img src="/image/downloadBtn.png"
+                                    style="margin: 0 20px -10px 0; width: 100px; height: auto;">
+                            </a>
+                        </label>
                         <label>
                             <input type="radio" name="radioButton" value="selectRequest"
                                 ${fn:startsWith(param.radioButton, 'selectRequest' ) ? 'checked' : '' }> 입고
@@ -27,7 +33,8 @@
                             <input type="radio" name="radioButton" value="selectResponse"
                                 ${fn:startsWith(param.radioButton, 'selectResponse' ) ? 'checked' : '' }> 출고
                         </label>
-                        <input type="submit" value="조회">
+                        <input type="submit" value="조회"
+                            style="background-color: #2895F4; color: white; border: none; border-radius: 6px; width: 4%; font-size: 16px; cursor: pointer;">
                         <p style="color: red; font-weight: bold;">${msg}</p>
                     </form>
 
@@ -45,16 +52,20 @@
                                     <c:forEach var="stock" items="${stocks}">
                                         <tr>
                                             <c:choose>
-                                                <c:when test="${(stock.orderStatus == 'reqApprove' or stock.orderStatus == 'request' or stock.orderStatus == 'denied') and radioButton == 'selectRequest'}">
+                                                <c:when
+                                                    test="${(stock.orderStatus == 'reqApprove' or stock.orderStatus == 'request' or stock.orderStatus == 'denied') and radioButton == 'selectRequest'}">
                                                     <td>${stock.reqStore}</td>
                                                     <td>${stock.prodNo}</td>
                                                     <td>${stock.reqQuan}</td>
                                                     <td>${stock.reqDate}</td>
                                                     <c:choose>
-                                                        <c:when test="${stock.orderStatus == 'request' and sessionScope.accountId == 'root'}">
+                                                        <c:when
+                                                            test="${stock.orderStatus == 'request' and sessionScope.accountId == 'root'}">
                                                             <td>
-                                                                <a href="/storingApprove?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}" style="text-decoration: none; margin-right: 10px;">승인</a>
-                                                                <a href="/storingDenied?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}" style="text-decoration: none;">거절</a>
+                                                                <a href="/storingApprove?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}"
+                                                                    style="text-decoration: none; margin-right: 10px;">승인</a>
+                                                                <a href="/storingDenied?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}"
+                                                                    style="text-decoration: none;">거절</a>
                                                             </td>
                                                         </c:when>
                                                         <c:otherwise>
@@ -62,7 +73,8 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:when>
-                                                <c:when test="${stock.orderStatus == 'response' and radioButton == 'selectResponse'}">
+                                                <c:when
+                                                    test="${stock.orderStatus == 'response' and radioButton == 'selectResponse'}">
                                                     <td>${stock.respStore}</td>
                                                     <td>${stock.prodNo}</td>
                                                     <td>${stock.respQuan}</td>

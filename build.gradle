@@ -49,6 +49,10 @@ dependencies {
 
 	// websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	// csv 파일 다운로드
+	// https://mvnrepository.com/artifact/com.opencsv/opencsv
+	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
+
 }
 
 tasks.named('bootBuildImage') {
@@ -58,4 +62,4 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-//
+

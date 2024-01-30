@@ -1,5 +1,9 @@
 package com.example.demo.orderStock;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,9 @@ import com.example.demo.prod.CateDTO;
 import com.example.demo.prod.ColorDTO;
 import com.example.demo.prod.ProdDTO;
 import com.example.demo.prod.ProdService;
+import com.opencsv.CSVWriter;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -184,6 +190,26 @@ public class OrderStockController {
         System.out.println("확인" + plist);
         return "redirect:/unstoring";
 
+    }
+
+    // csv 파일 다운로드
+    // 참고 자료 : https://suyou.tistory.com/311 [수유산장:티스토리]
+    @GetMapping("/csv/down")
+    public void csvDown(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv; charset=UTF-8"); // csv 파일 + utf-8 명시
+        String fileName = URLEncoder.encode("입출고_내역.csv", "UTF-8"); // 파일명도 utf-8 명시
+        response.setHeader("Content-Disposition",
+                "attachment; filename=\"" + fileName + "\"");
+
+        OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream(),
+                StandardCharsets.UTF_8);
+        writer.write("\uFEFF"); // UTF-8 중에서 UTF-8-BOM임을 표시 -> 이거 없으면 엑셀에서 전세계 언어 다 깨짐
+        CSVWriter csvWriter = new CSVWriter(writer);
+
+        csvWriter.writeAll(service.listCsvString());
+
+        csvWriter.close();
+        writer.close();
     }
 
 }

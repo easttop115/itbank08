@@ -106,7 +106,7 @@ public class OrderStockService {
 
                 prod.setStoreName(storeName);
                 ProdDTO findStoreProd = mapper.findStoreProd(prod); // 매장의 product 정보를 가져옴
-                
+
                 if (findStoreProd != null) { // 기존 정보가 있다면
                     findStoreProd.setQuan(findStoreProd.getQuan() + respQuan); // 기존 수량 + 출고 수량
                     mapper.updateStoreProd(findStoreProd); // 같은 매장 정보가 있다면 수량만 업데이트
@@ -130,6 +130,31 @@ public class OrderStockService {
         List<String> storeNames = mapper.storeList();
 
         model.addAttribute("storeNames", storeNames);
+    }
+
+    public List<String[]> listCsvString() {
+        List<OrderStockDTO> list = mapper.csvList();
+        List<String[]> listStrings = new ArrayList<>();
+        listStrings.add(new String[] { "매장명", "상품코드", "수량", "결재일", "입출고 상태" });
+        for (OrderStockDTO csv : list) {
+            String[] rowData = new String[5];
+            if (csv.getRespStore() == null) { // 입고 정보
+                rowData[0] = csv.getReqStore();
+                rowData[1] = csv.getProdNo();
+                rowData[2] = Integer.toString(csv.getReqQuan());
+                rowData[3] = csv.getReqDate();
+                rowData[4] = csv.getOrderStatus();
+                listStrings.add(rowData);
+            } else if (csv.getReqStore() == null) { // 출고 정보
+                rowData[0] = csv.getRespStore();
+                rowData[1] = csv.getProdNo();
+                rowData[2] = Integer.toString(csv.getRespQuan());
+                rowData[3] = csv.getRespDate();
+                rowData[4] = csv.getOrderStatus();
+                listStrings.add(rowData);
+            }
+        }
+        return listStrings;
     }
 
 }
