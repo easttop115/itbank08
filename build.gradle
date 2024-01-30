@@ -45,17 +45,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	// 이메일 의존성
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.2.1'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.2.2'
 
 	// websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	// csv 파일 다운로드
 	// https://mvnrepository.com/artifact/com.opencsv/opencsv
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
-	// 자바 심플 인크립션 의존성 - application.* 정보 암호화
-	// https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
-	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
-
 
 }
 
