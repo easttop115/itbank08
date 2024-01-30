@@ -52,6 +52,10 @@ dependencies {
 	// csv 파일 다운로드
 	// https://mvnrepository.com/artifact/com.opencsv/opencsv
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
+	// 자바 심플 인크립션 의존성 - application.* 정보 암호화
+	// https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
+
 
 }
 
