@@ -125,3 +125,25 @@ thead th {
 	align-items: center;
 	/* text-align: center; */
 }
+
+.header-section {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.page-name-box {
+	display: flex;
+}
+
+.site-name {
+	font-size: 32px;
+	font-weight: 900;
+	color: #2895F4;
+	margin-right: 10px;
+}
+
+.page-name {
+	font-size: 32px;
+	font-weight: 900;
+}

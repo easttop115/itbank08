@@ -4,29 +4,6 @@
 			<c:import url="/header" />
 			<c:import url="/sider" />
 			<link rel="stylesheet" href="/css/userInfo.css">
-			<style>
-				.header-section {
-					display: flex;
-					align-items: center;
-					margin-bottom: 20px;
-				}
-
-				.page-name-box {
-					display: flex;
-				}
-
-				.site-name {
-					font-size: 32px;
-					font-weight: 900;
-					color: #2895F4;
-					margin-right: 10px;
-				}
-
-				.page-name {
-					font-size: 32px;
-					font-weight: 900;
-				}
-			</style>
 
 			<div class="content-container">
 				<div class="info-wrapper">

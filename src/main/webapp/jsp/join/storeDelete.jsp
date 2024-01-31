@@ -3,27 +3,7 @@
         <c:import url="/header" />
         <c:import url="/sider" />
         <link rel="stylesheet" href="/css/deletestyle.css">
-        <style>
-            .header-section {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                margin-top: 20px;
-            }
 
-            .page-name-box {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .page-name {
-                font-size: 32px;
-                font-weight: 900;
-                align-self: flex-end;
-            }
-        </style>
         <div class="content-container">
             <div class="header-section">
                 <div class="page-name-box">

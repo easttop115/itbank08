@@ -9,44 +9,6 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>출고</title>
                 <link rel="stylesheet" href="/css/prodManage.css">
-                <style>
-                    .button-container {
-                        text-align: center;
-                        display: flex;
-                        justify-content: space-around;
-                        width: 100%;
-                    }
-
-                    input[type="button"] {
-                        background-color: #cadae7;
-                        color: black;
-                        padding: 10px 30px;
-                        border: 2px rgb(168, 168, 168);
-                        border-radius: 4px;
-                        cursor: pointer;
-                        margin: 10px;
-                        display: inline-block;
-                    }
-
-                    input[type="button"]:hover {
-                        background-color: #2895F4;
-                    }
-
-                    .cancel {
-                        background-color: #cadae7;
-                        color: black;
-                        padding: 10px 30px;
-                        border: 2px rgb(168, 168, 168);
-                        border-radius: 4px;
-                        cursor: pointer;
-                        margin: 10px;
-                        display: inline-block;
-                    }
-
-                    .cancel:hover {
-                        background-color: #2895F4;
-                    }
-                </style>
             </head>
 
             <body>
