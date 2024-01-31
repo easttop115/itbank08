@@ -77,11 +77,10 @@ public class ProdController {
     // 상품등록
     @RequestMapping("/prodInsert")
     public String prodInsert(Model model) {
-
         String sessionId = (String) session.getAttribute("id");
-        if (sessionId == null) {
-            return "redirect:/";
-        }
+        if (sessionId == null)
+            return "/join/login";
+            
         List<CateDTO> cateGroups = service.cateGroupList();
         List<CateDTO> cateCodes = service.cateCodeList();
         List<BrandDTO> brandCodes = service.brandCodeList();
@@ -108,6 +107,9 @@ public class ProdController {
     // 상품조회, 관리
     @RequestMapping("/prodManage")
     public String prodManage(Model model) {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            return "/join/login";
 
         List<CateDTO> cateGroups = service.cateGroupList();
         List<CateDTO> cateCodes = service.cateCodeList();
@@ -151,6 +153,9 @@ public class ProdController {
 
     @RequestMapping("stockStatus")
     public String stockManage(Model model) {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId == null)
+            return "/join/login";
 
         List<CateDTO> cateGroups = service.cateGroupList();
         List<CateDTO> cateCodes = service.cateCodeList();
