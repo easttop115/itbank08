@@ -11,7 +11,7 @@ import lombok.Setter;
 //     writeDate VARCHAR(20) NOT NULL DEFAULT '',
 //     fileName VARCHAR(255) NOT NULL DEFAULT '',
 //     views INT(11) NOT NULL DEFAULT 0,
-//     checked TINYINT(1) DEFAULT NULL,  //확인
+//     checked TINYINT(1) DEFAULT NULL,
 //     PRIMARY KEY (no)
 // );
 

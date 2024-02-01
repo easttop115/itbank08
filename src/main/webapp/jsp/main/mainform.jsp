@@ -231,14 +231,15 @@
             }
 
             .checked .check::before {
-                /* 확인했을 때의 스타일, 동그라미 없음 */
-                content: '';
+                content: '●';
+                color: gray;
+                /* 확인한 상태일 때 회색 동그라미로 설정 */
             }
 
             .unchecked .check::before {
-                /* 확인 안 했을 때의 스타일, 초록색 동그라미 추가 */
                 content: '●';
                 color: green;
+                /* 확인하지 않은 상태일 때 초록색 동그라미로 설정 */
             }
         </style>
 
@@ -251,7 +252,7 @@
                     <div class="exchange-section">
                         <h2>R/T지시내역</h2>
                         <div class="more-button">
-                            <button type="button">more</button>
+                            <button type="button" onclick="location.href='/instruction/instructionform'">more</button>
                         </div>
                         <div class="instruction">
                             <div class="instruction-label">
@@ -381,34 +382,52 @@
                                 <div class="writeDate">날짜</div>
                                 <div class="title">제목</div>
                                 <div class="check">확인</div>
+                            </div>
+                            <c:choose>
+                                <c:when test="${empty Notices}">
+                                    <div class="notice-item">
+                                        <div class="tr">
+                                            <div class="td" colspan="10">등록된 데이터가 존재하지 않습니다.</div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="Notice" items="${Notices}">
+                                        <div class="notice-list">
+                                            <div class="notice-item ${notice.checked ? 'checked' : 'unchecked'}">
+                                                <div class="writeDate">${Notice.writeDate}</div>
+                                                <div class="title"
+                                                    onclick="location.href='/notice/noticecontent?no=${Notice.no}'">
+                                                    ${Notice.title}
+                                                </div>
+                                                <div class="check checked">${Notice.checked}</div>
 
-                            </div>
-                            <div class="notice-list">
-                                <div class="notice-item ${notice.checked ? 'checked' : 'unchecked'}">
-                                    <div class="writeDate">${notice.writeDate}</div>
-                                    <div class="title" onclick="location.href='noticecontent?no=${notice.no}'">
-                                        ${notice.title}</div>
-                                    <div class="check">${notice.checked}</div>
-                                </div>
-                            </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
-
-                        <!-- /notice/content 에서 가져온 내용 표시 -->
-
                     </div>
                 </div>
+                <!-- /notice/content 에서 가져온 내용 표시 -->
 
-                <script>
-                    // 여러 개의 .notice-item에 대해 토글(Toggle) 함수
-                    function toggleCheckedState() {
-                        const noticeItems = document.querySelectorAll('.notice-item');
+            </div>
+            </div>
 
-                        // 각각의 .notice-item에 대해 토글 적용
-                        noticeItems.forEach((noticeItem) => {
-                            noticeItem.classList.toggle('checked');
-                        });
+            <script>
+                function toggleCheckedState(noticeItem) {
+                    // 확인된 경우 checked 클래스를 제거하고, 확인되지 않은 경우 checked 클래스를 추가하여 초록색 동그라미를 표시/숨김
+                    if (noticeItem.classList.contains('checked')) {
+                        noticeItem.classList.remove('checked');
+                        noticeItem.classList.add('unchecked');
+                    } else {
+                        noticeItem.classList.remove('unchecked');
+                        noticeItem.classList.add('checked');
                     }
-                </script>
+                }
+            </script>
+
 
         </body>
 

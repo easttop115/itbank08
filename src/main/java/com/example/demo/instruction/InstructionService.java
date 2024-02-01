@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.example.demo.prod.ProdDTO;
+import com.example.demo.prod.ProdMapper;
+
 import jakarta.servlet.http.HttpSession;
 
 @Service
@@ -16,6 +19,8 @@ public class InstructionService {
     private InstructionMapper mapper;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private ProdMapper prodmapper;
 
     public void instructionform(String cp, Model model) {
 
@@ -56,11 +61,9 @@ public class InstructionService {
         return instructionDTOList;
     }
 
-    public List<InstructionDTO> searchProdNo(InstructionDTO instruction) {
-        return mapper.searchProdNo(instruction);
+    public String instructionwriteProc(String prodNo, int respQuan, String storeName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'instructionwriteProc'");
     }
 
-    public List<InstructionDTO> instructionList(InstructionDTO instruction) {
-        return mapper.modalsearch(instruction);
-    }
 }

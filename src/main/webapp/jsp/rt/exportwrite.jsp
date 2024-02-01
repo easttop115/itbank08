@@ -7,7 +7,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>R/T지시등록</title>
+            <title>R/T반출 등록</title>
 
             <style>
                 body {
@@ -294,13 +294,12 @@
             <c:import url="/header" />
             <!--버튼-->
 
-            <h1>R/T지시요청</h1>
+            <h1>R/T반출등록</h1>
             <div class="button-box">
-                <button>조회</button>
-                <button type="button" onclick="location.href='/instruction/instructionform'">목록</button>
-                <button class="cancel" type="button"
-                    onclick="window.location.href='/instruction/instructionform'">취소</button>
-                <input type="button" value="마감처리" onclick="submitForm()" class="button">
+                <button type="button" onclick="location.href='/rt/exportform'">목록</button>
+                <input type="button" value="등록" onclick="submitForm()" class="button">
+                <button class="cancel" type="button" onclick="window.location.href='/rt/exportform'">취소</button>
+
             </div>
 
 

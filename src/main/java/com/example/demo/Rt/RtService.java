@@ -19,4 +19,8 @@ public class RtService { // 데이터 베이스 불러오는 기능 만들기
 
     }
 
+    public void exportwrite(String cp, Model model) {
+
+    }
+
 }

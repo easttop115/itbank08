@@ -25,6 +25,13 @@ public class RtController { // 서비스에 있는 기능 가져다 쓰기
         return "rt/exportform";
     }
 
+    @RequestMapping("rt/exportwrite")
+    public String exportwrite(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
+        service.exportwrite(cp, model);
+
+        return "rt/exportwrite";
+    }
+
     @RequestMapping("rt/processingstform")
     public String processingstform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
         service.processingstform(cp, model);

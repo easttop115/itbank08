@@ -7,7 +7,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>R/T반입등록페이지</title>
+            <title>R/T반입 조회 페이지</title>
 
             <style>
                 body {
@@ -20,37 +20,32 @@
                     font-size: 30px;
                 }
 
-                .main {
+                .filter-main {
                     display: flex;
                     flex-direction: row;
+                    justify-content: flex-start;
+                    gap: 10px;
+                    /*사이 간격 조절*/
                     align-items: center;
+                    flex-wrap: wrap;
+                    /* 넘치면 넣어가게 해줌*/
                     background-color: #FFFFFF;
                     padding: 0px;
                     border: 1px solid #ddd;
-                    margin-top: -2px;
-                    margin-bottom: 10px;
                 }
 
-                .section {
+                .filter-section {
                     display: flex;
-                    margin-right: -218px;
-                }
-
-                .section-three {
-                    display: flex;
-                    margin-right: 10px;
                 }
 
                 .table-row {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    margin-bottom: 5px;
                     width: 100%;
                 }
 
                 .table-cell {
-                    padding: 8px;
                     text-align: left;
                     flex: 1;
                     margin-left: 4px;
@@ -90,48 +85,31 @@
                     background-color: #cadae7;
                     padding: 5px;
                     display: block;
-                    margin-bottom: 5px;
                     text-align: center;
                     width: 100%;
                     border: 1px solid #D3D3D3;
                     /* 각 항목에 테두리 추가 */
                 }
 
-                .Instruction-period {
-                    margin-bottom: 10px;
-                    margin-top: 3px;
-                }
-
-                .section-two {
-                    display: flex;
-                    justify-items: center;
-                    align-items: center;
-                    margin: 0 auto;
-                }
-
                 .button-box {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: flex-end;
                     padding: 10px;
-                    margin-left: 93%;
                     margin-right: 0%;
                     /* 수정된 부분: %로 변경 */
                 }
 
                 .button-box button {
-                    background-color: #2895F4;
-                    border: 1px solid #2895F4;
-                    padding: 8px 12px;
-                    color: #FFFFFF;
+                    color: #999;
+                    font-family: 'Monument', 'Noto Sans KR', sans-serif;
+                    border: solid 1px #ddd;
+                    font-size: 13px;
+                    padding: 4px 12px 5px;
+                    line-height: 1.4;
                     border-radius: 5px;
-                    /* 테두리를 둥글게 만듭니다. */
-
-                }
-
-                .button-box button:hover {
-                    background-color: #1a77d4;
-                    /* 마우스 호버 시 색상 변경 */
-
+                    text-align: left;
+                    margin-left: 11px;
+                    background-color: #f5f5f5;
                 }
 
                 .table-container {
@@ -207,19 +185,24 @@
                     margin-top: 10px;
                     /* 아래에 간격 추가 */
                 }
+
+                .confirmed {
+                    color: green;
+                    font-weight: bold;
+                }
             </style>
         </head>
 
         <body>
+            <c:import url="/header" />
 
-            <h1>R/T반입등록</h1>
+            <h1>R/T반입 조회</h1>
             <div class="button-box">
                 <button>조회</button>
-                <button>등록</button>
             </div>
 
-            <div class="main">
-                <div class="section">
+            <div class="filter-main">
+                <div class="filter-section">
                     <label class="Instruction-period">지시기간</label>
                     <div class="table-row">
                         <div class="table-cell">
@@ -232,16 +215,16 @@
                     </div>
                 </div>
 
-                <div class="section-two">
+                <div class="filter-section">
                     <label class="Processing">처리구분</label>
                     <div class="table-row">
                         <div class="table-Processing">
                             <input type="radio" name="status" value="미처리">
-                            <label for="미처리">미처리</label>
+                            <label for="미확정">미확정</label>
                         </div>
                         <div class="table-Processing">
                             <input type="radio" name="status" value="처리">
-                            <label for="처리">처리</label>
+                            <label for="확정">확정</label>
                         </div>
                         <div class="table-Processing">
                             <input type="radio" name="status" value="불이행">
@@ -250,7 +233,7 @@
                     </div>
                 </div>
 
-                <div class="section-three">
+                <div class="filter-section">
                     <label class="shop">매장</label>
                     <div class="table-row">
                         <div class="table-cell">
@@ -263,22 +246,26 @@
                 </div>
             </div>
 
+            <!--반입 등록/조회 조회표-->
+            <div class="title-main">
+                <label>
+                    <반입 등록 조회>
+                </label>
+            </div>
+
             <div class="table-container">
                 <ul class="instruction-list">
                     <li class="instruction-item header">
                         <div class="no">NO.</div>
-                        <div class="store-re">받는매장</div>
-                        <div class="item-nu">품번</div>
-                        <div class="product-na">품명</div>
-                        <div class="color">색상</div>
+                        <div class="store-re">지시매장</div>
+                        <div class="prodNo">품번</div>
+                        <div class="prodName">품명</div>
+                        <div class="colorCode">색상</div>
                         <div class="size">사이즈</div>
-                        <div class="stock">재고</div>
-                        <div class="Instruction">지시</div>
-                        <div class="confirmation">확정</div>
-                        <div class="order-date">RT 지시일</div>
+                        <div class="re_quan">지시수량</div>
+                        <div class="re_date">RT 지시일</div>
                         <div class="outDate">반출일</div>
-                        <div class="processing">처리구분</div>
-                        <div class="remarks">비고</div>
+                        <div class="processing" id="processingStatus">처리구분</div>
                     </li>
                     <c:choose>
                         <c:when test="${empty instructions}">
@@ -287,22 +274,22 @@
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="instruction" items="${instructions}">
+                            <c:forEach var="instruction" items="${instructionDTOLists}">
 
                                 <li class="instruction-item">
-                                    <div class="no">${instruction.no}</div>
+                                    <div class="no">${instructio.no}</div>
                                     <div class="store-re">${instruction.store-re}</div>
-                                    <div class="item-nu">${instruction.item-nu}</div>
-                                    <div class="product-na">${instruction.product-na}</div>
-                                    <div class="color">${instruction.color}</div>
+                                    <div class="prodNo">${instruction.prodNo}</div>
+                                    <div class="prodName">{$instruction.prodName}</div>
+                                    <div class="colorCode">${instruction.colorCode}</div>
                                     <div class="size">${instruction.size}</div>
-                                    <div class="stock">${instruction.stock}</div>
-                                    <div class="Instruction">${instruction.Instruction}</div>
+                                    <div class="re_quan">${instruction.re_quan}</div>
+                                    <div class="re_date">${instruction.re_date}</div>
                                     <div class="confirmation">${instruction.confirmation}</div>
                                     <div class="order-date">${instruction.order-date}</div>
                                     <div class="outDate">${instruction.outDate}</div>
                                     <div class="processing">${instruction.processing}</div>
-                                    <div class="remarks">${instruction.remarks}</div>
+
                                 </li>
                             </c:forEach>
                             <li>
@@ -312,7 +299,6 @@
                     </c:choose>
                 </ul>
             </div>
-
 
             <script>
                 function addDateRange() {

@@ -18,8 +18,4 @@ public interface InstructionMapper {
 
     Collection<? extends InstructionDTO> colorList();
 
-    List<InstructionDTO> searchProdNo(InstructionDTO instruction);
-
-    List<InstructionDTO> modalsearch(InstructionDTO instruction);
-
 }

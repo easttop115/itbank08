@@ -73,5 +73,41 @@
     <select id ="searchProdNo">
 		SELECT * FROM instruction WHERE ProdNo LIKE CONCAT('%', #{ProdNo}, '%')
 	</select>
-    
+
+        <!-- 카테그룹에 대한 셀렉트 옵션 -->
+    <select id="categroup" resultMap="instruction"> 
+     SELECT DISTINCT(cateGroup) from category;
+    </select>
+
+        <!-- 카테코드에 대한 셀렉트 옵션 -->
+    <select id="cateCode" resultMap="instruction"> 
+    SELECT DISTINCT cateCode FROM category; 
+    </select>
+
+        <!-- 컬러코드에 대한 셀렉트 옵션 -->
+    <select id="colorCode" resultMap="instruction"> 
+    SELECT DISTINCT colorCode FROM color; 
+    </select>
+
+    <select id="searchProd" resultMap="instruction"> 
+        SELECT * FROM product <where>
+            <if test="cateCode == null or cateCode == ''"> AND cateCode like CONCAT(#{cateGroup},
+        '%') </if>
+        <if test="cateGroup == null or cateGroup == ''"> AND cateCode like CONCAT('%',
+        #{cateCode}, '%') </if>
+        <if
+                test="cateCode != null and cateCode != '' and cateGroup != null and cateGroup != ''">
+        OR cateCode = CONCAT(#{cateGroup}, '(', #{cateCode}, ')') </if>
+        <if
+                test="colorCode != null and colorCode != ''"> AND colorCode = #{colorCode} </if>
+        <if
+                test="size != null and size != ''"> AND size = #{size} </if>
+        <if
+                test="prodNo != null and prodNo != ''"> AND prodNo LIKE CONCAT('%', #{prodNo}, '%') </if>
+        <if
+                test="storeName == null"> AND storeName IS NULL </if>
+        </where>
+    </select>
+
+
 </mapper>

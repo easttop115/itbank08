@@ -275,21 +275,21 @@
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="instruction" items="${instructions}">
+                            <c:forEach var="instruction" items="${instructionDTOLists}">
 
                                 <li class="instruction-item">
-                                    <div class="no">${instructios.no}</div>
-                                    <div class="store-re">${instructions.store-re}</div>
-                                    <div class="prodNo">${product.prodNo}</div>
-                                    <div class="prodName">${product.prodName}</div>
-                                    <div class="colorCode">${color.colorCode}</div>
-                                    <div class="size">${product.size}</div>
-                                    <div class="re_quan">${instructions.re_quan}</div>
-                                    <div class="re_date">${instructions.re_date}</div>
-                                    <div class="confirmation">${instructions.confirmation}</div>
-                                    <div class="order-date">${instructions.order-date}</div>
-                                    <div class="outDate">${instructions.outDate}</div>
-                                    <div class="processing">${instructions.processing}</div>
+                                    <div class="no">${instructio.no}</div>
+                                    <div class="store-re">${instruction.store-re}</div>
+                                    <div class="prodNo">${instruction.prodNo}</div>
+                                    <div class="prodName">{$instruction.prodName}</div>
+                                    <div class="colorCode">${instruction.colorCode}</div>
+                                    <div class="size">${instruction.size}</div>
+                                    <div class="re_quan">${instruction.re_quan}</div>
+                                    <div class="re_date">${instruction.re_date}</div>
+                                    <div class="confirmation">${instruction.confirmation}</div>
+                                    <div class="order-date">${instruction.order-date}</div>
+                                    <div class="outDate">${instruction.outDate}</div>
+                                    <div class="processing">${instruction.processing}</div>
 
                                 </li>
                             </c:forEach>
@@ -330,18 +330,18 @@
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="instruction" items="${instructions}">
+                            <c:forEach var="instruction" items="${instructionDTOLists}">
 
                                 <li class="instruction-item">
-                                    <div class="no">${instructions.no}</div>
-                                    <div class="store-re">${instructions.store-re}</div>
-                                    <div class="prodNo">${product.prodNo}</div>
-                                    <div class="prodName">${product.prodName}</div>
-                                    <div class="colorCode">${color.colorCode}</div>
-                                    <div class="size">${product.size}</div>
-                                    <div class="re_quan">${instructions.re_quan}</div>
-                                    <div class="re_date">${instructions.re_date}</div>
-                                    <div class="confirmation">${instructions.confirmation}</div>
+                                    <div class="no">${instruction.no}</div>
+                                    <div class="store-re">${instruction.store-re}</div>
+                                    <div class="prodNo">${instruction.prodNo}</div>
+                                    <div class="prodName">${instruction.prodName}</div>
+                                    <div class="colorCode">${instruction.colorCode}</div>
+                                    <div class="size">${instruction.size}</div>
+                                    <div class="re_quan">${instruction.re_quan}</div>
+                                    <div class="re_date">${instruction.re_date}</div>
+                                    <div class="confirmation">${instruction.confirmation}</div>
                                     <button class="confirmation-btn">확정</button>
                                 </li>
                             </c:forEach>

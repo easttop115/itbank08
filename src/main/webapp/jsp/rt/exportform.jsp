@@ -7,7 +7,7 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>R/T반출등록</title>
+            <title>R/T지시 등록조회 페이지</title>
 
             <style>
                 body {
@@ -94,27 +94,22 @@
                 .button-box {
                     display: flex;
                     justify-content: flex-end;
-                    gap: 10px;
                     padding: 10px;
-
                     margin-right: 0%;
                     /* 수정된 부분: %로 변경 */
                 }
 
                 .button-box button {
-                    background-color: #2895F4;
-                    border: 1px solid #2895F4;
-                    padding: 8px 12px;
-                    color: #FFFFFF;
+                    color: #999;
+                    font-family: 'Monument', 'Noto Sans KR', sans-serif;
+                    border: solid 1px #ddd;
+                    font-size: 13px;
+                    padding: 4px 12px 5px;
+                    line-height: 1.4;
                     border-radius: 5px;
-                    /* 테두리를 둥글게 만듭니다. */
-
-                }
-
-                .button-box button:hover {
-                    background-color: #1a77d4;
-                    /* 마우스 호버 시 색상 변경 */
-
+                    text-align: left;
+                    margin-left: 11px;
+                    background-color: #f5f5f5;
                 }
 
                 .table-container {
@@ -190,15 +185,21 @@
                     margin-top: 10px;
                     /* 아래에 간격 추가 */
                 }
+
+                .confirmed {
+                    color: green;
+                    font-weight: bold;
+                }
             </style>
         </head>
 
         <body>
+            <c:import url="/header" />
 
-            <h1>R/T반출등록</h1>
+            <h1>R/T반출등록/조회</h1>
             <div class="button-box">
                 <button>조회</button>
-                <button>등록</button>
+                <button onclick="location.href='/rt/exportwrite'">등록</button>
             </div>
 
             <div class="filter-main">
@@ -215,23 +216,6 @@
                     </div>
                 </div>
 
-                <div class="filter-section">
-                    <label class="Processing">처리구분</label>
-                    <div class="table-row">
-                        <div class="table-Processing">
-                            <input type="radio" name="status" value="미처리">
-                            <label for="미처리">미처리</label>
-                        </div>
-                        <div class="table-Processing">
-                            <input type="radio" name="status" value="처리">
-                            <label for="처리">처리</label>
-                        </div>
-                        <div class="table-Processing">
-                            <input type="radio" name="status" value="불이행">
-                            <label for="불이행">불이행</label>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="filter-section">
                     <label class="shop">매장</label>
@@ -246,22 +230,26 @@
                 </div>
             </div>
 
+            <!--반출 조회/등록표-->
+            <div class="title-main">
+                <label>
+                    <반출 등록 조회>
+                </label>
+            </div>
+
             <div class="table-container">
                 <ul class="instruction-list">
                     <li class="instruction-item header">
                         <div class="no">NO.</div>
-                        <div class="store-re">받는매장</div>
-                        <div class="item-nu">품번</div>
-                        <div class="product-na">품명</div>
-                        <div class="color">색상</div>
+                        <div class="store-re">지시매장</div>
+                        <div class="prodNo">품번</div>
+                        <div class="prodName">품명</div>
+                        <div class="colorCode">색상</div>
                         <div class="size">사이즈</div>
-                        <div class="stock">재고</div>
-                        <div class="Instruction">지시</div>
-                        <div class="confirmation">확정</div>
-                        <div class="order-date">RT 지시일</div>
+                        <div class="re_quan">지시수량</div>
+                        <div class="re_date">RT 지시일</div>
                         <div class="outDate">반출일</div>
-                        <div class="processing">처리구분</div>
-                        <div class="remarks">비고</div>
+                        <div class="processing" id="processingStatus">처리구분</div>
                     </li>
                     <c:choose>
                         <c:when test="${empty instructions}">
@@ -270,22 +258,22 @@
                             </li>
                         </c:when>
                         <c:otherwise>
-                            <c:forEach var="instruction" items="${instructions}">
+                            <c:forEach var="instruction" items="${instructionDTOLists}">
 
                                 <li class="instruction-item">
-                                    <div class="no">${instruction.no}</div>
+                                    <div class="no">${instructio.no}</div>
                                     <div class="store-re">${instruction.store-re}</div>
-                                    <div class="item-nu">${instruction.item-nu}</div>
-                                    <div class="product-na">${instruction.product-na}</div>
-                                    <div class="color">${instruction.color}</div>
+                                    <div class="prodNo">${instruction.prodNo}</div>
+                                    <div class="prodName">{$instruction.prodName}</div>
+                                    <div class="colorCode">${instruction.colorCode}</div>
                                     <div class="size">${instruction.size}</div>
-                                    <div class="stock">${instruction.stock}</div>
-                                    <div class="Instruction">${instruction.Instruction}</div>
+                                    <div class="re_quan">${instruction.re_quan}</div>
+                                    <div class="re_date">${instruction.re_date}</div>
                                     <div class="confirmation">${instruction.confirmation}</div>
                                     <div class="order-date">${instruction.order-date}</div>
                                     <div class="outDate">${instruction.outDate}</div>
                                     <div class="processing">${instruction.processing}</div>
-                                    <div class="remarks">${instruction.remarks}</div>
+
                                 </li>
                             </c:forEach>
                             <li>
@@ -295,7 +283,6 @@
                     </c:choose>
                 </ul>
             </div>
-
 
             <script>
                 function addDateRange() {
@@ -312,14 +299,6 @@
                         typeCell.className = 'table-cell';
 
                         dateCell.textContent = date.toISOString().split('T')[0];
-
-                        const radioBtn1 = createRadioButton('미처리');
-                        const radioBtn2 = createRadioButton('처리');
-                        const radioBtn3 = createRadioButton('불이행');
-
-                        typeCell.appendChild(radioBtn1);
-                        typeCell.appendChild(radioBtn2);
-                        typeCell.appendChild(radioBtn3);
 
                         newRow.appendChild(dateCell);
                         newRow.appendChild(typeCell);

@@ -1,19 +1,28 @@
 package com.example.demo.instruction;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.notice.NoticeDTO;
+import com.example.demo.orderStock.OrderStockService;
+import com.example.demo.prod.BrandDTO;
+import com.example.demo.prod.CateDTO;
+import com.example.demo.prod.ColorDTO;
 import com.example.demo.prod.ProdDTO;
+import com.example.demo.prod.ProdService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,13 +31,17 @@ public class InstructionController {
     @Autowired
     private InstructionService service;
     @Autowired
+    private ProdService prodService;
+    @Autowired
+    private OrderStockService orderStockService;
+    @Autowired
     private HttpSession session;
 
     @RequestMapping("/instruction/instructionform")
     public String instructionform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
         service.instructionform(cp, model);
 
-        return "instruction/instructionform";
+        return "/instruction/instructionform";
     }
 
     // @RequestMapping("/instruction/instructionwrite")
@@ -48,51 +61,69 @@ public class InstructionController {
     // return "instruction/instructionwrite";
     // }
 
-    @GetMapping("/instruction/instructionwrite")
+    @RequestMapping("/instruction/instructionwrite")
     public String instructionWrite(Model model) {
         String sessionId = (String) session.getAttribute("id");
         if (sessionId == null) {
             return "redirect:/";
         }
-
-        // InstructionDTO에 담을 데이터를 가져옴
+        orderStockService.storeList(model);
         List<InstructionDTO> instructionDTOLists = service.getAllInstructionData();
+        List<CateDTO> cateGroups = prodService.cateGroupList();
+        List<CateDTO> cateCodes = prodService.cateCodeList();
+        List<BrandDTO> brandCodes = prodService.brandCodeList();
+        List<ColorDTO> colorCodes = prodService.colorCodeList();
 
         model.addAttribute("instructionDTOLists", instructionDTOLists);
-
+        model.addAttribute("cateGroups", cateGroups);
+        model.addAttribute("cateCodes", cateCodes);
+        model.addAttribute("brandCodes", brandCodes);
+        model.addAttribute("colorCodes", colorCodes);
         return "instruction/instructionwrite";
     }
 
-    @PostMapping("/searchProdNo")
-    public String searchProdNo(InstructionDTO instruction, Model model) {
-        System.out.println(instruction.getProdNo());
+    // @PostMapping("/instruction/instructionwriteProc")
+    // public String instructionwriteProc(@RequestParam("selectedProducts")
+    // List<String> selectedProducts,
+    // @RequestParam("respQuan") List<Integer> respQuanList,
+    // @RequestParam("storeName") List<String> storeNameList, Model model) {
 
-        List<InstructionDTO> nlist = service.searchProdNo(instruction);
-        model.addAttribute("instructions", nlist);
-        System.out.println("확인: " + nlist);
-        return "instruction/instructionwrite";
-    }
+    // for (int i = 0; i < selectedProducts.size(); i++) {
+    // if (respQuanList.get(i) != null && storeNameList.get(i) != null) { // 요청수량 또는
+    // 매장명이 있을 때만 실행
+    // String prodNo = selectedProducts.get(i);
+    // int respQuan = respQuanList.get(i);
+    // String storeName = storeNameList.get(i);
+    // System.out.println("뭣이 중헌디?? : " + prodNo + "\n" + respQuan + "\n" +
+    // storeName + " / 시마이");
 
-    @PostMapping("modalList")
-    public String modalList(@ModelAttribute("instruction") InstructionDTO instruction, RedirectAttributes ra) {
+    // String confirm = service.instructionwriteProc(prodNo, respQuan, storeName);
 
-        if (instruction.getCateCode().trim().isEmpty()
-                && instruction.getCateGroup().trim().isEmpty()
-                && instruction.getColorCode().trim().isEmpty()
-                && instruction.getSize().trim().isEmpty()
-                && instruction.getProdNo().trim().isEmpty()) {
-            System.out.println(instruction.getCateCode());
-            System.out.println(instruction.getColorCode());
-            return "redirect:/instruction/instructionwrite";
+    // if (!confirm.equals("success")) {
+    // model.addAttribute("msg", confirm);
+    // return "instruction/instructionwrite";
+    // }
+    // }
+    // }
+    // return "instruction/instructionwrite";
+    // }
+
+    @PostMapping("/searchInst")
+    public String unprodList(@ModelAttribute("prod") ProdDTO prod,
+            RedirectAttributes ra) {
+
+        if (prod.getCateCode().trim().isEmpty()
+                && prod.getCateGroup().trim().isEmpty()
+                && prod.getColorCode().trim().isEmpty()
+                && prod.getSize().trim().isEmpty()
+                && prod.getProdNo().trim().isEmpty()) {
+            System.out.println(prod.getCateCode());
+            System.out.println(prod.getColorCode());
+            return "redirect:/unstoring";
         }
-        System.out.println("cateGroup" + instruction.getCateGroup());
-        System.out.println("cateCode" + instruction.getCateCode());
-        System.out.println("colorCode" + instruction.getColorCode());
-        System.out.println("size" + instruction.getSize());
-        System.out.println("prodNo" + instruction.getProdNo());
 
-        List<InstructionDTO> plist = service.instructionList(instruction);
-        ra.addFlashAttribute("instructions", plist);
+        List<ProdDTO> plist = prodService.prodList(prod);
+        ra.addFlashAttribute("prods", plist);
         System.out.println("확인" + plist);
         return "redirect:/instruction/instructionwrite";
 

@@ -119,14 +119,14 @@
                         <c:choose>
                             <c:when test="${sessionScope.accountId eq 'root' }">
                                 <li class="liStyle"><a href="/instruction/instructionform">지시 등록/조회</a></li>
-                                <li class="liStyle"><a href="#">반입 등록/조회</a></li>
-                                <li class="liStyle"><a href="#">반출 등록/조회</a></li>
+                                <li class="liStyle"><a href="/rt/entryform">반입 조회</a></li>
+                                <li class="liStyle"><a href="/rt/exportform">반출 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li class="liStyle"><a href="/instruction/inructionform">지시 등록/조회</a></li>
-                                <li class="liStyle"><a href="#">반입 등록/조회</a></li>
-                                <li class="liStyle"><a href="#">반출 등록/조회</a></li>
+                                <li class="liStyle"><a href="/rt/entryform">반입 조회</a></li>
+                                <li class="liStyle"><a href="/rt/exportform">반출 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">&nbsp<a></li>
                             </c:otherwise>
                         </c:choose>
