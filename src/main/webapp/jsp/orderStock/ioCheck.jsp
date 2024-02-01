@@ -62,9 +62,9 @@
                                                             test="${stock.orderStatus == 'request' and sessionScope.accountId == 'root'}">
                                                             <td>
                                                                 <a href="/storingApprove?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}"
-                                                                    style="text-decoration: none; margin-right: 10px;">승인</a>
+                                                                    style="text-decoration: none; margin: 0 10px 0 -10px;"><img src="/image/accept.png" style="height: 40px;"></a>
                                                                 <a href="/storingDenied?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}"
-                                                                    style="text-decoration: none;">거절</a>
+                                                                    style="text-decoration: none; margin-right: -10px;"><img src="/image/reject.png" style="height: 43px;"></a>
                                                             </td>
                                                         </c:when>
                                                         <c:otherwise>

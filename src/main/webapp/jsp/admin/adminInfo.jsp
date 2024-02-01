@@ -44,7 +44,10 @@
 											<td class="td">${joins.registStatus}</td>
 											<c:choose>
 												<c:when test="${joins.registStatus == 'denied'}">
-													<td class="td"><a href="/verifyProc?email=${joins.email}">가입 승인</a>
+													<td class="td">
+														<a href="/verifyProc?email=${joins.email}" style="text-decoration: none; font-size: 0;">
+															<img src="/image/submit.png" style="width: 79px;">
+														</a>
 													</td>
 												</c:when>
 												<c:when
@@ -56,9 +59,10 @@
 													</td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/adminStatusActiveModify?dbName=${joins.dbName}" style="text-decoration: none; font-size: 0;">
-														<img src="/image/off.png" style="width: 50px;">
-													</a>
+													<td class="td">
+														<a href="/adminStatusActiveModify?dbName=${joins.dbName}" style="text-decoration: none; font-size: 0;">
+															<img src="/image/off.png" style="width: 50px;">
+														</a>
 													</td>
 												</c:otherwise>
 											</c:choose>
@@ -69,10 +73,10 @@
 													<input type="hidden" name="mainEmail" value="${joins.email}">
 													<input type="hidden" name="adCount" value="${joins.adCount}">
 													<input type="hidden" name="dbName" value="${joins.dbName}"> <!-- second DB for문을 돌리기 위한 값 -->
-													<input type="number" name="editAccount" placeholder="추가 계정 수" required min="1" style="width: 45px;">
+													<input type="number" name="editAccount" placeholder="추가" required min="1" style="width: 52px; padding: 4px; border: 1px solid #ccc; border-radius: 20px; box-sizing: border-box;">
 								
-													<button type="submit" style="border: none;">
-														<img src="/image/userAdd.png" style="width: 30px;">
+													<button type="submit" style="border: none; background-color: transparent;">
+														<img src="/image/userAdd.png" style="width: 30px; margin-bottom: -10px;">
 													</button>
 												</form>
 											</td>

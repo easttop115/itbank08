@@ -41,14 +41,24 @@
 											<td class="td">${joins.registStatus}</td>
 											<c:choose>
 												<c:when test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
-													<td class="td"><a href="/statusModify?id=${joins.id}">비활성화</a></td>
+													<td class="td">
+														<a href="/statusModify?id=${joins.id}" style="text-decoration: none; font-size: 0;">
+															<img src="/image/on.png" style="width: 50px;">
+														</a>
+													</td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/statusModify?id=${joins.id}">활성화</a></td>
+													<td class="td">
+														<a href="/statusModify?id=${joins.id}" style="text-decoration: none; font-size: 0;">
+															<img src="/image/off.png" style="width: 50px;">
+														</a>
+													</td>
 												</c:otherwise>
 											</c:choose>
 											<td class="td">
-												<a href="/storeDelete?id=${joins.id}&adCount=${joins.adCount}&dbName=${joins.dbName}">삭제</a>
+												<a href="/storeDelete?id=${joins.id}&adCount=${joins.adCount}&dbName=${joins.dbName}" style="text-decoration: none; font-size: 0;">
+													<img src="/image/tresh.png" style="width: 20px;">
+												</a>
 											</td>
 										</tr>
 									</c:forEach>
