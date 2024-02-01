@@ -363,7 +363,7 @@
             <!-- instruction-list 하단 표-->
 
             <div class="table-container">
-                <form id="unstoringForm" action="/unstoringProc" method="post">
+                <form id="unstoringForm" action="/instruction/instructionwriteProc" method="post">
                     <div class="instruction-list">
                         <table class="instruction-item header">
 

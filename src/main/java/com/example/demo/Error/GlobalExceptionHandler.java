@@ -20,5 +20,5 @@ public class GlobalExceptionHandler {
     public String handle404Error(NoHandlerFoundException e) {
         return "error404";
     }
-    
+
 }

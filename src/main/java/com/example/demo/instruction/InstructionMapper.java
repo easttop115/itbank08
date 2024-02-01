@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo.join.StoreDTO;
+import com.example.demo.prod.ProdDTO;
+
 @Mapper
 public interface InstructionMapper {
 
@@ -17,5 +20,17 @@ public interface InstructionMapper {
     Collection<? extends InstructionDTO> cateList();
 
     Collection<? extends InstructionDTO> colorList();
+
+    ProdDTO findRootProd(ProdDTO prod);
+
+    void updateRootQuan(ProdDTO prod);
+
+    ProdDTO findStoreProd(ProdDTO prod);
+
+    void updateStoreProd(ProdDTO findStoreProd);
+
+    void insertStoreProd(ProdDTO findRootProd);
+
+    int instwriteProc(StoreDTO storeName, String prodNo, int respQuan);
 
 }

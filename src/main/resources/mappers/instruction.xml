@@ -43,6 +43,11 @@
      
        
     </resultMap>
+    
+    <insert id="instwriteProc"> <!-- 지시 마감처리-->
+        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
+    </insert>
+
 
     <!-- InstructionDTO에 대한 셀렉트 옵션 -->
     <select id="instructionGroupList" resultMap="instruction"> 
@@ -108,6 +113,24 @@
                 test="storeName == null"> AND storeName IS NULL </if>
         </where>
     </select>
+
+    <select id="findRootProd">
+    SELECT * from product WHERE (prodNo=#{prodNo} AND storeName IS NULL)
+    </select>
+    <update id="updateRootQuan">
+    UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName IS NULL)
+    </update>
+    <select id="findStoreProd">
+    SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </select>
+    <insert id="insertStoreProd" parameterType="com.example.demo.prod.ProdDTO">
+    INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan, prodCon, regDate, storeName) 
+    VALUES (#{prodNo}, #{brandCode}, #{cateCode}, #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon}, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR), #{storeName})
+    </insert>
+
+
+
+
 
 
 </mapper>

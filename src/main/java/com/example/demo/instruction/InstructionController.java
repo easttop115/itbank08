@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.join.StoreDTO;
 import com.example.demo.orderStock.OrderStockService;
 import com.example.demo.prod.BrandDTO;
 import com.example.demo.prod.CateDTO;
@@ -78,31 +79,29 @@ public class InstructionController {
         return "instruction/instructionwrite";
     }
 
-    // @PostMapping("/instruction/instructionwriteProc")
-    // public String instructionwriteProc(@RequestParam("selectedProducts")
-    // List<String> selectedProducts,
-    // @RequestParam("respQuan") List<Integer> respQuanList,
-    // @RequestParam("storeName") List<String> storeNameList, Model model) {
+    @PostMapping("/instruction/instructionwriteProc")
+    public String instructionwriteProc(@RequestParam("selectedProducts") List<String> selectedProducts,
+            @RequestParam("respQuan") List<Integer> respQuanList,
+            List<StoreDTO> storeNameList, Model model) {
 
-    // for (int i = 0; i < selectedProducts.size(); i++) {
-    // if (respQuanList.get(i) != null && storeNameList.get(i) != null) { // 요청수량 또는
-    // 매장명이 있을 때만 실행
-    // String prodNo = selectedProducts.get(i);
-    // int respQuan = respQuanList.get(i);
-    // String storeName = storeNameList.get(i);
-    // System.out.println("뭣이 중헌디?? : " + prodNo + "\n" + respQuan + "\n" +
-    // storeName + " / 시마이");
+        for (int i = 0; i < selectedProducts.size(); i++) {
+            if (respQuanList.get(i) != null && storeNameList.get(i) != null) { // 요청수량 또는 매장명이 있을 때만 실행
+                String prodNo = selectedProducts.get(i);
+                int respQuan = respQuanList.get(i);
+                StoreDTO storeName = storeNameList.get(i);
+                System.out.println("뭣이 중헌디?? : " + prodNo + "\n" + respQuan + "\n" +
+                        storeName + " / 시마이");
 
-    // String confirm = service.instructionwriteProc(prodNo, respQuan, storeName);
+                String confirm = service.instructionwriteProc(storeName, prodNo, respQuan);
 
-    // if (!confirm.equals("success")) {
-    // model.addAttribute("msg", confirm);
-    // return "instruction/instructionwrite";
-    // }
-    // }
-    // }
-    // return "instruction/instructionwrite";
-    // }
+                if (!confirm.equals("success")) {
+                    model.addAttribute("msg", confirm);
+                    return "instruction/instructionwrite";
+                }
+            }
+        }
+        return "instruction/instructionwrite";
+    }
 
     @PostMapping("/searchInst")
     public String unprodList(@ModelAttribute("prod") ProdDTO prod,
