@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-
-import com.example.demo.join.StoreDTO;
 import com.example.demo.prod.ProdDTO;
 import jakarta.servlet.http.HttpSession;
 
@@ -58,7 +56,7 @@ public class InstructionService {
         return instructionDTOList;
     }
 
-    public String instructionwriteProc(StoreDTO storeName, String prodNo, int respQuan) {
+    public String instructionwriteProc(String prodNo, int respQuan, String storeName) {
 
         ProdDTO prod = new ProdDTO(null, null, null, null);
         prod.setProdNo(prodNo);
@@ -71,7 +69,7 @@ public class InstructionService {
                 prod.setQuan(updateRootQuan);
                 mapper.updateRootQuan(prod); // 본사 재고 수량 업데이트
 
-                prod.setStoreName(storeName.getName());
+                prod.setStoreName(storeName);
                 ProdDTO findStoreProd = mapper.findStoreProd(prod); // 매장의 product 정보를 가져옴
 
                 if (findStoreProd != null) { // 기존 정보가 있다면
@@ -81,7 +79,7 @@ public class InstructionService {
                     ProdDTO findRootProd = mapper.findRootProd(prod);
 
                     findRootProd.setQuan(respQuan);
-                    findRootProd.setStoreName(storeName.getName());
+                    findRootProd.setStoreName(storeName);
                     mapper.insertStoreProd(findRootProd); // product 테이블에 매장의 재고 정보를 기입
                 }
 
@@ -92,5 +90,4 @@ public class InstructionService {
         }
         return "재고 수량보다 입력한 수량이 많습니다. 다시 시도해 주세요.";
     }
-
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.demo.join.StoreDTO;
 import com.example.demo.prod.ProdDTO;
 
 @Mapper
@@ -31,6 +30,6 @@ public interface InstructionMapper {
 
     void insertStoreProd(ProdDTO findRootProd);
 
-    int instwriteProc(StoreDTO storeName, String prodNo, int respQuan);
+    int instwriteProc(String storeName, String prodNo, int respQuan);
 
 }
