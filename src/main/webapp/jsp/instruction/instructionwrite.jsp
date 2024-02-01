@@ -336,6 +336,7 @@
                                         </select>
                                         <select class="searchOption" name="size">
                                             <option value="">사이즈</option>
+                                            <option value="FREE">FREE</option>
                                             <option value="S">S</option>
                                             <option value="M">M</option>
                                             <option value="L">L</option>
@@ -365,7 +366,10 @@
                 <form id="unstoringForm" action="/unstoringProc" method="post">
                     <div class="instruction-list">
                         <table class="instruction-item header">
+
                             <tr>
+                                <td><input type="checkbox" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" />
+                                </td>
                                 <td>상품코드</td>
                                 <td>상품명</td>
                                 <td>사이즈</td>
@@ -378,7 +382,8 @@
                                 <c:when test="${not empty prods}">
                                     <c:forEach var="product" items="${prods}" varStatus="loop">
                                         <tr>
-
+                                            <td><input type="checkbox" name="selectedProducts"
+                                                    value="${product.prodNo}" /></td>
                                             <td>${product.prodNo}</td>
                                             <td>${product.prodName}</td>
                                             <td>${product.size}</td>
@@ -437,14 +442,54 @@
             function submitForm() {
                 var form = document.getElementById("unstoringForm");
 
+                var checkboxes = document.getElementsByName("selectedProducts");
+
                 // 폼 데이터를 저장할 새로운 FormData 객체 생성
                 var formData = new FormData(form);
 
-                // 폼 제출
+                // // 선택된 상품들의 정보를 저장할 배열
+                // var selectedProducts = [];
+
+                // 체크박스를 반복하며 선택된 것들을 FormData에 추가
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        var prodNo = checkboxes[i].value;
+                        var respQuanInput = document.querySelector('input[name="respQuan"][value="' + prodNo + '"]');
+                        var selectedStoreInput = document.querySelector('select[name="storeName"][value="' + prodNo + '"]');
+
+                        if (respQuanInput && selectedStoreInput) {
+                            var respQuan = respQuanInput.value;
+                            var selectedStore = selectedStoreInput.value;
+
+                            // 요청 수량이 null이 아닌 경우에만 FormData에 추가
+                            if (respQuan !== null && respQuan !== "" && selectedStore !== null && selectedStore !== "") {
+                                formData.append("selectedProducts", prodNo + ":" + respQuan + ":" + selectedStore);
+                            }
+                        }
+                    }
+                }
+
+                // 최소 한 개 이상의 상품이 선택되었는지 확인
+                if (formData.getAll("selectedProducts").length === 0) {
+                    alert("하나 이상의 상품을 선택해주세요.");
+                    return;
+                }
+
+                // FormData를 폼 데이터로 설정
                 form.formData = formData;
+
+                // 폼 제출
                 form.submit();
             }
 
+            // 모든 체크박스 선택/해제하는 함수
+            function toggleCheckboxes(checkbox) {
+                var checkboxes = document.getElementsByName("selectedProducts");
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].checked = checkbox.checked;
+                }
+            }
         </script>
 
 

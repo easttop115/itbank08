@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpSession;
 public class NoticeService {
     @Autowired
     private NoticeMapper mapper;
-    private String filePath = "C:\\itbank08\\upload\\";
+    private String filePath = "/mountPoint";
     private NoticeMapper noticeMapper;
 
     public void noticeform(String cp, Model model, Object jdbcTemplate) {
@@ -107,7 +107,7 @@ public class NoticeService {
                 return "redirect:/notice/noticewrite";
 
             // 파일의 저장 경로
-            String fileSaveDirectory = "C:\\itbank08\\upload\\" + sessionId;
+            String fileSaveDirectory = "/mountPoint" + sessionId;
             File f = new File(fileSaveDirectory);
             if (f.exists() == false) {
                 f.mkdir();

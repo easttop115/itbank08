@@ -284,6 +284,7 @@
               <th>사이즈</th>
               <td><select id="size" name="size" required>
                   <option value="null"></option> <!-- 초기값으로 null 추가 -->
+                  <option value="FREE">FREE</option>
                   <option value="S">S</option>
                   <option value="M">M</option>
                   <option value="L">L</option>
