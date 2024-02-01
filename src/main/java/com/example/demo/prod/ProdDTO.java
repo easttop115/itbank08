@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.UUID;
 
-import com.example.demo.join.StoreDTO;
-
 @Getter
 @Setter
 public class ProdDTO {

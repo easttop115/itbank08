@@ -11,7 +11,11 @@ import com.example.demo.prod.ProdDTO;
 @Mapper
 public interface OrderStockMapper {
 
-    int storingProc(@Param("storeName") String storeName, @Param("prodNo") String prodNo, @Param("reqQuan") int reqQuan);
+    int storingProc(@Param("storeName") String storeName, @Param("prodNo") String prodNo,
+            @Param("reqQuan") int reqQuan);
+
+    int unstoringProc(@Param("prodNo") String prodNo, @Param("respQuan") int respQuan,
+            @Param("storeName") String storeName);
 
     List<ProdDTO> searchProd(ProdDTO prod);
 
@@ -38,8 +42,6 @@ public interface OrderStockMapper {
     void updateOrderStatus(OrderStockDTO changeStatus);
 
     int storingDenied(OrderStockDTO store);
-
-    int unstoringProc(String storeName, String prodNo, int respQuan);
 
     List<String> storeList();
 

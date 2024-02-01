@@ -97,7 +97,7 @@ public class OrderStockService {
         prod.setProdNo(prodNo);
         ProdDTO totalQuan = mapper.findRootProd(prod); // prodNo 값은 유니크 값 => prodNo에 해당하는 수량을 가져와라
         if (respQuan <= totalQuan.getQuan()) { // 출고 수량보다 총 수량이 많으면 ok
-            int result = mapper.unstoringProc(storeName, prodNo, respQuan); // 출고 기록용으로 db에 저장(orderStock)
+            int result = mapper.unstoringProc(prodNo, respQuan, storeName); // 출고 기록용으로 db에 저장(orderStock)
 
             if (result > 0) {
                 int updateRootQuan = totalQuan.getQuan() - respQuan;
