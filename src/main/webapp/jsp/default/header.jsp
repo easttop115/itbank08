@@ -81,19 +81,15 @@
                                 <li class="liStyle"><a href="#">&nbsp</a></li>
                                 <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:when>
+                            <c:when test="${sessionScope.aId != null}">
+                                <li class="liStyle"><a href="/storing">입고</a></li>
+                                <li class="liStyle"><a href="/unstoring">출고</a></li>
+                                <li class="liStyle"><a href="/ioCheck">입출고내역조회</a></li>
+                                <li class="liStyle"><a href="#">&nbsp</a></li>
+                            </c:when>
                         </c:choose>
                     </ul>
                 </li>
-                <li class="liStyle">
-                    <a href="#">판매통계</a>
-                    <ul class="subList">
-                        <li class="liStyle"><a href="#">판매통계</a></li>
-                        <li class="liStyle"><a href="#">일일통계</a></li>
-                        <li class="liStyle"><a href="#">월별통계</a></li>
-                        <li class="liStyle"><a href="#">&nbsp</a></li>
-                    </ul>
-                </li>
-
                 <li class="liStyle">
                     <a href="#">게시판</a>
                     <ul class="subList">

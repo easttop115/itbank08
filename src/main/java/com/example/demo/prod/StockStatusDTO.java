@@ -9,15 +9,22 @@ public class StockStatusDTO {
 
     // product table
     private String storeName;
-    private String prodCode; // prodNo
+    private String prodNo;
+    private String brandCode;
+    private String cateCode;
+    private String cateGroup;
     private String prodName;
-    private String price; // sellPrice
+    private String incomePrice;
+    private String sellPrice;
+    private String size;
     private String sizeS;
     private String sizeM;
     private String sizeL;
     private String sizeXL;
+    private String colorCode;
+    private String quan;
 
     // color table
-    private String color; // colorName
+    private String colorName;
 
 }

@@ -43,4 +43,6 @@ public interface OrderStockMapper {
 
     List<String> storeList();
 
+    List<OrderStockDTO> csvList();
+
 }

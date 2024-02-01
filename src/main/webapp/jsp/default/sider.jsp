@@ -3,49 +3,48 @@
         <html>
 
         <head>
-
             <link rel="stylesheet" href="/css/sider.css">
             <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var imageSources1 = ["/image/ad.png"];
+                    var currentIndex1 = 0;
 
-                var sidebar;
-                document.addEventListener("DOMContentLoaded", function () {
-                    var navbars = document.querySelectorAll('.navbar > li');
-                    var allSubLists = document.querySelectorAll('.subList');
-                    var sidebar = document.querySelector('.sidebar');
+                    function rotateImage1() {
+                        var rotatingImage1 = document.getElementById('rotating-image');
+                        currentIndex1 = (currentIndex1 + 1) % imageSources1.length;
+                        rotatingImage1.src = imageSources1[currentIndex1];
+                        rotatingImage1.style.width = "20%"; // 이미지 크기 조절 (원하는 크기로 변경)
+                    }
 
-                    // 이전 스크롤 위치를 저장할 변수
-                    var prevScrollPos = window.scrollY;
+                    setInterval(rotateImage1, 1000);
+                });
 
-                    // 스크롤 이벤트 리스너
-                    window.addEventListener('scroll', function () {
-                        var currentScrollPos = window.scrollY;
+                document.addEventListener('DOMContentLoaded', function () {
+                    var imageSources2 = ["/image/son.jpg"];
+                    var currentIndex2 = 0;
 
-                        if (currentScrollPos > prevScrollPos) {
-                            // 스크롤이 내려갈 때
-                            sidebar.classList.add('hidden');
-                        } else {
-                            // 스크롤이 올라갈 때
-                            sidebar.classList.remove('hidden');
-                        }
+                    function rotateImage2() {
+                        var rotatingImage2 = document.getElementById('rotating-image2');
+                        currentIndex2 = (currentIndex2 + 1) % imageSources2.length;
+                        rotatingImage2.src = imageSources2[currentIndex2];
+                        rotatingImage2.style.width = "100%"; // 이미지 크기 조절 (원하는 크기로 변경)
+                    }
 
-                        prevScrollPos = currentScrollPos;
-                    });
+                    setInterval(rotateImage2, 1000);
+                });
 
-                    navbars.forEach(function (navbar) {
-                        navbar.addEventListener('mouseover', function () {
-                            allSubLists.forEach(function (subList) {
-                                var height = subList.scrollHeight;
-                                subList.style.height = height + 'px';
-                            });
-                        });
+                document.addEventListener('DOMContentLoaded', function () {
+                    var imageSources3 = ["/image/ibk.jpg"];
+                    var currentIndex3 = 0;
 
-                        navbar.addEventListener('mouseout', function () {
-                            allSubLists.forEach(function (subList) {
-                                subList.style.height = '0';
-                                sidebar.classList.add('hidden');
-                            });
-                        });
-                    });
+                    function rotateImage3() {
+                        var rotatingImage3 = document.getElementById('rotating-image3');
+                        currentIndex3 = (currentIndex3 + 1) % imageSources3.length;
+                        rotatingImage3.src = imageSources3[currentIndex3];
+                        rotatingImage3.style.width = "100%"; // 이미지 크기 조절 (원하는 크기로 변경)
+                    }
+
+                    setInterval(rotateImage3, 1000);
                 });
             </script>
         </head>
@@ -54,17 +53,20 @@
             <div class="sidebar">
                 <!-- 사이드바 내용 -->
                 <div class="sidebar-content">
-                    <div style="position: absolute; bottom: 0; right: 0;">
-                        <c:choose>
-                            <c:when test="${sessionScope.accountId == 'root'}">
-                                <h3 style="margin: 0; padding: 5px;">
-                                    <a href="/backupProc?dbName=${sessionScope.dbName}" style="text-decoration: none;">BACKUP</a>
-                                </h3>
-                                <h3 style="margin: 0; padding: 5px;">
-                                    <a href="#" style="text-decoration: none;">RESTORE</a>
-                                </h3>
-                            </c:when>
-                        </c:choose>
+                    <div style="position: absolute; bottom: 92%; right: 0;">
+                        <div id="image-container" style="margin-top: 20px;">
+                            <img id="rotating-image" src="/image/loading.gif" style="width: 0%;" alt="Rotating Image">
+                        </div>
+                    </div>
+                    <div style="position: absolute; bottom: 35%; right: 0;">
+                        <div id="image-container" style="margin-top: 20px;">
+                            <img id="rotating-image2" src="/image/loading.gif" style="width: 100%;" alt="Rotating Image">
+                        </div>
+                    </div>
+                    <div style="position: absolute; bottom: 10%; right: 0;">
+                        <div id="image-container" style="margin-top: 20px;">
+                            <img id="rotating-image3" src="/image/loading.gif" style="width: 0%;" alt="Rotating Image">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -77,4 +77,8 @@
 <select id="storeList">
     SELECT DISTINCT storeName FROM product WHERE storeName IS NOT NULL
 </select>
+
+<select id="csvList">
+    SELECT * FROM orderStock
+</select>
 </mapper>
