@@ -104,14 +104,14 @@ public class NoticeService {
 
             String suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
             System.out.println("NoticeService-notice writeProc-suffix : " + suffix);
-            if (suffix.equalsIgnoreCase("pdf") == false)
+            if (suffix.equalsIgnoreCase("pdf") == false){
                 return "redirect:/notice/noticewrite";
-
+            }
             // 파일의 저장 경로
             String fileSaveDirectory = filePath + sessionId;
             File f = new File(fileSaveDirectory);
             if (f.exists() == false) {
-                f.mkdir();
+                f.mkdirs();
             }
 
             String fullPath = fileSaveDirectory + "/" + fileTime + fileName;
