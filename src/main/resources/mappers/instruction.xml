@@ -117,10 +117,13 @@
     <select id="findRootProd">
     SELECT * from product WHERE (prodNo=#{prodNo} AND storeName IS NULL)
     </select>
-    <update id="updateRootQuan">
-    UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName IS NULL)
+    <update id="updateStoreProd" parameterType="com.example.demo.prod.ProdDTO">
+        UPDATE product SET quan=#{findStoreProd.quan} WHERE (prodNo=#{findStoreProd.prodNo} AND storeName=#{findStoreProd.storeName})
     </update>
-    <select id="findStoreProd">
+    <update id="updateRootQuan" parameterType="com.example.demo.prod.ProdDTO">
+        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName IS NULL)
+    </update>
+    <select id="findStoreProdi">
     SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
     </select>
     <insert id="insertStoreProd" parameterType="com.example.demo.prod.ProdDTO">

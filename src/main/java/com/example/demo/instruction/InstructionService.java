@@ -70,11 +70,11 @@ public class InstructionService {
                 mapper.updateRootQuan(prod); // 본사 재고 수량 업데이트
 
                 prod.setStoreName(storeName);
-                ProdDTO findStoreProd = mapper.findStoreProd(prod); // 매장의 product 정보를 가져옴
+                ProdDTO findStoreInst = mapper.findStoreInst(prod); // 매장의 product 정보를 가져옴
 
-                if (findStoreProd != null) { // 기존 정보가 있다면
-                    findStoreProd.setQuan(findStoreProd.getQuan() + respQuan); // 기존 수량 + 출고 수량
-                    mapper.updateStoreProd(findStoreProd); // 같은 매장 정보가 있다면 수량만 업데이트
+                if (findStoreInst != null) { // 기존 정보가 있다면
+                    findStoreInst.setQuan(findStoreInst.getQuan() + respQuan); // 기존 수량 + 출고 수량
+                    mapper.updateStoreProd(findStoreInst); // 같은 매장 정보가 있다면 수량만 업데이트
                 } else { // 새 정보라면
                     ProdDTO findRootProd = mapper.findRootProd(prod);
 

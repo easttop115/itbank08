@@ -24,12 +24,12 @@ public interface InstructionMapper {
 
     void updateRootQuan(ProdDTO prod);
 
-    ProdDTO findStoreProd(ProdDTO prod);
-
-    void updateStoreProd(ProdDTO findStoreProd);
-
+    void updateStoreProd(ProdDTO findStoreProdup);
+    
     void insertStoreProd(ProdDTO findRootProd);
 
     int instwriteProc(String storeName, String prodNo, int respQuan);
+
+    ProdDTO findStoreInst(ProdDTO prod);
 
 }
