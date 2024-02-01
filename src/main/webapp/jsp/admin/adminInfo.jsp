@@ -49,11 +49,16 @@
 												</c:when>
 												<c:when
 													test="${joins.registStatus == 'approve' or joins.registStatus == 'active'}">
-													<td class="td"><a href="/adminStatusInactiveModify?dbName=${joins.dbName}">비활성화</a>
+													<td class="td">
+														<a href="/adminStatusInactiveModify?dbName=${joins.dbName}" style="text-decoration: none; font-size: 0;">
+															<img src="/image/on.png" style="width: 50px;">
+														</a>
 													</td>
 												</c:when>
 												<c:otherwise>
-													<td class="td"><a href="/adminStatusActiveModify?dbName=${joins.dbName}">활성화</a>
+													<td class="td"><a href="/adminStatusActiveModify?dbName=${joins.dbName}" style="text-decoration: none; font-size: 0;">
+														<img src="/image/off.png" style="width: 50px;">
+													</a>
 													</td>
 												</c:otherwise>
 											</c:choose>
@@ -64,12 +69,18 @@
 													<input type="hidden" name="mainEmail" value="${joins.email}">
 													<input type="hidden" name="adCount" value="${joins.adCount}">
 													<input type="hidden" name="dbName" value="${joins.dbName}"> <!-- second DB for문을 돌리기 위한 값 -->
-													<input type="number" name="editAccount" placeholder="추가 계정 수" required min="1">
+													<input type="number" name="editAccount" placeholder="추가 계정 수" required min="1" style="width: 45px;">
 								
-													<input type="submit" value="추가">
+													<button type="submit" style="border: none;">
+														<img src="/image/userAdd.png" style="width: 30px;">
+													</button>
 												</form>
 											</td>
-											<td class="td"><a href="/adminRootDelete?dbName=${joins.dbName}&id=${joins.id}">삭제</a></td>
+											<td class="td">
+												<a href="/adminRootDelete?dbName=${joins.dbName}&id=${joins.id}" style="text-decoration: none; font-size: 0;">
+													<img src="/image/tresh.png" style="width: 20px;">
+												</a>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>

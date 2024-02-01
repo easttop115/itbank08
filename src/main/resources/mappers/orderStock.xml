@@ -75,7 +75,7 @@
 </update>
 
 <select id="storeList">
-    SELECT DISTINCT storeName FROM product WHERE storeName IS NOT NULL
+    SELECT DISTINCT name FROM store WHERE name IS NOT NULL
 </select>
 
 <select id="csvList">
