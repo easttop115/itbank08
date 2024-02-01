@@ -113,7 +113,7 @@ public class NoticeService {
                 f.mkdir();
             }
 
-            String fullPath = fileSaveDirectory + "\\" + fileTime + fileName;
+            String fullPath = fileSaveDirectory + "/" + fileTime + fileName;
             noticeDTO.setFileName(fullPath);
             f = new File(fullPath);
             try {
