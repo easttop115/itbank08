@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpSession;
 public class NoticeService {
     @Autowired
     private NoticeMapper mapper;
-    private String filePath = "/mountPoint";
+    private String filePath = "/mountPoint/";
     private NoticeMapper noticeMapper;
 
     public void noticeform(String cp, Model model, Object jdbcTemplate) {
