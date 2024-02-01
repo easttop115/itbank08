@@ -52,14 +52,14 @@
                                         <tr>
                                             <c:choose>
                                                 <c:when
-                                                    test="${(stock.orderStatus == 'reqApprove' or stock.orderStatus == 'request' or stock.orderStatus == 'denied') and radioButton == 'selectRequest'}">
+                                                    test="${(stock.orderStatus == '요청 승인' or stock.orderStatus == '요청 중' or stock.orderStatus == '요청 거절') and radioButton == 'selectRequest'}">
                                                     <td>${stock.reqStore}</td>
                                                     <td>${stock.prodNo}</td>
                                                     <td>${stock.reqQuan}</td>
                                                     <td>${stock.reqDate}</td>
                                                     <c:choose>
                                                         <c:when
-                                                            test="${stock.orderStatus == 'request' and sessionScope.accountId == 'root'}">
+                                                            test="${stock.orderStatus == '요청 중' and sessionScope.accountId == 'root'}">
                                                             <td>
                                                                 <a href="/storingApprove?reqStore=${stock.reqStore}&prodNo=${stock.prodNo}&reqDate=${stock.reqDate}"
                                                                     style="text-decoration: none; margin: 0 10px 0 -10px;"><img src="/image/accept.png" style="height: 40px;"></a>
@@ -73,7 +73,7 @@
                                                     </c:choose>
                                                 </c:when>
                                                 <c:when
-                                                    test="${stock.orderStatus == 'response' and radioButton == 'selectResponse'}">
+                                                    test="${stock.orderStatus == '출고' and radioButton == 'selectResponse'}">
                                                     <td>${stock.respStore}</td>
                                                     <td>${stock.prodNo}</td>
                                                     <td>${stock.respQuan}</td>

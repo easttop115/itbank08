@@ -4,10 +4,10 @@
     <resultMap type="com.example.demo.orderStock.OrderStockDTO" id="orderStock" />
     <resultMap type="com.example.demo.join.JoinDTO" id="join"/>
     <insert id="storingProc"> <!-- 입고 -->
-        INSERT INTO orderStock (reqStore, prodNo, reqQuan, reqDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{reqQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'request')
+        INSERT INTO orderStock (reqStore, prodNo, reqQuan, reqDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{reqQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), '요청 중')
     </insert>
     <insert id="unstoringProc"> <!-- 출고 -->
-        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
+        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), '출고')
     </insert>
 
     <select id="searchProd" resultType="com.example.demo.prod.ProdDTO"> SELECT * FROM product <where>
@@ -63,15 +63,15 @@
 </insert>
 
 <select id="searchOrderStatus">
-    SELECT * from orderStock WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='request')
+    SELECT * from orderStock WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='요청 중')
 </select>
 
 <update id="updateOrderStatus">
-    UPDATE orderStock SET orderStatus='reqApprove' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='request')
+    UPDATE orderStock SET orderStatus='요청 승인' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='요청 중')
 </update>
 
 <update id="storingDenied">
-    UPDATE orderStock SET orderStatus='denied' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='request')
+    UPDATE orderStock SET orderStatus='요청 거절' WHERE (reqStore=#{reqStore} AND prodNo=#{prodNo} AND reqDate=#{reqDate} AND orderStatus='요청 중')
 </update>
 
 <select id="storeList">
