@@ -170,7 +170,7 @@ public class NoticeService {
 
         NoticeDTO notice = mapper.noticecontent(n);
         if (notice != null && notice.getFileName() != null) {
-            String[] names = notice.getFileName().split("\\\\");
+            String[] names = notice.getFileName().split("/");
             System.out.println("글내용" + notice.getContent());
             System.out.println("글제목" + notice.getTitle());
             for (String name : names)
@@ -215,7 +215,7 @@ public class NoticeService {
         if (fullPath == null)
             return;
 
-        String[] names = fullPath.split("\\\\");
+        String[] names = fullPath.split("/");
         String[] fileNames = names[4].split("-", 2);
 
         try {
@@ -250,7 +250,7 @@ public class NoticeService {
             return "redirect:noticeform";
 
         if (notice.getFileName() != null) {
-            String[] names = notice.getFileName().split("\\\\");
+            String[] names = notice.getFileName().split("/");
             if (names.length >= 5) { // 배열 길이 확인
                 String[] fileNames = names[4].split("-", 2);
                 if (fileNames.length >= 2) { // 배열 길이 확인

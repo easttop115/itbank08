@@ -41,6 +41,10 @@ public class JoinController {
 
     @RequestMapping("/join/login")
     public String login() {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId != null)
+            return "/main/mainform";
+            
         return "/join/login";
     }
 
