@@ -57,7 +57,7 @@
         <insert id="addColor" parameterType="com.example.demo.prod.ColorDTO"> INSERT INTO color
                 (colorCode, colorName) VALUES (#{colorCode}, #{colorName}) </insert>
 
-        <select id="findById"> SELECT * from product WHERE prodNo = #{prodNo} </select>
+        <select id="findById"> SELECT * from product WHERE (prodNo = #{prodNo} AND storeName IS NULL) </select>
 
         <update id="updateProd" parameterType="com.example.demo.prod.ProdDTO"> UPDATE product SET
                 incomePrice=#{incomePrice}, sellPrice=#{sellPrice}, prodCon=#{prodCon} WHERE

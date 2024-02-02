@@ -183,17 +183,15 @@
               <td>품목명</td>
               <td>색상</td>
               <td>판매가</td>
-              <td>S</td>
-              <td>M</td>
-              <td>L</td>
-              <td>XL</td>
+              <td>사이즈</td>
+              <td>수량</td>
             </tr>
 
             <!-- 데이터 유무 확인 -->
             <c:choose>
               <c:when test="${empty dataList}">
                 <tr class="no-data-row">
-                  <td colspan="8">조회된 정보가 없습니다.</td>
+                  <td colspan="6">조회된 정보가 없습니다.</td>
                 </tr>
               </c:when>
               <c:otherwise>
@@ -204,9 +202,7 @@
                     <td>${item.colorName}</td>
                     <td>${item.sellPrice}</td>
                     <td>${item.size}</td>
-                    <td>${item.size}</td>
-                    <td>${item.size}</td>
-                    <td>${item.size}</td>
+                    <td>${item.quan}</td>
                   </tr>
                 </c:forEach>
               </c:otherwise>
