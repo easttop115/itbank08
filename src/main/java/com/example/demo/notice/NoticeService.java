@@ -109,12 +109,14 @@ public class NoticeService {
             }
             // 파일의 저장 경로
             String fileSaveDirectory = filePath + sessionId;
+            System.out.println("경로 : " + fileSaveDirectory);
             File f = new File(fileSaveDirectory);
             if (f.exists() == false) {
                 f.mkdirs();
             }
 
             String fullPath = fileSaveDirectory + "/" + fileTime + fileName;
+            System.out.println("풀경로 : " + fullPath);
             noticeDTO.setFileName(fullPath);
             f = new File(fullPath);
             try {
