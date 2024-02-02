@@ -21,12 +21,12 @@ public class OrderStockService {
 
     public String storingProc(String prodNo, int reqQuan) {
         String id = (String) session.getAttribute("id");
-        String storeName = mapper.connectName(id);
+        String storeName = mapper.connectName(id); // id값을 기준으로 user와 store테이블의 no값이 같은 매장 이름을 가져옴(최초 입고라면 storeName값이 없어서)
         ProdDTO prod = new ProdDTO(null, null, null, null);
         prod.setProdNo(prodNo);
-        ProdDTO totalQuan = mapper.findRootProd(prod);
-        if (storeName != null) {
-            if (reqQuan < totalQuan.getQuan()) {
+        ProdDTO totalQuan = mapper.findRootProd(prod); // 본사의 제품 정보를 가져옴
+        if (storeName != null) { // 매장이 존재한다면
+            if (reqQuan <= totalQuan.getQuan()) { // 본사 재고의 수량을 넘지 않는다면
                 int result = mapper.storingProc(storeName, prodNo, reqQuan);
                 if (result > 0)
                     return "success";
@@ -35,7 +35,7 @@ public class OrderStockService {
             }
             return "재고 수량보다 신청 수량이 많습니다. 다시 시도해 주세요.";
         }
-        return "MYPAGE에서 지점 이름 수정 후 다시 시도해 주세요.";
+        return "MYPAGE에서 지점명 수정 후 다시 시도해 주세요.";
     }
 
     public List<ProdDTO> prodList(ProdDTO prod) {
@@ -132,7 +132,7 @@ public class OrderStockService {
         model.addAttribute("storeNames", storeNames);
     }
 
-    public List<String[]> listCsvString() {
+    public List<String[]> listCsvString() { // null값 데이터는 다 버리고 모든 정보 출력
         List<OrderStockDTO> list = mapper.csvList();
         List<String[]> listStrings = new ArrayList<>();
         listStrings.add(new String[] { "매장명", "상품코드", "수량", "결재일", "입출고 상태" });

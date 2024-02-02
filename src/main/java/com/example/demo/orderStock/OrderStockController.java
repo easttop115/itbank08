@@ -36,6 +36,7 @@ public class OrderStockController {
     @Autowired
     private ProdService prodService;
 
+    // 입고
     @RequestMapping("/storing")
     public String storing(Model model) {
         String sessionId = (String) session.getAttribute("id");
@@ -55,11 +56,12 @@ public class OrderStockController {
         return "/orderStock/storing";
     }
 
+    // 입고 신청 버튼 클릭 시 기능
     @PostMapping("/storingProc")
     public String storingProc(@RequestParam("selectedProducts") List<String> selectedProducts,
             @RequestParam("reqQuan") List<Integer> reqQuanList, Model model) {
 
-        for (int i = 0; i < selectedProducts.size(); i++) {
+        for (int i = 0; i < selectedProducts.size(); i++) { // 선택 체크박스 수량만큼 반복
             if (reqQuanList.get(i) != null) { // 요청수량이 있을 때만 실행
                 String prodNo = selectedProducts.get(i);
                 int reqQuan = reqQuanList.get(i);
@@ -75,6 +77,7 @@ public class OrderStockController {
         return "redirect:/storing"; // 성공 시
     }
 
+    // 재고 검색 버튼 클릭 시
     @PostMapping("/searchStoring")
     public String prodList(@ModelAttribute("prod") ProdDTO prod, RedirectAttributes ra) {
 
@@ -95,6 +98,7 @@ public class OrderStockController {
 
     }
 
+    // 입출고 조회(io == in/out)
     @GetMapping("/ioCheck")
     public String ioCheck(@RequestParam(name = "radioButton", required = false) String radioButton, Model model) {
         String sessionId = (String) session.getAttribute("id");
@@ -108,6 +112,7 @@ public class OrderStockController {
         return "/orderStock/ioCheck";
     }
 
+    // 본사가 입고 요청 승인을 눌렀을 때 동작
     @RequestMapping("/storingApprove")
     public String storingApprove(OrderStockDTO store, Model model) {
         String confirm = service.storingApprove(store, model);
@@ -119,9 +124,10 @@ public class OrderStockController {
         return "/orderStock/ioCheck";
     }
 
+    // 요청 거절 눌렀을 때
     @RequestMapping("/storingDenied")
     public String storingDenied(OrderStockDTO store) {
-        String confirm = service.storingDenied(store);
+        String confirm = service.storingDenied(store); // 해당 데이터의 orderStatus를 '요청 거절'로 업데이트
 
         if (confirm.equals("success"))
             return "redirect:/ioCheck";
@@ -129,6 +135,7 @@ public class OrderStockController {
         return "/orderStock/ioCheck";
     }
 
+    // 출고 페이지
     @RequestMapping("/unstoring")
     public String unstoring(Model model) {
         String sessionId = (String) session.getAttribute("id");
@@ -139,7 +146,7 @@ public class OrderStockController {
         List<CateDTO> cateCodes = prodService.cateCodeList();
         List<BrandDTO> brandCodes = prodService.brandCodeList();
         List<ColorDTO> colorCodes = prodService.colorCodeList();
-        service.storeList(model);
+        service.storeList(model); // 매장들 이름을 받아옴
 
         model.addAttribute("cateGroups", cateGroups);
         model.addAttribute("cateCodes", cateCodes);
@@ -149,6 +156,7 @@ public class OrderStockController {
         return "/orderStock/unstoring";
     }
 
+    // 본사가 출고 버튼 클릭 시
     @PostMapping("/unstoringProc")
     public String unstoringProc(@RequestParam("selectedProducts") List<String> selectedProducts,
             @RequestParam("respQuan") List<Integer> respQuanList,
@@ -171,6 +179,7 @@ public class OrderStockController {
         return "redirect:/unstoring"; // 성공 시
     }
 
+    // 출고 가능한 상품 조회
     @PostMapping("/searchUnstoring")
     public String unprodList(@ModelAttribute("prod") ProdDTO prod, RedirectAttributes ra) {
 

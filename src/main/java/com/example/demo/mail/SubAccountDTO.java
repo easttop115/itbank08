@@ -1,6 +1,6 @@
 package com.example.demo.mail;
 
-public class SubAccountDTO {
+public class SubAccountDTO { // 부계정을 담아서 list로 출력할 dto
     private String subAccountId;
     private String ePw;
 
