@@ -24,6 +24,9 @@ public class JoinController {
 
     @RequestMapping("/join/regist")
     public String regist() {
+        String sessionId = (String) session.getAttribute("id");
+        if (sessionId != null)
+            return "/main/mainform";
 
         return "/join/regist";
     }
@@ -55,10 +58,10 @@ public class JoinController {
 
         if (confirm.equals("success")) {
             if ("approve".equals(checkStatus.getRegistStatus()) || "active".equals(checkStatus.getRegistStatus()))
-                return "redirect:/main/mainform";
+                return "redirect:/main/mainform"; // registStatus가 approve or active일 때만 로그인 가능
 
             model.addAttribute("msg", "미승인 회원입니다.");
-            session.invalidate();
+            session.invalidate(); // session에 값이 남아있을 수 있기 때문에(남을 확률 낮음) session값 제거
             return "/join/login";
         }
         model.addAttribute("msg", confirm);
@@ -68,7 +71,7 @@ public class JoinController {
     @RequestMapping("/logout")
     public String logout() {
         session.invalidate();
-        dbConfig.setLogoutDatabase();
+        dbConfig.setLogoutDatabase(); // demoDB로 복귀
 
         return "redirect:/";
     }
@@ -77,7 +80,6 @@ public class JoinController {
     @RequestMapping("/userInfo")
     public String userInfo() {
         String sessionId = (String) session.getAttribute("id");
-
         if (sessionId != null)
             return "/join/userInfo";
 
@@ -108,7 +110,7 @@ public class JoinController {
         return "/join/update";
     }
 
-    // 본사의 매장 관리(userInfo와 다름)
+    // 고객사 본사의 매장들 관리(userInfo와 다름)
     @RequestMapping("/manageInfo")
     public String manageInfo(Model model, JoinDTO join) {
         String accountId = (String) session.getAttribute("accountId");
@@ -119,6 +121,7 @@ public class JoinController {
         return "/join/manageInfo";
     }
 
+    // 본사가 매장들의 계정 상태를 변경
     @RequestMapping("/statusModify")
     public String statusModify(@RequestParam("id") String selectId, JoinDTO join, Model model) {
         join.setId(selectId); // 선택한 사용자의 ID의 registStatus를 변경

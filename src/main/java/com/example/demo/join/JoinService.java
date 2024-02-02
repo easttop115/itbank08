@@ -36,11 +36,9 @@ public class JoinService {
             return "이메일을 입력해주세요.";
         } else if (joins.getAdCount() == null || joins.getAdCount().trim().isEmpty()) {
             return "운영 매장 개수를 입력해주세요.";
-            // } else if (!joins.getPw()
-            // .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$"))
-            // {
-            // return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
-        } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기는 9 뒤에 공백
+        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기 가능하게 하는 것은 9 뒤에 공백
             return "회사명은 영어로 시작 부탁드립니다.";
         } else if (Integer.parseInt(joins.getAdCount()) < 1) {
             return "1개 이상 등록해주세요.";
@@ -87,7 +85,7 @@ public class JoinService {
         }
 
         // pw 컬럼 생성
-        String key = "QaWsEd123a";
+        String key = "QsdfT2123a";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secretPw = encoder.encode(key);
         joins.setPw(secretPw);
@@ -162,10 +160,8 @@ public class JoinService {
             return "두 비밀번호가 다릅니다.";
         } else if (joins.getEmail() == null || joins.getEmail().trim().isEmpty()) {
             return "이메일을 입력해주세요.";
-            // } else if (!joins.getPw()
-            // .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$"))
-            // {
-            // return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         }
         // 암호화 과정
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -177,9 +173,9 @@ public class JoinService {
         stores.setStoreNo(uniqueStoreNo);
 
         if (stores.getNo() != joins.getNo())
-            stores.setNo(joins.getNo()); // 부계정의 no와 동기화
+            stores.setNo(joins.getNo()); // 부계정의 no컬럼 데이터와 동기화
 
-        if (mapper.findStoreNo(uniqueStoreNo) == null)
+        if (mapper.findStoreNo(uniqueStoreNo) == null) // 유효성 검사
             mapper.insertStoreNo(stores);
         else
             mapper.updateStoreNo(stores);
@@ -202,7 +198,7 @@ public class JoinService {
             String regDate = dto.getRegDate();
 
             if (!"X".equals(regDate))
-                dto.setRegDate(regDate.substring(0, 10));
+                dto.setRegDate(regDate.substring(0, 10)); // adminInfo와 같은 기능
             else
                 dto.setRegDate(regDate);
         }

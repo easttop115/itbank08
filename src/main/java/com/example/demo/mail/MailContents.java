@@ -50,11 +50,11 @@ public class MailContents implements IMailService {
 			dbNames.add("demo");
 			dbNames.add(dbName);
 
-			for (String useDb : dbNames) {
+			for (String useDb : dbNames) { // 위에 arrayList에 add를 2개 해줬기 때문에 for문을 2번 실행
 				dbConfig.changeUseDatabase(useDb);
-				for (int i = adCount + 1; i <= adCount + count; i++) {
-					String subAccountId = mainId + "_" + String.format("%02d", i);
-					String ePw = createKey();
+				for (int i = adCount + 1; i <= adCount + count; i++) { // adCount와 추가 계정 수를 더한 만큼 반복
+					String subAccountId = mainId + "_" + String.format("%02d", i); // i가 adCount + 1인 이유는 기존에 3개의 계정이 있었으면 4번째 계정부터 만들어야 하기 때문
+					String ePw = createKey(); // 10자리 난수
 
 					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 					String secretPw = encoder.encode(ePw);
@@ -105,7 +105,7 @@ public class MailContents implements IMailService {
 			msgg += "<th style='font-weight: bold; color: white; background-color: #2895F4;'>비밀번호</th>";
 			msgg += "</tr></thead>";
 			msgg += "<tbody>";
-			for (SubAccountDTO subAccount : subAccountList) {
+			for (SubAccountDTO subAccount : subAccountList) { // list에 담긴 계정 수 만큼 for문 반복
 				msgg += "<tr><td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>"
 						+ subAccount.getSubAccountId() + "</td>";
 				msgg += "<td style='border: 2px solid rgb(232, 232, 232); text-align: center; padding: 10px;'>"
@@ -114,16 +114,16 @@ public class MailContents implements IMailService {
 			msgg += "</tbody></table></c:when></c:choose><br></div>";
 
 			message.setText(msgg, "utf-8", "html");
-			message.setFrom(new InternetAddress("qorthgml2002@naver.com", "Stock City"));
+			message.setFrom(new InternetAddress("qorthgml2002@naver.com", "Stock City")); // 발신자 이름을 변경해줌
 
 			sendSingleMessage(to, message); // send 메서드 호출 전에 메시지를 생성하는 것이 중요
 		}
 
-		// 승인 시 서브 계정 생성 코드
+		// 최초 회원가입 승인 시 서브 계정 생성 코드
 		if ("approve".equals(joins.getRegistStatus())) {
 			int count = Integer.parseInt(joins.getAdCount());
 			String mainId = joins.getId();
-			String mainPw = "QaWsEd123a";
+			String mainPw = "QsdfT2123a";
 
 			// 서브 계정 생성
 			for (int i = 1; i <= count; i++) {

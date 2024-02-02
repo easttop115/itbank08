@@ -24,7 +24,7 @@ public class AdminService {
     private DbConfig dbConfig;
 
     public String adminRegistProc(AdminDTO admins, Model model) {
-        if (admins.getAId() == null || admins.getAId().trim().isEmpty()) {
+        if (admins.getAId() == null || admins.getAId().trim().isEmpty()) { // 유효성 검사
             return "null ID";
         } else if (admins.getAPw() == null || admins.getAPw().trim().isEmpty()) {
             return "null PW";
@@ -70,7 +70,7 @@ public class AdminService {
             String regDate = dto.getRegDate();
 
             if (!"X".equals(regDate))
-                dto.setRegDate(regDate.substring(0, 10));
+                dto.setRegDate(regDate.substring(0, 10)); // 고객사 정보 페이지에 날짜까지만 나타내기 위해 0~10인덱스만 받아옴
             else
                 dto.setRegDate(regDate);
         }
@@ -83,7 +83,7 @@ public class AdminService {
     }
 
     public String verifyProc(JoinDTO checkAccount) {
-        checkAccount.setRegistStatus("approve");
+        checkAccount.setRegistStatus("approve"); // 고객사 본사 계정 로그인 가능 상태 변경 / 컨트롤러에 있는 mailContents의 if문 조건을 위해
 
         int result = mapper.verifyProc(checkAccount);
         if (result > 0) {
@@ -117,9 +117,9 @@ public class AdminService {
     }
 
     public String adminRootDeleteProc(JoinDTO join) {
-        int result = mapper.adminRootDeleteProc(join);
-        dbConfig.setDynamicDatabase(join.getDbName());
-        result = mapper.adminRootDeleteProc(join);
+        int result = mapper.adminRootDeleteProc(join); // demoDB에 정보 삭제
+        dbConfig.setDynamicDatabase(join.getDbName()); // dbName 컬럼의 데이터로 사용중인 DB를 변경
+        result = mapper.adminRootDeleteProc(join); // 이동한 DB에 정보 삭제 (demoDB로 돌아가는 로직은 return되는 페이지에 존재)
         if (result > 0)
             return "success";
 
