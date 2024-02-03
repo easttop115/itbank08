@@ -36,8 +36,8 @@ public class JoinService {
             return "이메일을 입력해주세요.";
         } else if (joins.getAdCount() == null || joins.getAdCount().trim().isEmpty()) {
             return "운영 매장 개수를 입력해주세요.";
-        } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
-            return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
+        // } else if (!joins.getPw().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$")) {
+        //     return "비밀번호는 6~20자 대소문자, 숫자, !@#$%^&* 포함해야 합니다.";
         } else if (!joins.getCompany().matches("^[a-zA-Z][a-zA-Z0-9 ]*$")) { // 정규표현식 띄어쓰기 가능하게 하는 것은 9 뒤에 공백
             return "회사명은 영어로 시작 부탁드립니다.";
         } else if (Integer.parseInt(joins.getAdCount()) < 1) {
