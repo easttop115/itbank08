@@ -4,12 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 // CREATE TABLE instruction (
-//     id VARCHAR(20) NOT NULL,
-//     no INT(11) NOT NULL DEFAULT 0,
-//     processing VARCHAR(255) NOT NULL,           
-//     confirmation VARCHAR(255) NOT NULL,         
-//     PRIMARY KEY (no)
-// );
+//   id varchar(20),
+//   no int(11) DEFAULT 0,
+//   processing varchar(255),
+//   confirmation varchar(255),
+//   prodNo varchar(200) PRIMARY KEY,
+//   prodName varchar(50),
+//   colorCode varchar(10),
+//   size varchar(6),
+//   respStore varchar(20),
+//   respQuan int(11),
+//   respDate varchar(20));
 
 @Setter
 @Getter

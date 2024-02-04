@@ -4,16 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 // CREATE TABLE notice (
-//     id VARCHAR(20) NOT NULL,
-//     no INT(11) NOT NULL DEFAULT 0,
-//     title VARCHAR(30) NOT NULL DEFAULT '',
-//     content VARCHAR(300) DEFAULT NULL,
-//     writeDate VARCHAR(20) NOT NULL DEFAULT '',
-//     fileName VARCHAR(255) NOT NULL DEFAULT '',
-//     views INT(11) NOT NULL DEFAULT 0,
-//     checked TINYINT(1) DEFAULT NULL,
-//     PRIMARY KEY (no)
-// );
+//   id varchar(20) NOT NULL,
+//   no int(11) NOT NULL AUTO_INCREMENT,
+//   title varchar(30) NOT NULL DEFAULT '',
+//   content varchar(300),
+//   writeDate varchar(20) NOT NULL DEFAULT '',
+//   fileName varchar(255) NOT NULL DEFAULT '',
+//   views int(11) NOT NULL DEFAULT 0,
+//   checked tinyint(1),
+//   PRIMARY KEY (no));
 
 @Setter
 @Getter

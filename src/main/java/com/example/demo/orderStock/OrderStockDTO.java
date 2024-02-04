@@ -3,18 +3,15 @@ package com.example.demo.orderStock;
 import lombok.Getter;
 import lombok.Setter;
 
-/*
-CREATE TABLE orderStock (
-    reqStore VARCHAR(20),
-    respStore VARCHAR(20),
-    prodNo VARCHAR(200) DEFAULT CONCAT('cateCode', UUID()),
-    reqQuan INT,
-    respQuan INT,
-    reqDate VARCHAR(20),
-    respDate VARCHAR(20),
-    orderStatus VARCHAR(20)
-);
-*/
+// CREATE TABLE orderstock (
+//   reqStore varchar(20),
+//   respStore varchar(20),
+//   prodNo varchar(200) DEFAULT concat('cateCode',uuid()),
+//   reqQuan int(11),
+//   respQuan int(11),
+//   reqDate varchar(20),
+//   respDate varchar(20),
+//   orderStatus varchar(20));
 
 @Getter
 @Setter

@@ -3,7 +3,10 @@ package com.example.demo.admin;
 import lombok.Getter;
 import lombok.Setter;
 
-// create table admin (aId varchar(20) primary key, aPw varchar(60) not null);
+// CREATE TABLE admin (
+//   aId varchar(20) NOT NULL,
+//   aPw varchar(60) NOT NULL,
+//   PRIMARY KEY (aId));
 
 // 관리자 로그인 페이지     http://localhost/suadonghyunyeonjidongwoonsangwon@SC
 
