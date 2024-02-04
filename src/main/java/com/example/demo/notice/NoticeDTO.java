@@ -7,7 +7,7 @@ import lombok.Setter;
 //   id varchar(20) NOT NULL,
 //   no int(11) NOT NULL AUTO_INCREMENT,
 //   title varchar(30) NOT NULL DEFAULT '',
-//   content varchar(300),
+//   content varchar(1000),
 //   writeDate varchar(20) NOT NULL DEFAULT '',
 //   fileName varchar(255) NOT NULL DEFAULT '',
 //   views int(11) NOT NULL DEFAULT 0,
