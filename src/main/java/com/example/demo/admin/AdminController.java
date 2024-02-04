@@ -49,14 +49,14 @@ public class AdminController {
         String confirm = service.adminRegistProc(admins, model);
 
         if (confirm.equals("success"))
-            return "redirect:/suadonghyunyeonjidongwoonsangwon@SC";
+            return "redirect:/suadonghyeonyeonjidongwoonsangwon@SC";
 
         model.addAttribute("msg", confirm);
         return "/admin/adminRegist";
     }
 
     // admin login 페이지
-    @RequestMapping("/suadonghyunyeonjidongwoonsangwon@SC")
+    @RequestMapping("/suadonghyeonyeonjidongwoonsangwon@SC")
     public String adminLogin() {
         dbConfig.setLogoutDatabase(); // demoDB에 admin 테이블에만 관리자 계정이 있기 때문에 demoDB로 오도록
 

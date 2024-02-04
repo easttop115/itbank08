@@ -45,6 +45,7 @@
                                             </select>
                                             <select class="searchOption" name="size">
                                                 <option value="">사이즈</option>
+                                                <option value="FREE">FREE</option>
                                                 <option value="S">S</option>
                                                 <option value="M">M</option>
                                                 <option value="L">L</option>
@@ -93,7 +94,7 @@
                                                 <td>${product.quan}</td>
                                                 <td>
                                                     <input type="number" style="width: 100px;" name="reqQuan"
-                                                        placeholder="요청 수량">
+                                                        required min="1" placeholder="요청 수량">
                                                 </td>
                                             </tr>
                                         </c:forEach>

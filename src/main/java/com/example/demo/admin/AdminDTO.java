@@ -8,7 +8,7 @@ import lombok.Setter;
 //   aPw varchar(60) NOT NULL,
 //   PRIMARY KEY (aId));
 
-// 관리자 로그인 페이지     http://localhost/suadonghyunyeonjidongwoonsangwon@SC
+// 관리자 로그인 페이지     http://localhost/suadonghyeonyeonjidongwoonsangwon@SC
 
 @Getter
 @Setter

@@ -26,7 +26,7 @@ public class OrderStockService {
         prod.setProdNo(prodNo);
         ProdDTO totalQuan = mapper.findRootProd(prod); // 본사의 제품 정보를 가져옴
         if (storeName != null) { // 매장이 존재한다면
-            if (reqQuan <= totalQuan.getQuan()) { // 본사 재고의 수량을 넘지 않는다면
+            if (reqQuan <= totalQuan.getQuan() && totalQuan.getQuan() > 0) { // 본사 재고의 수량을 넘지 않는다면
                 int result = mapper.storingProc(storeName, prodNo, reqQuan);
                 if (result > 0)
                     return "success";
@@ -96,7 +96,7 @@ public class OrderStockService {
         ProdDTO prod = new ProdDTO(null, null, null, null);
         prod.setProdNo(prodNo);
         ProdDTO totalQuan = mapper.findRootProd(prod); // prodNo 값은 유니크 값 => prodNo에 해당하는 수량을 가져와라
-        if (respQuan <= totalQuan.getQuan()) { // 출고 수량보다 총 수량이 많으면 ok
+        if (respQuan <= totalQuan.getQuan() && totalQuan.getQuan() > 0) { // 출고 수량보다 총 수량이 많으면 ok
             int result = mapper.unstoringProc(prodNo, respQuan, storeName); // 출고 기록용으로 db에 저장(orderStock)
 
             if (result > 0) {

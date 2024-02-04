@@ -45,7 +45,7 @@
                     </select>
                     <select class="searchOption" id="size" name="size">
                       <option value="">사이즈</option>
-                      <option value="FREE">S</option>
+                      <option value="FREE">FREE</option>
                       <option value="S">S</option>
                       <option value="M">M</option>
                       <option value="L">L</option>
