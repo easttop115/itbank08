@@ -26,6 +26,7 @@ public class InstructionDTO {
     private String reqDate; // 요청날짜
     private String respDate; // 수령날짜
     private String orderStatus; // 요청상태
+    private String respStore; // 매장
 
     // ProdDTO
     private String prodNo; // 상품코드번호

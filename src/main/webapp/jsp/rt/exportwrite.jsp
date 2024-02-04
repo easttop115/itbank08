@@ -292,70 +292,72 @@
 
         <body>
             <c:import url="/header" />
-            <!--버튼-->
+            <c:import url="/sider" />
+            <div class="content-container class">
+                <!--버튼-->
 
-            <h1>R/T반출등록</h1>
-            <div class="button-box">
-                <button type="button" onclick="location.href='/rt/exportform'">목록</button>
-                <input type="button" value="등록" onclick="submitForm()" class="button">
-                <button class="cancel" type="button" onclick="window.location.href='/rt/exportform'">취소</button>
+                <h1>R/T반출등록</h1>
+                <div class="button-box">
+                    <button type="button" onclick="location.href='/rt/exportform'">목록</button>
+                    <input type="button" value="등록" onclick="submitForm()" class="button">
+                    <button class="cancel" type="button" onclick="window.location.href='/rt/exportform'">취소</button>
 
-            </div>
+                </div>
 
 
 
-            <!--filter-main 중간표-->
+                <!--filter-main 중간표-->
 
-            <div class="filter-main">
-                <div class="filter-section">
-                    <div class="search-container class">
-                        <form action="/searchInst" method="post">
-                            <table class="search-table">
-                                <tr>
-                                    <td>
-                                        <select name="cateGroup" class="searchOption">
-                                            <option value="">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
-                                            <c:forEach var="cateGroup" items="${cateGroups}">
-                                                <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                        <select name="cateCode" class="searchOption">
-                                            <option value="">카테고리코드</option>
-                                            <c:forEach var="cateCode" items="${cateCodes}">
-                                                <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <select name="colorCode" class="searchOption">
-                                            <option value="">색상코드</option>
-                                            <c:forEach var="colorCode" items="${colorCodes}">
-                                                <option value="${colorCode.colorCode}">${colorCode.colorCode}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                        <select class="searchOption" name="size">
-                                            <option value="">사이즈</option>
-                                            <option value="S">S</option>
-                                            <option value="M">M</option>
-                                            <option value="L">L</option>
-                                            <option value="XL">XL</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="text" name="prodNo" placeholder="상품코드 입력를 입력하세요" value="${prodNo}"
-                                            style="width: 413px; height: 26px; margin-top: 5px;">
-                                        <input type="submit" value="검색"
-                                            style="padding: 4px 5px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
+                <div class="filter-main">
+                    <div class="filter-section">
+                        <div class="search-container class">
+                            <form action="/searchInst" method="post">
+                                <table class="search-table">
+                                    <tr>
+                                        <td>
+                                            <select name="cateGroup" class="searchOption">
+                                                <option value="">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
+                                                <c:forEach var="cateGroup" items="${cateGroups}">
+                                                    <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <select name="cateCode" class="searchOption">
+                                                <option value="">카테고리코드</option>
+                                                <c:forEach var="cateCode" items="${cateCodes}">
+                                                    <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select name="colorCode" class="searchOption">
+                                                <option value="">색상코드</option>
+                                                <c:forEach var="colorCode" items="${colorCodes}">
+                                                    <option value="${colorCode.colorCode}">${colorCode.colorCode}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="searchOption" name="size">
+                                                <option value="">사이즈</option>
+                                                <option value="S">S</option>
+                                                <option value="M">M</option>
+                                                <option value="L">L</option>
+                                                <option value="XL">XL</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="prodNo" placeholder="상품코드 입력를 입력하세요"
+                                                value="${prodNo}" style="width: 413px; height: 26px; margin-top: 5px;">
+                                            <input type="submit" value="검색"
+                                                style="padding: 4px 5px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
 
 
             <!-- instruction-list 하단 표-->

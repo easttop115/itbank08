@@ -195,109 +195,112 @@
 
         <body>
             <c:import url="/header" />
+            <c:import url="/sider" />
+            <div class="content-container class">
 
-            <h1>R/T반입 조회</h1>
-            <div class="button-box">
-                <button>조회</button>
-            </div>
+                <h1>R/T반입 조회</h1>
+                <div class="button-box">
+                    <button>조회</button>
+                </div>
 
-            <div class="filter-main">
-                <div class="filter-section">
-                    <label class="Instruction-period">지시기간</label>
-                    <div class="table-row">
-                        <div class="table-cell">
-                            <input type="date" id="startDate" name="startDate">
+                <div class="filter-main">
+                    <div class="filter-section">
+                        <label class="Instruction-period">지시기간</label>
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <input type="date" id="startDate" name="startDate">
+                            </div>
+                            <div class="date-separator">~</div>
+                            <div class="table-cell">
+                                <input type="date" id="endDate" name="endDate">
+                            </div>
                         </div>
-                        <div class="date-separator">~</div>
-                        <div class="table-cell">
-                            <input type="date" id="endDate" name="endDate">
+                    </div>
+
+                    <div class="filter-section">
+                        <label class="Processing">처리구분</label>
+                        <div class="table-row">
+                            <div class="table-Processing">
+                                <input type="radio" name="status" value="미처리">
+                                <label for="미확정">미확정</label>
+                            </div>
+                            <div class="table-Processing">
+                                <input type="radio" name="status" value="처리">
+                                <label for="확정">확정</label>
+                            </div>
+                            <div class="table-Processing">
+                                <input type="radio" name="status" value="불이행">
+                                <label for="불이행">불이행</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <label class="shop">매장</label>
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <select name="shop" id="shopSelect">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="filter-section">
-                    <label class="Processing">처리구분</label>
-                    <div class="table-row">
-                        <div class="table-Processing">
-                            <input type="radio" name="status" value="미처리">
-                            <label for="미확정">미확정</label>
-                        </div>
-                        <div class="table-Processing">
-                            <input type="radio" name="status" value="처리">
-                            <label for="확정">확정</label>
-                        </div>
-                        <div class="table-Processing">
-                            <input type="radio" name="status" value="불이행">
-                            <label for="불이행">불이행</label>
-                        </div>
-                    </div>
+                <!--반입 등록/조회 조회표-->
+                <div class="title-main">
+                    <label>
+                        <반입 등록 조회>
+                    </label>
                 </div>
 
-                <div class="filter-section">
-                    <label class="shop">매장</label>
-                    <div class="table-row">
-                        <div class="table-cell">
-                            <select name="shop" id="shopSelect">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--반입 등록/조회 조회표-->
-            <div class="title-main">
-                <label>
-                    <반입 등록 조회>
-                </label>
-            </div>
-
-            <div class="table-container">
-                <ul class="instruction-list">
-                    <li class="instruction-item header">
-                        <div class="no">NO.</div>
-                        <div class="store-re">지시매장</div>
-                        <div class="prodNo">품번</div>
-                        <div class="prodName">품명</div>
-                        <div class="colorCode">색상</div>
-                        <div class="size">사이즈</div>
-                        <div class="re_quan">지시수량</div>
-                        <div class="re_date">RT 지시일</div>
-                        <div class="outDate">반출일</div>
-                        <div class="processing" id="processingStatus">처리구분</div>
-                    </li>
-                    <c:choose>
-                        <c:when test="${empty instructions}">
-                            <li class="instruction-item" style="background-color: #fff;">
-                                <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach var="instruction" items="${instructionDTOLists}">
-
-                                <li class="instruction-item">
-                                    <div class="no">${instructio.no}</div>
-                                    <div class="store-re">${instruction.store-re}</div>
-                                    <div class="prodNo">${instruction.prodNo}</div>
-                                    <div class="prodName">{$instruction.prodName}</div>
-                                    <div class="colorCode">${instruction.colorCode}</div>
-                                    <div class="size">${instruction.size}</div>
-                                    <div class="re_quan">${instruction.re_quan}</div>
-                                    <div class="re_date">${instruction.re_date}</div>
-                                    <div class="confirmation">${instruction.confirmation}</div>
-                                    <div class="order-date">${instruction.order-date}</div>
-                                    <div class="outDate">${instruction.outDate}</div>
-                                    <div class="processing">${instruction.processing}</div>
-
+                <div class="table-container">
+                    <ul class="instruction-list">
+                        <li class="instruction-item header">
+                            <div class="no">NO.</div>
+                            <div class="store-re">지시매장</div>
+                            <div class="prodNo">품번</div>
+                            <div class="prodName">품명</div>
+                            <div class="colorCode">색상</div>
+                            <div class="size">사이즈</div>
+                            <div class="re_quan">지시수량</div>
+                            <div class="re_date">RT 지시일</div>
+                            <div class="outDate">반출일</div>
+                            <div class="processing" id="processingStatus">처리구분</div>
+                        </li>
+                        <c:choose>
+                            <c:when test="${empty instructions}">
+                                <li class="instruction-item" style="background-color: #fff;">
+                                    <div class="instruction-title" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div>
                                 </li>
-                            </c:forEach>
-                            <li>
-                                <div class="vi" colspan="13">${result}</div>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="instruction" items="${instructionDTOLists}">
+
+                                    <li class="instruction-item">
+                                        <div class="no">${instructio.no}</div>
+                                        <div class="store-re">${instruction.store-re}</div>
+                                        <div class="prodNo">${instruction.prodNo}</div>
+                                        <div class="prodName">{$instruction.prodName}</div>
+                                        <div class="colorCode">${instruction.colorCode}</div>
+                                        <div class="size">${instruction.size}</div>
+                                        <div class="re_quan">${instruction.re_quan}</div>
+                                        <div class="re_date">${instruction.re_date}</div>
+                                        <div class="confirmation">${instruction.confirmation}</div>
+                                        <div class="order-date">${instruction.order-date}</div>
+                                        <div class="outDate">${instruction.outDate}</div>
+                                        <div class="processing">${instruction.processing}</div>
+
+                                    </li>
+                                </c:forEach>
+                                <li>
+                                    <div class="vi" colspan="13">${result}</div>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </div>
             </div>
 
             <script>

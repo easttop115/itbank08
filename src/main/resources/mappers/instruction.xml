@@ -114,22 +114,45 @@
         </where>
     </select>
 
-    <select id="findRootProd">
-    SELECT * from product WHERE (prodNo=#{prodNo} AND storeName IS NULL)
-    </select>
-    <update id="updateStoreProd" parameterType="com.example.demo.prod.ProdDTO">
-        UPDATE product SET quan=#{findStoreProd.quan} WHERE (prodNo=#{findStoreProd.prodNo} AND storeName=#{findStoreProd.storeName})
-    </update>
-    <update id="updateRootQuan" parameterType="com.example.demo.prod.ProdDTO">
-        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName IS NULL)
-    </update>
-    <select id="findStoreProdi">
+    <select id="findRootInst">
     SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
     </select>
-    <insert id="insertStoreProd" parameterType="com.example.demo.prod.ProdDTO">
-    INSERT INTO product (prodNo, brandCode, cateCode, prodName, incomePrice, sellPrice, size, colorCode, quan, prodCon, regDate, storeName) 
-    VALUES (#{prodNo}, #{brandCode}, #{cateCode}, #{prodName}, #{incomePrice}, #{sellPrice}, #{size}, #{colorCode}, #{quan}, #{prodCon}, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 9 HOUR), #{storeName})
+    <update id="updateStoreInst" > <!--parameterType="com.example.demo.prod.ProdDTO"-->
+        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </update>
+    <update id="updateRootQuan">  <!--parameterType="com.example.demo.prod.ProdDTO"-->
+        UPDATE product SET quan=#{quan} WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </update>
+    <select id="findStoreInst">
+    SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
+    </select>
+    <insert id="insertStoreInst">  <!--parameterType="com.example.demo.prod.ProdDTO"-->
+    INSERT INTO instruction (prodNo, prodName, colorCode, size, respStore , respQuan, respDate) 
+    VALUES (#{prodNo}, #{prodName}, #{colorCode}, #{size}, #{respStore} , #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR))
     </insert>
+    <select id="getDate">
+        SELECT 
+            i.prodNo,
+            i.prodName,
+            i.colorCode,
+            i.size,
+            i.respStore,
+            i.respQuan,
+            i.respDate
+        FROM 
+            instruction i
+        JOIN 
+            product p ON i.prodNo = p.prodNo
+            AND i.prodName = p.prodName
+            AND i.colorCode = p.colorCode
+            AND i.size = p.size
+            AND i.respStore = p.storeName
+        WHERE 
+           i.respDate LIKE CONCAT(#{regDate}, ' ', '%')
+    </select>
+
+    
+
 
 
 

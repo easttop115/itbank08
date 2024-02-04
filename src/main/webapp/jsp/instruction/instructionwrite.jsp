@@ -284,7 +284,7 @@
                 .instruction-item td:nth-child(4),
                 .instruction-item td:nth-child(5),
                 .instruction-item td:nth-child(6) {
-                    max-width: 200px;
+                    max-width: 175px;
                     overflow: auto;
                 }
             </style>
@@ -292,148 +292,146 @@
 
         <body>
             <c:import url="/header" />
-            <!--버튼-->
+            <c:import url="/sider" />
+            <div class="content-container class">
+                <!--버튼-->
 
-            <h1>R/T지시요청</h1>
-            <div class="button-box">
-                <button>조회</button>
-                <button type="button" onclick="location.href='/instruction/instructionform'">목록</button>
-                <button class="cancel" type="button"
-                    onclick="window.location.href='/instruction/instructionform'">취소</button>
-                <input type="button" value="마감처리" onclick="submitForm()" class="button">
-            </div>
-
-
-
-            <!--filter-main 중간표-->
-
-            <div class="filter-main">
-                <div class="filter-section">
-                    <div class="search-container class">
-                        <form action="/searchInst" method="post">
-                            <table class="search-table">
-                                <tr>
-                                    <td>
-                                        <select name="cateGroup" class="searchOption">
-                                            <option value="">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
-                                            <c:forEach var="cateGroup" items="${cateGroups}">
-                                                <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                        <select name="cateCode" class="searchOption">
-                                            <option value="">카테고리코드</option>
-                                            <c:forEach var="cateCode" items="${cateCodes}">
-                                                <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <select name="colorCode" class="searchOption">
-                                            <option value="">색상코드</option>
-                                            <c:forEach var="colorCode" items="${colorCodes}">
-                                                <option value="${colorCode.colorCode}">${colorCode.colorCode}
-                                                </option>
-                                            </c:forEach>
-                                        </select>
-                                        <select class="searchOption" name="size">
-                                            <option value="">사이즈</option>
-                                            <option value="FREE">FREE</option>
-                                            <option value="S">S</option>
-                                            <option value="M">M</option>
-                                            <option value="L">L</option>
-                                            <option value="XL">XL</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="text" name="prodNo" placeholder="상품코드 입력를 입력하세요" value="${prodNo}"
-                                            style="width: 413px; height: 26px; margin-top: 5px;">
-                                        <input type="submit" value="검색"
-                                            style="padding: 4px 5px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
+                <h1>R/T지시요청</h1>
+                <div class="button-box">
+                    <button>조회</button>
+                    <button type="button" onclick="location.href='/instruction/instructionform'">목록</button>
+                    <button class="cancel" type="button"
+                        onclick="window.location.href='/instruction/instructionform'">취소</button>
+                    <input type="button" value="마감처리" onclick="submitForm()" class="button">
                 </div>
-            </div>
 
 
 
-            <!-- instruction-list 하단 표-->
+                <!--filter-main 중간표-->
 
-            <div class="table-container">
-                <form id="unstoringForm" action="/instruction/instructionwriteProc" method="post">
-                    <div class="instruction-list">
-                        <table class="instruction-item header">
-
-                            <tr>
-                                <td><input type="checkbox" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" />
-                                </td>
-                                <td>상품코드</td>
-                                <td>상품명</td>
-                                <td>사이즈</td>
-                                <td>색상코드</td>
-                                <td>지시 수량</td>
-                                <td>지시 매장</td>
-                                <td>삭제</td>
-                            </tr>
-                            <c:choose>
-                                <c:when test="${not empty prods}">
-                                    <c:forEach var="product" items="${prods}" varStatus="loop">
-                                        <tr>
-                                            <td><input type="checkbox" name="selectedProducts"
-                                                    value="${product.prodNo}" /></td>
-                                            <td>${product.prodNo}</td>
-                                            <td>${product.prodName}</td>
-                                            <td>${product.size}</td>
-                                            <td>${product.colorCode}</td>
-                                            <td>
-                                                <input type="number" style="width: 100px;" name="respQuan"
-                                                    placeholder="지시 수량">
-                                            </td>
-                                            <td>
-                                                <select name="storeName"> <!-- 서버로 전송하기 위해 필요 -->
-                                                    <c:choose>
-                                                        <c:when test="${empty storeNames}">
-                                                            <option value="noStoreName">등록된 매장이 없습니다.</option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option value="">매장 선택</option>
-                                                            <c:forEach var="storeName" items="${storeNames}">
-                                                                <option value="${storeName}">${storeName}</option>
-                                                            </c:forEach>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <!-- 삭제 버튼 추가 -->
-                                                <div class="delete">
-                                                    <button class="cancel-button">×</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </c:when>
-                                <c:when test="${empty prods and empty msg}">
-                                    <!-- prod가 비어있는 경우 (검색 결과가 없는 경우) -->
-                                    <tr class="instruction-item" style="background-color: #fff;">
-                                        <td class="instruction-title" style="color: #000;" colspan="7">조회된 정보가 없습니다.
+                <div class="filter-main">
+                    <div class="filter-section">
+                        <div class="search-container class">
+                            <form action="/searchInst" method="post">
+                                <table class="search-table">
+                                    <tr>
+                                        <td>
+                                            <select name="cateGroup" class="searchOption">
+                                                <option value="">카테고리그룹</option> <!-- 초기값으로 null 추가 -->
+                                                <c:forEach var="cateGroup" items="${cateGroups}">
+                                                    <option value="${cateGroup.cateGroup}">${cateGroup.cateGroup}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <select name="cateCode" class="searchOption">
+                                                <option value="">카테고리코드</option>
+                                                <c:forEach var="cateCode" items="${cateCodes}">
+                                                    <option value="${cateCode.cateCode}">${cateCode.cateCode}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select name="colorCode" class="searchOption">
+                                                <option value="">색상코드</option>
+                                                <c:forEach var="colorCode" items="${colorCodes}">
+                                                    <option value="${colorCode.colorCode}">${colorCode.colorCode}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                            <select class="searchOption" name="size">
+                                                <option value="">사이즈</option>
+                                                <option value="FREE">FREE</option>
+                                                <option value="S">S</option>
+                                                <option value="M">M</option>
+                                                <option value="L">L</option>
+                                                <option value="XL">XL</option>
+                                            </select>
                                         </td>
                                     </tr>
-                                </c:when>
-                                <c:otherwise>
-                                    <!-- storeName이 null인 경우 -->
-                                    <tr class="no-data-row-storing">
-                                        <td colspan="7" style="color: red; font-weight: bold;">${msg}</td>
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="prodNo" placeholder="상품코드 입력를 입력하세요"
+                                                value="${prodNo}" style="width: 413px; height: 26px; margin-top: 5px;">
+                                            <input type="submit" value="검색"
+                                                style="padding: 4px 5px; border: none; background-color: #2895F4; color: white; border-radius: 4px; cursor: pointer;">
+                                        </td>
                                     </tr>
-                                </c:otherwise>
-                            </c:choose>
-                        </table>
+                                </table>
+                            </form>
+                        </div>
                     </div>
+                </div>
 
-                </form>
+
+
+                <!-- instruction-list 하단 표-->
+
+                <div class="table-container">
+                    <form id="unstoringForm" action="/instruction/instructionwriteProc" method="post">
+                        <div class="instruction-list">
+                            <table class="instruction-item header">
+
+                                <tr>
+                                    <td><input type="checkbox" id="selectAllCheckbox"
+                                            onclick="toggleCheckboxes(this)" />
+                                    </td>
+                                    <td>상품코드</td>
+                                    <td>상품명</td>
+                                    <td>사이즈</td>
+                                    <td>색상코드</td>
+                                    <td>지시 수량</td>
+                                    <td>지시 매장 재고</td>
+
+                                </tr>
+                                <c:choose>
+                                    <c:when test="${not empty prods}">
+                                        <c:forEach var="product" items="${prods}" varStatus="loop">
+                                            <tr>
+                                                <td><input type="checkbox" name="selectedProducts"
+                                                        value="${product.prodNo}" /></td>
+                                                <td>${product.prodNo}</td>
+                                                <td>${product.prodName}</td>
+                                                <td>${product.size}</td>
+                                                <td>${product.colorCode}</td>
+                                                <td>
+                                                    <input type="number" style="width: 100px;" name="respQuan"
+                                                        placeholder="지시 수량">
+                                                </td>
+                                                <td>
+                                                    <select name="storeName"> <!-- 서버로 전송하기 위해 필요 -->
+                                                        <c:choose>
+                                                            <c:when test="${empty storeNames}">
+                                                                <option value="noStoreName">등록된 매장이 없습니다.</option>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <option value="">매장 선택</option>
+                                                                <c:forEach var="storeName" items="${storeNames}">
+                                                                    <option value="${storeName}">${storeName}</option>
+                                                                </c:forEach>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:when test="${empty prods and empty msg}">
+                                        <!-- prod가 비어있는 경우 (검색 결과가 없는 경우) -->
+                                        <tr class="instruction-item" style="background-color: #fff;">
+                                            <td class="instruction-title" style="color: #000;" colspan="7">조회된 정보가 없습니다.
+                                            </td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- storeName이 null인 경우 -->
+                                        <tr class="no-data-row-storing">
+                                            <td colspan="7" style="color: red; font-weight: bold;">${msg}</td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </table>
+                        </div>
+
+                    </form>
+                </div>
             </div>
         </body>
         <script>

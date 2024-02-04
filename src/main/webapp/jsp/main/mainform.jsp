@@ -245,168 +245,172 @@
 
         <body>
             <c:import url="/header" />
+            <c:import url="/sider" />
+            <div class="content-container class">
 
 
-            <div class="main">
-                <div class="container">
-                    <div class="exchange-section">
-                        <h2>R/T지시내역</h2>
-                        <div class="more-button">
-                            <button type="button" onclick="location.href='/instruction/instructionform'">more</button>
-                        </div>
-                        <div class="instruction">
-                            <div class="instruction-label">
-                                <div class="Date">지시일자</div>
-                                <div class="shop">반입매장</div>
-                                <div class="Unprocessed">미처리수량</div>
+                <div class="main">
+                    <div class="container">
+                        <div class="exchange-section">
+                            <h2>R/T지시내역</h2>
+                            <div class="more-button">
+                                <button type="button"
+                                    onclick="location.href='/instruction/instructionform'">more</button>
                             </div>
-                            <div class="instruction-list">
-                                <div class="instruction-item">
+                            <div class="instruction">
+                                <div class="instruction-label">
                                     <div class="Date">지시일자</div>
                                     <div class="shop">반입매장</div>
                                     <div class="Unprocessed">미처리수량</div>
                                 </div>
-                                <div class="instruction-item">
-                                    <div class="Date">지시일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                                <div class="instruction-item">
-                                    <div class="Date">지시일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                                <div class="instruction-item">
-                                    <div class="Date">지시일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="container">
-                    <div class="exchange-section">
-                        <h2>R/T반출내역</h2>
-                        <div class="more-button">
-                            <button type="button">more</button>
-                        </div>
-                        <div class=" export">
-                            <div class="export-label">
-                                <div class="outDate">반출일자</div>
-                                <div class="shop">반입매장</div>
-                                <div class="Unprocessed">미처리수량</div>
-                            </div>
-                            <div class="export-list">
-                                <div class="export-item">
-                                    <div class="outDate">반출일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-
-                                </div>
-
-                                <div class="export-item">
-                                    <div class="outDate">반출일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-
-                                </div>
-                                <div class="export-item">
-                                    <div class="outDate">반출일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-
-                                </div>
-                                <div class="export-item">
-                                    <div class="outDate">반출일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="entry-section">
-                        <h2>R/T반입내역</h2>
-                        <div class="more-button">
-                            <button type="button">more</button>
-                        </div>
-                        <div class="entry">
-                            <div class="entry-label">
-                                <div class="inDate">반입일자</div>
-                                <div class="shop">반입매장</div>
-                                <div class="Unprocessed">미처리수량</div>
-                            </div>
-                            <div class="entry-list">
-                                <div class="entry-item">
-                                    <div class="inDate">반입일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                                <div class="entry-item">
-                                    <div class="inDate">반입일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                                <div class="entry-item">
-                                    <div class="inDate">반입일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                                <div class="entry-item">
-                                    <div class="inDate">반입일자</div>
-                                    <div class="shop">반입매장</div>
-                                    <div class="Unprocessed">미처리수량</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="container">
-                    <div class="notice-section">
-                        <h2>Notice</h2>
-                        <div class="more-button">
-                            <button type="button" onclick="location.href='/notice/noticeform'">more</button>
-                        </div>
-                        <div class="notice">
-                            <div class="notice-label">
-                                <div class="writeDate">날짜</div>
-                                <div class="title">제목</div>
-                                <div class="check">확인</div>
-                            </div>
-                            <c:choose>
-                                <c:when test="${empty Notices}">
-                                    <div class="notice-item">
-                                        <div class="tr">
-                                            <div class="td" colspan="10">등록된 데이터가 존재하지 않습니다.</div>
-                                        </div>
+                                <div class="instruction-list">
+                                    <div class="instruction-item">
+                                        <div class="Date">지시일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
                                     </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:forEach var="Notice" items="${Notices}">
-                                        <div class="notice-list">
-                                            <div class="notice-item ${notice.checked ? 'checked' : 'unchecked'}">
-                                                <div class="writeDate">${Notice.writeDate}</div>
-                                                <div class="title"
-                                                    onclick="location.href='/notice/noticecontent?no=${Notice.no}'">
-                                                    ${Notice.title}
-                                                </div>
-                                                <div class="check checked">${Notice.checked}</div>
+                                    <div class="instruction-item">
+                                        <div class="Date">지시일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                    <div class="instruction-item">
+                                        <div class="Date">지시일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                    <div class="instruction-item">
+                                        <div class="Date">지시일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+
+                    <div class="container">
+                        <div class="exchange-section">
+                            <h2>R/T반출내역</h2>
+                            <div class="more-button">
+                                <button type="button">more</button>
+                            </div>
+                            <div class=" export">
+                                <div class="export-label">
+                                    <div class="outDate">반출일자</div>
+                                    <div class="shop">반입매장</div>
+                                    <div class="Unprocessed">미처리수량</div>
+                                </div>
+                                <div class="export-list">
+                                    <div class="export-item">
+                                        <div class="outDate">반출일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+
+                                    </div>
+
+                                    <div class="export-item">
+                                        <div class="outDate">반출일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+
+                                    </div>
+                                    <div class="export-item">
+                                        <div class="outDate">반출일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+
+                                    </div>
+                                    <div class="export-item">
+                                        <div class="outDate">반출일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="entry-section">
+                            <h2>R/T반입내역</h2>
+                            <div class="more-button">
+                                <button type="button">more</button>
+                            </div>
+                            <div class="entry">
+                                <div class="entry-label">
+                                    <div class="inDate">반입일자</div>
+                                    <div class="shop">반입매장</div>
+                                    <div class="Unprocessed">미처리수량</div>
+                                </div>
+                                <div class="entry-list">
+                                    <div class="entry-item">
+                                        <div class="inDate">반입일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                    <div class="entry-item">
+                                        <div class="inDate">반입일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                    <div class="entry-item">
+                                        <div class="inDate">반입일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                    <div class="entry-item">
+                                        <div class="inDate">반입일자</div>
+                                        <div class="shop">반입매장</div>
+                                        <div class="Unprocessed">미처리수량</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="container">
+                        <div class="notice-section">
+                            <h2>Notice</h2>
+                            <div class="more-button">
+                                <button type="button" onclick="location.href='/notice/noticeform'">more</button>
+                            </div>
+                            <div class="notice">
+                                <div class="notice-label">
+                                    <div class="writeDate">날짜</div>
+                                    <div class="title">제목</div>
+                                    <div class="check">확인</div>
+                                </div>
+                                <c:choose>
+                                    <c:when test="${empty Notices}">
+                                        <div class="notice-item">
+                                            <div class="tr">
+                                                <div class="td" colspan="10">등록된 데이터가 존재하지 않습니다.</div>
                                             </div>
                                         </div>
-                                    </c:forEach>
-                                </c:otherwise>
-                            </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach var="Notice" items="${Notices}">
+                                            <div class="notice-list">
+                                                <div class="notice-item ${notice.checked ? 'checked' : 'unchecked'}">
+                                                    <div class="writeDate">${Notice.writeDate}</div>
+                                                    <div class="title"
+                                                        onclick="location.href='/notice/noticecontent?no=${Notice.no}'">
+                                                        ${Notice.title}
+                                                    </div>
+                                                    <div class="check checked">${Notice.checked}</div>
+
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                 </div>

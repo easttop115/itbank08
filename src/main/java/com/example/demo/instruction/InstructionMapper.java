@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.demo.prod.ProdDTO;
 
@@ -20,16 +21,19 @@ public interface InstructionMapper {
 
     Collection<? extends InstructionDTO> colorList();
 
-    ProdDTO findRootProd(ProdDTO prod);
-
     void updateRootQuan(ProdDTO prod);
 
-    void updateStoreProd(ProdDTO findStoreProdup);
-    
-    void insertStoreProd(ProdDTO findRootProd);
-
-    int instwriteProc(String storeName, String prodNo, int respQuan);
+    int instwriteProc(@Param("storeName") String storeName, @Param("prodNo") String prodNo,
+            @Param("respQuan") int respQuan);
 
     ProdDTO findStoreInst(ProdDTO prod);
+
+    void insertStoreInst(InstructionDTO inst);
+
+    void updateStoreInst(InstructionDTO inst);
+
+    ProdDTO findRootInst(ProdDTO prod);
+
+    List<InstructionDTO> getDate(@Param("regDate") String regDate);
 
 }

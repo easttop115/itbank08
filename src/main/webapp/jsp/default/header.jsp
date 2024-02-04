@@ -120,7 +120,7 @@
                                 <li class="liStyle"><a href="#">&nbsp</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li class="liStyle"><a href="/instruction/inructionform">지시 등록/조회</a></li>
+                                <li class="liStyle"><a href="/instruction/instructionform">지시 등록/조회</a></li>
                                 <li class="liStyle"><a href="/rt/entryform">반입 조회</a></li>
                                 <li class="liStyle"><a href="/rt/exportform">반출 등록/조회</a></li>
                                 <li class="liStyle"><a href="#">&nbsp<a></li>

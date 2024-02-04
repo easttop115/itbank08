@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,12 +33,43 @@ public class InstructionController {
     @Autowired
     private HttpSession session;
 
-    @RequestMapping("/instruction/instructionform")
-    public String instructionform(Model model, @RequestParam(value = "currentPage", required = false) String cp) {
-        service.instructionform(cp, model);
+    @GetMapping("/instruction/instructionform")
+    public String instructionform(Model model, String regDate) {
 
         return "/instruction/instructionform";
     }
+
+    @GetMapping("/instruction/instructionformSelect")
+    public String instructionformSelect(RedirectAttributes ra, String regDate) {
+
+        System.out.println(regDate);
+
+        // regDate가 null이 아니면서 빈 문자열이 아닌 경우에만 instructionlist를 조회
+        if (regDate != "" && !regDate.isEmpty()) {
+            // instructionlist 조회하는 서비스 메서드를 호출하고 결과를 모델에 추가
+            List<InstructionDTO> instructionlist = service.instructionlist(regDate);
+            System.out.println(instructionlist);
+            for (InstructionDTO dto : instructionlist) {
+                System.out.println(dto.getNo());
+                System.out.println(dto.getBrandCode());
+                System.out.println(dto.getProdNo());
+            }
+            ra.addFlashAttribute("prods", instructionlist);
+        }
+
+        return "redirect:/instruction/instructionform";
+    }
+
+    // @GetMapping("/getInstructionData")
+    // @ResponseBody
+    // public String getInstructionData(@RequestParam("regDate") String regDate) {
+    // if (regDate != null && !regDate.isEmpty()) {
+    // // 선택한 날짜를 이용하여 필요한 작업을 수행
+    // return "Requested date: " + regDate;
+    // } else {
+    // return "Please select a date.";
+    // }
+    // }
 
     // @RequestMapping("/instruction/instructionwrite")
     // public String instructionwrite(Model model, ProdDTO prod) {
@@ -88,8 +119,8 @@ public class InstructionController {
                 String prodNo = selectedProducts.get(i);
                 int respQuan = respQuanList.get(i);
                 String storeName = storeNameList.get(i);
-                System.out.println("뭣이 중헌디?? : " + prodNo + "\n" + respQuan + "\n" +
-                        storeName + " / 시마이");
+                System.out.println("뭐야? : " + prodNo + "\n" + respQuan + "\n" +
+                        storeName + " /");
 
                 String confirm = service.instructionwriteProc(prodNo, respQuan, storeName);
 
@@ -122,5 +153,4 @@ public class InstructionController {
         return "redirect:/instruction/instructionwrite";
 
     }
-
 }
