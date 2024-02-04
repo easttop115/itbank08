@@ -204,14 +204,14 @@ public class OrderStockController {
     // 참고 자료 : https://suyou.tistory.com/311 [수유산장:티스토리]
     @GetMapping("/csv/down")
     public void csvDown(HttpServletResponse response) throws IOException {
-        response.setContentType("text/csv; charset=UTF-8"); // csv 파일 + utf-8 명시
-        String fileName = URLEncoder.encode("입출고_내역.csv", "UTF-8"); // 파일명도 utf-8 명시
+        response.setContentType("text/csv; charset=UTF-8"); // csv 파일 + UTF-8 명시
+        String fileName = URLEncoder.encode("입출고_내역.csv", "UTF-8"); // 파일명도 UTF-8 명시
         response.setHeader("Content-Disposition",
                 "attachment; filename=\"" + fileName + "\"");
 
         OutputStreamWriter writer = new OutputStreamWriter(response.getOutputStream(),
                 StandardCharsets.UTF_8);
-        writer.write("\uFEFF"); // UTF-8 중에서 UTF-8-BOM임을 표시 -> 이거 없으면 엑셀에서 전세계 언어 다 깨짐
+        writer.write("\uFEFF"); // UTF-8-BOM임을 표시 -> 이거 없으면 엑셀에서 전세계 언어 다 깨짐
         CSVWriter csvWriter = new CSVWriter(writer);
 
         csvWriter.writeAll(service.listCsvString());
