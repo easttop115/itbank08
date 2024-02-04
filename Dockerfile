@@ -19,7 +19,7 @@ COPY src /app/src
 RUN chmod +x ./gradlew
 
 # Resolve dependencies and build the application using Gradle Wrapper
-RUN ./gradlew clean build --no-daemon
+RUN ./gradlew build --no-daemon
 
 # Run the application
 CMD ["./gradlew", "bootRun"]

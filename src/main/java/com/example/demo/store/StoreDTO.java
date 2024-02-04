@@ -3,7 +3,7 @@ package com.example.demo.store;
 import lombok.Getter;
 import lombok.Setter;
 
-/*
+/* store 테이블 이거 아님~~~ Join 패키지에 있는 StoreDTO예요~~
 MariaDB
 CREATE TABLE store (
   no int(11) NOT NULL,

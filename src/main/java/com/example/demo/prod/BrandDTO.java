@@ -13,7 +13,8 @@ public class BrandDTO {
 
 }
 
-// CREATE TABLE brand(
-// no INT AUTO_INCREAMENT PRIMARY KEY,
-// brandCode VARCHAR(10)
-// )
+// CREATE TABLE brand (
+//   no int(11) NOT NULL AUTO_INCREMENT,
+//   brandCode varchar(30),
+//   brandDescription varchar(300),
+//   PRIMARY KEY (no));

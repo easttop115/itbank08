@@ -181,7 +181,7 @@
                         </a>
                     </div>
                     <!-- 동적 텍스트 -->
-                    <p id="dynamicText" class="dynamic-text">Stock City</p>
+                    <p id="dynamicText" class="dynamic-text">Welcome</p>
                 </div>
 
                 <!-- 오른쪽 영역 -->
@@ -205,7 +205,7 @@
             <!-- 동적 텍스트 변경 스크립트 -->
             <script>
                 var dynamicText = document.getElementById('dynamicText');
-                var texts = ["Stock City", "Stock City", "Stock City"];
+                var texts = ["Stock City", "Have a Good Day", "Welcome"];
                 let index = 0;
 
                 function changeText() {

@@ -118,7 +118,7 @@ public class AdminService {
 
     public String adminRootDeleteProc(JoinDTO join) {
         int result = mapper.adminRootDeleteProc(join); // demoDB에 정보 삭제
-        dbConfig.setDynamicDatabase(join.getDbName()); // dbName 컬럼의 데이터로 사용중인 DB를 변경
+        dbConfig.setDynamicDatabase(join.getDbName()); // dbName 컬럼 값으로 사용중인 DB를 변경
         result = mapper.adminRootDeleteProc(join); // 이동한 DB에 정보 삭제 (demoDB로 돌아가는 로직은 return되는 페이지에 존재)
         if (result > 0)
             return "success";
