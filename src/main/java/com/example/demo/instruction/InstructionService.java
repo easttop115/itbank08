@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-
 import com.example.demo.orderStock.OrderStockMapper;
 import com.example.demo.prod.ProdDTO;
 import jakarta.servlet.http.HttpSession;
@@ -85,4 +84,5 @@ public class InstructionService {
         System.out.println(instructionlist);
         return instructionlist;
     }
+
 }

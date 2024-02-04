@@ -60,34 +60,6 @@ public class InstructionController {
         return "redirect:/instruction/instructionform";
     }
 
-    // @GetMapping("/getInstructionData")
-    // @ResponseBody
-    // public String getInstructionData(@RequestParam("regDate") String regDate) {
-    // if (regDate != null && !regDate.isEmpty()) {
-    // // 선택한 날짜를 이용하여 필요한 작업을 수행
-    // return "Requested date: " + regDate;
-    // } else {
-    // return "Please select a date.";
-    // }
-    // }
-
-    // @RequestMapping("/instruction/instructionwrite")
-    // public String instructionwrite(Model model, ProdDTO prod) {
-    // String sessionId = (String) session.getAttribute("id");
-    // if (sessionId == null) {
-    // return "redirect:/";
-    // }
-    // List<InstructionDTO> instructionGroups = service.instructionGroupList();
-
-    // InstructionDTO.setInstructionDTO(instructionGroups);
-    // InstructionDTO.setProdDTO(prodGroups);
-    // InstructionDTO.setOrderStockDTO(orderStockGroups);
-
-    // model.addAttribute("instructions",instructions);
-
-    // return "instruction/instructionwrite";
-    // }
-
     @RequestMapping("/instruction/instructionwrite")
     public String instructionWrite(Model model) {
         String sessionId = (String) session.getAttribute("id");
@@ -153,4 +125,5 @@ public class InstructionController {
         return "redirect:/instruction/instructionwrite";
 
     }
+
 }

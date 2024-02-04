@@ -130,33 +130,27 @@
     INSERT INTO instruction (prodNo, prodName, colorCode, size, respStore , respQuan, respDate) 
     VALUES (#{prodNo}, #{prodName}, #{colorCode}, #{size}, #{respStore} , #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR))
     </insert>
+
     <select id="getDate">
-        SELECT 
-            i.prodNo,
-            i.prodName,
-            i.colorCode,
-            i.size,
-            i.respStore,
-            i.respQuan,
-            i.respDate
-        FROM 
-            instruction i
-        JOIN 
-            product p ON i.prodNo = p.prodNo
-            AND i.prodName = p.prodName
-            AND i.colorCode = p.colorCode
-            AND i.size = p.size
-            AND i.respStore = p.storeName
-        WHERE 
-           i.respDate LIKE CONCAT(#{regDate}, ' ', '%')
+    SELECT 
+        i.prodNo,
+        i.prodName,
+        i.colorCode,
+        i.size,
+        i.respStore,
+        i.respQuan,
+        i.respDate
+    FROM 
+        instruction i
+    JOIN 
+        product p ON i.prodNo = p.prodNo
+        AND i.prodName = p.prodName
+        AND i.colorCode = p.colorCode
+        AND i.size = p.size
+        AND i.respStore = p.storeName
+    WHERE 
+       i.respDate LIKE CONCAT(#{regDate}, ' ', '%')
+    ORDER BY i.respDate DESC
     </select>
-
-    
-
-
-
-
-
-
 
 </mapper>
