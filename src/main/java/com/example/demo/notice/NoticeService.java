@@ -27,7 +27,7 @@ public class NoticeService {
     @Autowired
     private NoticeMapper mapper;
     private String filePath = "/mountPoint/";
-    
+
     private NoticeMapper noticeMapper;
 
     public void noticeform(String cp, Model model, Object jdbcTemplate) {
@@ -104,7 +104,7 @@ public class NoticeService {
 
             String suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
             System.out.println("NoticeService-notice writeProc-suffix : " + suffix);
-            if (suffix.equalsIgnoreCase("pdf") == false){
+            if (suffix.equalsIgnoreCase("pdf") == false) {
                 return "redirect:/notice/noticewrite";
             }
             // 파일의 저장 경로
@@ -131,36 +131,6 @@ public class NoticeService {
         mapper.noticewriteProc(noticeDTO); // 글쓰기 데이터 저장:
         return "redirect:/notice/noticeform";
     }
-
-    // public NoticeDTO noticecontent(String no) {
-    // int n = 1;
-    // try {
-    // n = Integer.parseInt(no);
-    // } catch (Exception e) {
-    // return null;
-    // }
-
-    // NoticeDTO notice = mapper.noticecontent(n);
-    // if (notice != null) {
-    // mapper.incrementViews(n);
-    // notice.setViews(notice.getViews() + 1);
-
-    // if (notice.getFileName() != null) {
-    // String[] names = notice.getFileName().split("\\\\");
-    // for (String name : names)
-    // System.out.println("NoticeService-noticecontent name : " + name);
-    // /* C:\\javas\\upload\\user4\\20230925140126-pom.xml */
-
-    // /* 20230925140126-01-pom-v01.xml */
-    // String[] fileNames = names[4].split("-", 2);
-    // for (String fileName : fileNames)
-    // System.out.println("NoticeService-noticecontent fileName : " + fileName);
-
-    // notice.setFileName(fileNames[1]);
-    // }
-    // }
-    // return notice;
-    // }
 
     public NoticeDTO noticecontent(String no) {
         int n = 1;

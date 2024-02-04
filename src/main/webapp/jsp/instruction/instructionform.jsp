@@ -480,23 +480,7 @@
                     });
                 });
 
-                // -조회 버튼
-                // function getInstructionData() {
-                //     // 선택한 날짜 가져오기
-                //     const selectedDate = document.getElementById('regDate').value;
-                //     console.log('Selected date changed to:', selectedDate);
-                //     // 만약 선택한 날짜가 존재하면
-                //     if (selectedDate) {
-                //         // 지시 날짜를 파라미터로하여 새로운 URL 생성
-                //         const url = '/instruction/instructionformSelect?regDate=' + selectedDate;
 
-                //         // 생성된 URL로 이동
-                //         window.location.href = url;
-                //     } else {
-                //         // 선택한 날짜가 없는 경우에 대한 처리
-                //         console.log('Please select a date.');
-                //     }
-                // }
                 function getInstructionData() {
                     // 선택한 날짜 가져오기
                     const selectedDate = document.getElementById('regDate').value;
@@ -513,9 +497,6 @@
                         console.log('Please select a date.');
                     }
                 }
-
-
-
 
 
                 function createRadioButton(label) {
@@ -597,6 +578,8 @@
                         prodNoElement.classList.add('scrollable');
                     }
                 });
+
+
             </script>
 
         </body>

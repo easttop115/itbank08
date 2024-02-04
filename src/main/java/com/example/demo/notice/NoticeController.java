@@ -31,17 +31,6 @@ public class NoticeController {
         return "/notice/noticeform";
     }
 
-    // @PostMapping("/searchNotice")
-    // public String searchNotice(String title, Model model) {
-    // if (title.trim().isEmpty() || title == "") {
-    // return "/notice/noticeform";
-    // }
-    // NoticeDTO notices = service.searchNotice(title);
-    // model.addAttribute("notices", notices);
-
-    // return "/notice/noticeform";
-    // }
-
     @RequestMapping("/notice/noticewrite")
     public String noticewrite() {
         String sessionId = (String) session.getAttribute("id");
