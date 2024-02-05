@@ -176,7 +176,7 @@
                         <label class="form-label" for="confirm">비밀번호 확인</label>
                         <input class="form-input" type="password" name="confirm" value="${param.confirm}" required>
 
-                        <input class="form-submit" type="submit" value="가입">
+                        <input class="form-submit" type="submit" value="생성">
                         <input class="form-cancel" type="button" onclick="window.location.href='/suadonghyunyeonjidongwoonsangwon@SC'" value="취소">
                     </form>
                     <!-- 하단 브랜드 로고 -->
