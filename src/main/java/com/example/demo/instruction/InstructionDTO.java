@@ -26,12 +26,14 @@ public class InstructionDTO {
     private String confirmation; // 확인,미확인 박스
 
     // OrderStockDTO
+
     private int reqQuan; // 요청수량
     private int respQuan; // 받은수량
     private String reqDate; // 요청날짜
     private String respDate; // 수령날짜
     private String orderStatus; // 요청상태
-    private String respStore; // 매장
+    private String reqStore; // 요청한 매장
+    private String respStore; // 지시매장
 
     // ProdDTO
     private String prodNo; // 상품코드번호
@@ -50,5 +52,9 @@ public class InstructionDTO {
     // ColorDTO
     private String colorCode;
     private String colorName;
+
+    // StoreDTO {
+    private String storeNo;
+    private String name;
 
 }

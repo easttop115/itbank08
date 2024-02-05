@@ -56,6 +56,10 @@ public class InstructionController {
             }
             ra.addFlashAttribute("prods", instructionlist);
         }
+        List<InstructionDTO> otherStoreInstructions = service.getOtherStoreInstructions();
+
+        // 모델에 다른 매장의 요청을 추가합니다.
+        ra.addFlashAttribute("otherStoreInstructions", otherStoreInstructions);
 
         return "redirect:/instruction/instructionform";
     }
@@ -85,7 +89,6 @@ public class InstructionController {
     public String instructionwriteProc(@RequestParam("selectedProducts") List<String> selectedProducts,
             @RequestParam("respQuan") List<Integer> respQuanList,
             @RequestParam("storeName") List<String> storeNameList, Model model) {
-
         for (int i = 0; i < selectedProducts.size(); i++) {
             if (respQuanList.get(i) != null && storeNameList.get(i) != null) { // 요청수량 또는 매장명이 있을 때만 실행
                 String prodNo = selectedProducts.get(i);
@@ -124,6 +127,20 @@ public class InstructionController {
         System.out.println("확인" + plist);
         return "redirect:/instruction/instructionwrite";
 
+    }
+
+    // 타매장
+    @GetMapping("/instruction/otherStore")
+    public String showOtherStore(Model model) {
+        // 현재 세션에서 매장 아이디를 가져옵니다.
+
+        // 현재 매장의 요청을 제외한 다른 매장의 요청을 가져옵니다.
+        List<InstructionDTO> otherStoreInstructions = service.getOtherStoreInstructions();
+
+        // 모델에 다른 매장의 요청을 추가합니다.
+        model.addAttribute("otherStoreInstructions", otherStoreInstructions);
+
+        return "instruction/otherStore"; // 다른 매장 요청을 보여주는 페이지로 이동합니다.
     }
 
 }

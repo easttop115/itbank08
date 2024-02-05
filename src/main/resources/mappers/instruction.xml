@@ -44,10 +44,7 @@
        
     </resultMap>
     
-    <insert id="instwriteProc"> <!-- 지시 마감처리-->
-        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
-    </insert>
-
+  
 
     <!-- InstructionDTO에 대한 셀렉트 옵션 -->
     <select id="instructionGroupList" resultMap="instruction"> 
@@ -127,10 +124,20 @@
     SELECT * from product WHERE (prodNo=#{prodNo} AND storeName=#{storeName})
     </select>
     <insert id="insertStoreInst">  <!--parameterType="com.example.demo.prod.ProdDTO"-->
-    INSERT INTO instruction (prodNo, prodName, colorCode, size, respStore , respQuan, respDate) 
-    VALUES (#{prodNo}, #{prodName}, #{colorCode}, #{size}, #{respStore} , #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR))
+    INSERT INTO instruction (id, prodNo, prodName, colorCode, size, respStore , respQuan, respDate) 
+    VALUES (#{id},#{prodNo}, #{prodName}, #{colorCode}, #{size}, #{respStore} , #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR))
+    </insert>
+    <insert id="instwriteProc"> <!-- 지시 마감처리-->
+    INSERT INTO orderStock (reqStore, respStore, prodNo, respQuan, respDate, orderStatus) 
+    VALUES (#{reqStore}, #{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
     </insert>
 
+    <!-- <insert id="instwriteProc"> 
+        INSERT INTO orderStock (respStore, prodNo, respQuan, respDate, orderStatus) VALUES (#{storeName}, #{prodNo}, #{respQuan}, DATE_ADD(NOW(), INTERVAL 9 HOUR), 'response')
+    </insert> -->
+
+
+<!--지시-->
     <select id="getDate">
     SELECT 
         i.prodNo,
@@ -150,7 +157,68 @@
         AND i.respStore = p.storeName
     WHERE 
        i.respDate LIKE CONCAT(#{regDate}, ' ', '%')
+       AND i.id = #{sessionId}
     ORDER BY i.respDate DESC
     </select>
+    
+<!--지시기간,타매장-->
+<!-- <select id="getDate" resultMap="instruction">
+    SELECT
+        i.id, 
+        i.prodNo,
+        i.prodName,
+        i.colorCode,
+        i.size,
+        i.respStore,
+        i.respQuan,
+        i.respDate
+    FROM 
+        instruction i
+    JOIN 
+        product p ON i.prodNo = p.prodNo
+        AND i.prodName = p.prodName
+        AND i.colorCode = p.colorCode
+        AND i.size = p.size
+        AND i.respStore = p.storeName
+    JOIN 
+        user u ON i.id = u.id
+    JOIN 
+        store s ON u.id = s.Name
+    WHERE 
+    (i.respDate LIKE CONCAT(#{regDate}, ' ', '%')) 
+    AND i.id = #{sessionId}
+    AND s.Name = u.id
+    ORDER BY i.respDate DESC
+</select> -->
+
+
+ 
+
+  <!--타매장-->
+    <select id="getOtherStoreInstructions">
+    SELECT 
+        i.id,
+        i.prodNo,
+        i.prodName,
+        i.colorCode,
+        i.size,
+        i.respStore,
+        i.respQuan,
+        i.respDate
+        
+    FROM 
+        instruction i
+    JOIN 
+        product p ON i.prodNo = p.prodNo
+        AND i.prodName = p.prodName
+        AND i.colorCode = p.colorCode
+        AND i.size = p.size
+        AND i.respStore = p.storeName
+    WHERE 
+       i.id != #{sessionId}
+    ORDER BY i.respDate DESC
+    </select>
+
+
 
 </mapper>

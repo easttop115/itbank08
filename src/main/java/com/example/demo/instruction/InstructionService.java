@@ -1,5 +1,6 @@
 package com.example.demo.instruction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,8 @@ public class InstructionService {
         prod.setProdNo(prodNo);
         ProdDTO totalQuan = mapper.findRootInst(prod); // prodNo 값은 유니크 값 => prodNo에 해당하는 수량을 가져와라
         if (respQuan <= totalQuan.getQuan()) { // 출고 수량보다 총 수량이 많으면 ok
-            int result = mapper.instwriteProc(storeName, prodNo, respQuan); // 출고 기록용으로 db에 저장(orderStock)
+            int result = mapper.instwriteProc(sessionId, storeName, prodNo, respQuan); // 출고 기록용으로 db에
+                                                                                       // 저장(orderStock)
 
             if (result > 0) {
                 int updateRootQuan = totalQuan.getQuan() - respQuan;
@@ -63,6 +65,7 @@ public class InstructionService {
                 ProdDTO findStoreInst = mapper.findStoreInst(prod); // 매장의 product 정보를 가져옴
 
                 InstructionDTO inst = new InstructionDTO();
+                inst.setId(id);
                 inst.setProdNo(findStoreInst.getProdNo());
                 inst.setProdName(findStoreInst.getProdName());
                 inst.setColorCode(findStoreInst.getColorCode());
@@ -79,10 +82,53 @@ public class InstructionService {
         return "재고 수량보다 입력한 수량이 많습니다. 다시 시도해 주세요.";
     }
 
+    // public List<InstructionDTO> instructionlist(String regDate) {
+    // List<InstructionDTO> instructionlist = mapper.getDate(regDate);
+    // System.out.println(instructionlist);
+    // return instructionlist;
+    // }
+
+    // // 타매장
+    // public List<InstructionDTO> getOtherStoreInstructions(String currentStoreId)
+    // {
+    // // 현재 매장의 요청을 제외한 다른 매장의 요청을 조회합니다.
+    // List<InstructionDTO> otherStoreInstructions =
+    // mapper.getOtherStoreInstructions(currentId);
+
+    // // 다른 매장의 요청 목록을 반환합니다.
+    // return otherStoreInstructions;
+    // }
+    // instructionlist 메서드 수정
+
     public List<InstructionDTO> instructionlist(String regDate) {
-        List<InstructionDTO> instructionlist = mapper.getDate(regDate);
+        // 세션에서 현재 로그인한 사용자의 아이디 가져오기
+        String sessionId = (String) session.getAttribute("id");
+        System.out.println(sessionId);
+        // String storeName = orderStockMapper.connectName(sessionId);
+        // System.out.println(storeName);
+        // 현재 로그인한 사용자가 요청한 매장의 요청 목록을 반환
+        List<InstructionDTO> instructionlist = mapper.getDate(regDate, sessionId);
         System.out.println(instructionlist);
+
         return instructionlist;
+    }
+
+    // 타매장 요청 반환 메서드 추가
+    public List<InstructionDTO> getOtherStoreInstructions() {
+        // 현재 매장의 요청을 제외한 다른 매장의 요청을 조회합니다.
+        String id = (String) session.getAttribute("id");
+        System.out.println(id);
+
+        // String storeName = orderStockMapper.connectName(sessionId);
+        // System.out.println(storeName);
+        List<InstructionDTO> otherStoreInstructions = mapper.getOtherStoreInstructions(id);
+        for (InstructionDTO tmp : otherStoreInstructions) {
+            String storeName = orderStockMapper.connectName(tmp.getId());
+            tmp.setId(storeName);
+            System.out.println(storeName);
+        }
+        // 다른 매장의 요청 목록을 반환합니다.
+        return otherStoreInstructions;
     }
 
 }

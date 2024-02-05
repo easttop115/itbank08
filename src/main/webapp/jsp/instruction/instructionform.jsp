@@ -161,7 +161,7 @@
                 .instruction-item>div {
                     /* 각 div 엘리먼트에 대한 스타일 */
                     flex: 1;
-                    border-right: 1px solid #fff;
+                    border-right: 1px solid #000;
                     /* 각 엘리먼트 사이에 흰색 구분선 추가 */
                     padding: 0 8px;
                     /* 왼쪽 오른쪽으로 8px 간격 추가 */
@@ -212,7 +212,7 @@
                 .instruction-item2 div {
                     /* 각 div 엘리먼트에 대한 스타일 */
                     flex: 1;
-                    border-right: 1px solid #fff;
+                    border-right: 1px solid #000;
                     /* 각 엘리먼트 사이에 흰색 구분선 추가 */
                     padding: 0 8px;
                     /* 왼쪽 오른쪽으로 8px 간격 추가 */
@@ -264,6 +264,12 @@
                 .prodNo {
                     max-width: 175px;
                     overflow: auto;
+                }
+
+                #size,
+                #quan {
+                    text-align: center;
+                    margin: 2%;
                 }
             </style>
         </head>
@@ -347,8 +353,7 @@
                         <c:choose>
                             <c:when test="${not empty prods}">
                                 <c:forEach var="product" items="${prods}">
-                                    <li class="instruction-item"
-                                        style="background-color: #fff; border-bottom: 1px solid black;">
+                                    <li class="instruction-item" style="background-color: #fff;">
                                         <div class="prodNo">${product.prodNo}</div>
                                         <div class="prodName">${product.prodName}</div>
                                         <div class="colorCode">${product.colorCode}</div>
@@ -360,9 +365,6 @@
                                         <!-- <div class="processing">${product.processing}</div> -->
                                     </li>
                                 </c:forEach>
-                                <!-- <li>
-            <div class="vi" colspan="13">${result}</div>
-        </li> -->
                             </c:when>
                             <c:otherwise>
                                 <li class="instruction-item" style="background-color: #fff;">
@@ -393,194 +395,247 @@
                             <div class="size">사이즈</div>
                             <div class="quan">요청 수량</div>
                             <div class="regDate">RT 요청일</div>
-                            <!-- <div class="confirmation">확정</div> -->
                         </li>
                         <c:choose>
-                            <c:when test="${empty prods2}">
+                            <c:when test="${empty otherStoreInstructions}">
                                 <li class="instruction-item2" style="background-color: #fff;">
-                                    <div class="instruction-title2" style="color: #000;" colspan="13">조회된 정보가 없습니다.
-                                    </div>
+                                    <div class="instruction-title2" style="background-color: #fff; color: #000;">조회된 정보가
+                                        없습니다.</div>
+
                                 </li>
                             </c:when>
                             <c:otherwise>
-                                <c:forEach var="product" items="${prods2}">
-                                    <c:if test="${product.storeName eq sessionScope.storeName}">
-                                        <li class="instruction-item2">
-                                            <div class="storeName">${product.storeName}</div>
-                                            <div class="prodNo">${product.prodNo}</div>
-                                            <div class="prodName">${product.prodName}</div>
-                                            <div class="colorCode">${product.colorCode}</div>
-                                            <div class="size">${product.size}</div>
-                                            <div class="quan">${product.quan}</div>
-                                            <div class="regDate">${product.regDate}</div>
-                                        </li>
-                                    </c:if>
+                                <c:forEach var="instruction" items="${otherStoreInstructions}">
+                                    <li class="instruction-item2" style="background-color: #fff;">
+                                        <div class="storeName">${instruction.id}</div>
+                                        <div class="prodNo">${instruction.prodNo}</div>
+                                        <div class="prodName">${instruction.prodName}</div>
+                                        <div class="colorCode">${instruction.colorCode}</div>
+                                        <div class="size">${instruction.size}</div>
+                                        <div class="quan">${instruction.respQuan}</div>
+                                        <div class="regDate">${instruction.respDate}</div>
+                                    </li>
                                 </c:forEach>
-                                <li>
-                                    <div class="vi" colspan="13">${result}</div>
-                                </li>
                             </c:otherwise>
                         </c:choose>
                     </ul>
                 </div>
-            </div>
 
 
-            <script>
-                function handleDateChange() {
-                    // 변경된 날짜 값 가져오기
-                    const selectedDate = document.getElementById('regDate').value;
+                <script>
+                    function handleDateChange() {
+                        // 변경된 날짜 값 가져오기
+                        const selectedDate = document.getElementById('regDate').value;
 
-                    // 변경된 날짜 값 콘솔에 출력 (예시)
-                    console.log('Selected date changed to:', selectedDate);
+                        // 변경된 날짜 값 콘솔에 출력 (예시)
+                        console.log('Selected date changed to:', selectedDate);
 
-                    // 이후 원하는 작업 수행
-                    // 예: 가져온 날짜 값을 서버로 전달하거나 다른 처리 수행
-                }
-                function addDateRange() {
-                    const regDate = document.getElementById('regDate').value;
-
-
-                    if (regDate) {
-                        const newRow = document.createElement('div');
-                        newRow.className = 'table-row';
-                        const dateCell = document.createElement('div');
-                        dateCell.className = 'table-cell';
-                        const typeCell = document.createElement('div');
-                        typeCell.className = 'table-cell';
-
-                        dateCell.textContent = regDate;
-
-                        const radioBtn1 = createRadioButton('미확정');
-                        const radioBtn2 = createRadioButton('확정');
-                        const radioBtn3 = createRadioButton('불이행');
-
-                        typeCell.appendChild(radioBtn1);
-                        typeCell.appendChild(radioBtn2);
-                        typeCell.appendChild(radioBtn3);
-
-                        newRow.appendChild(dateCell);
-                        newRow.appendChild(typeCell);
-
-                        document.getElementById('dataBody').appendChild(newRow);
-                    } else {
-                        console.log('Please select a date.');
+                        // 이후 원하는 작업 수행
+                        // 예: 가져온 날짜 값을 서버로 전달하거나 다른 처리 수행
                     }
-                }
-
-                // -지시시간
-                document.addEventListener('DOMContentLoaded', function () {
-                    const searchButton = document.querySelector('.button-box button:first-of-type');
-
-                    searchButton.addEventListener('click', function () {
-                        const startDate = document.getElementById('startDate').value;
-
-                        // 시작 날짜를 컨트롤러로 전달
-                        window.location.href = `/instruction/instructionform?startDate=${startDate}`;
-                    });
-                });
+                    function addDateRange() {
+                        const regDate = document.getElementById('regDate').value;
 
 
-                function getInstructionData() {
-                    // 선택한 날짜 가져오기
-                    const selectedDate = document.getElementById('regDate').value;
-                    console.log('Selected date changed to:', selectedDate);
-                    // 만약 선택한 날짜가 존재하면
-                    if (selectedDate) {
-                        // 지시 날짜를 파라미터로하여 새로운 URL 생성
-                        const url = '/instruction/instructionformSelect?regDate=' + selectedDate;
+                        if (regDate) {
+                            const newRow = document.createElement('div');
+                            newRow.className = 'table-row';
+                            const dateCell = document.createElement('div');
+                            dateCell.className = 'table-cell';
+                            const typeCell = document.createElement('div');
+                            typeCell.className = 'table-cell';
 
-                        // 생성된 URL로 이동
-                        window.location.href = url;
-                    } else {
-                        // 선택한 날짜가 없는 경우에 대한 처리
-                        console.log('Please select a date.');
+                            dateCell.textContent = regDate;
+
+                            const radioBtn1 = createRadioButton('미확정');
+                            const radioBtn2 = createRadioButton('확정');
+                            const radioBtn3 = createRadioButton('불이행');
+
+                            typeCell.appendChild(radioBtn1);
+                            typeCell.appendChild(radioBtn2);
+                            typeCell.appendChild(radioBtn3);
+
+                            newRow.appendChild(dateCell);
+                            newRow.appendChild(typeCell);
+
+                            document.getElementById('dataBody').appendChild(newRow);
+                        } else {
+                            console.log('Please select a date.');
+                        }
                     }
-                }
 
+                    // -지시시간
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const searchButton = document.querySelector('.button-box button:first-of-type');
 
-                function createRadioButton(label) {
-                    const radioBtn = document.createElement('input');
-                    radioBtn.type = 'radio';
-                    radioBtn.name = 'status';
-                    radioBtn.value = label;
+                        searchButton.addEventListener('click', function () {
+                            const startDate = document.getElementById('startDate').value;
 
-                    const labelElement = document.createElement('label');
-                    labelElement.textContent = label;
-
-                    const wrapper = document.createElement('div');
-                    wrapper.appendChild(radioBtn);
-                    wrapper.appendChild(labelElement);
-
-                    return wrapper;
-                }
-                document.addEventListener('DOMContentLoaded', function () { //매장 스크롤바
-                    const shopSelect = document.getElementById('shopSelect');
-
-                    shopSelect.addEventListener('change', function () {
-                        const selectedShop = shopSelect.value;
-                        console.log('Selected Shop:', selectedShop);
-                        // 여기서 선택된 매장 값을 서버로 전송하도록 구현할 수 있습니다.
-                    });
-                });
-                // -확정 버튼 기능
-                document.addEventListener('DOMContentLoaded', function () {
-                    const confirmationButtons = document.querySelectorAll('.confirmation-btn');
-
-                    confirmationButtons.forEach(function (button) {
-                        button.addEventListener('click', function () {
-                            const listItem = button.closest('.instruction-item');
-                            const confirmationCell = listItem.querySelector('.confirmation');
-
-                            // 현재 체크 상태에 따라 토글
-                            if (confirmationCell.classList.contains('confirmed')) {
-                                confirmationCell.classList.remove('confirmed');
-                            } else {
-                                confirmationCell.classList.add('confirmed');
-                            }
+                            // 시작 날짜를 컨트롤러로 전달
+                            window.location.href = `/instruction/instructionform?startDate=${startDate}`;
                         });
                     });
-                });
-                // -처리구분 기능
-                document.addEventListener('DOMContentLoaded', function () {
-                    const confirmationButtons = document.querySelectorAll('.confirmation-btn');
 
-                    confirmationButtons.forEach(function (button) {
-                        button.addEventListener('click', function () {
-                            const listItem = button.closest('.instruction-item');
-                            const confirmationCell = listItem.querySelector('.confirmation');
-                            const processingStatus = listItem.querySelector('#processingStatus');
 
-                            // 현재 체크 상태에 따라 토글
-                            if (confirmationCell.classList.contains('confirmed')) {
-                                confirmationCell.classList.remove('confirmed');
-                                processingStatus.textContent = '미확정';
-                            } else {
-                                confirmationCell.classList.add('confirmed');
-                                processingStatus.textContent = '확정';
-                            }
+                    function getInstructionData() {
+                        // 선택한 날짜 가져오기
+                        const selectedDate = document.getElementById('regDate').value;
+                        console.log('Selected date changed to:', selectedDate);
+                        // 만약 선택한 날짜가 존재하면
+                        if (selectedDate) {
+                            // 지시 날짜를 파라미터로하여 새로운 URL 생성
+                            const url = '/instruction/instructionformSelect?regDate=' + selectedDate;
+
+                            // 생성된 URL로 이동
+                            window.location.href = url;
+                        } else {
+                            // 선택한 날짜가 없는 경우에 대한 처리
+                            console.log('Please select a date.');
+                        }
+                    }
+
+
+                    function createRadioButton(label) {
+                        const radioBtn = document.createElement('input');
+                        radioBtn.type = 'radio';
+                        radioBtn.name = 'status';
+                        radioBtn.value = label;
+
+                        const labelElement = document.createElement('label');
+                        labelElement.textContent = label;
+
+                        const wrapper = document.createElement('div');
+                        wrapper.appendChild(radioBtn);
+                        wrapper.appendChild(labelElement);
+
+                        return wrapper;
+                    }
+                    document.addEventListener('DOMContentLoaded', function () { //매장 스크롤바
+                        const shopSelect = document.getElementById('shopSelect');
+
+                        shopSelect.addEventListener('change', function () {
+                            const selectedShop = shopSelect.value;
+                            console.log('Selected Shop:', selectedShop);
+                            // 여기서 선택된 매장 값을 서버로 전송하도록 구현할 수 있습니다.
                         });
                     });
-                });
+                    // -확정 버튼 기능
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const confirmationButtons = document.querySelectorAll('.confirmation-btn');
 
-                // - 스크롤
-                // 모든 품번 요소를 선택합니다.
-                const prodNoElements = document.querySelectorAll('.prodNo');
+                        confirmationButtons.forEach(function (button) {
+                            button.addEventListener('click', function () {
+                                const listItem = button.closest('.instruction-item');
+                                const confirmationCell = listItem.querySelector('.confirmation');
 
-                // 각 품번 요소에 대해 처리합니다.
-                prodNoElements.forEach(prodNoElement => {
-                    // 텍스트 내용을 가져옵니다.
-                    const textContent = prodNoElement.textContent.trim();
+                                // 현재 체크 상태에 따라 토글
+                                if (confirmationCell.classList.contains('confirmed')) {
+                                    confirmationCell.classList.remove('confirmed');
+                                } else {
+                                    confirmationCell.classList.add('confirmed');
+                                }
+                            });
+                        });
+                    });
+                    // -처리구분 기능
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const confirmationButtons = document.querySelectorAll('.confirmation-btn');
 
-                    // 텍스트 내용의 길이가 7글자 이상인 경우
-                    if (textContent.length >= 7) {
-                        // 'scrollable' 클래스를 요소에 추가합니다.
-                        prodNoElement.classList.add('scrollable');
-                    }
-                });
+                        confirmationButtons.forEach(function (button) {
+                            button.addEventListener('click', function () {
+                                const listItem = button.closest('.instruction-item');
+                                const confirmationCell = listItem.querySelector('.confirmation');
+                                const processingStatus = listItem.querySelector('#processingStatus');
+
+                                // 현재 체크 상태에 따라 토글
+                                if (confirmationCell.classList.contains('confirmed')) {
+                                    confirmationCell.classList.remove('confirmed');
+                                    processingStatus.textContent = '미확정';
+                                } else {
+                                    confirmationCell.classList.add('confirmed'); instructionlis
+                                    processingStatus.textContent = '확정';
+                                }
+                            });
+                        });
+                    });
+
+                    // - 스크롤
+                    // 모든 품번 요소를 선택합니다.
+                    const prodNoElements = document.querySelectorAll('.prodNo');
+
+                    // 각 품번 요소에 대해 처리합니다.
+                    prodNoElements.forEach(prodNoElement => {
+                        // 텍스트 내용을 가져옵니다.
+                        const textContent = prodNoElement.textContent.trim();
+
+                        // 텍스트 내용의 길이가 7글자 이상인 경우
+                        if (textContent.length >= 7) {
+                            // 'scrollable' 클래스를 요소에 추가합니다.
+                            prodNoElement.classList.add('scrollable');
+                        }
+                    });
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // 페이지가 로드될 때 타매장 요청 목록을 가져오는 함수 호출
+                        getOtherStoreInstructions();
+
+                        function getOtherStoreInstructions() {
+                            // Ajax를 사용하여 서버로부터 타매장 요청 목록을 가져옵니다.
+                            // 서버에서 데이터를 가져오는 예시 코드입니다. 실제 서버와 통신하는 코드로 대체해야 합니다.
+                            // 여기서는 XMLHttpRequest를 사용한 비동기 요청을 보냅니다.
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', '/instruction/otherStore', true);
+
+                            // 서버 응답을 받았을 때의 처리
+                            xhr.onload = function () {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    // 응답 데이터를 JSON 형식으로 파싱합니다.
+                                    var otherStoreInstructions = JSON.parse(xhr.responseText);
+
+                                    // 타매장 요청 목록을 표시하는 함수 호출
+                                    displayOtherStoreInstructions(otherStoreInstructions);
+                                } else {
+                                    console.error('Request failed with status', xhr.status);
+                                }
+                            };
+
+                            // 서버 요청 실패 시 처리
+                            xhr.onerror = function () {
+                                console.error('Request failed');
+                            };
+
+                            // 요청 전송
+                            xhr.send();
+                        }
+
+                        // 타매장 요청 목록을 HTML에 표시하는 함수
+                        function displayOtherStoreInstructions(otherStoreInstructions) {
+                            var otherStoreList = document.querySelector('.instruction-list2');
+
+                            // 요청 목록이 비어있는 경우에 대한 처리
+                            if (otherStoreInstructions.length === 0) {
+                                otherStoreList.innerHTML = '<li class="instruction-item2"><div class="instruction-title2" style="color: #000;" colspan="13">조회된 정보가 없습니다.</div></li>';
+                            } else {
+                                // 타매장 요청 목록을 HTML에 추가
+                                otherStoreInstructions.forEach(function (instruction) {
+                                    var listItem = document.createElement('li');
+                                    listItem.className = 'instruction-item2';
+                                    var html = '<div class="storeName">' + instruction.storeName + '</div>';
+                                    html += '<div class="prodNo">' + instruction.prodNo + '</div>';
+                                    html += '<div class="prodName">' + instruction.prodName + '</div>';
+                                    html += '<div class="colorCode">' + instruction.colorCode + '</div>';
+                                    html += '<div class="size">' + instruction.size + '</div>';
+                                    html += '<div class="quan">' + instruction.quan + '</div>';
+                                    html += '<div class="regDate">' + instruction.regDate + '</div>';
+                                    listItem.innerHTML = html;
+                                    otherStoreList.appendChild(listItem);
+                                });
+                            }
+                        }
+                    });
 
 
-            </script>
+
+                </script>
 
         </body>
 

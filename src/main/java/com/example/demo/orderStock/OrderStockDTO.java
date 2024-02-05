@@ -16,7 +16,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderStockDTO {
-
     private String reqStore;
     private String respStore;
     private String prodNo;
